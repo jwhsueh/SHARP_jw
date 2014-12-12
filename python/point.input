@@ -8,10 +8,10 @@ weos	  -1.000000
 hubble	  0.720000
 zl	  0.500000
 prefix	  out
-xmin	  -0.500000
-ymin	  -1.000000
-xmax	  1.000000
-ymax	  0.500000
+xmin	  -2.7950000
+ymin	  -3.255000
+xmax	  3.2050000
+ymax	  2.745000
 pix_ext   0.010000
 pix_poi   0.500000
 maxlev	  5
