@@ -24,7 +24,7 @@ chi2_usemag    0
 hvary          0
 
 ## define lenses and sources
-startup 2 0 1
+startup 2 1 0
 # this is the `solution'
 #lens sie    320.0  0.0 0.0 0.3 20.0 0.0 0.0
 #lens pert     2.0  0.0 0.0 0.1 90.0 0.0 0.0
@@ -46,7 +46,8 @@ startup 2 0 1
 
 lens   sie      8.527493e+01  1.609569e-01 -2.400535e-01  2.718299e-01  1.055117e+02  0.000000e+00  0.000000e+00 
 lens   sers     1.481671e+10  1.609569e-01 -2.400535e-01  8.410407e-01  7.402741e+00  1.952887e-01  1.000000e+00 
-point  1.4496  2.036227e-01 -1.644783e-01 
+#point  1.4496  2.036227e-01 -1.644783e-01 
+extend sersic  1.5000 4. 2.036227e-01 -1.644783e-01 0.1 10. 0.2 2.0
 
 end_startup
 
@@ -55,20 +56,20 @@ end_startup
 start_setopt
 0 0 0 1 1 0 0 
 0 0 0 1 1 0 0
-#1 0 0 0 0 1 0 0 
-1 0 0
+1 0 0 0 0 1 0 0 
+#1 0 0
 end_setopt
 
 ## execute commands
 start_command
 
-readobs_point obs_point.dat
+#readobs_point obs_point.dat
 #parprior prior_point.dat
 
 #optimize
-findimg
-#writeimage 0.05 0.082
-#writeimage
+#findimg
+#writeimage 0.05 0.0
+writeimage
 
 #varycosmo hubble 0.5 0.9 40
 
