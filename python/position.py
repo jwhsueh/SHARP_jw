@@ -2,25 +2,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpat
 
-x0=[0.0, 0.0726,0.4117,0.1619]
+x0=[0.0, -0.0726,-0.4117,-0.1619]
 y0=[0.0, 0.0480, -0.0280,-0.3680]
 
-#SIE_best
-#x=[-0.0194,0.0595,0.4332,0.1378]
-#y=[0.0654,0.0979,0.0150,-0.6783]
+x=[-0.4120, -0.1580 ,0.0017,-0.0734]
+y=[-0.0278,-0.3608  ,0.0022 ,0.0456]
 
-#x=[4.279748e-01,1.493585e-03,7.116276e-02,1.685729e-01]
-#y=[-3.424671e-02,1.355427e-02 ,5.382633e-02,-3.834915e-01 ]
-
-x=[0.4116,0.1638,0.0724,0.0000]
-y=[-0.0283,-0.3651  ,0.0489 ,0.0000 ]
+sx,sy=-2.036227e-01,-1.644783e-01
 
 fig=plt.figure()
-plt.plot(x0,y0,'b.',label='observe')
-plt.plot(x,y,'r.',label='model')
+plt.plot(x0,y0,'b+',ms=10,label='observe')
+plt.plot(x,y,'o',ms=10,mec='r',mfc='none',label='model')
+plt.plot(sx,sy,'o',ms=5,mec='k',mfc='k')
 
-plt.xlim(-0.6,0.2)
-plt.ylim(-0.6,0.2)
-plt.legend()
+plt.xlim(0.2,-0.6)
+plt.ylim(-0.5,0.2)
+plt.xlabel('arcsec')
+plt.ylabel('arcsec')
+#plt.legend()
 plt.show()
 
