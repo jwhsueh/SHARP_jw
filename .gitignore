@@ -7,9 +7,11 @@ __pycache__/
 
 # LaTex
 ~*
-*tex
 *pdf
 *aux
+*dvi
+*bbl
+*blg
 
 # Distribution / packaging
 .Python
