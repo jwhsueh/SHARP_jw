@@ -24,9 +24,7 @@ The Strong lensing at High Angular Resolution Program(SHARP) is a project aims o
 \section{Data Collection \& Reduction}
 
 \section{Lens Modeling}
-To model B1555+375, we use the lens modeling code $glafic$ \citep{Oguri} with known position and flux data from the radio observation done by \citet{Marlow}. Morlow et al. first published the flux ratio anomaly detection and lens model of B1555+375. However, their SIE lens model cannot explain the flux ratio anomaly between image A and B (see Fig.6, Table 2 \& 3 in \citet{Marlow}). In K-band image (Fig. 1, left), a recognizable edge-on disk is lie in the center with position angle $~10$ degree. With this information, we model B1555+375 with SIE for bulge and exponential disk model for edge-on disk. The full best-fit parameters are shown in Table 1. We also try on another model with two SIE mass profiles. This model will be used in the following up study with Simona...
-
-The comparison of radio observation and our modeling result is in Figure 2, Table 2 \& 3.\\
+To model B1555+375, we use the lens modeling code $glafic$ \citep{Oguri} with known position and flux data from the radio observation done by \citet{Marlow}. Morlow et al. first published the flux ratio anomaly detection and lens model of B1555+375. However, their SIE lens model cannot explain the flux ratio anomaly between image A and B (see Fig.6, Table 2 \& 3 in \citet{Marlow}). In K-band image (Fig. 1, left), a recognizable edge-on disk is lie in the center with position angle $~10$ degree. With this information, we model B1555+375 with two models. The first model consists of an SIE bulge and an exponential edge-on disk(SIE+Expdisk). The second model consists of two SIE mass profiles, for bulge and disk respectively. The full best-fit parameters are shown in Table 1. Both of these models predict fairly matched results with the radio observation. The comparison of observation and SIE+Expdisk result is in Figure 2, Table 2 \& 3.\\
 
 
 
@@ -40,7 +38,7 @@ Exponential disk is marked by the green ellipse in residue image. We believe str
 
 \begin{figure}
 \plotone{point_source.eps}
-\caption{Radio observation(red open circle) and model-predicted(blue plus sign) image positions of B1555+375. The position of the source is at $(-0.2066,-0.1634)$, marked by a black filled circle. From left to right, four components are A, B (merging doubles), D(lowest spot), and C(right).\label{fig2}}
+\caption{Radio observation(red open circle) and model-predicted(blue plus sign) image positions of B1555+375. The position of the source is at $(-0.2066,-0.1634)$ for SIE+Expdisk model, marked by a black filled circle. From left to right, four components are A, B (merging doubles), D(lowest spot), and C(right).\label{fig2}}
 \end{figure}
 
 %%table1
@@ -49,15 +47,27 @@ Exponential disk is marked by the green ellipse in residue image. We believe str
 \caption{Lens Model Best-Fit Parameters.\label{tbl-1}}
 \begin{tabular}{lcccccc}
 %%\tableline\tableline
-Model &		&		 &  \\
+SIE&		&		 &  \\
++Expdisk\\
 \tableline\tableline
-SIE 	& $x$		& $y$ 		& $\sigma (km/s)$ 	& $e$	& $\theta$  \\  
+SIE& $x$		& $y$ 		& $\sigma $ 	& $e$	& $\theta$  \\
+	&					&					&  (km/s)			&			&						\\
 		&$-0.1883$ 	&$-0.1923$	&$93.74$ 			&$0.27$	& $105.5 \degr$   \\
 \tableline
-Expdisk	& $x$		& $y$		& $M_{tot} (h^{-1}M_{\odot})$	& $e$	& $\theta$	& $r_e$ \\
-		&$-0.1615$  &$-0.2502$	&$1.19\times 10^{10} $ 			&$0.84$ &$7.4 \degr$& $0.20 ''$  \\  
- 
+Expdisk	& $x$		& $y$		& $M_{tot} $					& $e$	& $\theta$	& $r_e$ \\
+				&				&				& $(h^{-1}M_{\odot})$	&			&						&				\\
+		&$-0.1615$  &$-0.2502$	&$1.19\times 10^{10} $ 			&$0.84$ &$7.40 \degr$& $0.20 ''$  \\  
+\tableline\tableline
+2-SIE\\
 \tableline
+Bulge& $x$				& $y$ 		& $\sigma $ 	& $e$	& $\theta$  \\  
+			&					&					&  (km/s)			&			&						\\
+						&$-0.1809$ 	&$-0.1702$& $81.67$ 					&$0.27$	& $97.71 \degr$   \\
+\tableline
+Disk\\
+						&$-0.1592$ 	&$-0.1833$& $69.91$ 					&$0.83$	& $7.40 \degr$   \\
+\tableline
+
 \end{tabular}
 %% Any table notes must follow the \end{tabular} command.
 \tablecomments{Positions are offsets from component A measured in unit of arcsec. $e$ is ellipticity and $\theta$ is the position angle measured east of north.}
