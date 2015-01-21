@@ -201,37 +201,3 @@ archivePrefix = "arXiv",
   adsnote = {Provided by the SAO/NASA Astrophysics Data System}
 }
 
-@ARTICLE{V10,
-   author = {{Vegetti}, S. and {Koopmans}, L.~V.~E. and {Bolton}, A. and 
-	{Treu}, T. and {Gavazzi}, R.},
-    title = "{Detection of a dark substructure through gravitational imaging}",
-  journal = {\mnras},
-archivePrefix = "arXiv",
-   eprint = {0910.0760},
- primaryClass = "astro-ph.CO",
- keywords = {gravitational lensing: strong, galaxies: structure},
-     year = 2010,
-    month = nov,
-   volume = 408,
-    pages = {1969-1981},
-      doi = {10.1111/j.1365-2966.2010.16865.x},
-   adsurl = {http://adsabs.harvard.edu/abs/2010MNRAS.408.1969V},
-  adsnote = {Provided by the SAO/NASA Astrophysics Data System}
-}
-
-@ARTICLE{V09,
-   author = {{Vegetti}, S. and {Koopmans}, L.~V.~E.},
-    title = "{Bayesian strong gravitational-lens modelling on adaptive grids: objective detection of mass substructure in Galaxies}",
-  journal = {\mnras},
-archivePrefix = "arXiv",
-   eprint = {0805.0201},
- keywords = {gravitational lensing , galaxies: haloes , galaxies: structure , dark matter},
-     year = 2009,
-    month = jan,
-   volume = 392,
-    pages = {945-963},
-      doi = {10.1111/j.1365-2966.2008.14005.x},
-   adsurl = {http://adsabs.harvard.edu/abs/2009MNRAS.392..945V},
-  adsnote = {Provided by the SAO/NASA Astrophysics Data System}
-}
-
