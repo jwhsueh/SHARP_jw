@@ -16,16 +16,51 @@ With the latest infrared image of B1555+375, an edge-on disk is shown to over cr
 \keywords{ gravitaional lensing}
 
 \section{Introduction}
-To understand substructions and mass distribution within dark matter haloes, observations in Local Group bring the first view of mass profile on small scale by searching satellite galaxies directly. However, concordant cold dark matter cosmology predicts more substructures in numerical simulations than in observation results around our Milky Way. This discrepency arises the famous ``missing satellite'' problem \citep{Klypin1999}. Searching more satellite galaxies beyond Local Group is definite one of the keys to solve this discrepency, though, in approaches with huge differences from people used to do in Local Group. Most satellite galaxies are faint, which are extremely hard to directly detect in the system beyond Milky Way. Futhermore, some low-mass dark matter subhaloes are considered to be too small to contain dwarf galaxies. These factors make gravitational effects be powerful and promising tools in the substructure searching.\\   
-Flux ratio anomalies are seen in strong lensing systems which have multiple images that are spacially close to each other. These ``merging doubles'' share the same surface brightness in principle but happend to have different surface brightness due to perturbations in gravitational potential. Little perturbation from substructures (mass range?) is sufficent to bring flux ratio anomalies in strong lensed systems. In the observational view, radio observation is the best way to probe these flux ratio anomalous systems because it doesn't have severe extinction issue like in optical or infrared band. Also, most radio lensed images are point sources which are easier to model. \\
-On the other hand, numerical simulations on structure formation haven't reach a concise conclusion on the cause of flux ratio anomaly. There are other possiblities can give rise to flux ratio anomaly. Before gathering any satistics or serious analysis, we must fully consider those non-substructure effects. Otherwise it could affect the estimation of substructure mass and even give false signal when searching possible satellite candidates. Among those non-substructure effects, we are interested in the gravitational effect caused by structure of lens galaxy itself. Thus, infrared image with high spatial resolution is essential in our study.\\
-The Strong lensing at High Angular Resolution Program(SHARP) is a project aims on known quadruple and Einstein ring lensing systems \citep{SHARP12}. We obtain high-resoltion images from Keck adaptive optics(AO) and Hubble Space Telescope(HST) observations. In the latest SHARP imaging, we found clear edge-on disk within some known flux ratio anomalous lenses. We model one system, B1555+375, with a center bulge and an edge-on disk, intending to probe the possibility of that structure from lens galaxy can cause flux ratio anomaly. We present the latest SHARP data in part 2, lens model of B1555 in part 3, and discussion in part 4. 
+
+A common feature of simulations of structure formation is the presence
+of thousands of subhaloes that are associated with larger mass haloes.
+However, observations of the Local Group find many fewer satellite
+galaxies than are predicted by the simulations, even when taking into
+account completeness corrections arising from the limited sky coverage
+imposed by the Galactic Plane.  This is the famous ``missing
+satellite'' problem \citep{Klypin1999, Moore1999, S07}.  In order to understand
+this discrepancy, it is imperative to build up a large sample of satellites /
+subhalos in galaxies outside the Local Group.  This process is challenging
+due to the faintness of the satellite galaxies.  Furthermore, lower-mass
+satellites may not be able to retain the gas needed for ongoing star
+formation \citep[e.g.,][]{P11}, rendering them effectively dark.
+These
+factors make gravitational effects be powerful and promising tools in
+the substructure searching.
+
+
+	Flux ratio anomalies are seen in strong lensing systems which have multiple images that are spacially close to each other. These ``merging doubles'' share the same surface brightness in principle but happend to have different surface brightness. Little perturbation in gravitational potential is sufficent to bring flux ratio anomalies in strong lensed systems. This makes flux ratio anomaly becomes a promising tool to detect dark matter substructures \citep{Dalal2002, N13}. In radio band, lensing images are not sensitive to micro lensing from stars, and one can also avoid severe dust extinction issue like in optical or infrared band. However, only small number of flux ratio anomalous systems in radio are avaliable for analysis. Besides waiting for future large-scale survey such as LSST to find thousands of more new lens galaxies, another approach using narrow-line quasar emission \citep{N14} is capable to seek out more flux ratio anomalous systems for substructure analysis. 
+	
+	With expected growth in the number of samples, several groups have developed the technique to estimate the properties of substructures from flux ratio anomalous systems. \citet{V09, H13} both analyze the strong lens imaging to detect substructures lie infront of Einstein ring. Their methods improve the detectable mass limit and also show that high spatial resolution imaging is essential for the substructure study. On the other hand, numerical simulations on structure formation do not reach the concise conclusion on flux ratio anomalous systems. The latest study on the cause of flux anomalies from \citet{Xu14} shows the low probability of the existence of substructures in their studied systems. 
+	
+	The Strong lensing at High Angular Resolution Program(SHARP) is a project aims on known quadruple and Einstein ring lensing systems \citep{SHARP12}. We obtain high-resoltion images from Keck adaptive optics(AO) and Hubble Space Telescope(HST) observations. To better understand the cause of flux ratio anomaly in strong lensing systems, we model B1555+375, one of the systems discussed in \citet{Xu14}, with the new information obtained from the latest SHARP infrared imaging. We present the latest SHARP data in part 2, lens model of B1555+375 in part 3, and discussion in part 4. 
 
 \section{Data Collection \& Reduction}
 
 \section{Lens Modeling}
-To model B1555+375, we use the lens modeling code $glafic$ \citep{Oguri} with known position and flux data from the radio observation done by \citet{Marlow}. Morlow et al. first published the flux ratio anomaly detection and lens model of B1555+375. However, their SIE lens model cannot explain the flux ratio anomaly between image A and B (see Fig.6, Table 2 \& 3 in \citet{Marlow}). In K-band image (Fig. 1, left), a recognizable edge-on disk is lie in the center with position angle $~10$ degree. With this information, we model B1555+375 with two models. The first model consists of an SIE bulge and an exponential edge-on disk(SIE+Expdisk). The second model consists of two SIE mass profiles, for bulge and disk respectively. The full best-fit parameters are shown in Table 1. Both of these models predict fairly matched results with the radio observation. The comparison of observation and SIE+Expdisk result is in Figure 2, Table 2 \& 3.\\
-
+To model B1555+375, we use the lens modeling code {\tt glafic}
+\citep{Oguri}.  The inputs to the model are the observed image positions
+and flux densities measured by the radio observations of \citet{Marlow}.
+These authors present a singular isothermal ellipsoid (SIE) model that
+provides the first fit to the image positions but
+does not reproduce the strong flux ratio anomaly between components A and B.
+(see Fig.6, Table 2 \& 3 in \citet{Marlow}). In K-band
+image (Fig. 1, left), a recognizable edge-on disk is lie in the center
+with position angle $~10$ degree. With this information, we model
+B1555+375 with two models. The first model consists of an SIE bulge
+and an exponential edge-on disk (SIE+Expdisk). The second model
+consists of two SIE mass profiles (2-SIE), for bulge and disk
+respectively. We assume that the lens galaxy has $z_{l}=0.5$ and the source has $z_s=1.5$. The full best-fit parameters are shown in Table 1. Both
+of these models predict fairly matched results with the radio
+observation. The comparison of observation and SIE+Expdisk result is
+in Figure 2, Table 2 \& 3.
+%These authors present a singular isothermal ellipsoid (SIE) model that
+%provides an excellent fit to the image positions (?? IS THIS TRUE?--NO we get a better model result)
 
 
 
@@ -33,7 +68,7 @@ To model B1555+375, we use the lens modeling code $glafic$ \citep{Oguri} with kn
 \plotone{B1555_Kp.eps}
 \plottwo{B1555_model.eps}{B1555_residue.eps}
 \caption{Left: SHARP K-band image of B1555+375 Middle: Lens model image generated by glafic Right: Residue image of B1555+375.\\
-Exponential disk is marked by the green ellipse in residue image. We believe strong dust extinction from the edge-on disk makes B and D no detection in infrared. Thus leaving two negative holes in our residue.\label{fig1}}
+An edge-on disk can be seen in the center of SHARP K-band image. Exponential disk is marked by the green ellipse in residue image. We believe strong dust extinction from the edge-on disk makes B and D no detection in infrared. Thus leaving two negative holes in our residue.\label{fig1}}
 \end{figure}
 
 \begin{figure}
@@ -45,32 +80,27 @@ Exponential disk is marked by the green ellipse in residue image. We believe str
 \begin{table}
 \begin{center}
 \caption{Lens Model Best-Fit Parameters.\label{tbl-1}}
-\begin{tabular}{lcccccc}
+\begin{tabular}{ccccccc}
 %%\tableline\tableline
-SIE&		&		 &  \\
-+Expdisk\\
+		&SIE+Expdisk& 2-SIE		   
+\\
 \tableline\tableline
-SIE& $x$		& $y$ 		& $\sigma $ 	& $e$	& $\theta$  \\
-	&					&					&  (km/s)			&			&						\\
-		&$-0.1883$ 	&$-0.1923$	&$93.74$ 			&$0.27$	& $105.5 \degr$   \\
-\tableline
-Expdisk	& $x$		& $y$		& $M_{tot} $					& $e$	& $\theta$	& $r_e$ \\
-				&				&				& $(h^{-1}M_{\odot})$	&			&						&				\\
-		&$-0.1615$  &$-0.2502$	&$1.19\times 10^{10} $ 			&$0.84$ &$7.40 \degr$& $0.20 ''$  \\  
-\tableline\tableline
-2-SIE\\
-\tableline
-Bulge& $x$				& $y$ 		& $\sigma $ 	& $e$	& $\theta$  \\  
-			&					&					&  (km/s)			&			&						\\
-						&$-0.1809$ 	&$-0.1702$& $81.67$ 					&$0.27$	& $97.71 \degr$   \\
-\tableline
-Disk\\
-						&$-0.1592$ 	&$-0.1833$& $69.91$ 					&$0.83$	& $7.40 \degr$   \\
+$x_1$  	& $-0.1883$	& $-0.1809$	  \\
+$y_1$	&$-0.1923$	&$-0.1702$	  \\
+$x_2$	&$-0.1615$ 	&$-0.1592$	  \\
+$y_2$	&$-0.2502$	& $-0.1833$	  \\
+$\sigma_1$	&$92.90$ &	$95.05$	  \\
+$M_{tot} / \sigma_2$& $1.17\times 10^{10} $  &$81.36$ 	 \\  
+$e_1$	& $0.27$	& $0.27$ \\  
+$\theta_1$	&$105.5 \degr$ & $97.7 \degr$	 \\
+$e_2$	&$0.84$	&$0.83$      \\
+$\theta_2$	&$7.4\degr$ &$7.4\degr$  \\
+$r_e$	& $0.20 ''$ &  -- \\
 \tableline
 
 \end{tabular}
 %% Any table notes must follow the \end{tabular} command.
-\tablecomments{Positions are offsets from component A measured in unit of arcsec. $e$ is ellipticity and $\theta$ is the position angle measured east of north.}
+\tablecomments{Subscripts 1 and 2 represent bulge and disk components in each model respectively. Positions are offsets from radio image component A measured in units of arcsec. The velocity dispersion $\sigma$ is in units of $km/s$ and disk mass $M_{tot}$ is in units of $h^{-1} M_{\odot}$. $e$ is ellipticity and $\theta$ is the position angle measured east of north.}
 \end{center}
 \end{table}
 
@@ -98,7 +128,7 @@ D ........ &$-0.1619$  &$-0.3680$	&$-0.1609$ &$-0.3678$   \\
 \begin{table}
 \begin{center}
 \caption{Flux Ratios of B1555+375 Components.\label{tbl-3}}
-\begin{tabular}{lllccc}
+\begin{tabular}{lccccc}
 \tableline\tableline
 				&Radio &Infrared  &Model-predicted\\
 \tableline
@@ -117,10 +147,14 @@ A/D			&$13.0$ &$5.4$ &$8.0$  \\
 We then use an extended source to model SHARP infrared image. In Figure 1, B and D have no detection in K-band, which believed due to strong dust extinction from the edge-on disk. The region and orientation of exponential disk in lens model are consistent with this hypothesis. The flux ratios in infrared are much higher than in radio also supports as an evidence of dust extinction.
 
 \section{Discussion}
-We have seen a similar flux ratio anomaly pattern in our edge-on disk lens model of B1555+375. The model predicted point source images also well matched with radio observation. Our modeling result indicates structures of lens galaxy itself can dominant flux ratio anomalies on lensing images. 
-Our follow up will be explore more similar SHARP systems with flux ratio anomaly and a recognizable edge-on disk. As shown in Figure 3, the flux ratio anomalies of these systems may also able to be explained by an edge-on disk structure.\\
-We still have great expectation on the substructure searching approach from flux ratio anomaly by using strong lensing systems. At the meanwhile, we would like to draw some attention on other factors can cause flux ratio anomaly. These factors also give a clue of the structure and mass distribution of lens galaxy, which can be important to research required really accurate measurements, like time-delay.  For substructure searching, one should reconsider and rule out the possibility of edge-on disk before doing any further analysis.\\
-Our result also shows that multi-wavelength image is helpful on exploring flux ratio anomalous systems.
+We present new lens models of B1555+375 with a bulge and an edge-on disk. Our models better match to the radio image positions than in \citet{Marlow} and also explain the flux ratio anomaly between components A and B. In our modeling, substructure is not neccessary to exist to cause the observed flux ratio anomaly. This indicates the flux ratio anomaly in B1555+375 is resulted from the structure of lens galaxy itself, which is the edge-on disk seen in the SHARP infrared imaging. Our result is consistent with the conclusion from  \citet{Xu14}. Their simulation gives a low probability on the hypothesis that substructure causing flux anomaly in B1555+375.
+
+With our discover in B155+375, we show that the lens galaxy structure can dominate the flux ratio anomalous phenomenon in strong lensing system. This leads to a more general reminder. Not all of the flux anomalies indicate the existence of substructures. One must fully consider non-substructure effects before gathering any statistics or serious analysis. Otherwise, these ``false'' substructures that detected by flux anomalies can serverly biased the data and analysis. For the flux ratio anomalies caused by real dark matter substructures and dwarf galaxies, non-stucture effects would also influence the estimated mass and other derived properties. Thus, we would like to draw some attention on these non-substructure effects. Once we understand more about their role in flux anomalous phenomenon, we can be more confident on searching unseen dwarf galaxies and dark matter substructures by searching flux ratio anomalous systems.
+
+Our result also shows that multi-wavelength image is helpful on exploring flux ratio anomalous systems. The radio and narrow band observations are the best approaches to obtain accurate flux ratio data. However, optical and infrared imaging can provide more information on the structure of lens galaxy, which is also an important part in analyzing flux anomalous systems since we've shown that an edge-on disk can cause flux ratio anomaly. Our follow up will be explore more flux anomalous SHARP systems that we also notice a recognizable edge-on disk in the infrared imaging. As shown in Figure 3, the flux ratio anomalies of these systems may also able to be explained by an edge-on disk structure.\\
+ 
+
+
 
 \bibliographystyle{apj}
 \bibliography{reference.bib}
