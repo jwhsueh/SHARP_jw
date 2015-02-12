@@ -12,6 +12,7 @@ __pycache__/
 *dvi
 *bbl
 *blg
+*synctex.gz
 
 # Distribution / packaging
 .Python
