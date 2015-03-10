@@ -6,7 +6,8 @@ omega     0.260000
 lambda	  0.740000
 weos	  -1.000000
 hubble	  0.720000
-zl	  0.500000
+#zl	  0.500000
+zl	  1.0
 prefix	  out
 xmin	  -2.7950000
 ymin	  -3.255000
@@ -52,9 +53,9 @@ startup 2 0 1
 #point  5.9685  1.907141e-01 -1.466998e-01 
 #extend sersic  1.5000 50. 2.036227e-01 -1.644783e-01 0.1 10. 0.2 3.0
 
-lens   sie      8.167147e+01  1.808973e-01 -1.701789e-01  2.718299e-01  9.770990e+01  0.000000e+00  0.000000e+00 
-lens   sie      6.991026e+01  1.591610e-01 -1.833358e-01  8.307761e-01  7.402363e+00  0.000000e+00  0.000000e+00 
-point  1.5  1.907141e-01 -1.466998e-01 
+lens   sie      1.413988e+02  1.883507e-01 -1.922841e-01  2.718299e-01  1.055117e+02  0.000000e+00  0.000000e+00 
+lens   sers     3.588000e+10  1.615821e-01 -2.505915e-01  8.410407e-01  7.402741e+00  1.952887e-01  1.000000e+00 
+point  1.5000  2.065664e-01 -1.634483e-01 
 
 
 end_startup
@@ -62,8 +63,8 @@ end_startup
 ## for optimizations
 ## can be ignored unless you do opts
 start_setopt
-1 0 0 0 0 0 0 
-1 0 0 0 0 0 0
+0 0 0 0 0 0 0 
+0 0 0 0 0 0 0
 #1 0 0 0 0 1 0 0 
 0 1 1
 end_setopt
@@ -74,7 +75,7 @@ start_command
 readobs_point obs_point.dat
 #parprior prior_point.dat
 
-optimize
+#optimize
 findimg
 #writeimage
 #writecrit 1.4496
