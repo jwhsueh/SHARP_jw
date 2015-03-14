@@ -43,16 +43,36 @@ These factors make gravitational \simona{lensing a powerful and promising tool f
 This makes flux ratio anomalies a promising tool to detect dark matter substructures \citep{Dalal2002, N13}.  
 \simona{At present, the amount of substructure derived from flux ratio anomalies is in disagreement with predictions from numerical simulations, with the former requiring a larger fraction of mass in substructure than expected \citet{Xu14}. While this could be the result of small sample statistics, it could also be the indication that flux ratio anomalies have a different origin than substructure.} \simona{An alternative method for the detection of substructure in gravitational lens galaxies based on the surface brightness distribution of extended arcs and Einstein ring has been introduced by \citet{K05,V09}. Interestingly, the fraction of substructure measured with this \emph{gravitational imaging technique} is currently in agreement with theoretical expectations \citep{V14a}.} 
 
-While future large-scale surveys, such as the LSST, \simona{are expected to deliver new large samples of gravitationally lensed quasar, in the near future the discovery of new systems using} narrow-line quasar emission \citep{N14} \simona{will provide new invaluable statistical perspective on current constraints based on flux ratio anomalies. 
-In this paper, we explore the alternative idea that flux ratio anomalies are not related to the presence of substructure but originate in a more complex lens galaxy mass distribution than initially considered. To this end we use new infra-red data from the Strong lensing at High Angular Resolution Program(SHARP). The main goal of the SHARP} project \simona{is to re-observe} known quadruple and Einstein ring lens systems at a much higher angular resolution by making use of the Keck adaptive optics (AO) telescope and large interferometric arrays \citep{SHARP12,V12} . In particular, to better understand the cause of flux ratio anomalies in strong lens systems \simona{we focus on the lens modelling of the lens system B1555+375 (included in both the observational and theoretical analysis of  \citet{Dalal2002} and \citet{Xu14}, respectively) by making use of} the new information obtained from the latest SHARP infrared imaging. \simona{The paper is organized as follows: the latest SHARP data is introduced in section 2; in section 3 we present the lens model while the results of this analysis and their implication are discussed in section 4.}
+While future large-scale surveys, such as the LSST, \simona{are
+  expected to deliver new large samples of gravitationally lensed
+  quasar, in the near future the discovery of new systems using}
+narrow-line quasar emission \citep{N14} \simona{will provide new
+  invaluable statistical perspective on current constraints based on
+  flux ratio anomalies.  In this paper, we explore the alternative
+  idea that flux ratio anomalies are not related to the presence of
+  substructure but originate in a more complex lens galaxy mass
+  distribution than initially considered. To this end we use new
+  infra-red data from the Strong lensing at High Angular Resolution
+  Program(SHARP). The main goal of the SHARP} project \simona{is to
+  re-observe} known quadruple and Einstein ring lens systems at a much
+higher angular resolution by making use of the Keck adaptive optics
+(AO) telescope and large interferometric arrays \citep{SHARP12,V12}
+. In particular, to better understand the cause of flux ratio
+anomalies in strong lens systems \simona{we focus on the lens
+  modelling of the lens system B1555+375 (included in both the
+  observational and theoretical analysis of \citet{Dalal2002} and
+  \citet{Xu14}, respectively) by making use of} the new information
+obtained from the latest SHARP infrared imaging. \simona{The paper is
+  organized as follows: the latest SHARP data is introduced in section
+  2; in section 3 we present the lens model while the results of this
+  analysis and their implication are discussed in section 4.}
+
 %However, only small number of flux ratio anomalous systems in \simona{the} radio are \simona{currently} avaliable. Besides waiting for future large-scale survey such as LSST to find thousands of more new lens galaxies, another approach \simona{is to} seek out more flux ratio anomalous systems \simona{using} narrow-line quasar emission \citep{N14}. 
 %	With expected growth in the number of samples, several groups have developed the technique to estimate the properties of substructures from flux ratio anomalous systems. \citet{V09, H13} both analyze the strong lens imaging to detect substructures lie infront of Einstein ring. Their methods improve the detectable mass limit and also show that high spatial resolution imaging is essential for the substructure study. On the other hand, numerical simulations on structure formation do not reach the concise conclusion on flux ratio anomalous systems. The latest study on the cause of flux anomalies from \citet{Xu14} shows the low probability of the existence of substructures in their studied systems. 
 %	The Strong lensing at High Angular Resolution Program(SHARP) is a project aims on known quadruple and Einstein ring lensing systems \citep{SHARP12}. We obtain high-resoltion images from Keck adaptive optics(AO) and Hubble Space Telescope(HST) observations. 
 %To better understand the cause of flux ratio anomaly in strong lensing systems, we model B1555+375, one of the systems discussed in \citet{Xu14}, with the new information obtained from the latest SHARP infrared imaging. We present the latest SHARP data in part 2, lens model of B1555+375 in part 3, and discussion in part 4. 
 
 \section{Data Collection \& Reduction}
-
-\subsection{Hubble Space Telescope Archival Imaging}
 
 \subsection{Keck Adaptive Optics Imaging}
 
@@ -67,9 +87,34 @@ data were reduced with the standard SHARP pipeline, which is a
 python-based package that is a refinement of the process described in
 \citet{Auger_EELS1}.  A ??x?? cutout of the final reduced image
 is shown in Fig.~??b and again in Fig.~??c with contours from the
-MERLIN radio observations of \citet{Marlow} overlaid.  
+MERLIN radio observations of \citet{Marlow} overlaid.  There are several
+notable features in the Keck AO data.  These
+include the nearly complete lack of emission associated with the
+B and D lensed images, as can be seen by comparing the radio contours
+to the $K^\prime$-band emission, and faint but clearly visible emission
+from what appears to be an edge-on lensing galaxy.
+
+\subsection{Hubble Space Telescope Archival Imaging}
+
+The B1555+375 system was also observed by the Hubble Space Telescope
+(HST) in three broad bands.  The optical data were obtained with the
+Wide-Field Planetary Camera 2 (WFPC2) in the $F555W$ and $F814W$ bands
+(GO-8804; PI: E.\ Falco), while the Near Infrared Multi-Object
+Spectrograph (NICMOS) was used to observe the system in the $F160W$
+band (GO-9744; PI: C.\ Kochanek).  The NICMOS observations were
+obtained with the NIC2 camera.  We reduced all of the archival HST
+data with the standard {\tt multidrizzle} pipeline [?? CHECK WITH
+MATT], producing final drizzled images with pixel scales of
+50~mas.  The reduced images are shown in Figure~??.  The lens system
+is not detected at high significance in the optical bands, but is
+clearly seen in the NICMOS $F160W$ image.  The edge-on lensing galaxy 
+stands out in the NICMOS image.
+
+
+%===========================================================================
 
 \section{Lens Modelling}
+
 To model B1555+375, we use the lens modelling code {\tt glafic}
 \citep{Oguri}.  The inputs to the model are the observed image positions
 and flux densities measured by the radio observations of \citet{Marlow}.
