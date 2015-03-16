@@ -1,28 +1,74 @@
-\documentclass[manuscript]{emulateapj}
+% mn2esample.tex
+%
+% v2.1 released 22nd May 2002 (G. Hutton)
+%
+% The mnsample.tex file has been amended to highlight
+% the proper use of LaTeX2e code with the class file
+% and using natbib cross-referencing. These changes
+% do not reflect the original paper by A. V. Raveendran.
+%
+% Previous versions of this sample document were
+% compatible with the LaTeX 2.09 style file mn.sty
+% v1.2 released 5th September 1994 (M. Reed)
+% v1.1 released 18th July 1994
+% v1.0 released 28th January 1994
 
-\usepackage{color}
-\definecolor{simonacolor}{cmyk}{0, 0.9808, 0.4429, 0.1412}
-\newcommand{\simona}[1]{\textcolor{simonacolor}{#1}}
+\documentclass[useAMS,usenatbib]{mn2e}
+
+% If your system does not have the AMS fonts version 2.0 installed, then
+% remove the useAMS option.
+%
+% useAMS allows you to obtain upright Greek characters.
+% e.g. \umu, \upi etc.  See the section on "Upright Greek characters" in
+% this guide for further information.
+%
+% If you are using AMS 2.0 fonts, bold math letters/symbols are available
+% at a larger range of sizes for NFSS release 1 and 2 (using \boldmath or
+% preferably \bmath).
+%
+% The usenatbib command allows the use of Patrick Daly's natbib.sty for
+% cross-referencing.
+%
+% If you wish to typeset the paper in Times font (if you do not have the
+% PostScript Type 1 Computer Modern fonts you will need to do this to get
+% smoother fonts in a PDF file) then uncomment the next line
+% \usepackage{Times}
+
+%%%%% AUTHORS - PLACE YOUR OWN MACROS HERE %%%%%
 
 
-\shorttitle{Beware the Effect of Edge-on Disks}
-\shortauthors{Hsueh et al.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\title[Beware the Effect of Edge-on Disks]{Gravitational Lens Modelling of Flux Ratio Anomalous System B1555+375}
+\author[Jen-Wei Hsueh and A. N. Other]{Jen-Wei Hsueh$^{1}$\thanks{E-mail:
+email@address (AVR); otheremail@otheraddress (ANO)} and A. N.
+Other$^{2}$\footnotemark[1]\thanks{This file has been amended to
+highlight the proper use of \LaTeXe\ code with the class file.
+These changes are for illustrative purposes and do not reflect the
+original paper by A. V. Raveendran.}\\
+$^{1}$University of California, Davis, Davis 95616, USA\\
+$^{2}$Building, Institute, Street Address, City, Code, Country}
 \begin{document}
 
-\title{Gravitational Lens Modelling of Flux Ratio Anomalous System B1555+375}
-\author{TBD}
+\date{Accepted 1988 December 15. Received 1988 December 14; in original form 1988 October 11}
+
+\pagerange{\pageref{firstpage}--\pageref{lastpage}} \pubyear{2002}
+
+\maketitle
+
+\label{firstpage}
 
 \begin{abstract}
 With the latest infrared image of B1555+375, an edge-on disk is shown to over cross the strong lensed images. Indicating the flux ratio anomalie of B1555+375 is dominanted by its edge-on disk structure. We present a lens model with SIE bulge and exponential disk, base on the radio observation from \citet{Marlow}. And apply this model to SHARP infrared image.
-
 \end{abstract}
 
-\keywords{ gravitaional lensing}
+\begin{keywords}
+gravitaional lensing.
+\end{keywords}
 
 \section{Introduction}
 
-A common feature of simulations of structure formation is the presence
+	A common feature of simulations of structure formation is the presence
 of thousands of subhaloes that are associated with larger mass haloes.
 However, observations of the Local Group find many fewer satellite
 galaxies than are predicted by the simulations, even when taking into
@@ -34,38 +80,38 @@ This process is challenging
 due to the faintness of the satellite galaxies.  Furthermore, lower-mass
 satellites may not be able to retain the gas needed for ongoing star
 formation \citep[e.g.,][]{P11}, rendering them effectively dark.
-These factors make gravitational \simona{lensing a powerful and promising tool for the detection of substructure.}
+These factors make gravitational lensing a powerful and promising tool for the detection of substructure.
 
-\simona{It was first suggested by \citet{Mao1998} that flux ratio anomalies observed in radio loud multiple images of lensed quasar could be interpreted as the telltale of the presence of substructure in lens galaxies.}
+It was first suggested by \citet{Mao1998} that flux ratio anomalies observed in radio loud multiple images of lensed quasar could be interpreted as the telltale of the presence of substructure in lens galaxies.
 %Flux ratio anomalies are seen in strong lensing systems which have multiple images that are spacially close to each other. These ``merging doubles'' share the same surface brightness in principle but happend to have different surface brightness. 
-\simona{Indeed,} little perturbations in the gravitational potential are sufficient to bring flux ratio anomalies in strong lensed systems. 
-\simona{Moreover, unlike in the optical or infrared,} in the radio band, lensed images are not sensitive to micro lensing from stars \simona{nor dust extinction}. 
+Indeed, little perturbations in the gravitational potential are sufficient to bring flux ratio anomalies in strong lensed systems. 
+Moreover, unlike in the optical or infrared, in the radio band, lensed images are not sensitive to micro lensing from stars nor dust extinction. 
 This makes flux ratio anomalies a promising tool to detect dark matter substructures \citep{Dalal2002, N13}.  
-\simona{At present, the amount of substructure derived from flux ratio anomalies is in disagreement with predictions from numerical simulations, with the former requiring a larger fraction of mass in substructure than expected \citet{Xu14}. While this could be the result of small sample statistics, it could also be the indication that flux ratio anomalies have a different origin than substructure.} \simona{An alternative method for the detection of substructure in gravitational lens galaxies based on the surface brightness distribution of extended arcs and Einstein ring has been introduced by \citet{K05,V09}. Interestingly, the fraction of substructure measured with this \emph{gravitational imaging technique} is currently in agreement with theoretical expectations \citep{V14a}.} 
+At present, the amount of substructure derived from flux ratio anomalies is in disagreement with predictions from numerical simulations, with the former requiring a larger fraction of mass in substructure than expected \citet{Xu14}. While this could be the result of small sample statistics, it could also be the indication that flux ratio anomalies have a different origin than substructure. An alternative method for the detection of substructure in gravitational lens galaxies based on the surface brightness distribution of extended arcs and Einstein ring has been introduced by \citet{K05,V09}. Interestingly, the fraction of substructure measured with this \emph{gravitational imaging technique} is currently in agreement with theoretical expectations \citep{V14a}.
 
-While future large-scale surveys, such as the LSST, \simona{are
+While future large-scale surveys, such as the LSST, are
   expected to deliver new large samples of gravitationally lensed
-  quasar, in the near future the discovery of new systems using}
-narrow-line quasar emission \citep{N14} \simona{will provide new
+  quasar, in the near future the discovery of new systems using
+narrow-line quasar emission \citep{N14} will provide new
   invaluable statistical perspective on current constraints based on
   flux ratio anomalies.  In this paper, we explore the alternative
   idea that flux ratio anomalies are not related to the presence of
   substructure but originate in a more complex lens galaxy mass
   distribution than initially considered. To this end we use new
   infra-red data from the Strong lensing at High Angular Resolution
-  Program(SHARP). The main goal of the SHARP} project \simona{is to
-  re-observe} known quadruple and Einstein ring lens systems at a much
+  Program(SHARP). The main goal of the SHARP project is to
+  re-observe known quadruple and Einstein ring lens systems at a much
 higher angular resolution by making use of the Keck adaptive optics
 (AO) telescope and large interferometric arrays \citep{SHARP12,V12}
 . In particular, to better understand the cause of flux ratio
-anomalies in strong lens systems \simona{we focus on the lens
+anomalies in strong lens systems we focus on the lens
   modelling of the lens system B1555+375 (included in both the
   observational and theoretical analysis of \citet{Dalal2002} and
-  \citet{Xu14}, respectively) by making use of} the new information
-obtained from the latest SHARP infrared imaging. \simona{The paper is
+  \citet{Xu14}, respectively) by making use of the new information
+obtained from the latest SHARP infrared imaging. The paper is
   organized as follows: the latest SHARP data is introduced in section
   2; in section 3 we present the lens model while the results of this
-  analysis and their implication are discussed in section 4.}
+  analysis and their implication are discussed in section 4.
 
 %However, only small number of flux ratio anomalous systems in \simona{the} radio are \simona{currently} avaliable. Besides waiting for future large-scale survey such as LSST to find thousands of more new lens galaxies, another approach \simona{is to} seek out more flux ratio anomalous systems \simona{using} narrow-line quasar emission \citep{N14}. 
 %	With expected growth in the number of samples, several groups have developed the technique to estimate the properties of substructures from flux ratio anomalous systems. \citet{V09, H13} both analyze the strong lens imaging to detect substructures lie infront of Einstein ring. Their methods improve the detectable mass limit and also show that high spatial resolution imaging is essential for the substructure study. On the other hand, numerical simulations on structure formation do not reach the concise conclusion on flux ratio anomalous systems. The latest study on the cause of flux anomalies from \citet{Xu14} shows the low probability of the existence of substructures in their studied systems. 
@@ -75,15 +121,36 @@ obtained from the latest SHARP infrared imaging. \simona{The paper is
 \section{Data Collection \& Reduction}
 
 \begin{figure*}
-\plotone{B1555_gallery.eps}
+\begin{minipage}{140mm}
+%\includegraphics[width=84mm]{B1555_gallery.eps}
 \caption{High-resolution multiband imaging of the B1555+375 lens system.
 All of the panels are 3\farcs7 on a side, and for each panel the scale bar 
 represents 1\arcsec.  From left to right the figures show data from
 HST/WFPC2 in the F555W band, HST/WFPC2 in the F814W band, HST/NICMOS/NIC2
-in the F160W band, and Keck AO imaging in the $K^\prime$ band.
+in the F160W band, and Keck AO imaging in the $K^\prime$ band.}
 %
-\label{fig:multiband}}
+\end{minipage}
+
 \end{figure*}
+
+\begin{table}
+ \centering
+ %\begin{minipage}{140mm}
+  \caption{Multiband observation details of the B1555+375 lens system.}
+  \begin{tabular}{@{}llccc}
+  
+\hline
+  Telescope     &      Camera     &  Band & Date &$t_{exp}$ (s) \\
+
+ \hline
+   HST				&		WFPC2    &  F555W		&	2009/01/20	&	5200\\
+   HST				&		WFPC2    &  F814W		&	2009/01/20&	5200\\
+   HST				&		NICMOS/NIC2	&	F160W	&	2012/08/09 & 5376\\
+   Keck2			&		NIRC2 AO	&   $K^\prime$	& 2012/05/16	&  1800\\
+   \hline
+\end{tabular}
+%\end{minipage}
+\end{table}
 
 \subsection{Keck Adaptive Optics Imaging}
 
@@ -106,12 +173,8 @@ to the $K^\prime$-band emission, and faint but clearly visible
 emission from what appears to be an edge-on lensing galaxy.
 
 \begin{figure}
-\plotone{1555_ao_merlin_overlay.eps}
-\caption{High-resolution multiband imaging of the B1555+375 lens system.
-All of the panels are 3\farcs7 on a side, and for each panel the scale bar 
-represents 1\arcsec.  From left to right the figures show data from
-HST/WFPC2 in the F555W band, HST/WFPC2 in the F814W band, HST/NICMOS/NIC2
-in the F160W band, and Keck AO imaging in the $K^\prime$ band.
+%\plotone{1555_ao_merlin_overlay.eps}
+\caption{High-resolution  $K^\prime$ band imaging of the B1555+375 lens system with MERLIN radio observation overlaid.
 %
 \label{fig:merlin}}
 \end{figure}
@@ -132,6 +195,7 @@ is not detected at high significance in the optical bands, but is
 clearly seen in the NICMOS $F160W$ image.  The edge-on lensing galaxy 
 stands out in the NICMOS image.
 
+The observation details of Keck AO and HST imaging are shown in Table 1.
 
 %===========================================================================
 
@@ -143,42 +207,29 @@ and flux densities measured by the radio observations of \citet{Marlow}.
 These authors present a singular isothermal ellipsoid (SIE) model that
 provides the first fit to the image positions but
 does not reproduce the strong flux ratio anomaly between components A and B.
-(see Fig.6, Table 2 \& 3 in \citet{Marlow}). In K-band
-image (Fig. 1, left), a recognizable edge-on disk is lie in the center
-with position angle $~10$ degree. With this new information from A/O image, we model
+(see Fig.6, Table 2 \& 3 in \citet{Marlow}). In $K^\prime$ band
+imaging (Fig. 1, left), a recognizable edge-on disk is lie in the center
+with position angle $~10$ degree. The from the edge-on disk can explain why there is no detection of image B \& D in near-infrared (Fig 1, right). Its orientation is aligned with image B \& D. With this new information from AO image, we model
 B1555+375 with two models. The first model consists of an SIE bulge
 and an exponential edge-on disk (SIE+Expdisk). The second model
 consists of two SIE mass profiles (2-SIE), for bulge and disk
-respectively. We assume that the lens galaxy has $z_{l}=0.5$ and the source has $z_s=1.5$. The full best-fit parameters are shown in Table 1. Both
+respectively. We assume that the lens galaxy has $z_{l}=0.5$ and the source has $z_s=1.5$. The full best-fit parameters are shown in Table 2. Both
 of these models predict fairly matched results with the radio
 observation. The comparison of observation and SIE+Expdisk result is
-in Figure 2, Table 2 \& 3.
-%These authors present a singular isothermal ellipsoid (SIE) model that
-%provides an excellent fit to the image positions (?? IS THIS TRUE?--NO we get a better model result)
+in Figure 3, Table 3 \& 4.
 
 
 
-%\begin{figure}
-%\plotone{B1555_Kp.eps}
-%\plottwo{B1555_model.eps}{B1555_residue.eps}
-%\caption{Left: SHARP K-band image of B1555+375 Middle: Lens model image generated by glafic Right: Residue image of B1555+375.\\
-%An edge-on disk can be seen in the center of SHARP K-band image. Exponential disk is marked by the green ellipse in residue image. We believe strong dust extinction from the edge-on disk makes B and D no detection in infrared. Thus leaving two negative holes in our residue.\label{fig1}}
-%\end{figure}
-%
-%\begin{figure}
-%\plotone{point_source.eps}
-%\caption{Radio observation(red open circle) and model-predicted(blue plus sign) image positions of B1555+375. The position of the source is at $(-0.2066,-0.1634)$ for SIE+Expdisk model, marked by a black filled circle. From left to right, four components are A, B (merging doubles), D(lowest spot), and C(right).\label{fig2}}
-%\end{figure}
-
-%%table1
 \begin{table}
-\begin{center}
-\caption{Lens Model Best-Fit Parameters.\label{tbl-1}}
-\begin{tabular}{ccccccc}
-%%\tableline\tableline
-		&SIE+Expdisk& 2-SIE		   
+% \centering
+% \begin{minipage}{140mm}
+  \caption{Best-fit parameters of B1555+375 lens model.}
+  \begin{tabular}{@{}ccc}
+\hline 
+ Parameter  & \multicolumn{2}{c}{Lens model} \\
+		&SIE+expdisk& 2-SIE		   
 \\
-\tableline\tableline
+\hline
 $x_1$  	& $-0.1883$	& $-0.1809$	  \\
 $y_1$	&$-0.1923$	&$-0.1702$	  \\
 $x_2$	&$-0.1615$ 	&$-0.1592$	  \\
@@ -190,55 +241,62 @@ $\theta_1$	&$105.5 \degr$ & $97.7 \degr$	 \\
 $e_2$	&$0.84$	&$0.83$      \\
 $\theta_2$	&$7.4\degr$ &$7.4\degr$  \\
 $r_e$	& $0.20 ''$ &  -- \\
-\tableline
-
+\hline
 \end{tabular}
-%% Any table notes must follow the \end{tabular} command.
-\tablecomments{Subscripts 1 and 2 represent bulge and disk components in each model respectively. Positions are offsets from radio image component A measured in units of arcsec. The velocity dispersion $\sigma$ is in units of $km/s$ and disk mass $M_{tot}$ is in units of $h^{-1} M_{\odot}$. $e$ is ellipticity and $\theta$ is the position angle measured east of north.}
-\end{center}
+
+%\end{minipage}
+\medskip
+Subscripts 1 and 2 represent bulge and disk components in each model respectively. Positions are offsets from radio image component A measured in units of arcsec. The velocity dispersion $\sigma$ is in units of $km/s$ and disk mass $M_{tot}$ is in units of $h^{-1} M_{\odot}$. $e$ is ellipticity and $\theta$ is the position angle measured east of north.
+
 \end{table}
 
-%%table2
 \begin{table}
-\begin{center}
-\caption{Radio Observation and Model-predicted Image Positions.\label{tbl-2}}
-\begin{tabular}{lccccc}
-\tableline\tableline
-					&Radio	&		 & Model-predicted \\
-Component &East &North &East 		&North\\ 
-\tableline
+% \centering
+% \begin{minipage}{140mm}
+  \caption{Radio observation and model-predicted lensed image positions.}
+  \begin{tabular}{@{}ccccc}
+
+\hline
+
+Component	&\multicolumn{2}{c}{MERLIN}		 & \multicolumn{2}{c}{Model} \\
+					&\multicolumn{2}{c}{5 GHz}		&			\\
+					 &East &North &East 		&North\\ 
+\hline
 A ........ &$0$    		&$0$		&$-0.0000$ &$+0.0000$   \\  
 B ........ &$-0.0726$ 	&$+0.0480$	&$-0.0726$ &$+0.0479$   \\  
 C ........ &$-0.4117$  &$-0.0280$	&$-0.4117$ &$-0.0280$   \\  
 D ........ &$-0.1619$  &$-0.3680$	&$-0.1609$ &$-0.3678$   \\  
-\tableline
+\hline
 \end{tabular}
-%% Any table notes must follow the \end{tabular} command.
-\tablecomments{Radio observation data quoted from Table 2 in \citet{Marlow}. Position offsets are in unit of arcsec.}
-\end{center}
+
+%\end{minipage}
+\medskip
+Comparision between radio and model-predicted lensed image positions. Observation data quoted from Table 2 in \citet{Marlow}. Position offsets are in unit of arcsec.
+
 \end{table}
 
-%%table3
 \begin{table}
-\begin{center}
-\caption{Flux Ratios of B1555+375 Components.\label{tbl-3}}
-\begin{tabular}{lccccc}
-\tableline\tableline
-				&5 GHz & 15 GHz  &Model-predicted\\
-\tableline
+% \centering
+% \begin{minipage}{140mm}
+  \caption{Flux ratios of B1555+375 components.}
+  \begin{tabular}{@{}ccccc}
+
+\hline
+Flux ratio	& \multicolumn{2}{c}{MERLIN} & Model\\
+		&5 GHz & 15 GHz  &\\
+\hline
 A/B			&$1.8$ & $1.8$ & $1.7$  \\ 
 A/C 		&$2.0$ 	&$2.4$ &$2.2$  \\
 A/D			&$13.0$ &$ 12.9$ & $8.0$  \\
-\tableline
+
+\hline
 \end{tabular}
-%% Any table notes must follow the \end{tabular} command.
-\tablecomments{Comparision between radio data and model-predicted flux ratios. Radio observation data quoted from Table 2 and Table 3 in \citet{Marlow}.}
-\end{center}
+
+%\end{minipage}
+\medskip
+Comparision between radio data and model-predicted flux ratios. Radio observation data quoted from Table 2 and Table 3 in \citet{Marlow}.
+
 \end{table}
-
-
-
-We then use an extended source to model SHARP infrared image. In Figure 1, B and D have no detection in K-band, which believed due to strong dust extinction from the edge-on disk. The region and orientation of exponential disk in lens model are consistent with this hypothesis. The flux ratios in infrared are much higher than in radio also supports as an evidence of dust extinction.
 
 \section{Discussion}
 The abundance of substructure within galaxy-size halo has been an undetermined problem in structure formation studies. Discrepency between numerical simulation and observation within the local universe gives two possible interpretations: an alternative structure formation model or small sample from the Local Universe. Difficulties emerge while searching beyond the Local Group due to the low luminosity of satellites. This makes gravitational lensing a powerful tool for the detection of substructures. With the fact that surface brightness is sensitive to gravitational perturbation, flux ratio anomaly in strong lensing system becomes a sign of existence of subhalo and also reflects its total mass. Give directly measurement of mass function which can avoid making assumptions on how baryonic matter distributes with dark matter.
@@ -250,16 +308,14 @@ In part 3, we present new lens models of B1555+375 with a bulge and an edge-on d
 Our result also shows that multi-wavelength image is helpful on exploring flux anomalous lensed quasars. Although radio band provides reliable data on position and fluxe of lensed images, optical and near-infrared imaging provides useful information about mass distribution of lens galaxy. In the previous paper of SHARP, \citet{SHARP12} show that high resolution IR imaging improves the lens modelling. The improvement is even more dramatic in B1555+375 while adding an edge-on disk can well explain flux ratio anomaly. Lack of knowledge on lens galaxy surely leads to an improper lens model sometimes and can have impacts on statics and derived properties among substructure detection. With the first system being analyzed and shown that an edge-on disk can explain its flux ratio anomaly, our follow up will be explore other SHARP systems. In Figure 3, all of these systems have a recognizable edge-on disk in infrared imaging. The flux ratio anomalies of these systems may also able to be explained by an edge-on disk structure.\\
  
 
+\section*{Acknowledgments}
 
-
-\bibliographystyle{apj}
+\bibliographystyle{mn2e}
 \bibliography{reference.bib}
 
 
-%\begin{thebibliography}{}
-%\bibitem[Oguri(2010)]{Oguri} Oguri, M. 2010, \pasj, 62, 1017
-%\bibitem[Marlow et al.(1999)]{Marlow} Marlow, D. R., et al. 1999, \apj, 118, 654
-%\end{thebibliography}
+
+
+\label{lastpage}
 
 \end{document}
-
