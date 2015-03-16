@@ -6,7 +6,7 @@ __pycache__/
 *.so
 
 # LaTex
-~*
+*~
 *pdf
 *aux
 *dvi
