@@ -5,8 +5,8 @@
 \newcommand{\simona}[1]{\textcolor{simonacolor}{#1}}
 
 
-\shorttitle{Gravitational Lens Modelling of Flux Ratio Anomalous System B1555+375}
-\shortauthors{TBD}
+\shorttitle{Beware the Effect of Edge-on Disks}
+\shortauthors{Hsueh et al.}
 
 \begin{document}
 
@@ -74,6 +74,17 @@ obtained from the latest SHARP infrared imaging. \simona{The paper is
 
 \section{Data Collection \& Reduction}
 
+\begin{figure*}
+\plotone{B1555_gallery.eps}
+\caption{High-resolution multiband imaging of the B1555+375 lens system.
+All of the panels are 3\farcs7 on a side, and for each panel the scale bar 
+represents 1\arcsec.  From left to right the figures show data from
+HST/WFPC2 in the F555W band, HST/WFPC2 in the F814W band, HST/NICMOS/NIC2
+in the F160W band, and Keck AO imaging in the $K^\prime$ band.
+%
+\label{fig:multiband}}
+\end{figure*}
+
 \subsection{Keck Adaptive Optics Imaging}
 
 The B1555+375 system was observed using the NIRC2 camera on the Keck 2
@@ -85,20 +96,31 @@ of roughly 10$^{\prime\prime}$\ on a side and a pixel scale of 10~mas.
 Six dithered 300~s exposures were obtained in $K^{\prime}$ band.  The
 data were reduced with the standard SHARP pipeline, which is a
 python-based package that is a refinement of the process described in
-\citet{Auger_EELS1}.  A ??x?? cutout of the final reduced image
-is shown in Fig.~??b and again in Fig.~??c with contours from the
-MERLIN radio observations of \citet{Marlow} overlaid.  There are several
-notable features in the Keck AO data.  These
-include the nearly complete lack of emission associated with the
+\citet{Auger_EELS1}.  A cutout of the final reduced image is shown in
+Fig.~\ref{fig:multiband} and again in Fig.~\ref{fig:merlin} with
+contours from the MERLIN radio observations of \citet{Marlow}
+overlaid.  There are several notable features in the Keck AO data.
+These include the nearly complete lack of emission associated with the
 B and D lensed images, as can be seen by comparing the radio contours
-to the $K^\prime$-band emission, and faint but clearly visible emission
-from what appears to be an edge-on lensing galaxy.
+to the $K^\prime$-band emission, and faint but clearly visible
+emission from what appears to be an edge-on lensing galaxy.
+
+\begin{figure}
+\plotone{1555_ao_merlin_overlay.eps}
+\caption{High-resolution multiband imaging of the B1555+375 lens system.
+All of the panels are 3\farcs7 on a side, and for each panel the scale bar 
+represents 1\arcsec.  From left to right the figures show data from
+HST/WFPC2 in the F555W band, HST/WFPC2 in the F814W band, HST/NICMOS/NIC2
+in the F160W band, and Keck AO imaging in the $K^\prime$ band.
+%
+\label{fig:merlin}}
+\end{figure}
 
 \subsection{Hubble Space Telescope Archival Imaging}
 
 The B1555+375 system was also observed by the Hubble Space Telescope
 (HST) in three broad bands.  The optical data were obtained with the
-Wide-Field Planetary Camera 2 (WFPC2) in the $F555W$ and $F814W$ bands
+Wide-Field Planetary Camera 2 (WFPC2) in the F555W and F814W bands
 (GO-8804; PI: E.\ Falco), while the Near Infrared Multi-Object
 Spectrograph (NICMOS) was used to observe the system in the $F160W$
 band (GO-9744; PI: C.\ Kochanek).  The NICMOS observations were
