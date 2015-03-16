@@ -13,8 +13,9 @@
 % v1.1 released 18th July 1994
 % v1.0 released 28th January 1994
 
+%\documentclass[useAMS,usenatbib]{mn2e}
 \documentclass[useAMS,usenatbib]{mn2e}
-
+\usepackage{graphicx}
 % If your system does not have the AMS fonts version 2.0 installed, then
 % remove the useAMS option.
 %
@@ -40,7 +41,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title[Beware the Effect of Edge-on Disks]{Gravitational Lens Modelling of Flux Ratio Anomalous System B1555+375}
-\author[Jen-Wei Hsueh and A. N. Other]{Jen-Wei Hsueh$^{1}$\thanks{E-mail:
+\author[Hsueh et al.]{Jen-Wei Hsueh$^{1}$\thanks{E-mail:
 email@address (AVR); otheremail@otheraddress (ANO)} and A. N.
 Other$^{2}$\footnotemark[1]\thanks{This file has been amended to
 highlight the proper use of \LaTeXe\ code with the class file.
@@ -122,7 +123,7 @@ obtained from the latest SHARP infrared imaging. The paper is
 
 \begin{figure*}
 \begin{minipage}{140mm}
-%\includegraphics[width=84mm]{B1555_gallery.eps}
+\includegraphics[width=140mm]{B1555_gallery.eps}
 \caption{High-resolution multiband imaging of the B1555+375 lens system.
 All of the panels are 3\farcs7 on a side, and for each panel the scale bar 
 represents 1\arcsec.  From left to right the figures show data from
@@ -174,6 +175,7 @@ emission from what appears to be an edge-on lensing galaxy.
 
 \begin{figure}
 %\plotone{1555_ao_merlin_overlay.eps}
+\includegraphics[width=84mm]{1555_ao_merlin_overlay.eps}
 \caption{High-resolution  $K^\prime$ band imaging of the B1555+375 lens system with MERLIN radio observation overlaid.
 %
 \label{fig:merlin}}
@@ -217,6 +219,13 @@ respectively. We assume that the lens galaxy has $z_{l}=0.5$ and the source has 
 of these models predict fairly matched results with the radio
 observation. The comparison of observation and SIE+Expdisk result is
 in Figure 3, Table 3 \& 4.
+
+
+\begin{figure}
+%\plotone{point_source.eps}
+\includegraphics[width=84mm]{point_source.eps}
+\caption{Radio observation(red open circle) and model-predicted(blue plus sign) image positions of B1555+375. The position of the source is at $(-0.2066,-0.1634)$ for SIE+Expdisk model, marked by a black filled circle. From left to right, four components are A, B (merging doubles), D(lowest spot), and C(right).\label{fig2}}
+\end{figure}
 
 
 
