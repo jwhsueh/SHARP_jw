@@ -1,30 +1,7 @@
-% mn2esample.tex
-%
-% v2.1 released 22nd May 2002 (G. Hutton)
-%
-% The mnsample.tex file has been amended to highlight
-% the proper use of LaTeX2e code with the class file
-% and using natbib cross-referencing. These changes
-% do not reflect the original paper by A. V. Raveendran.
-%
-% Previous versions of this sample document were
-% compatible with the LaTeX 2.09 style file mn.sty
-% v1.2 released 5th September 1994 (M. Reed)
-% v1.1 released 18th July 1994
-% v1.0 released 28th January 1994
-
-%\documentclass[useAMS,usenatbib]{mn2e}
-\documentclass[usenatbib]{mn2e}
+\documentclass[useAMS,usenatbib]{mn2e}
+%\documentclass[usenatbib]{mn2e}
 \usepackage{graphicx}
 \usepackage[nottoc]{tocbibind}
-
-\newcommand{\apj}[1]{ApJ}
-\newcommand{\mnras}[1]{MNRAS}
-\newcommand{\apjl}[1]{ApJL}
-\newcommand{\pasj}[1]{PASJ}
-\newcommand{\aj}[1]{AJ}
-\newcommand{\nat}[1]{Nature}
-%journals
 
 % If your system does not have the AMS fonts version 2.0 installed, then
 % remove the useAMS option.
@@ -47,34 +24,57 @@
 
 %%%%% AUTHORS - PLACE YOUR OWN MACROS HERE %%%%%
 
+% Journal definitions
+\newcommand{\apj}[1]{ApJ}
+\newcommand{\mnras}[1]{MNRAS}
+\newcommand{\apjl}[1]{ApJL}
+\newcommand{\pasj}[1]{PASJ}
+\newcommand{\aj}[1]{AJ}
+\newcommand{\nat}[1]{Nature}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title[Beware the Effect of Edge-on Disks]{Gravitational Lens Modelling of Flux Ratio Anomalous System B1555+375}
 \author[Hsueh et al.]{Jen-Wei Hsueh$^{1}$\thanks{E-mail:
 email@address (AVR); otheremail@otheraddress (ANO)} and A. N.
-Other$^{2}$\footnotemark[1]\thanks{This file has been amended to
-highlight the proper use of \LaTeXe\ code with the class file.
-These changes are for illustrative purposes and do not reflect the
-original paper by A. V. Raveendran.}\\
-$^{1}$University of California, Davis, Davis 95616, USA\\
+Other$^{2}$\\
+$^{1}$Physics Dept., University of California, Davis, 1 Shields Ave.
+Davis, CA 95616, USA\\
 $^{2}$Building, Institute, Street Address, City, Code, Country}
 \begin{document}
 
-\date{Accepted 1988 December 15. Received 1988 December 14; in original form 1988 October 11}
+%\date{Accepted 1988 December 15. Received 1988 December 14; in original form 1988 October 11}
 
-\pagerange{\pageref{firstpage}--\pageref{lastpage}} \pubyear{2002}
+\pagerange{\pageref{firstpage}--\pageref{lastpage}} \pubyear{2015}
 
 \maketitle
 
 \label{firstpage}
 
 \begin{abstract}
-With the latest infrared image of B1555+375, an edge-on disk is shown to over cross the strong lensed images. Indicating the flux ratio anomalie of B1555+375 is dominanted by its edge-on disk structure. We present a lens model with SIE bulge and exponential disk, base on the radio observation from \citet{Marlow}. And apply this model to SHARP infrared image.
+
+Gravitational lens flux-ratio anomalies provide a powerful technique
+for detecting the presence of dark matter substructure in distant
+galaxies.  However, before using the statistics of systems with these
+anomalies, it is imperative to ascertain that a given system does not
+have properties that could plausibly cause the observed anomaly
+without the need for substructure.  In this letter, we present the
+case of the B1555+375 lens system, which has a strong radio-wavelength
+flux-ratio anomaly but where the lensing galaxy is also revealed in
+high-resolution imaging to have a clear edge-on disk component.  The
+disk crosses directly over the pair of images that exhibit the
+anomaly, and we show that simple models that include the disk can
+reproduce the anomaly without requiring substructure.  Several [??]
+other lens systems that we have observed with adaptive optics imaging
+as part of the Strong lensing at High Angular Resolution Programme (SHARP)
+show similar behaviour.  These results suggest that the assumption that
+all flux-ratio anomalies are due to substructure will likely overestimate
+the substructure fraction in massive galaxies.
+
 \end{abstract}
 
 \begin{keywords}
-gravitaional lensing
+gravitational lensing
 \end{keywords}
 
 \section{Introduction}
