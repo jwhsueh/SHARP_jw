@@ -156,7 +156,8 @@ analysis and their implication are discussed in section 4.
 All of the panels are 3\farcs7 on a side, and for each panel the scale bar 
 represents 1\arcsec.  From left to right the figures show data from
 HST/WFPC2 in the F555W band, HST/WFPC2 in the F814W band, HST/NICMOS/NIC2
-in the F160W band, and Keck AO imaging in the $K^\prime$ band.}
+in the F160W band, and Keck AO imaging in the $K^\prime$ band.
+\label{fig:multiband}}
 %
 %\end{minipage}
 
@@ -192,11 +193,11 @@ Spectrograph (NICMOS) was used to observe the system in the $F160W$
 band (GO-9744; PI: C.\ Kochanek).  The NICMOS observations were
 obtained with the NIC2 camera.  We reduced all of the archival HST
 data with the standard {\tt multidrizzle} pipeline [?? CHECK WITH
-MATT], producing final drizzled images with pixel scales of
-50~mas.  The reduced images are shown in Figure~??.  The lens system
-is not detected at high significance in the optical bands, but is
-clearly seen in the NICMOS $F160W$ image.  The edge-on lensing galaxy 
-stands out in the NICMOS image.
+  MATT], producing final drizzled images with pixel scales of 50~mas.
+The reduced images are shown in Figure~\ref{fig:multiband}.  The lens
+system is not detected at high significance in the optical bands, but
+is clearly seen in the NICMOS $F160W$ image.  The edge-on lensing
+galaxy stands out in the NICMOS image.
 
 The observation details of Keck AO and HST imaging are shown in Table 1.
 
@@ -223,29 +224,46 @@ The observation details of Keck AO and HST imaging are shown in Table 1.
 
 \section{Lens Modelling}
 
-To model B1555+375, we use the lens modelling code {\tt glafic}
-\citep{Oguri}.  The inputs to the model are the observed image positions
-and flux densities measured by the radio observations of \citet{Marlow}.
-These authors present a singular isothermal ellipsoid (SIE) model that
-provides the first fit to the image positions but
-does not reproduce the strong flux ratio anomaly between components A and B.
-(see Fig.6, Table 2 \& 3 in \citet{Marlow}). In $K^\prime$ band
-imaging (Fig. 1, left), a recognizable edge-on disk is lie in the center
-with position angle $\approx 10$ degree. The detection of edge-on disk also explain the missing images B \& D in near-infrared (Fig 1, right). Image B \& D very likely are extincted by the edge-on disk since the images have the same orientation with the disk. 
+To model B1555+375, we use the lens modeling code {\tt glafic}
+\citep{Oguri}.  The inputs to the model are the observed image
+positions and flux densities measured by the radio observations of
+\citet{Marlow}.  These authors present a singular isothermal ellipsoid
+(SIE) model that provides the first fit to the image positions but
+does not reproduce the strong flux ratio anomaly between components A
+and B.  \citep[see Fig.~6 and Tables 2 \& 3 in][]{Marlow}.  Although
+the flux ratio anomaly that is observed in the radio data may be
+caused by substructure in the lensing galaxy, our high-resolution near
+infrared imaging suggests another explanation.  In both the $K^\prime$
+band adaptive optics data and the HST imaging (two rightmost panels in
+Fig. 1), the lensing galaxy has a clear edge-on disk component with a
+position angle of $\approx 10$ degree.  We therefore model the system
+with a disk component in order to see if such a model can explain the
+flux ratio anomaly without the need for substructure.  The edge on
+disk may also explain the system morphology that is observed in the
+near infrared imaging.  In particular, neither image B nor image D is
+detected in the Keck AO data (Fig.~\ref{fig:merlin}), and both of
+these lensed images lie on or close to the edge-on disk.  Thus, strong
+extinction in the disk could cause the lack of detection of these
+images.
 
-By adding a disk component, we apply our new discover from AO image to the
-B1555+375 modelling. The first model consists of an SIE bulge
-and an exponential edge-on disk (SIE+expdisk). And the second model
-consists of two SIE mass profiles (2-SIE), for bulge and disk
-respectively. We assume that the lens galaxy has $z_{l}=0.5$ and the source has $z_s=1.5$. The full best-fit parameters are shown in Table 2. Both
-of these models predict fairly matched results with the radio
-observation, and the 2-SIE model has a better performance in flux ratios. The comparison of observation and our lens modelling is
-in Figure 3, Table 3 \& 4.
+We have created two separate models of the lensing potential.  In the
+first we treat the lens as a SIE bulge and an exponential edge-on disk
+(SIE+expdisk).  In the second model the disk is represented as a very
+elongated SIE component (2-SIE).  The lens system is red, with a
+strong jump in flux between the F814W (roughly I) and F160W (roughly
+H) bands (Fig.~\ref{fig:multiband}), so we assign a lens redshift of
+$z_\ell = 1.0$ and a source redshift of $z_s =$?? [{\bf WHAT VALUE DID
+    WE USE??}].  The full best-fit parameters are shown in Table
+2. Both of these models predict fairly matched results with the radio
+observation, and the 2-SIE model has a better performance in flux
+ratios. The comparison of observation and our lens modelling is given
+in Figure 3 and Tables 3 \& 4.
 
 \begin{figure}
 %\plotone{1555_ao_merlin_overlay.eps}
 \includegraphics[width=84mm]{1555_ao_merlin_overlay.eps}
-\caption{High-resolution  $K^\prime$ band imaging of the B1555+375 lens system with MERLIN radio observation overlaid.
+\caption{High-resolution  $K^\prime$ band imaging of the B1555+375 lens system 
+with contours from the MERLIN observation of \citet{Marlow} overlaid.
 %
 \label{fig:merlin}}
 \end{figure}
