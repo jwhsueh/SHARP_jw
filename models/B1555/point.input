@@ -15,7 +15,7 @@ xmax	  3.2050000
 ymax	  2.745000
 pix_ext   0.10000
 pix_poi   0.05000
-maxlev	  5
+maxlev	  6
 
 ## some examples of secondary parameters
 chi2_splane    0
@@ -75,7 +75,7 @@ readobs_point obs_point.dat
 #parprior prior_point.dat
 
 #optimize
-#findimg
+findimg
 #writeimage
 writecrit 1.5
 
