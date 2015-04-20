@@ -1,0 +1,162 @@
+#####################################################################
+## supermongo script 
+## for plotting critical curves, mesh, and image positions
+
+#####################################################################
+# setup - modify this part
+
+## which files?
+define prefix    out_b1555_best  # prefix for crit/mesh/point.dat files
+
+## tell me your preferences
+define out_x11   no     # yes (x11) or no (eps)
+define plotcrit  yes    # yes or no
+define plotmesh  no     # yes or no
+define plotpoint yes    # yes or no
+
+## set plot ranges for image ans source planes
+set xi_min = -1.5
+set xi_max =  1.5
+set yi_min = -1.5
+set yi_max =  1.5
+set xs_min = -1.5
+set xs_max =  1.5
+set ys_min = -1.5
+set ys_max =  1.5
+
+#####################################################################
+# script starts from here
+
+if('$out_x11' == 'yes'){
+dev x11 -bg white
+} else {
+dev postencap ":OY=/SET_COLOUR { setrgbcolor } def\n:" plot_point.eps
+}
+
+erase
+define TeX_strings 1
+
+lweight 2
+expand 1.2
+ltype 0
+ctype black
+define x_gutter 0.4
+define y_gutter 0.4
+
+notation -20 20 -20 20
+
+location 2500 31800 16000 30000
+
+set fname1 = sprintf('%s_mesh.dat','$prefix')
+set fname2 = sprintf('%s_crit.dat','$prefix')
+set fname3 = sprintf('%s_point.dat','$prefix')
+
+#####################################################################
+window 2 1 1 1
+
+limits $(xi_min) $(xi_max) $(yi_min) $(yi_max)
+
+if('$plotmesh' == 'yes'){
+data "$(fname1)"
+read {xmi1 1 ymi1 2 xms1 3 yms1 4 xmi2 5 ymi2 6 xms2 7 yms2 8}
+
+lweight 1.0
+ctype black
+do i=0,dimen(xmi1)-1 {relocate $(xmi1[$i]) $(ymi1[$i]) draw $(xmi2[$i]) $(ymi2[$i])}
+}
+
+if('$plotcrit' == 'yes'){
+data "$(fname2)"
+read {xci1 1 yci1 2 xcs1 3 ycs1 4 xci2 5 yci2 6 xcs2 7 ycs2 8}
+
+lweight 3.0
+ctype blue
+do i=0,dimen(xci1)-1 {relocate $(xci1[$i]) $(yci1[$i]) draw $(xci2[$i]) $(yci2[$i])}
+}
+
+if('$plotpoint' == 'yes'){
+data "$(fname3)"
+read {ni 1}
+set ntot = dimen(ni)
+
+set ni = 0
+set ne = 0
+
+while { ne < $(ntot) } {
+set ni = ne + 1
+data "$(fname3)"  
+lines $(ni) $(ni)
+read {nn 1 xs 3 ys 4}
+set ne = ni + $(nn)
+set ni = ni + 1
+lines $(ni) $(ne)
+read {xi 1 yi 2}
+
+lweight 2.5
+ctype red
+expand 1.8
+ptype 4 3
+points xi yi
+}
+
+}
+
+lweight 2.5
+ctype black
+expand 1.2
+box 1 2 0 0 
+
+#####################################################################
+window 2 1 2 1
+
+limits $(xs_min) $(xs_max) $(ys_min) $(ys_max)
+
+if('$plotmesh' == 'yes'){
+lweight 1.0
+ctype black
+do i=0,dimen(xms1)-1 {relocate $(xms1[$i]) $(yms1[$i]) draw $(xms2[$i]) $(yms2[$i])}
+}
+
+if('$plotcrit' == 'yes'){
+lweight 3.0
+ctype blue
+do i=0,dimen(xcs1)-1 {relocate $(xcs1[$i]) $(ycs1[$i]) draw $(xcs2[$i]) $(ycs2[$i])}
+}
+
+if('$plotpoint' == 'yes'){
+data "$(fname3)"
+read {ni 1}
+set ntot = dimen(ni)
+
+set ni = 0
+set ne = 0
+
+while { ne < $(ntot) } {
+set ni = ne + 1
+data "$(fname3)"  
+lines $(ni) $(ni)
+read {nn 1 xs 3 ys 4}
+set ne = ni + $(nn)
+set ni = ni + 1
+#lines $(ni) $(ne)
+#read {xi 1 yi 2}
+
+lweight 2.5
+ctype red
+expand 1.6
+ptype 4 3
+points xs ys
+}
+}
+
+lweight 2.5
+ctype black
+expand 1.2
+box 1 2 0 0 
+
+
+if('$out_x11' == 'yes'){
+} else {
+quit
+}
+ 
