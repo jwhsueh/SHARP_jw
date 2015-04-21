@@ -8,7 +8,7 @@ weos	  -1.000000
 hubble	  0.720000
 #zl	  0.500000
 zl	  1.0
-prefix	  out
+prefix	  1SIE
 xmin	  -2.7950000
 ymin	  -3.255000
 xmax	  3.2050000
@@ -25,7 +25,7 @@ chi2_usemag    0
 hvary          0
 
 ## define lenses and sources
-startup 2 0 1
+startup 1 0 1
 # this is the `solution'
 #lens sie    320.0  0.0 0.0 0.3 20.0 0.0 0.0
 #lens pert     2.0  0.0 0.0 0.1 90.0 0.0 0.0
@@ -47,21 +47,22 @@ startup 2 0 1
 #point  1.5000  2.065664e-01 -1.634483e-01 
 
 #best fit 2-SIE
-lens   sie      1.449101e+02  1.812905e-01 -1.694741e-01  2.718299e-01  9.770990e+01  0.000000e+00  0.000000e+00 
-lens   sie      1.234748e+02  1.592967e-01 -1.842505e-01  8.307761e-01  7.402363e+00  0.000000e+00  0.000000e+00 
-point  1.5000  1.908023e-01 -1.467581e-01  
+#lens   sie      1.449101e+02  1.812905e-01 -1.694741e-01  2.718299e-01  9.770990e+01  0.000000e+00  0.000000e+00 
+#lens   sie      1.234748e+02  1.592967e-01 -1.842505e-01  8.307761e-01  7.402363e+00  0.000000e+00  0.000000e+00 
+#point  1.5000  1.908023e-01 -1.467581e-01  
  
 
-#lens   sie      2.449101e+02  1.812905e-01 -1.694741e-01  8.307761e-01  9.770990e+01  0.000000e+00  0.000000e+00 
-#point  1.5000  1.908023e-01 -1.467581e-01
+lens   sie      1.843846e+02  1.784533e-01 -1.940898e-01  4.074103e-01  4.103494e+00  0.000000e+00  0.000000e+00 
+point  1.5000  1.890538e-01 -1.449221e-01 
+
 
 end_startup
 
 ## for optimizations
 ## can be ignored unless you do opts
 start_setopt
-1 1 1 0 1 0 0 
-1 0 0 0 0 0 0
+1 1 1 1 1 0 0 
+#1 0 0 0 0 0 0
 #1 0 0 0 0 1 0 0 
 0 1 1 
 end_setopt
@@ -75,7 +76,7 @@ readobs_point obs_point.dat
 #optimize
 findimg
 #writeimage
-#writecrit 1.5
+writecrit 1.5
 
 #varycosmo hubble 0.5 0.9 40
 
