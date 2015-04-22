@@ -8,14 +8,14 @@ weos	  -1.000000
 hubble	  0.720000
 #zl	  0.500000
 zl	  1.0
-prefix	  1SIE
+prefix	  exp
 xmin	  -2.7950000
 ymin	  -3.255000
 xmax	  3.2050000
 ymax	  2.745000
 pix_ext   0.100000
 pix_poi   0.05000
-maxlev	  6
+maxlev	  5
 
 ## some examples of secondary parameters
 chi2_splane    0
@@ -62,7 +62,7 @@ end_startup
 ## can be ignored unless you do opts
 start_setopt
 0 0 0 1 1 0 0 
-0 0 0 1 1 1 0
+0 0 0 0 0 1 0
 #1 0 0 0 0 1 0 0 
 0 1 1 
 end_setopt
