@@ -89,7 +89,7 @@ gravitational lensing
 \section{Introduction}
 
 A common feature of simulations of structure formation is the presence
-of thousands of subhalos that are associated with larger mass aloes \citep[e.g.][]{Springel08}.
+of thousands of subhalos that are associated with larger mass haloes \citep[e.g.][]{Springel08}.
 However, observations of the Local Group find many fewer satellite
 galaxies than are predicted by the simulations, even when taking into
 account completeness corrections arising from the limited sky coverage
@@ -105,7 +105,7 @@ lensing a powerful and promising tool for the detection of
 substructure.
 
 It was first suggested by \citet{Mao1998} that flux ratio anomalies
-observed in radio loud multiple images of lensed quasar could be
+observed in radio loud multiple images of lensed quasars could be
 interpreted as a telltale sign of the presence of substructure in lens
 galaxies.  Indeed, small perturbations in the gravitational potential
 are sufficient to cause flux ratio anomalies in strong lensed systems
@@ -263,16 +263,16 @@ the performance of a simple lensing potential. Consistent with
 previous studies \citep{Marlow99, Xu14}, our single elliptical
 potential model cannot predict the flux anomaly in B1555+375.  We then
 create two separate models of the lensing potential that both
-incorporate the disk.  In the first we treat the lens as a SIE bulge
+incorporate the disk.  In the first we treat the lens as a SIE bulge\textbf{/halo}
 and an exponential edge-on disk (SIE+expdisk).  In the second model
 the disk is represented as a very elongated SIE component (2-SIE).
 The lens system is red, with a strong jump in flux between the F814W
 (roughly I) and F160W (roughly H) bands (Fig.~\ref{fig:multiband}), so
 we assign a lens redshift of $z_\ell = 1.0$ and a source redshift of
-$z_s =1.5$. Our steps to explore the parameter space are: (1) Apply
-strong priors from SHARP AO image to the edge-on disk position angle
+$z_s =1.5$. \textbf{This assumption on redshifts is due to that some lens model parameters contain distance information. Our choice of redshifts does not affects the predicted magnifications nor flux ratios.} Our steps to explore the parameter space are: (1) Apply
+strong priors from the SHARP AO image to the edge-on disk position angle
 and ellipticity, and use the best-fit model of \citet{Marlow99} as the
-starting point for the bulge component and the source position. (2)
+starting point for the bulge\textbf{/halo} component and the source position. (2)
 Let all parameters without priors vary to reach a temporary best
 fit. (3) Start with the best fit in step 2 and let all parameters with
 priors vary to reach another best fit (also ensure this best fit is
@@ -296,7 +296,7 @@ of \citet{V09}.
 %\plotone{1555_ao_merlin_overlay.eps}
 \includegraphics[width=84mm]{1555_ao_merlin_overlay.eps}
 \caption{High-resolution  $K^\prime$ band imaging of the B1555+375 lens system 
-with contours from the MERLIN observation of \citet{Marlow99} overlaid.
+with contours from the MERLIN observation of \citet{Marlow99} overlaid. \textbf{From left to right, four components are A, B (merging doubles), D(lowest spot), and C(right).}
 %
 \label{fig:merlin}}
 \end{figure}
@@ -322,11 +322,13 @@ with contours from the MERLIN observation of \citet{Marlow99} overlaid.
 \hline
 $x_1$  	  & $-0.1883$	& $-0.1813$  \\
 $y_1$	  &$-0.1923$	&$-0.1695$  \\
-$x_2$	  &$-0.1615$ 	&$-0.1593$  \\
-$y_2$	  &$-0.2502$	& $-0.1843$  \\
+
 $\sigma_1$ &$141.3$     & $144.9$ \\
 $e_1$	  & $0.27$	& $0.27$ \\
 $\theta_1$ &$105.5 \degr$ & $97.7 \degr$ \\
+\hline
+$x_2$	  &$-0.1615$ 	&$-0.1593$  \\
+$y_2$	  &$-0.2502$	& $-0.1843$  \\
 $M_{tot,2}$  & $3.59\times 10^{10} $  & ...	 \\  
 $\sigma_2$ & ...        &$123.5$ \\  
 $e_2$	  &$0.84$	&$0.83$  \\
@@ -339,7 +341,7 @@ $\chi ^2$ & $1.05$ & $0.04$ \\
 
 %\end{minipage}
 \medskip
-Subscripts 1 and 2 represent bulge and disk components in each model respectively. Positions are offsets from radio image component A measured in units of arcsec. The velocity dispersion $\sigma$ is in units of $km/s$ and disk mass $M_{tot}$ is in units of $h^{-1} M_{\odot}$. $e$ is ellipticity and $\theta$ is the position angle measured east of north.
+Subscripts 1 and 2 represent bulge\textbf{/halo} and disk components in each model respectively. Positions are offsets from radio image component A measured in units of arcsec. The velocity dispersion $\sigma$ is in units of $km/s$ and disk mass $M_{tot}$ is in units of $h^{-1} M_{\odot}$. $e$ is ellipticity and $\theta$ is the position angle measured east of north.
 
 \end{table}
 
@@ -388,7 +390,7 @@ $f_A/f_D$		&$13.08$ &$ 12.86$ &$2.00$& $5.83$ & $7.96$\\
 
 %\end{minipage}
 \medskip
-Comparison between radio data and model-predicted flux ratios. The radio observation data is quoted from Tables 2 and Table 3 in \citet{Marlow99}. 1-SIE model is quoted from Table 5 in \citet{Marlow99}.
+Comparison between radio data and model-predicted flux ratios. The radio observation data is quoted from Tables 2 and Table 3 in \citet{Marlow99}. 1-SIE model is quoted from Table 5 in \citet{Marlow99}. [WE HAVE 1-SIE MODEL NOW. SHOULD I QUOTE FROM MARLOW OR OUR OWN?--JW]
 
 \end{table}
 
@@ -434,8 +436,8 @@ resolution IR imaging can help to significantly improve the precision
 of the lens modeling. This improvement is even more dramatic in the
 case of B1555+375, where HST and SHARP AO high resolution imaging has
 allowed us to detect, for the fist time, the presence of an edge-on
-disk. This new discovered edge-on disk provides a strong prior for our
-lens modeling.  With a bulge plus an edge-on disk, our models produce
+disk. This newly discovered edge-on disk provides a strong prior for our
+lens modeling.  With \textbf{an additional disk component}, our models produce
 matches to both the radio image positions and their flux ratio, while
 models with only one SIE component \citep{Marlow99,Xu14} fail to
 reproduce the fluxes correctly. Our successful modeling indicates
