@@ -1,0 +1,14 @@
+#
+# B1555+375
+# position ref - Marlow et al. 1999 (radio)
+#                lens galaxy from CASTLES
+# flux ref - Marlow et al. 1999 (radio)
+# dflux = 10%
+# no redshift info, just assume zl=0.5, zs=1.5
+# no
+
+1 4 
+ 0.0     0.0     17.0  1.0e-6 1.70  0.0 0.0 0
+ 0.0726  0.0480   10.54  0.001  0.97  0.0 0.0 0
+ 0.4117 -0.0280   8.619  0.001  0.83  0.0 0.0 0
+ 0.1619 -0.3680   1.462  0.006  0.13  0.0 0.0 0
