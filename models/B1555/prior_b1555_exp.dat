@@ -1,15 +1,15 @@
-gauss lens 1 1  1.413988e+02 10
-gauss lens 1 2 1.883507e-01 0.06
-gauss lens 1 3 -1.922841e-01 0.06
-gauss lens 1 4 2.718299e-01 0.05
-gauss lens 1 5 1.055117e+02 5
+gauss lens 1 1  1.403284e+02 10
+gauss lens 1 2 1.833282e-01 0.06
+gauss lens 1 3 -1.944564e-01 0.06
+gauss lens 1 4 2.576638e-01 0.05
+gauss lens 1 5 1.035474e+02  5
 
-gauss lens 2 1  3.588000e+10 5e+9
-gauss lens 2 2 1.615821e-01 0.06
-gauss lens 2 3 -2.505915e-01 0.06
-gauss lens 2 4 8.410407e-01 0.05
-gauss lens 2 5 7.402741e+00 5
-gauss lens 2 6 1.952887e-01 0.05
+gauss lens 2 1  3.579005e+10 5e+9
+gauss lens 2 2 1.615174e-01 0.06
+gauss lens 2 3 -2.402311e-01 0.06
+gauss lens 2 4 8.445024e-01 0.05
+gauss lens 2 5 7.658459e+00 5
+gauss lens 2 6 1.919310e-01 0.05
 
-gauss point 1 2 2.065664e-01 0.06
-gauss point 1 3 -1.634483e-01  0.06
+gauss point 1 2 2.058945e-01 0.06
+gauss point 1 3 -1.611343e-01  0.06
