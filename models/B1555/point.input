@@ -8,13 +8,13 @@ weos	  -1.000000
 hubble	  0.720000
 #zl	  0.500000
 zl	  1.0
-prefix	  SIE1_K03
+prefix	  SIE2_match_try2
 xmin	  -2.7950000
 ymin	  -3.255000
 xmax	  3.2050000
 ymax	  2.745000
 pix_ext   0.100000
-pix_poi   0.10000
+pix_poi   0.05000
 maxlev	  5
 
 ## some examples of secondary parameters
@@ -25,7 +25,7 @@ chi2_usemag    0
 hvary          0
 
 ## define lenses and sources
-startup 1 0 1
+startup 2 0 1
 # this is the `solution'
 #lens sie    320.0  0.0 0.0 0.3 20.0 0.0 0.0
 #lens pert     2.0  0.0 0.0 0.1 90.0 0.0 0.0
@@ -49,12 +49,18 @@ startup 1 0 1
 #best fit 2-SIE
 #lens   sie      1.453040e+02  1.883924e-01 -1.607033e-01  2.400898e-01  9.950344e+01  0.000000e+00  0.000000e+00 
 #lens   sie      1.227179e+02  1.594156e-01 -2.224752e-01  8.226673e-01  6.511668e+00  0.000000e+00  0.000000e+00 
-#point  1.5000  1.909523e-01 -1.469666e-01  
+#point  1.5000  1.909523e-01 -1.469666e-01 
 
-lens   sie      1.843846e+02  1.784533e-01 -1.940898e-01  4.074103e-01  4.103494e+00  0.000000e+00  0.000000e+00 
-point  1.5000  1.890538e-01 -1.449221e-01 
+#lens   sie      1.843846e+02  1.784533e-01 -1.940898e-01  4.074103e-01  4.103494e+00  0.000000e+00  0.000000e+00 
+#point  1.5000  1.890538e-01 -1.449221e-01 
 
+#lens   sie      1.433207e+02  1.627665e-01 -1.702044e-01  3.210137e-01  8.760944e+01  0.000000e+00  0.000000e+00 
+#lens   sie      1.285606e+02  1.624878e-01 -1.703623e-01  8.699477e-01  7.674144e+00  0.000000e+00  0.000000e+00 
+#point  1.5000  1.864648e-01 -1.450770e-01 
 
+lens sie 1.433195e+02  1.609082e-01 -2.402328e-01  3.265411e-01  8.695269e+01  0.0 0.0
+lens sie 1.282876e+02  1.609082e-01 -2.402328e-01  8.627440e-01  7.134333e+00 0.0 0.0
+point  1.5000  1.864648e-01 -1.450770e-01 
 
 end_startup
 
@@ -62,7 +68,7 @@ end_startup
 ## can be ignored unless you do opts
 start_setopt
 1 1 1 1 1 0 0 
-#0 0 0 0 0 0 0
+1 1 1 1 1 0 0
 #1 0 0 0 0 1 0 0 
 0 1 1 
 end_setopt
@@ -71,9 +77,14 @@ end_setopt
 start_command
 
 readobs_point obs_point.dat
-#parprior prior_b1555_exp.dat
+parprior prior_b1555_SIE2_match.dat
+
+#varyone 2 5 7.55 7.75 20
+#mcmc_sigma SIE2_sigma.dat
+#mcmc 1000
 
 optimize
+#randomize
 findimg
 #writeimage
 #writecrit 1.5
