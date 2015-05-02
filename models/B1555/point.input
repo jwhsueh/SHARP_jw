@@ -58,8 +58,8 @@ startup 2 0 1
 #lens   sie      1.285606e+02  1.624878e-01 -1.703623e-01  8.699477e-01  7.674144e+00  0.000000e+00  0.000000e+00 
 #point  1.5000  1.864648e-01 -1.450770e-01 
 
-lens sie 1.433195e+02  1.609082e-01 -2.402328e-01  3.265411e-01  8.695269e+01  0.0 0.0
-lens sie 1.282876e+02  1.609082e-01 -2.402328e-01  8.627440e-01  7.134333e+00 0.0 0.0
+lens sie  1.483387e+02  1.509891e-01 -3.717468e-01  1.939757e-01  9.989894e+01  0.0 0.0
+lens sie 1.482255e+02  1.300888e-01 -2.048852e-01  8.650095e-01  7.734895e+00 0.0 0.0
 point  1.5000  1.864648e-01 -1.450770e-01 
 
 end_startup
@@ -67,8 +67,8 @@ end_startup
 ## for optimizations
 ## can be ignored unless you do opts
 start_setopt
-1 1 1 1 1 0 0 
-1 1 1 1 1 0 0
+0 0 0 0 0 0 0 
+0 0 0 0 0 0 0
 #1 0 0 0 0 1 0 0 
 0 1 1 
 end_setopt
@@ -80,8 +80,8 @@ readobs_point obs_point.dat
 parprior prior_b1555_SIE2_match.dat
 
 #varyone 2 5 7.55 7.75 20
-#mcmc_sigma SIE2_sigma.dat
-#mcmc 1000
+#mcmc_sigma SIE2_sigma2.dat
+#mcmc 10000
 
 optimize
 #randomize
