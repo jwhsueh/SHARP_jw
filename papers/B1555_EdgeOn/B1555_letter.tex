@@ -90,7 +90,7 @@ gravitational lensing
 
 A common feature of simulations of structure formation is the presence
 of thousands of subhaloes that are associated with larger mass haloes \citep[e.g.][]{Springel08}.
-However, observations of the Local Group find many fewer satellite
+However, observations of the Local Group show many fewer satellite
 galaxies than are predicted by the simulations, even when taking into
 account completeness corrections arising from the limited sky coverage
 imposed by the Galactic Plane and the latest discovery of new dwarf galaxies \citep{DES15,Kop15}.  
@@ -112,20 +112,20 @@ are sufficient to cause flux-ratio anomalies in strong lensed systems
 \citep{Bradac02}.  Moreover, unlike in the optical or infrared, in the
 radio band, lensed images are neither sensitive to microlensing from
 stars, nor to dust extinction. This makes flux-ratio anomalies a promising
-tool to detect \textbf{and measure} dark matter substructures \citep{Dalal2002}.  At
-present, the amount of substructure derived from flux-ratio anomalies
-is in disagreement with predictions from numerical simulations, with
+tool to detect \textbf{and measure} dark matter substructures \citep{Dalal2002,N13} [NEED MORE REF].  
+At present, the amount of substructure derived from flux-ratio anomalies
+seems to be disagreement with predictions from numerical simulations, with
 the former requiring a larger fraction of mass in substructure than
 expected \citep{Xu14}. While this could be the result of small sample
 statistics, it could also be an indication that flux-ratio anomalies
-have a different origin than substructure.
+have a different origin than substructure.[COMMENT ON LINE OF SIGHT EFFECTS?--LEON]
 %
 An alternative method for
 the detection of substructure in gravitational lens galaxies, utilizing
 the surface brightness distribution of extended arcs and Einstein rings
 has been introduced by \citet{K05} and \citet{V09}. Interestingly, the fraction of
 substructure measured with this \emph{gravitational imaging technique}
-is currently in agreement with theoretical expectations \citep{V14a,V12}.
+is currently in agreement with theoretical expectations \citep{V14a,V12}, \textbf{although the number of detections remains small}.
 
 %While future large-scale surveys, such as the LSST, are expected to
 %deliver new large samples of gravitationally lensed quasars, in the
@@ -146,12 +146,12 @@ interferometric arrays \citep{SHARP12,V12}. In particular,
 we focus on the B1555+375 lens system\citep{Marlow99} to better
 understand the causes of flux-ratio anomalies in gravitational lenses.  This system was
 discovered in the Cosmic Lens All-Sky Survey \citep{CLASS1,CLASS2} and
-has a pair of merging images that show a strong flux-ratio anomaly at
+has a pair of merging images that show a strong \textbf{persistent} flux-ratio anomaly at
 radio wavelengths.  Follow-up observations ruled out radio propagation
 effects as the cause of the anomaly \citep{K03,KD04}.  The B1555+375
 system was included in both the observational and theoretical analysis
 of \citet{Dalal2002} and \citet{Xu14} and, thus, understanding its
-mass distribution is of key importance.  
+mass distribution is of key importance \textbf{to assess systematics in these statistics}.  
 %Our analysis makes use of
 %the new information obtained from the latest SHARP infrared imaging.
 The paper is organized as follows: the  SHARP data are
@@ -219,7 +219,7 @@ The observation details of Keck AO and \textit{HST} imaging are shown in Table 1
 \begin{table}
  \centering
  %\begin{minipage}{140mm}
-  \caption{Multiband observation details of the B1555+375 lens system.}
+  \caption{Observational details of the B1555+375 lens system.}
   \begin{tabular}{@{}llccc}
   
 \hline
@@ -246,7 +246,7 @@ positions and flux densities measured by the radio observations.
 (SIE) model that provided a good fit to the image positions but
 does not reproduce the strong flux-ratio anomaly between components A
 and B.}  %\citep[see Fig.~6 and Tables 2 \& 3 in][]{Marlow99}.  
-\textbf{The flux measurements are performed by \citet{K03} with a half year monitoring to obtain flux-ratio curves, providing throughout discussions in erros on flux densities than in \citet{Marlow}.}
+\textbf{The flux measurements are performed by \citet{K03} with a half year monitoring to obtain flux-ratio curves, providing throughout discussions in erros on flux densities.}
 
 Although the flux-ratio anomaly that is observed in the radio data \textbf{implies there must be some perturbation to the mass model, which} may be
 caused by substructure in the lensing galaxy, our high-resolution near
@@ -261,16 +261,19 @@ near infrared imaging.  In particular, neither image B nor image D is
 detected in the Keck AO data (Fig.~\ref{fig:merlin}), and both of
 these lensed images lie on or close to the edge-on disk.  Thus, strong
 extinction in the disk could cause the \textbf{non-}detection of these
-images.
+images.[REF B0128 PAPER?--LEON]
 
 As a first trial of modelling, we create a single SIE model to check
 the performance of a simple lensing potential. Consistent with
-previous studies \citep{Marlow99, Xu14}, our single elliptical
-potential model cannot \textbf{reproduce} the flux anomaly in B1555+375.  We then
-create two separate models of the lensing potential that both
+previous studies \citep{Marlow99, Xu14}, a single elliptical
+potential model cannot \textbf{reproduce} the flux anomaly in B1555+375.
+[WHY MODEL BULGE W/ SIE? COMMENT ON THE REASON FOR PICKING MODELS--LEON]
+[I TRY TO EXPLAIN HERE AND MAY NEED TO BE MORE FOCUS--JW]
+\textbf{We notice that the lensed images are close to the center of B1555+375 since its edge-on disk spreads further out of the Einstein radius in the \textit{HST} imaging. Instead of constructing the lens galaxy with a primary NFW halo, a secondary bulge, plus an elongated disk, we consider only the bulge plus an disk component, reducing the number of free parameters in the model. Also with only four lensed images, mass profiles that are too complicated will not be informative in the lens modelling.}
+We then create two separate models of the lensing potential that both
 incorporate the disk.  In the first we treat the lens as a SIE bulge\textbf{/halo}
-and an exponential edge-on disk (SIE+expdisk).  In the second model
-the disk is represented as a very elongated SIE component (2-SIE). [WHY MODEL BULGE W/ SIE? COMMENT ON THE REASON FOR PICKING MODELS--LEON]
+and an exponential edge-on disk (SIE+expdisk). In the second model
+the disk is represented as a very elongated SIE component (2-SIE). 
 The lens system is red, with a strong jump in flux between the F814W
 (roughly I) and F160W (roughly H) bands (Fig.~\ref{fig:multiband}), so
 we assign a lens redshift of $z_\ell = 1.0$ and a source redshift of
@@ -462,10 +465,11 @@ to explain by substructures. \citet{Xu14} have concluded that the failure in
 predicting flux-ratios is most likely due to oversimplified/improper lens
 modelling. They also point out that the SIE component and the external
 shear in their model are orthogonal, indicating a possible missing
-ingredient in the lens model. Their results are consistent with the SHARP
-$K^{\prime}$ band observations, in which an edge-on disk crosses the
-radio merging double and which fully accounts for the observed flux-ratio anomaly.  In general, it is well known 
-\citep[e.g,][]{Ka91} that lens models based only on the locations of lensed
+ingredient in the lens model.
+\textbf{Indeed, it's hard to find physical interpretation for an large [IS $\gamma = 0.14$ A LARGE SHEAR?] and orthogonal external shear.
+The SHARP $K^{\prime}$ band observations provide another explaination to their result. The edge-on disk crosses the
+radio merging double is consistent of this missing component and fully accounts for the observed flux-ratio anomaly.} 
+In general, it is well known  \citep[e.g,][]{Ka91} that lens models based only on the locations of lensed
 quasar/AGN images have large degeneracies. Therefore, before
 concluding that the flux-ratios in any given lens system are a result
 of substructure, it is critical to explore a range of smooth models
