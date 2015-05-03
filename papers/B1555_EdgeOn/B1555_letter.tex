@@ -110,8 +110,8 @@ interpreted as a telltale sign of the presence of substructure in lens
 galaxies.  Indeed, small perturbations in the gravitational potential
 are sufficient to cause flux-ratio anomalies in strong lensed systems
 \citep{Bradac02}.  Moreover, unlike in the optical or infrared, in the
-radio band, lensed images are not sensitive to microlensing from
-stars nor dust extinction. This makes flux-ratio anomalies a promising
+radio band, lensed images are neither sensitive to microlensing from
+stars, nor to dust extinction. This makes flux-ratio anomalies a promising
 tool to detect \textbf{and measure} dark matter substructures \citep{Dalal2002}.  At
 present, the amount of substructure derived from flux-ratio anomalies
 is in disagreement with predictions from numerical simulations, with
@@ -121,7 +121,7 @@ statistics, it could also be an indication that flux-ratio anomalies
 have a different origin than substructure.
 %
 An alternative method for
-the detection of substructure in gravitational lens galaxies based on
+the detection of substructure in gravitational lens galaxies, utilizing
 the surface brightness distribution of extended arcs and Einstein rings
 has been introduced by \citet{K05} and \citet{V09}. Interestingly, the fraction of
 substructure measured with this \emph{gravitational imaging technique}
@@ -272,17 +272,14 @@ the disk is represented as a very elongated SIE component (2-SIE). [WHY MODEL BU
 The lens system is red, with a strong jump in flux between the F814W
 (roughly I) and F160W (roughly H) bands (Fig.~\ref{fig:multiband}), so
 we assign a lens redshift of $z_\ell = 1.0$ and a source redshift of
-$z_s =1.5$. \textbf{This assumption on redshifts is due to that some lens model parameters contain distance information. Our choice of redshifts does not affects the predicted magnifications nor flux-ratios.} 
+$z_s =1.5$. \textbf{This assumption on redshifts is needed because some lens model parameters contain distance information. However, our choice of redshifts does not affect the predicted magnifications nor flux-ratios.} 
 
-Our steps to explore the parameter space are: (1) Apply
-strong priors from the SHARP AO image to the edge-on disk position angle
-and ellipticity, and use the best-fit model of \citet{Marlow99} as the
-starting point for the bulge\textbf{/halo} component and the source position. (2)
-Let all parameters without priors vary to reach a temporary best
-fit. (3) Start with the best fit in step 2 and let all parameters with
-priors vary to reach another best fit (also ensure this best fit is
-not far from the priors). (4) Let all parameters vary to reach the
-final optimal model.  The \textbf{final} best-fit parameters are shown in Table
+\textbf{For each model, we explore the parameter space in the following way: 
+(1) Preparation of priors: Applying the information in the SHARP AO image, we set ellipticity $e=0.8$ and position angle $\theta=10 \deg$ to the edge-on disk component. We then use the best-fit model of \citet{Marlow99} as the starting point for the bulge\textbf{/halo} component and also the source position. The rest of parameters in the disk component are set to be the same as the bulge/halo component as the starting point.
+(2) Markov Chain Monte Carlo: In {\tt glafic}, we run MCMC to find the a proper set of parameters for further optimization. The smallest $\chi^2$ doesn't necessarily give a physical model. Here are the examples we would like to discard: the ellipticity and the position angle of the disk component are far from what we see in the SHARP AO image, the center positions of two components are too far apart physically, or the positions of the lenses and the source are clearly located outside the Einstein radius in the image.
+(3) Optimize for physical lens models: We bind the positions of the two components with a strong Gaussian prior having the same central position and $\sigma = 0.05 $ arcsec and then run optimize [CHECK THE ALGORITHM?] to reach the final best-fit for each model.}  
+
+The \textbf{final} best-fit parameters are shown in Table
 2. Both of these models produce lensed images with positions and
 fluxes that are good matches to the radio observations.  While both of
 the two component models produce significantly improved matches to the
@@ -404,12 +401,12 @@ $f_A/f_D$		&$11.62 (3.24)$  &$9.67$& $9.30$ & $11.63$\\
 Gravitational lensing is, at present, the most powerful tool for
 studying substructure in galaxies outside of the Local Universe, and
 the flux-ratio anomaly systems are a key aspect of these
-investigations.  However, before using the flux-ratio anomaly in any
+investigations.  However, before using the anomaly in any
 given system to investigate structure formation and the properties of
 dark matter, it is critical to eliminate other possible explanations
 for the difference between the observed and expected fluxes, such as
-propagation effects and assumptions about the mass distribution of the
-lens galaxy.  It is for this reason that much of the effort in the
+propagation effects and assumptions about the lens galaxy's mass distribution.  
+It is for this reason that much of the effort in the
 flux-ratio technique has been focused on radio-loud lens systems.  At
 these wavelengths, dust extinction and microlensing effects should be
 minimal \citep[although see][for a rare example of radio
@@ -418,9 +415,9 @@ fluxes, as is clearly shown in the B0128+437 system \citep{B04}, and free-free a
 for example, B0218+357 \citep{M07}.
 However, these propagation effects can be disentangled from
 substructure lensing because they have well known dependencies on
-wavelength. \citet{KD04} examine all eight radio-loud flux anomalous
+wavelength. In particular, \citet{KD04} examine all eight radio-loud flux anomalous
 lenses besides B0128+437, namely: MG 0414+0534, B0712+472, B1359+154,
-B1422+231, B1555+375, B1608+656, B1933+503, and B2045+265.  They found
+B1422+231, B1555+375, B1608+656, B1933+503, and B2045+265.  They find
 no strong wavelength dependence in the flux-ratios of all these
 systems and therefore rule out radio propagation effects as
 significant contributors to the observed anomalies.
@@ -444,7 +441,7 @@ case of B1555+375, where \textit{HST} and SHARP AO high resolution imaging has
 allowed us to detect, for the fist time, the presence of an edge-on
 disk. This newly discovered edge-on disk provides a strong prior for our
 lens modelling.  With \textbf{an additional disk component}, our models produce
-matches to both the radio image positions and their flux-ratio, while
+matches to both the radio image positions and their flux-ratio, wheras
 models with only one SIE component \citep{Marlow99,Xu14} fail to
 reproduce the fluxes correctly. Our successful modelling indicates
 that the kiloparsec-scale structure of the lens galaxy itself is
@@ -495,7 +492,7 @@ Our results clearly
 demonstrate that the lack of knowledge on the lens galaxy mass
 distribution, combined with the limited information provided by the
 position of a few lensed images, can lead to improper lens models and
-a misinterpretation of the origin of flux-ratio anomalies. \textbf{While future large-scale surveys, such as the DES, KiDS-VIKING, Euclid, and LSST, are expected to
+a misinterpretation of the origin of flux-ratio anomalies. \textbf{While upcoming large-scale surveys, such as the DES, KiDS-VIKING, Euclid, and LSST, are expected to
 deliver new large samples of gravitationally lensed quasars, in the
 near future the discovery of new systems using narrow-line quasar
 emission \citep{N14} will provide new invaluable statistical
