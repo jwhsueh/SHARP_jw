@@ -8,7 +8,7 @@ weos	  -1.000000
 hubble	  0.720000
 #zl	  0.500000
 zl	  1.0
-prefix	  SIE2_free6
+prefix	  SIE2_sig4_1
 xmin	  -2.7950000
 ymin	  -3.255000
 xmax	  3.2050000
@@ -23,7 +23,7 @@ chi2_checknimg 1
 chi2_restart   -1
 chi2_usemag    0
 hvary          0
-ran_seed       -1111
+ran_seed       -1311
 
 ## define lenses and sources
 startup 2 0 1

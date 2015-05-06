@@ -45,7 +45,7 @@ figure = triangle.corner(data, labels=[r"$\sigma 1$", r"$x1$", r"$y1$",
                                        r"$e1$",r"$PA1$",
                                        r"$\sigma 2$", r"$x2$", r"$y2$",
                                        r"$e2$",r"$PA2$"],
-                         
+                         /Users/jwhsueh/Documents/SHARP_jw/models/B1555/glafic_code/subprocessing.py
                          quantiles=[0.16, 0.5, 0.84],
                          show_titles=True, title_args={"fontsize": 12})
 figure.savefig("test.png")
