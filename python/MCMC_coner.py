@@ -25,7 +25,7 @@ y1,y2=t[:,3],t[:,8]
 e1,e2=t[:,4],t[:,9]
 pa1,pa2=t[:,5],t[:,10]
 
-data=t[:,1:6]
+data=t[:,6:]
 print len(chi2)
 
 # Generate some fake data.
