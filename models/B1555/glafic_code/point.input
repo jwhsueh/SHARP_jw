@@ -8,7 +8,7 @@ weos	  -1.000000
 hubble	  0.720000
 #zl	  0.500000
 zl	  1.0
-prefix	  test
+prefix	  exp_free2
 xmin	  -2.7950000
 ymin	  -3.255000
 xmax	  3.2050000
@@ -23,7 +23,7 @@ chi2_checknimg 1
 chi2_restart   -1
 chi2_usemag    0
 hvary          0
-ran_seed       -1001
+ran_seed       -1301
 
 ## define lenses and sources
 startup 2 0 1
@@ -69,8 +69,8 @@ startup 2 0 1
 #point  1.5000  1.875815e-01 -1.411723e-01
 
 lens sie 150.629050 0.173839 -0.242898 0.220579 91.511635 0.0 0.0 
-lens sie 133.633300 0.157358 -0.234622 0.853096 6.221847 0.0 0.0 
-point 1.5 0.173839 -0.242898 
+lens   sers     3.579005e+10  1.639017e-01 -2.542080e-01  7.975589e-01  4.036271e+00  2.092129e-01  1.000000e+00 
+point  1.5000  1.959553e-01 -1.636993e-01 
 
 end_startup
 
@@ -93,11 +93,11 @@ parprior prior_b1555_SIE2_match.dat
 mcmc_sigma SIE2_sigma3.dat
 #mcmc 10000
 #mcmc 100000
-#mcmc 50000
+mcmc 50000
 
 #optimize
 #randomize
-findimg
+#findimg
 #writeimage
 #writecrit 1.5
 
