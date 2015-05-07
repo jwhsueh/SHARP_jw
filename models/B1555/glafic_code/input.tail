@@ -1,0 +1,10 @@
+
+end_startup
+
+## execute commands
+start_command
+
+findimg
+
+quit
+

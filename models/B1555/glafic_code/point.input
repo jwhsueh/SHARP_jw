@@ -8,7 +8,7 @@ weos	  -1.000000
 hubble	  0.720000
 #zl	  0.500000
 zl	  1.0
-prefix	  SIE2_sig4_1
+prefix	  test
 xmin	  -2.7950000
 ymin	  -3.255000
 xmax	  3.2050000
@@ -23,7 +23,7 @@ chi2_checknimg 1
 chi2_restart   -1
 chi2_usemag    0
 hvary          0
-ran_seed       -1311
+ran_seed       -1001
 
 ## define lenses and sources
 startup 2 0 1
@@ -64,10 +64,13 @@ startup 2 0 1
 #lens   sie      1.264353e+02  1.611109e-01 -2.179937e-01  8.435873e-01  7.837154e+00  0.000000e+00  0.000000e+00 
 #point  1.5000  1.875815e-01 -1.411723e-01
 
-lens   sie      1.70e+02  2.0e-01 -2.7e-01  3.6e-01  1.2e+02  0.000000e+00  0.000000e+00 
-lens   sie      1.5e+02  1.809569e-01 -2.700535e-01  9.0e-01  1.00131e+01  0.000000e+00  0.000000e+00 
-point  1.5000  1.875815e-01 -1.411723e-01
+#lens sie 150.62905       0.17383945   -0.2428983     0.22057935   91.511635 0.0 0.0
+#lens sie 133.6333        0.15735815   -0.2346221     0.8530964     6.221847 0.0 0.0
+#point  1.5000  1.875815e-01 -1.411723e-01
 
+lens sie 150.629050 0.173839 -0.242898 0.220579 91.511635 0.0 0.0 
+lens sie 133.633300 0.157358 -0.234622 0.853096 6.221847 0.0 0.0 
+point 1.5 0.173839 -0.242898 
 
 end_startup
 
@@ -75,7 +78,7 @@ end_startup
 ## can be ignored unless you do opts
 start_setopt
 1 1 1 1 1 0 0 
-1 1 1 1 1 0 0
+1 1 1 1 1 1 0
 #1 0 0 0 0 1 0 0 
 0 1 1 
 end_setopt
@@ -90,11 +93,11 @@ parprior prior_b1555_SIE2_match.dat
 mcmc_sigma SIE2_sigma3.dat
 #mcmc 10000
 #mcmc 100000
-mcmc 50000
+#mcmc 50000
 
 #optimize
 #randomize
-#findimg
+findimg
 #writeimage
 #writecrit 1.5
 
