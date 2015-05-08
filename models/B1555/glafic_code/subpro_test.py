@@ -45,8 +45,8 @@ def call_findimage(paras):
         ## run glafic
         
         #os.system('glafic')
-        #os.system('glafic emcee.input') #this line works for linux machine
-        os.system('~/Documents/glafic/glafic emcee.input')
+        os.system('glafic emcee.input') #this line works for linux machine
+        #os.system('~/Documents/glafic/glafic emcee.input')
         
         #sub.call('glafic emcee.input')
         
@@ -137,6 +137,22 @@ def lnprob(paras):
 
 
 ###########
+
+def start_point(mean,sig,w,nw):
+# generate random start point
+	
+	ndim=len(mean)
+    
+	pos=np.zeros((nwalker,ndim))
+	
+	for i in range(nw):
+		c=np.random.rand(ndim)
+    		for j in range(ndim):
+        		pos[i,j]=mean[j]-w_factor*sig[j]+2*w_factor*sig[j]*c[j]
+
+	return pos
+
+###########
 #p=[150.62905,0.17383945,-0.2428983,0.22057935,91.511635,133.6333,0.15735815,-0.2346221,0.8530964,6.221847,0.17383945,-0.2428983]
 #p=[150.62905,0.17383945,-0.2428983,0.22057935,91.511635,133.6333,0.15735815,-0.2346221,0.8530964,6.221847,0.0,0.0]
 
@@ -145,7 +161,7 @@ def lnprob(paras):
 
 nwalker=24 #number of chains
 ndim=12   #number of parameters
-burn=1000   #number of burn in step
+burn=10   #number of burn in step
 nstep=10000  #number of MCMC steps
 
 ## set up for start points
@@ -156,15 +172,11 @@ sig=[1.5,0.005,0.005,0.02,1,2,0.005,0.005,0.005,0.5,0.005,0.005]
 
 w_factor=1.0 # range of random start point
 
-p0=np.zeros((nwalker,ndim))
 
 # random generate star points
-for i in range(nwalker):
+p0=np.zeros((nwalker,ndim))
 
-    c=np.random.rand(ndim)
-    
-    for j in range(ndim):
-        p0[i,j]=mean[j]-w_factor*sig[j]+2*w_factor*sig[j]*c[j]
+#p0=start_point(mean,sig,w_factor,nwalker)
 
 ## sampling
 
@@ -172,26 +184,64 @@ sampler=emcee.EnsembleSampler(nwalker,ndim,lnprob)
 
 ## brun-in steps
 
-pos, prob, state = sampler.run_mcmc(p0,burn)
+#pos, prob, state = sampler.run_mcmc(p0,burn)
 
-#print pos, prob
+#print pos[0]
 
-## check for valid chain
+## collect valid start point
 
-while 
+flag=-5e11 # flag for failure chain
+
+p1=np.zeros(nwalker*ndim)
+k=0
+
+#p0=start_point(mean,sig,w_factor,nwalker) 
+#pos, prob, state = sampler.run_mcmc(p0,burn)
+
+#while k<nwalker:
+while k<(nwalker-1):
+	p0=start_point(mean,sig,w_factor,nwalker) # re-assign starting point
+	pos, prob, state = sampler.run_mcmc(p0,burn)
+	#print prob
+	for i in range(nwalker):
+    		if prob[i]!=flag:
+#			print pos[i,:]			
+			p1[(k*ndim):((k+1)*ndim)]=pos[i,:]
+			if k==(nwalker-1):
+				break
+			else:
+				k=k+1
+    	
+	sampler.reset()
+	
+
+# reshape p1->p2
+p2=np.zeros(((nwalker,ndim)))
 for i in range(nwalker):
-    if prob[i]==-5e11:
-        pos[i,j]=mean[j]-w_factor*sig[j]+2*w_factor*sig[j]*c[j] # re-assign starting point
+	p2[i,:]=p1[(i*ndim):((i+1)*ndim)]
 
-#reset
-sampler.reset()
-
+#print p1
 ## MCMC run
 
 # how to save each steps--???
+sampler.reset()
+#pos, prob, state = sampler.run_mcmc(p2,nstep)
 
-#pos, prob, state = sampler.run_mcmc(pos,nstep)
+f = open("chain.dat", "w")
+g = open('lnprob.dat', 'w')
 
+for result in sampler.sample(p2, iterations=nstep, storechain=False):
+    position = result[0]
+    lnpro = result[1]
+    
+    for k in range(nwalker):
+	st=''
+	st2='%f'%lnpro[k]
+	for i in range(ndim):
+        	st=st+'%f '%position[k,i]
 
-#for i in range(ndim):
-#    sampler.flatchain[:,i]
+    	f.write(st)
+	g.write(st2)
+	
+
+f.close()
