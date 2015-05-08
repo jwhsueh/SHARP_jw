@@ -90,8 +90,6 @@ def img_sort(model):
         for i in range(4):
             dis[i]=model[i,0]**2+model[i,1]**2
 
-        print dis
-
 
         # pick out img D
         d=np.argmin(model[:,1]) # y coord
@@ -125,7 +123,6 @@ def lnprob(paras):
         # check the n_img
         if len(model) != 1:
             model=img_sort(model)
-            print model
         
             chi2=0
             for i in range(len(y)):
@@ -134,9 +131,9 @@ def lnprob(paras):
 
 
         else:
-            chi2=1e10
+            chi2=1e12
 
-        return -0.5*chi2
+        return -0.5*np.absolute(chi2)
 
 
 ###########
@@ -155,7 +152,7 @@ nstep=10000  #number of MCMC steps
 
 # 2-SIE
 mean=[150.62905,0.17383945,-0.2428983,0.22057935,91.511635,133.6333,0.15735815,-0.2346221,0.8530964,6.221847,1.909523e-01,-1.469666e-01]
-sig=[15,0.05,0.05,0.2,10,20,0.05,0.05,0.05,5,0.05,0.05]
+sig=[1.5,0.005,0.005,0.02,1,2,0.005,0.005,0.005,0.5,0.005,0.005]
 
 w_factor=1.0 # range of random start point
 
@@ -177,11 +174,24 @@ sampler=emcee.EnsembleSampler(nwalker,ndim,lnprob)
 
 pos, prob, state = sampler.run_mcmc(p0,burn)
 
+#print pos, prob
+
+## check for valid chain
+
+while 
+for i in range(nwalker):
+    if prob[i]==-5e11:
+        pos[i,j]=mean[j]-w_factor*sig[j]+2*w_factor*sig[j]*c[j] # re-assign starting point
+
 #reset
 sampler.reset()
 
 ## MCMC run
-pos, prob, state = sampler.run_mcmc(pos,nstep)
 
-print prob
+# how to save each steps--???
 
+#pos, prob, state = sampler.run_mcmc(pos,nstep)
+
+
+#for i in range(ndim):
+#    sampler.flatchain[:,i]
