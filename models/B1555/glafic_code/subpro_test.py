@@ -161,7 +161,8 @@ def start_point(mean,sig,w,nw):
 
 nwalker=24 #number of chains
 ndim=12   #number of parameters
-burn=10   #number of burn in step
+burn=10   #number of (burn in) collect step
+burn2=100 #number of (real) burn in step
 nstep=10000  #number of MCMC steps
 
 ## set up for start points
@@ -220,17 +221,18 @@ p2=np.zeros(((nwalker,ndim)))
 for i in range(nwalker):
 	p2[i,:]=p1[(i*ndim):((i+1)*ndim)]
 
-#print p1
-## MCMC run
+## (real) burn-in steps
 
-# how to save each steps--???
+p3, prob, state = sampler.run_mcmc(p2,burn2)
+
+## MCMC run
 sampler.reset()
 #pos, prob, state = sampler.run_mcmc(p2,nstep)
 
 f = open("chain.dat", "w")
 g = open('lnprob.dat', 'w')
 
-for result in sampler.sample(p2, iterations=nstep, storechain=False):
+for result in sampler.sample(p3, iterations=nstep, storechain=False):
     position = result[0]
     lnpro = result[1]
     
@@ -240,8 +242,8 @@ for result in sampler.sample(p2, iterations=nstep, storechain=False):
 	for i in range(ndim):
         	st=st+'%f '%position[k,i]
 
-    	f.write(st)
-	g.write(st2)
+    	f.write(st+'\n')
+	g.write(st2+'\n')
 	
 
 f.close()
