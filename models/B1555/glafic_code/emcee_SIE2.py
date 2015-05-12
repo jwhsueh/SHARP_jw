@@ -92,9 +92,9 @@ def img_sort(model):
 
 
         # pick out img D
-        d=np.argmin(model[:,1]) # y coord
+        d=np.argmin(model[:,1]) # y coord (D has negative y coord)
         rank[9:]=model[d,:]
-        model[d,:]=[1000,1000,1000]  # get rid of the recorded set
+        dis[d]=1000  # get rid of the recorded set
         
 
         # sort distance to find image A->B->C
@@ -114,7 +114,9 @@ def img_sort(model):
 def lnprob(paras):
     
         model=call_findimage(paras)
-        
+
+	        
+
         # B1555 constraints
         #x= np.arrange(10)
         y= np.array([0.0,0.0,17.0,0.0726,0.0480,10.54,0.4117,-0.0280,8.619,0.1619,-0.3680,1.462])
@@ -123,6 +125,9 @@ def lnprob(paras):
         # check the n_img
         if len(model) != 1:
             model=img_sort(model)
+		
+	    # write findimg chain	    
+	    writeimg(model)
         
             chi2=0
             for i in range(len(y)):
@@ -153,11 +158,24 @@ def start_point(mean,sig,w,nw):
 	return pos
 
 ###########
+
+def writeimg(paras):
+# wrtie the result from findimg into a file
+
+	st=''
+	for i in range(len(paras)):
+		st=st+'%f '%paras[i]
+
+	find.write(st+'\n')
+
+###########
 #p=[150.62905,0.17383945,-0.2428983,0.22057935,91.511635,133.6333,0.15735815,-0.2346221,0.8530964,6.221847,0.17383945,-0.2428983]
 #p=[150.62905,0.17383945,-0.2428983,0.22057935,91.511635,133.6333,0.15735815,-0.2346221,0.8530964,6.221847,0.0,0.0]
 
 #call_findimage(p)
 #print lnprob(p)
+
+#-------------main-----------------
 
 nwalker=200 #number of chains
 ndim=12   #number of parameters
@@ -183,6 +201,10 @@ p0=np.zeros((nwalker,ndim))
 
 sampler=emcee.EnsembleSampler(nwalker,ndim,lnprob)
 
+
+## create findimg chain
+
+find=open('imgchain.dat','w')
 
 ## collect valid start point
 
@@ -219,6 +241,10 @@ for i in range(nwalker):
 
 p3, prob, state = sampler.run_mcmc(p2,burn2)
 
+
+# the end of burn-in step
+find.write('# \n')
+
 ## MCMC run
 sampler.reset()
 #pos, prob, state = sampler.run_mcmc(p2,nstep)
@@ -241,3 +267,5 @@ for result in sampler.sample(p3, iterations=nstep, storechain=False):
 	
 
 f.close()
+g.close()
+find.close()
