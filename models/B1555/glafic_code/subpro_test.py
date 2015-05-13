@@ -45,8 +45,8 @@ def call_findimage(paras):
         ## run glafic
         
         #os.system('glafic')
-        os.system('glafic emcee.input') #this line works for linux machine
-        #os.system('~/Documents/glafic/glafic emcee.input')
+        #os.system('glafic emcee.input') #this line works for linux machine
+        os.system('~/Documents/glafic/glafic emcee.input')
         
         #sub.call('glafic emcee.input')
         
@@ -56,7 +56,7 @@ def call_findimage(paras):
         wash.write('0 0 0 0\n 0 0 0 0')
         wash.close()  # wash out after load findimg result
 
-        #print r
+        print r
 
         if r[0,0]==4:  # the n_img == 4
             r=r[1:,:] #discard the first line
@@ -159,9 +159,9 @@ def start_point(mean,sig,w,nw):
 #call_findimage(p)
 #print lnprob(p)
 
-nwalker=24 #number of chains
+nwalker=50 #number of chains
 ndim=12   #number of parameters
-burn=10   #number of (burn in) collect step
+burn=100   #number of (burn in) collect step
 burn2=100 #number of (real) burn in step
 nstep=10000  #number of MCMC steps
 
@@ -169,7 +169,7 @@ nstep=10000  #number of MCMC steps
 
 # 2-SIE
 mean=[150.62905,0.17383945,-0.2428983,0.22057935,91.511635,133.6333,0.15735815,-0.2346221,0.8530964,6.221847,1.909523e-01,-1.469666e-01]
-sig=[1.5,0.005,0.005,0.02,1,2,0.005,0.005,0.005,0.5,0.005,0.005]
+sig=[15,0.05,0.05,0.2,10,20,0.05,0.05,0.05,5,0.05,0.05]
 
 w_factor=1.0 # range of random start point
 
@@ -214,16 +214,18 @@ while k<(nwalker-1):
 				k=k+1
     	
 	sampler.reset()
-	
+
+print k
 
 # reshape p1->p2
 p2=np.zeros(((nwalker,ndim)))
 for i in range(nwalker):
 	p2[i,:]=p1[(i*ndim):((i+1)*ndim)]
 
+print p2
 ## (real) burn-in steps
 
-p3, prob, state = sampler.run_mcmc(p2,burn2)
+#p3, prob, state = sampler.run_mcmc(p2,burn2)
 
 ## MCMC run
 sampler.reset()
@@ -232,18 +234,18 @@ sampler.reset()
 f = open("chain.dat", "w")
 g = open('lnprob.dat', 'w')
 
-for result in sampler.sample(p3, iterations=nstep, storechain=False):
+for result in sampler.sample(p2, iterations=nstep, storechain=False):
     position = result[0]
     lnpro = result[1]
     
     for k in range(nwalker):
-	st=''
-	st2='%f'%lnpro[k]
-	for i in range(ndim):
-        	st=st+'%f '%position[k,i]
+        st=''
+        st2='%f'%lnpro[k]
+        for i in range(ndim):
+                st=st+'%f '%position[k,i]
 
-    	f.write(st+'\n')
-	g.write(st2+'\n')
+        f.write(st+'\n')
+        g.write(st2+'\n')
 	
 
 f.close()

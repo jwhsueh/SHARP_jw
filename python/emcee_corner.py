@@ -37,9 +37,13 @@ figure = triangle.corner(data, labels=[r"$\sigma 1$", r"$x1$", r"$y1$",
                                        r"$e1$",r"$PA1$",
                                        r"$\sigma 2$", r"$x2$", r"$y2$",
                                        r"$e2$",r"$PA2$"],
-                         
+                         extents=[(120.,170.),(0.1,0.25),(-0.35,-0.2),(0.,0.5),(60.,110.),
+                                  (110.,160.),(0.1,0.25),(-0.3,-0.1),(0.75,0.95),(0.,20.)],
+                         #range=[0.999,0.999,0.999,0.999,0.999,
+                         #       0.999,0.999,0.999,0.999,0.999],
                          quantiles=[0.16, 0.5, 0.84],
                          show_titles=True, title_args={"fontsize": 12})
+                         
 figure.savefig("test.png")
 
 

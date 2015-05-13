@@ -6,9 +6,9 @@ import triangle as tri
 def call_findimage(paras):
     
     ## create input file
-        head=open('input.head','r')
-        tail=open('input.tail','r')
-        inp=open('emcee.input','w')
+        head=open('input_exp.head','r')
+        tail=open('input_exp.tail','r')
+        inp=open('emcee_exp.input','w')
         
         # read head of input template
         for line in head.readlines():
@@ -47,20 +47,23 @@ def call_findimage(paras):
         ## run glafic
         
         #os.system('glafic')
-        os.system('glafic emcee.input') #this line works for linux machine
-        #os.system('~/Documents/glafic/glafic emcee.input')
+        #os.system('glafic emcee.input') #this line works for linux machine
+        os.system('~/Documents/glafic/glafic emcee_exp.input')
         
         #sub.call('glafic emcee.input')
         
         # read findimg result
-        r=np.loadtxt('emcee_point.dat')
-        wash=open('emcee_point.dat','w')
+        r=np.loadtxt('emcee_exp_point.dat')
+        wash=open('emcee_exp_point.dat','w')
         wash.write('0 0 0 0\n 0 0 0 0')
         wash.close()  # wash out after load findimg result
 
-        #print r
+        print r
+        rr=np.array(r[0])
+        print rr
+        nimg=rr[0]
 
-        if r[0,0]==4:  # the n_img == 4
+        if nimg==4:  # the n_img == 4
             r=r[1:,:] #discard the first line
             r[:,2]=np.absolute(r[:,2]) # ignore parity in magnification
             
@@ -96,8 +99,7 @@ def img_sort(model):
         # pick out img D
         d=np.argmin(model[:,1]) # y coord
         rank[9:]=model[d,:]
-        model[d,:]=[1000,1000,1000]  # get rid of the recorded set
-        
+        dis[d]=1000  # get rid of the recorded set
 
         # sort distance to find image A->B->C
         
@@ -126,6 +128,7 @@ def lnprob(paras):
         if len(model) != 1:
             model=img_sort(model)
         
+            writeimg(model)
             chi2=0
             for i in range(len(y)):
                 chi2=chi2+(model[i]-y[i])**2/err[i]**2
@@ -154,7 +157,20 @@ def start_point(mean,sig,w,nw):
 
 	return pos
 
+
 ###########
+
+def writeimg(paras):
+    # wrtie the result from findimg into a file
+    
+    st=''
+    for i in range(len(paras)):
+            st=st+'%f '%paras[i]
+        
+    find.write(st+'\n')
+
+###########
+
 #p=[150.62905,0.17383945,-0.2428983,0.22057935,91.511635,133.6333,0.15735815,-0.2346221,0.8530964,6.221847,0.17383945,-0.2428983]
 #p=[150.62905,0.17383945,-0.2428983,0.22057935,91.511635,133.6333,0.15735815,-0.2346221,0.8530964,6.221847,0.0,0.0]
 
@@ -187,6 +203,12 @@ p0=np.zeros((nwalker,ndim))
 ## sampling
 
 sampler=emcee.EnsembleSampler(nwalker,ndim,lnprob)
+
+
+## create findimg chain
+
+find=open('exp_imgchain.dat','w')
+
 
 ## brun-in steps
 
@@ -230,6 +252,10 @@ for i in range(nwalker):
 
 p3, prob, state = sampler.run_mcmc(p2,burn2)
 
+# the end of burn-in step
+find.write('# \n')
+
+
 ## MCMC run
 sampler.reset()
 #pos, prob, state = sampler.run_mcmc(p2,nstep)
@@ -252,3 +278,6 @@ for result in sampler.sample(p3, iterations=nstep, storechain=False):
 	
 
 f.close()
+g.close()
+find.close()
+

@@ -45,8 +45,8 @@ def call_findimage(paras):
         ## run glafic
         
         #os.system('glafic')
-        os.system('glafic emcee.input') #this line works for linux machine
-        #os.system('~/Documents/glafic/glafic emcee.input')
+        #os.system('glafic emcee.input') #this line works for linux machine
+        os.system('~/Documents/glafic/glafic emcee.input')
         
         #sub.call('glafic emcee.input')
         
@@ -56,9 +56,13 @@ def call_findimage(paras):
         wash.write('0 0 0 0\n 0 0 0 0')
         wash.close()  # wash out after load findimg result
 
-        #print r
+        rr=np.array(r[0])
+        print rr
+        print rr[0]
+        print r
+        nimg=rr[0]
 
-        if r[0,0]==4:  # the n_img == 4
+        if nimg==4:  # the n_img == 4
             r=r[1:,:] #discard the first line
             r[:,2]=np.absolute(r[:,2]) # ignore parity in magnification
             
@@ -127,7 +131,7 @@ def lnprob(paras):
             model=img_sort(model)
 		
 	    # write findimg chain	    
-	    writeimg(model)
+            writeimg(model)
         
             chi2=0
             for i in range(len(y)):
@@ -180,7 +184,7 @@ def writeimg(paras):
 nwalker=200 #number of chains
 ndim=12   #number of parameters
 burn=10   #number of (burn in) collect step
-burn2=100 #number of (real) burn in step
+burn2=150 #number of (real) burn in step
 nstep=2000  #number of MCMC steps
 
 ## set up for start points
@@ -195,7 +199,7 @@ w_factor=1.0 # range of random start point
 # random generate star points
 p0=np.zeros((nwalker,ndim))
 
-#p0=start_point(mean,sig,w_factor,nwalker)
+p0=start_point(mean,sig,w_factor,nwalker)
 
 ## sampling
 
@@ -205,6 +209,8 @@ sampler=emcee.EnsembleSampler(nwalker,ndim,lnprob)
 ## create findimg chain
 
 find=open('imgchain.dat','w')
+
+
 
 ## collect valid start point
 
@@ -237,9 +243,12 @@ p2=np.zeros(((nwalker,ndim)))
 for i in range(nwalker):
 	p2[i,:]=p1[(i*ndim):((i+1)*ndim)]
 
+
+
 ## (real) burn-in steps
 
 p3, prob, state = sampler.run_mcmc(p2,burn2)
+#p3, prob, state = sampler.run_mcmc(p0,burn2)
 
 
 # the end of burn-in step
