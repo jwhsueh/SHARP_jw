@@ -184,7 +184,7 @@ def writeimg(paras):
 nwalker=200 #number of chains
 ndim=12   #number of parameters
 burn=10   #number of (burn in) collect step
-burn2=150 #number of (real) burn in step
+burn2=200 #number of (real) burn in step
 nstep=2000  #number of MCMC steps
 
 ## set up for start points

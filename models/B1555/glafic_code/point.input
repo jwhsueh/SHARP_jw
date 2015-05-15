@@ -8,7 +8,7 @@ weos	  -1.000000
 hubble	  0.720000
 #zl	  0.500000
 zl	  1.0
-prefix	  SIE2_per
+prefix	  test
 xmin	  -2.7950000
 ymin	  -3.255000
 xmax	  3.2050000
@@ -26,7 +26,7 @@ hvary          0
 ran_seed       -1301
 
 ## define lenses and sources
-startup 2 1 0
+startup 1 0 1
 # this is the `solution'
 #lens sie    320.0  0.0 0.0 0.3 20.0 0.0 0.0
 #lens pert     2.0  0.0 0.0 0.1 90.0 0.0 0.0
@@ -50,9 +50,9 @@ startup 2 1 0
 
 #best fit 2-SIE
 lens   sie      1.453040e+02  1.883924e-01 -1.607033e-01  2.400898e-01  9.950344e+01  0.000000e+00  0.000000e+00 
-lens   sie      1.227179e+02  1.594156e-01 -2.224752e-01  8.226673e-01  6.511668e+00  0.000000e+00  0.000000e+00 
-#point  1.5000  1.909523e-01 -1.469666e-01 
-extend sersic  1.5000 4 1.909523e-01 -1.469666e-01 0.1 10 0.09 2.0
+#lens   sie      1.227179e+02  1.594156e-01 -2.224752e-01  8.226673e-01  6.511668e+00  0.000000e+00  0.000000e+00 
+point  1.5000  1.909523e-01 -1.469666e-01 
+#extend sersic  1.5000 4 1.909523e-01 -1.469666e-01 0.1 10 0.09 2.0
 
 
 
@@ -63,9 +63,9 @@ end_startup
 ## can be ignored unless you do opts
 start_setopt
 1 1 1 1 1 0 0 
-1 1 1 1 1 1 0
-1 0 0 0 0 1 0 0 
-#0 1 1 
+#1 1 1 1 1 1 0
+#1 0 0 0 0 1 0 0 
+0 1 1 
 end_setopt
 
 ## execute commands
@@ -82,8 +82,8 @@ start_command
 
 #optimize
 #randomize
-#findimg
-writeimage
+findimg
+#writeimage
 #writecrit 1.5
 
 #varycosmo hubble 0.5 0.9 40
