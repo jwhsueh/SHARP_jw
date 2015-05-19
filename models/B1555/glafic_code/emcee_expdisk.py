@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import emcee
-import triangle as tri
+import scipy.stats
 
 def call_findimage(paras):
     
@@ -47,8 +47,8 @@ def call_findimage(paras):
         ## run glafic
         
         #os.system('glafic')
-        #os.system('glafic emcee.input') #this line works for linux machine
-        os.system('~/Documents/glafic/glafic emcee_exp.input')
+        os.system('glafic emcee_exp.input') #this line works for linux machine
+        #os.system('~/Documents/glafic/glafic emcee_exp.input')
         
         #sub.call('glafic emcee.input')
         
@@ -63,7 +63,11 @@ def call_findimage(paras):
         print rr
         nimg=rr[0]
 
+	poss=np.array([rr[2],rr[3]]) #position of source
+
         if nimg==4:  # the n_img == 4
+	    
+
             r=r[1:,:] #discard the first line
             r[:,2]=np.absolute(r[:,2]) # ignore parity in magnification
             
@@ -77,7 +81,7 @@ def call_findimage(paras):
 
 
         #print out
-        return out   #return findimg result
+        return [out,poss]   #return findimg result
 
 
 #########
@@ -117,7 +121,9 @@ def img_sort(model):
 
 def lnprob(paras):
     
-        model=call_findimage(paras)
+	output=call_findimage(paras)
+        model=np.array(output[0]) 
+	source=np.array(output[1]) 
         
         # B1555 constraints
         #x= np.arrange(10)
@@ -136,9 +142,22 @@ def lnprob(paras):
 
 
         else:
-            chi2=1e12
+            chi2=np.inf
 
-        return -0.5*np.absolute(chi2)
+	# prior (on source position)
+
+	center=np.array([1.794326e-01,-1.880897e-01])
+	dis2=(source[0]-center[0])**2+(source[1]-center[1])**2
+
+	sig=0.1 #Gaussian distribution
+	dn=dis2/sig**2
+
+	pri=scipy.stats.norm.pdf(dn)
+	lnp=np.log(pri)	
+
+	print pri,lnp
+
+        return -0.5*np.absolute(chi2)+lnp
 
 
 ###########
