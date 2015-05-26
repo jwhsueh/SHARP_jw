@@ -3,7 +3,7 @@ import triangle
 import matplotlib.pyplot as plt
 #import matplotlib.patches as mpat
 
-file_name=['chain.dat']
+file_name=['B0712_SIEsh_chain.dat']
 
 k=0
 for i in file_name:
@@ -25,7 +25,9 @@ for i in file_name:
 #e1,e2=t[:,4],t[:,9]
 #pa1,pa2=t[:,5],t[:,10]
 
-data=t[:,:10] #ignore source posotions first
+#data=t[:,:11] #ignore source posotions first
+#data=t[:,:9]
+data=t
 #print len(chi2)
 
 
@@ -35,10 +37,11 @@ data=t[:,:10] #ignore source posotions first
 
 figure = triangle.corner(data, labels=[r"$\sigma 1$", r"$x1$", r"$y1$",
                                        r"$e1$",r"$PA1$",
-                                       r"$\sigma 2$", r"$x2$", r"$y2$",
-                                       r"$e2$",r"$PA2$"],
-                         extents=[(120.,170.),(0.1,0.25),(-0.35,-0.2),(0.,0.5),(60.,110.),
-                                  (110.,160.),(0.1,0.25),(-0.3,-0.1),(0.75,0.95),(0.,20.)],
+                                        r"$x_{sh}$", r"$y_{sh}$",
+                                       r"$\gamma$",r"$PA_{sh}$"
+                                       ,r"x_s",r"y_s"],
+#                         extents=[(120.,170.),(0.1,0.25),(-0.35,-0.2),(0.,0.5),(60.,110.),
+#                                  (110.,160.),(0.1,0.25),(-0.3,-0.1),(0.75,0.95),(0.,20.)],
                          #range=[0.999,0.999,0.999,0.999,0.999,
                          #       0.999,0.999,0.999,0.999,0.999],
                          quantiles=[0.16, 0.5, 0.84],

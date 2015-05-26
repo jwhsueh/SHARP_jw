@@ -8,7 +8,7 @@ weos	  -1.000000
 hubble	  0.720000
 #zl	  0.500000
 zl	  1.0
-prefix	  test
+prefix	  exp_mcmc
 xmin	  -2.7950000
 ymin	  -3.255000
 xmax	  3.2050000
@@ -26,7 +26,7 @@ hvary          0
 ran_seed       -1301
 
 ## define lenses and sources
-startup 1 0 1
+startup 2 0 1
 # this is the `solution'
 #lens sie    320.0  0.0 0.0 0.3 20.0 0.0 0.0
 #lens pert     2.0  0.0 0.0 0.1 90.0 0.0 0.0
@@ -49,21 +49,23 @@ startup 1 0 1
 #extend sersic  1.5000 2.1 1.959553e-01 -1.636993e-01 0.1 10. 0.05 4.0
 
 #best fit 2-SIE
-lens   sie      1.453040e+02  1.883924e-01 -1.607033e-01  2.400898e-01  9.950344e+01  0.000000e+00  0.000000e+00 
+#lens   sie      1.453040e+02  1.883924e-01 -1.607033e-01  2.400898e-01  9.950344e+01  0.000000e+00  0.000000e+00 
 #lens   sie      1.227179e+02  1.594156e-01 -2.224752e-01  8.226673e-01  6.511668e+00  0.000000e+00  0.000000e+00 
-point  1.5000  1.909523e-01 -1.469666e-01 
+#point  1.5000  1.909523e-01 -1.469666e-01 
 #extend sersic  1.5000 4 1.909523e-01 -1.469666e-01 0.1 10 0.09 2.0
 
 
-
+lens   sie      1.424600e+02  1.904800e-01 -1.871000e-01  2.718299e-01  1.055117e+02 0.000000e+00  0.000000e+00 
+lens   sers     3.571600e+10  1.615821e-01 -2.505915e-01  8.410407e-01  7.402741e+00  1.952887e-01  1.000000e+00 
+point  1.5000  2.065664e-01 -1.634483e-01 
 
 end_startup
 
 ## for optimizations
 ## can be ignored unless you do opts
 start_setopt
-1 1 1 1 1 0 0 
-#1 1 1 1 1 1 0
+0 0 0 0 0 0 0 
+1 0 0 0 0 0 0
 #1 0 0 0 0 1 0 0 
 0 1 1 
 end_setopt
@@ -71,10 +73,10 @@ end_setopt
 ## execute commands
 start_command
 
-#readobs_point obs_point.dat
+readobs_point obs_point.dat
 #parprior prior_b1555_SIE2_match.dat
 
-#varyone 2 5 7.55 7.75 20
+#varyone 2 1 3.55000e+10 3.58000e+10 50
 #mcmc_sigma SIE2_sigma3.dat
 #mcmc 10000
 #mcmc 100000
@@ -86,7 +88,7 @@ findimg
 #writeimage
 #writecrit 1.5
 
-#varycosmo hubble 0.5 0.9 40
+
 
 quit
 
