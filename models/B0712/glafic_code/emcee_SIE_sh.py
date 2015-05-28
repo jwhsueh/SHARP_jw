@@ -3,6 +3,9 @@ import numpy as np
 import emcee
 import triangle as tri
 
+img_obs=np.array([0.0,0.0,15.6,-0.075,-0.16,13.104, -1.185,-0.67,6.5208,-1.71,0.460,1.2792])
+err_obs=np.array([1.0e-6,1.0e-6,3.70,0.01,0.01,2.97,0.01,0.01,1.83,0.06,0.06,0.3])
+
 def call_findimage(paras):
     
     ## create input file
@@ -53,8 +56,8 @@ def call_findimage(paras):
         ## run glafic
         
         #os.system('glafic')
-        os.system('glafic emcee.input') #this line works for linux machine
-        #os.system('~/Documents/glafic/glafic emcee.input')
+        #os.system('glafic emcee.input') #this line works for linux machine
+        os.system('~/Documents/glafic/glafic emcee.input')
         
         #sub.call('glafic emcee.input')
         
@@ -102,24 +105,26 @@ def img_sort(model):
         
         # distance
         
-        dis=np.zeros(4)
-        for i in range(4):
-            dis[i]=model[i,0]**2+model[i,1]**2
+        dis=np.zeros((4,4)) # distance to image A,B,C,D
+        
+        for i in range(4): # model_images
+            for j in range(4): # obs_images
+                dis[i,j]=(model[i,0]-img_obs[j*3])**2+(model[i,1]-img_obs[j*3+1])**2
 
-
+        '''
         # pick out img D
-        d=np.argmin(model[:,1]) # y coord (D has negative y coord)
+        d=np.argmin(model[:,0]) # x coord (D has most negative x coord)
         rank[9:]=model[d,:]
         dis[d]=1000  # get rid of the recorded set
-        
+        '''
 
-        # sort distance to find image A->B->C
+        # sort distance to find image A->B->C->D
         
-        for i in range(3):
-            k=np.argmin(dis)
+        for j in range(4):
+            k=np.argmin(dis[:,j])
             print model[k,:]
-            rank[3*i:3+3*i]=model[k,:]
-            dis[k]=1000 #
+            rank[3*j:3+3*j]=model[k,:]
+            dis[k,:]=1000 # kick out from the comparison
 
         return rank
 
@@ -135,8 +140,8 @@ def lnprob(paras):
 
         # B1555 constraints
         #x= np.arrange(10)
-        y= np.array([0.0,0.0,15.6,-0.075,-0.16,13.104, -1.185,-0.67,6.5208,-1.71,0.460,1.2792])
-        err= np.array([1.0e-6,1.0e-6,3.70,0.01,0.01,2.97,0.01,0.01,1.83,0.06,0.06,0.3])
+        y= img_obs
+        err= err_obs
         
         # check the n_img
         if len(model) != 1:
@@ -196,7 +201,7 @@ def writeimg(paras):
 nwalker=200 #number of chains
 ndim=11   #number of parameters
 burn=10   #number of (burn in) collect step
-burn2=200 #number of (real) burn in step
+burn2=300 #number of (real) burn in step
 nstep=2000  #number of MCMC steps
 
 ## set up for start points
@@ -234,20 +239,20 @@ p1=np.zeros(nwalker*ndim)
 k=0
 
 
-
+'''
 #while k<nwalker:
 while k<(nwalker-1):
 	p0=start_point(mean,sig,w_factor,nwalker) # re-assign starting point
 	pos, prob, state = sampler.run_mcmc(p0,burn)
 	#print prob
 	for i in range(nwalker):
-    		if prob[i]!=flag:
+        if prob[i]!=flag:
 #			print pos[i,:]			
-			p1[(k*ndim):((k+1)*ndim)]=pos[i,:]
-			if k==(nwalker-1):
-				break
-			else:
-				k=k+1
+            p1[(k*ndim):((k+1)*ndim)]=pos[i,:]
+            if k==(nwalker-1):
+                break
+            else:
+                k=k+1
     	
 	sampler.reset()
 	
@@ -257,12 +262,14 @@ p2=np.zeros(((nwalker,ndim)))
 for i in range(nwalker):
 	p2[i,:]=p1[(i*ndim):((i+1)*ndim)]
 
+# the end of selection step
+find.write('# \n')
 
-
+'''
 ## (real) burn-in steps
 
-p3, prob, state = sampler.run_mcmc(p2,burn2)
-#p3, prob, state = sampler.run_mcmc(p0,burn2)
+#p3, prob, state = sampler.run_mcmc(p2,burn2)
+p3, prob, state = sampler.run_mcmc(p0,burn2)
 
 
 # the end of burn-in step
