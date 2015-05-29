@@ -53,16 +53,16 @@ startup 2 0 1
 #lens   clus3    1.340000e+00  0.000000e+00  0.000000e+00  5.181148e-02  8.949708e+01  0.000000e+00  0.000000e+00 
 #point  1.3400  9.496189e-02 -1.317758e-01 
 
-lens   sie      2.000000e+02 -8.142368e-01  2.452530e-01  2.478737e-01  2.425667e+01  0.000000e+00  0.000000e+00 
-lens   sie      9.945106e+01 -1.488853e+00  3.575003e-01  7.000000e-01  6.000000e+01  0.000000e+00  0.000000e+00 
-point  1.3390 -8.467857e-01  1.309860e-01 
+lens   sie      2.006618e+02 -8.288198e-01  1.872830e-01  2.566511e-01  1.599906e+01  0.000000e+00  0.000000e+00 
+lens   sie      1.001488e+02 -1.385384e+00  3.989048e-01  7.418180e-01  7.943754e+01  0.000000e+00  0.000000e+00 
+point  1.3390 -8.421349e-01  1.615016e-01
 
 end_startup
 
 ## for optimizations
 ## can be ignored unless you do opts
 start_setopt
-0 1 1 1 1 0 0 
+1 1 1 1 1 0 0 
 1 1 1 1 1 0 0
 #1 0 0 0 0 1 0  
 0 1 1 
@@ -74,7 +74,7 @@ start_command
 readobs_point obs_point.dat
 #parprior prior_b1555_SIE2_match.dat
 
-optimize
+#optimize
 #randomize
 findimg
 #writeimage

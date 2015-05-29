@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import emcee
-import triangle as tri
+import itertools as it
 
 img_obs=np.array([0.0,0.0,15.6,-0.075,-0.16,13.104, -1.185,-0.67,6.5208,-1.71,0.460,1.2792])
 err_obs=np.array([1.0e-6,1.0e-6,3.70,0.01,0.01,2.97,0.01,0.01,1.83,0.06,0.06,0.3])
@@ -103,6 +103,7 @@ def img_sort(model):
 
         rank=np.zeros(12)
         
+        
         # distance
         
         dis=np.zeros((4,4)) # distance to image A,B,C,D
@@ -112,12 +113,6 @@ def img_sort(model):
                 dis[i,j]=(model[i,0]-img_obs[j*3])**2+(model[i,1]-img_obs[j*3+1])**2
 
         '''
-        # pick out img D
-        d=np.argmin(model[:,0]) # x coord (D has most negative x coord)
-        rank[9:]=model[d,:]
-        dis[d]=1000  # get rid of the recorded set
-        '''
-
         # sort distance to find image A->B->C->D
         
         for j in range(4):
@@ -125,6 +120,27 @@ def img_sort(model):
             print model[k,:]
             rank[3*j:3+3*j]=model[k,:]
             dis[k,:]=1000 # kick out from the comparison
+        '''
+
+        ## 4x4 combinations, picking up smallest chi^2
+
+        # permutations (24x4 for quad system)
+        seq=list(it.permutations([0,1,2,3],4))
+        seq=np.array(seq)
+
+        seq_chi=np.zeros(seq.shape[0])
+
+        for i in range(seq.shape[0]):
+            for j in range(seq.shape[1]): # image letter (observation)
+            # img_obs - img_model in permutation order
+                pick=seq[i]
+                seq_chi[i]=seq_chi[i]+dis[pick[j],j]
+
+        k=np.argmin(seq_chi)
+        
+        for i in range(seq.shape[1]):
+            pick=seq[k]
+            rank[3*i:3*i+3]=model[pick[i],:]
 
         return rank
 
