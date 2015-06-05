@@ -8,7 +8,7 @@ weos	  -1.000000
 hubble	  0.720000
 #zl	  0.500000
 zl	  0.406
-prefix	  SIE2
+prefix	  SIE+sh_sp
 xmin	  -2.7950000
 ymin	  -3.255000
 xmax	  3.2050000
@@ -18,7 +18,8 @@ pix_poi   0.05000
 maxlev	  5
 
 ## some examples of secondary parameters
-chi2_splane    0
+chi2_splane    1
+# 0=image plane, 1=source plane
 chi2_checknimg 1
 chi2_restart   -1
 chi2_usemag    0
@@ -43,9 +44,9 @@ startup 2 0 1
 
 
 #SIE+shear
-#lens   sie      2.200004e+02 -9.479681e-01  1.586602e-01  3.810210e-01  9.352806e+01  7.233439e-04  0.000000e+00 
-#lens   pert     1.339000e+00 -5.112407e-01  2.644338e-01  1.794055e-01  1.321920e+01  0.000000e+00  0.000000e+00 
-#point  1.3390 -8.281295e-01  1.140486e-01
+#lens   sie      2.102628e+02 -8.035508e-01  4.296036e-02  3.354750e-01 -6.090488e+01  0.000000e+00  0.000000e+00 
+#lens   pert     1.339000e+00 -4.299767e-01  2.798112e-02  1.450636e-01  3.104182e+01  0.000000e+00  0.000000e+00 
+#point  1.3390 -7.785391e-01  8.318897e-02
 
 # Oguri(SIE+shear+pert)
 #lens   sie      2.010980e+02  0.000000e+00  0.000000e+00  6.108931e-01  5.756315e+01  0.000000e+00  0.000000e+00 
@@ -53,9 +54,14 @@ startup 2 0 1
 #lens   clus3    1.340000e+00  0.000000e+00  0.000000e+00  5.181148e-02  8.949708e+01  0.000000e+00  0.000000e+00 
 #point  1.3400  9.496189e-02 -1.317758e-01 
 
-lens   sie      2.006618e+02 -8.288198e-01  1.872830e-01  2.566511e-01  1.599906e+01  0.000000e+00  0.000000e+00 
-lens   sie      1.001488e+02 -1.385384e+00  3.989048e-01  7.418180e-01  7.943754e+01  0.000000e+00  0.000000e+00 
-point  1.3390 -8.421349e-01  1.615016e-01
+#lens   sie      2.006618e+02 -8.288198e-01  1.872830e-01  2.566511e-01  1.599906e+01  0.000000e+00  0.000000e+00 
+#lens   sie      1.001488e+02 -1.385384e+00  3.989048e-01  7.418180e-01  7.943754e+01  0.000000e+00  0.000000e+00 
+#point  1.3390 -8.421349e-01  1.615016e-01
+
+lens   sie      2.146408e+02 -9.464166e-01  7.440362e-03  5.716934e-01  7.801073e+01  0.000000e+00  0.000000e+00 
+lens   pert     1.339000e+00  8.917747e-01 -4.808713e-01  2.915772e-01 -1.168431e+01  0.000000e+00  0.000000e+00 
+point  1.3390 -3.900048e-01 -7.901994e-02
+ 
 
 end_startup
 
@@ -63,23 +69,27 @@ end_startup
 ## can be ignored unless you do opts
 start_setopt
 1 1 1 1 1 0 0 
-1 1 1 1 1 0 0
-#1 0 0 0 0 1 0  
+0 1 1 1 1 0 0
+#1 0 0 0 0 1 0 
 0 1 1 
 end_setopt
 
 ## execute commands
 start_command
 
-readobs_point obs_point.dat
+readobs_point obs_point_2.dat
 #parprior prior_b1555_SIE2_match.dat
 
 #optimize
 #randomize
-findimg
+#findimg
 #writeimage
 #writecrit 1.339
 
+
+## source plane test
+calcimage 1.339 0.0 0.0
+calcimage 1.339  -0.075 -0.16 
 
 
 quit

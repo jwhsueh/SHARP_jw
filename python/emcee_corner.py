@@ -3,7 +3,7 @@ import triangle
 import matplotlib.pyplot as plt
 #import matplotlib.patches as mpat
 
-file_name=['SIEsh_3_chain.dat']
+file_name=['SIEsh_4_chain.dat']
 
 k=0
 for i in file_name:

@@ -218,7 +218,7 @@ nwalker=200 #number of chains
 ndim=11   #number of parameters
 burn=10   #number of (burn in) collect step
 burn2=300 #number of (real) burn in step
-nstep=2000  #number of MCMC steps
+nstep=5000  #number of MCMC steps
 
 ## set up for start points
 
