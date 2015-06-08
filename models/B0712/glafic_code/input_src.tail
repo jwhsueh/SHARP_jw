@@ -1,0 +1,13 @@
+
+end_startup
+
+## execute commands
+start_command
+
+calcimage 1.339 0.0 0.0
+calcimage 1.339 -0.075  -0.16
+calcimage 1.339 -1.185 -0.67 
+calcimage 1.339 -1.71 0.460
+
+quit
+
