@@ -23,10 +23,10 @@ def call_calcimage(paras):
     # send unqualify model to high chi^2
     
     # ellipticity
-    if paras[3]>1.0 or paras[3]<0.0:
+    if paras[3]>0.99 or paras[3]<0.0:
         out=np.array([1]) # flag as unqualify system
     
-    elif paras[7]>1.0 or paras[7]<0.0:
+    elif paras[7]>0.99 or paras[7]<0.0:
         out=np.array([1])
 
     # velocity dispersion
@@ -46,6 +46,17 @@ def call_calcimage(paras):
         out=np.array([1])
     
     else:
+
+        # position angle (periodic BC)
+        if paras[4]>360.0 or paras[4]<-360.0:
+            paras[4]=np.mod(paras[4],360)
+    
+    
+        if paras[8]>360.0 or paras[8]<-360.0:
+            paras[8]=np.mod(paras[8],360)
+        
+        
+
         out=run_glafic(paras)
 
 
@@ -190,35 +201,36 @@ def lnprob(paras):
     
         model=call_calcimage(paras)
         # model is a 8x1 matrix for src positions
-	        
+        
+        if len(model)>1:
 
-        # src plane constraints
-        #x= np.arrange(10)
-        #y= img_obs
-        #err= err_obs
+        ## src plane constraints
+
         
 	    # write findimg chain	    
-        writeimg(model)
+            writeimg(model)
         
         
         # source plane penalty function
-        chi2=0
-        x=np.zeros(4)
-        y=np.zeros(4)
+            chi2=0
+            x=np.zeros(4)
+            y=np.zeros(4)
         
-        for i in range(4):
-            x[i]=model[2*i]
-            y[i]=model[2*i+1]
+            for i in range(4):
+                x[i]=model[2*i]
+                y[i]=model[2*i+1]
         
-        x=np.array(x)
-        y=np.array(y)
-        x0=np.mean(x)
-        y0=np.mean(y)
+            x=np.array(x)
+            y=np.array(y)
+            x0=np.mean(x)
+            y0=np.mean(y)
         
-        for i in range(4):
-            chi2=chi2+(x[i]-x0)**2+(y[i]-y0)**2
+            for i in range(4):
+                chi2=chi2+(x[i]-x0)**2+(y[i]-y0)**2
         
-
+        else:
+        
+            chi2=np.inf
 
         return -0.5*np.absolute(chi2)
 
@@ -289,7 +301,7 @@ sampler=emcee.EnsembleSampler(nwalker,ndim,lnprob)
 
 ## create findimg chain
 
-find=open('srcchain.dat','w')
+find=open('srcpos.dat','w')
 
 
 

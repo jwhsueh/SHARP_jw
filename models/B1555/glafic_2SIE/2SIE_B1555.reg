@@ -1,0 +1,13 @@
+# Region file format: DS9 version 4.1
+# Filename: B1555_nirc2_n_Kp_6x6.fits
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+physical
+# radio
+circle(280,326,5) # font="helvetica 10 normal"
+circle(287,331,5) # font="helvetica 10 normal"
+circle(321,323,5) # font="helvetica 10 normal"
+circle(296,291,5) # font="helvetica 10 normal"
+
+# 2-SIE perfect model
+ellipse(298.84,309.93,30,46,99.5)
+ellipse(295.94,303.75,9.975,38.78,6.51)
