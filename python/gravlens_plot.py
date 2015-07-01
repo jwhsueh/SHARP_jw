@@ -49,7 +49,7 @@ def crit():
     for i in range(n):
         plt.plot(Lx[i,:],Ly[i,:],'b')
 
-    model_plot()
+#model_plot()
 
 ##----
 
@@ -71,16 +71,16 @@ def caus():
 
 
     for i in range(n):
-        plt.plot(Lu[i,:],Lv[i,:],'r')
+        plt.plot(Lu[i,:],Lv[i,:],'r--')
 
-    model_plot()
+#model_plot()
 
 ##----
 
 ## souce & component positions
 def model_plot():
     plt.plot(sx,sy,'o',ms=5,mec='k',mfc='k',label='source')
-    plt.plot(cx,cy,'^',label='component',mfc='k')
+    plt.plot(cx,cy,'^',label='lens',mfc='k')
 
 ##----
 
@@ -88,8 +88,7 @@ def img_pos():
 
     plt.plot(x0,y0,'b+',ms=10,label='observe')
     plt.plot(x,y,'o',ms=10,mec='r',mfc='none',label='model')
-    plt.plot(sx,sy,'o',ms=5,mec='k',mfc='k',label='source')
-
+    
     plt.xlabel('arcsec')
     plt.ylabel('arcsec')
 
@@ -97,8 +96,9 @@ def img_pos():
 
 ##---- call functions from here ----##
 
-#crit()
+crit()
 caus()
-#img_pos()
+model_plot()
+img_pos()
 plt.legend(loc=4)
 plt.show()
