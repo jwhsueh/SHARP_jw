@@ -2,6 +2,11 @@ import os
 import numpy as np
 import emcee
 import scipy.stats
+import itertools as it
+
+img_obs=np.array([0.0,0.0,17.0,0.0726,0.0480,10.54,0.4117,-0.0280,8.619,0.1619,-0.3680,1.462])
+err_obs=np.array([1.0e-6,1.0e-6,1.70,0.01,0.01,0.97,0.01,0.01,0.83,0.06,0.06,0.13])
+
 
 def call_findimage(paras):
     
@@ -28,7 +33,7 @@ def call_findimage(paras):
             if i<2:
                     lens_para[2]=lens_para[2]+'%f '%paras[11+i]  #source
 
-	lens_para[1]=lens_para[1]+'%f '%paras[10] #r_e for sersic profile
+        lens_para[1]=lens_para[1]+'%f '%paras[10] #r_e for sersic profile
         
         # write lens models into input file
         inp.write('lens sie '+lens_para[0]+'0.0 0.0 \n')
@@ -47,23 +52,22 @@ def call_findimage(paras):
         ## run glafic
         
         #os.system('glafic')
-        os.system('glafic emcee_exp.input') #this line works for linux machine
-        #os.system('~/Documents/glafic/glafic emcee_exp.input')
+        #os.system('glafic emcee_exp.input') #this line works for linux machine
+        os.system('~/Documents/glafic/glafic emcee_exp.input')
         
         #sub.call('glafic emcee.input')
         
         # read findimg result
         r=np.loadtxt('emcee_exp_point.dat')
-        wash=open('emcee_exp_point.dat','w')
-        wash.write('0 0 0 0\n 0 0 0 0')
-        wash.close()  # wash out after load findimg result
 
-        print r
         rr=np.array(r[0])
+        mock=np.array([0])
+        mock=np.append(mock,rr)
         print rr
-        nimg=rr[0]
-
-	poss=np.array([rr[2],rr[3]]) #position of source
+        print mock
+        #        print r
+        
+        nimg=mock[1]
 
         if nimg==4:  # the n_img == 4
 	    
@@ -78,42 +82,64 @@ def call_findimage(paras):
         else:
             out=np.array([1]) # flag as not quad system
     
+        wash=open('emcee_exp_point.dat','w')
+        wash.write('0 0 0 0\n 0 0 0 0')
+        wash.close()  # wash out after load findimg result
 
 
         #print out
-        return [out,poss]   #return findimg result
+        return out   #return findimg result
 
 
 #########
 
 def img_sort(model):
 
-# sort by distance to x axis/distance to y axis of each image
+# pick the smallest chi^2 as image sorting standard
 # model is a 4x3 matrix
 
-        rank=np.zeros(12)
+    rank=np.zeros(12)
+    
+    
+    # distance
+    
+    dis=np.zeros((4,4)) # distance to image A,B,C,D
         
-        # distance
+    for i in range(4): # model_images
+        for j in range(4): # obs_images
+            dis[i,j]=(model[i,0]-img_obs[j*3])**2+(model[i,1]-img_obs[j*3+1])**2
+
+    '''
+        # sort distance to find image A->B->C->D
         
-        dis=np.zeros(4)
-        for i in range(4):
-            dis[i]=model[i,0]**2+model[i,1]**2
-
-
-        # pick out img D
-        d=np.argmin(model[:,1]) # y coord
-        rank[9:]=model[d,:]
-        dis[d]=1000  # get rid of the recorded set
-
-        # sort distance to find image A->B->C
+        for j in range(4):
+        k=np.argmin(dis[:,j])
+        print model[k,:]
+        rank[3*j:3+3*j]=model[k,:]
+        dis[k,:]=1000 # kick out from the comparison
+        '''
+            
+    ## 4x4 combinations, picking up smallest chi^2
+            
+    # permutations (24x4 for quad system)
+    seq=list(it.permutations([0,1,2,3],4))
+    seq=np.array(seq)
+                    
+    seq_chi=np.zeros(seq.shape[0])
+                        
+    for i in range(seq.shape[0]):
+        for j in range(seq.shape[1]): # image letter (observation)
+    # img_obs - img_model in permutation order
+            pick=seq[i]
+            seq_chi[i]=seq_chi[i]+dis[pick[j],j]
         
-        for i in range(3):
-            k=np.argmin(dis)
-            print model[k,:]
-            rank[3*i:3+3*i]=model[k,:]
-            dis[k]=1000 #
+    k=np.argmin(seq_chi)
+        
+    for i in range(seq.shape[1]):
+        pick=seq[k]
+        rank[3*i:3*i+3]=model[pick[i],:]
 
-        return rank
+    return rank
 
 
 ##########
@@ -121,43 +147,32 @@ def img_sort(model):
 
 def lnprob(paras):
     
-	output=call_findimage(paras)
-        model=np.array(output[0]) 
-	source=np.array(output[1]) 
+    model=call_findimage(paras)
+        
+        
         
         # B1555 constraints
         #x= np.arrange(10)
-        y= np.array([0.0,0.0,17.0,0.0726,0.0480,10.54,0.4117,-0.0280,8.619,0.1619,-0.3680,1.462])
-        err= np.array([1.0e-6,1.0e-6,1.70,0.01,0.01,0.97,0.01,0.01,0.83,0.06,0.06,0.13])
+    y= img_obs
+    err= err_obs
         
         # check the n_img
-        if len(model) != 1:
-            model=img_sort(model)
+    if len(model) != 1:
+        model=img_sort(model)
+            
+            # write findimg chain
+        writeimg(model)
+            
+        chi2=0
+        for i in range(len(y)):
+            chi2=chi2+(model[i]-y[i])**2/err[i]**2
         
-            writeimg(model)
-            chi2=0
-            for i in range(len(y)):
-                chi2=chi2+(model[i]-y[i])**2/err[i]**2
         
+        
+    else:
+        chi2=np.inf
 
-
-        else:
-            chi2=np.inf
-
-	# prior (on source position)
-
-	center=np.array([1.794326e-01,-1.880897e-01])
-	dis2=(source[0]-center[0])**2+(source[1]-center[1])**2
-
-	sig=0.1 #Gaussian distribution
-	dn=dis2/sig**2
-
-	pri=scipy.stats.norm.pdf(dn)
-	lnp=np.log(pri)	
-
-	print pri,lnp
-
-        return -0.5*np.absolute(chi2)+lnp
+    return -0.5*np.absolute(chi2)
 
 
 ###########

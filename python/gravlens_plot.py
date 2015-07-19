@@ -6,7 +6,7 @@ import matplotlib.patches as mpat
 
 # gravlens file name
 
-name='mode1.crit'
+name='B1555_expdisk_try5.crit'
 
 # lensed images
 ## system == B1555
@@ -15,16 +15,16 @@ x0=[0.0, 0.0726,0.4117,0.1619]
 y0=[0.0, 0.0480, -0.0280,-0.3680]
 
 # model
-x=[0.4108 , 0.1617 ,-0.00,0.0728]
-y=[-0.0309,-0.3565,-0.0 ,0.0576]
+x=[0.4117 , 0.1629 ,-0.00,0.0727]
+y=[-0.0281,-0.3653,-0.00 ,0.0477]
 
 # model paras
 # source
-sx,sy=2.011120e-01, -1.430824e-01
+sx,sy= 1.952576e-01, -1.493771e-01
 
 # mass profile centeroid
-cx=[1.883924e-01,1.594156e-01] # x position
-cy=[-1.607033e-01, -2.224752e-01] # y position
+cx=[ 1.818271e-01, 1.471605e-01] # x position
+cy=[ -1.987580e-01, -2.056755e-01] # y position
 
 
 ##----call functions in the end----##
@@ -79,7 +79,7 @@ def caus():
 
 ## souce & component positions
 def model_plot():
-    plt.plot(sx,sy,'o',ms=5,mec='k',mfc='k',label='source')
+    plt.plot(sx,sy,'o',ms=5,mec='k',mfc='r',label='source')
     plt.plot(cx,cy,'^',label='lens',mfc='k')
 
 ##----
@@ -100,5 +100,8 @@ crit()
 caus()
 model_plot()
 img_pos()
+
+#plt.xlim(-0.1,0.5)
+#plt.ylim(-0.5,0.2)
 plt.legend(loc=4)
 plt.show()

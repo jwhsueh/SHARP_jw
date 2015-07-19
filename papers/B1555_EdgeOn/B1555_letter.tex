@@ -112,7 +112,7 @@ are sufficient to cause flux-ratio anomalies in strong lensed systems
 \citep{Bradac02}.  Moreover, unlike in the optical or infrared, in the
 radio band, lensed images are neither sensitive to microlensing from
 stars, nor to dust extinction. This makes flux-ratio anomalies a promising
-tool to detect \textbf{and measure} dark matter substructures \citep{Dalal2002,N13} [NEED MORE REF].  
+tool to detect \textbf{and measure} dark matter substructures \citep{Dalal2002,K05,V09,N13}.  
 At present, the amount of substructure derived from flux-ratio anomalies
 seems to be disagreement with predictions from numerical simulations, with
 the former requiring a larger fraction of mass in substructure than
@@ -239,19 +239,20 @@ The observation details of Keck AO and \textit{HST} imaging are shown in Table 1
 
 \section{Lens modelling}
 
-To model B1555+375, we use the lens modelling code {\tt glafic}
-\citep{Oguri}.  The inputs to the model are the observed image
+%To model B1555+375, we use the lens modelling code {\tt glafic} \citep{Oguri}.  
+\textbf{To model B1555+375, we use the lens modelling code {\tt gravlens} \citep{Kee01}.  
+The inputs to the model are the observed image
 positions and flux densities measured by the radio observations.
-\textbf{We use the image positions from \citet{Marlow99}, who also presented a singular isothermal ellipsoid
+We use the image positions from \citet{Marlow99}, who also presented a singular isothermal ellipsoid
 (SIE) model that provided a good fit to the image positions but
 does not reproduce the strong flux-ratio anomaly between components A
 and B.}  %\citep[see Fig.~6 and Tables 2 \& 3 in][]{Marlow99}.  
 \textbf{The flux measurements are performed by \citet{K03} with a half year monitoring to obtain flux-ratio curves, providing throughout discussions in erros on flux densities.}
 
-Although the flux-ratio anomaly that is observed in the radio data \textbf{implies there must be some perturbation to the mass model, which} may be
+Although the flux-ratio anomaly that is observed in the radio data implies there must be some perturbations to the mass model, which may be
 caused by substructure in the lensing galaxy, our high-resolution near
 infrared imaging suggests another explanation.  In both the $K^\prime$
-band adaptive optics data and the \textit{HST} infrared imaging (\textbf{see} in
+band adaptive optics data and the \textit{HST} infrared imaging (see in
 Fig. 1), the lensing galaxy has a clear edge-on disk component with a
 position angle of $\approx 10$ degree.  We therefore model the system
 with a disk component in order to see if such a model can explain the
@@ -260,41 +261,41 @@ disk may also explain the system morphology that is observed in the
 near infrared imaging.  In particular, neither image B nor image D is
 detected in the Keck AO data (Fig.~\ref{fig:merlin}), and both of
 these lensed images lie on or close to the edge-on disk.  Thus, strong
-extinction in the disk could cause the \textbf{non-}detection of these
+extinction in the disk could cause the non-detection of these
 images.[REF B0128 PAPER?--LEON]
 
 As a first trial of modelling, we create a single SIE model to check
 the performance of a simple lensing potential. Consistent with
 previous studies \citep{Marlow99, Xu14}, a single elliptical
 potential model cannot \textbf{reproduce} the flux anomaly in B1555+375.
-[WHY MODEL BULGE W/ SIE? COMMENT ON THE REASON FOR PICKING MODELS--LEON]
-[I TRY TO EXPLAIN HERE AND MAY NEED TO BE MORE FOCUS--JW]
-\textbf{We notice that the lensed images are close to the center of B1555+375 since its edge-on disk spreads further out of the Einstein radius in the \textit{HST} imaging. Instead of constructing the lens galaxy with a primary NFW halo, a secondary bulge, plus an elongated disk, we consider only the bulge plus an disk component, reducing the number of free parameters in the model. Also with only four lensed images, mass profiles that are too complicated will not be informative in the lens modelling.}
-We then create two separate models of the lensing potential that both
-incorporate the disk.  In the first we treat the lens as a SIE bulge\textbf{/halo}
-and an exponential edge-on disk (SIE+expdisk). In the second model
-the disk is represented as a very elongated SIE component (2-SIE). 
+\textbf{Our next step is to examine the idea that if an edge-on disk can cause similar perturbations to the lens like substructures which resulting in flux ratio anomalies in merging images. In \citet{Kee98}, they explore strong lensing by spiral glaxies with SIE+ exponential disk+NFW model, corresponding to the bulge, disk, and halo respectively. An exponential disk profile best describes the disk component in spiral galaxies because it matches the light distribution of disk. We thus choose a SIE plus exponential disk model (SIE+expdisk) in our study of B1555+375, focusing on the role of an edge-on disk passing through the merging double in the lens system. }
+%We then create two separate models of the lensing potential that both
+%incorporate the disk.  In the first we treat the lens as a SIE bulge\textbf{/halo}
+%and an exponential edge-on disk (SIE+expdisk). In the second model
+%the disk is represented as a very elongated SIE component (2-SIE). 
 The lens system is red, with a strong jump in flux between the F814W
 (roughly I) and F160W (roughly H) bands (Fig.~\ref{fig:multiband}), so
 we assign a lens redshift of $z_\ell = 1.0$ and a source redshift of
 $z_s =1.5$. \textbf{This assumption on redshifts is needed because some lens model parameters contain distance information. However, our choice of redshifts does not affect the predicted magnifications nor flux-ratios.} 
 
-\textbf{For each model, we explore the parameter space in the following way: 
-(1) Preparation of model starting point: Applying the information in the SHARP AO image, we set ellipticity $e=0.8$ and position angle $\theta=10 \degr$ to the edge-on disk component. We then use the best-fit model of \citet{Marlow99} as the starting point for the bulge\textbf{/halo} component and also the source position. The rest of parameters in the disk component are set to be the same as the bulge/halo component as the starting point.
-(2) First optimization: Bind the positions of the two components with a strong Gaussian prior having the same central position and $\sigma = 0.05 $ arcsec, and run optimization with amoeba algorithm in {\tt glafic} to reach a first optimal model.
-(3) Markov Chain Monte Carlo: Use the parameters from optimal result as the starting point. We then run MCMC in {\tt glafic} to obtain the best-fit parameters.} 
+\textbf{To obtain the optimal lens model, we explore the parameter space in the following way: 
+(1) Preparation of model starting point: Applying the priori infromation from the SHARP AO image, we set ellipticity $e=0.8$ and position angle $\theta=10 \degr$ to the exponential disk. We then use the best-fit model of \citet{Marlow99} as the starting point for the SIE profile and also the source position. The rest of parameters of exponential disk are set to be the same as the SIE component as the starting point.
+(2) Optimal model search: We let all model parameter varies but bind the centroid position of two conponents with a strong Gaussian prior ($\sigma = 0.05 $ arcsec). Run optimization with amoeba algorithm in {\tt gravlens} interatively to reach the global minimum of $chi^2$ in paramter space.
+(3) Markov Chain Monte Carlo: After obtaining the optimal lens model, we run MCMC to explore the parameter space for the model uncertainties.} 
 %The smallest $\chi^2$ doesn't necessarily give a physical model. Here are the examples we would like to discard: the ellipticity and the position angle of the disk component are far from what we see in the SHARP AO image, the center positions of two components are too far apart physically, or the positions of the lenses and the source are clearly located outside the Einstein radius in the image.
 %(3) Optimize for physical lens models: We bind the positions of the two components with a strong Gaussian prior having the same central position and $\sigma = 0.05 $ arcsec and then run optimization with amoeba algorithm to reach the final best-fit for each model.}  
 
-The \textbf{final} best-fit parameters are shown in Table
-2. Both of these models produce lensed images with positions and
-fluxes that are good matches to the radio observations.  While both of
-the two component models produce significantly improved matches to the
-fluxes than the single SIE model, the 2-SIE version has a somewhat
-better performance than the SIE+expdisk model in reproducing flux
-ratios. The comparison of the observations and our lens modelling is
-given in Figure 3 and Tables 3 \& 4.  We have not included an external
-shear component into our model because the constraints provided by the
+The best-fit parameters are shown in Table 2. 
+%Both of these models produce lensed images with positions and
+%fluxes that are good matches to the radio observations.  
+%While both of the two component models 
+\textbf{By adding an elongated exponential disk to a smooth potential model,  our lens model shows significant improvement on the flux ratios when comparing to the single SIE model, includeing the flux ratio anomaly between the merging images.}
+%the 2-SIE version has a somewhat
+%better performance than the SIE+expdisk model in reproducing flux
+%ratios. 
+The comparison of the observations and our lens modelling is
+given in Figure 3 and Tables 3 \& 4.  We have not included a third component such as an external
+shear component or NFW halo into our model because the number of constraints provided by the
 image positions and fluxes would not be sufficient to constrain such a
 model. However, we note that the image not affected by dust (image C)
 in the Keck AO data is consistent with negligible shear (i.e. shear
@@ -313,95 +314,156 @@ with contours from the MERLIN observation of \citet{Marlow99} overlaid.
 
 \begin{figure}
 %\plotone{point_source.eps}
-\includegraphics[width=84mm]{point_source.eps}
-\caption{Radio observation(red open circle) and model-predicted(blue plus sign) image positions of B1555+375. The position of the source is at $(-0.2066,-0.1634)$ for SIE+Expdisk model [NOT UPDETED YET], marked by a black filled circle. \label{fig2}}
+\includegraphics[width=84mm]{gravlens_exp_try5_plot.eps}
+\caption{Radio observation(blue plus sign) and model-predicted(red open circle) image positions of B1555+375. Criticle curves are shown with blue solid line and caustics are shown with red dash line. The position of the source is at $(-0.1953,-0.1494)$, marked by a red filled circle. The centroid positions of two lens components are marked by black filled triangles.  \label{fig2}}
 \end{figure}
 
-
+%\begin{figure}
+%\plotone{point_source.eps}
+%\includegraphics[width=84mm]{point_source.eps}
+%\caption{Radio observation(red open circle) and model-predicted(blue plus sign) image positions of B1555+375. The position of the source is at $(-0.2066,-0.1634)$ for SIE+Expdisk model [NOT UPDETED YET], marked by a black filled circle. \label{fig2}}
+%\end{figure}
 
 \begin{table}
-% \centering
+ \centering
 % \begin{minipage}{140mm}
-  \caption{Best-fit parameters of B1555+375 lens models. Subscripts 1 and 2 represent bulge\textbf{/halo} and disk components in each model respectively. Positions are offsets from radio image component A measured in units of arcsec. The velocity dispersion $\sigma$ is in units of $km/s$ and disk mass $M_{tot}$ is in units of $h^{-1} M_{\odot}$. \textbf{$e$ is ellipticity defined as the axis ratio $q=1-e$ }and $\theta$ is the position angle measured east of north.}
+  \caption{Best-fit parameters of B1555+375 lens model. Positions are offsets from radio image component A measured in units of arcsec. The velocity dispersion $\sigma$ is in units of $km/s$. \textbf{$e$ is ellipticity defined as the axis ratio $q=1-e$ }and $\theta$ is the position angle measured east of north.}
   \begin{tabular}{@{}ccc}
 \hline 
- Parameter  & \multicolumn{2}{c}{Lens model} \\
-		&SIE+expdisk& 2-SIE		   
+ Parameter  & SIE & Expdisk 		   
 \\
 \hline
-$x_1$  	  & $-0.1794$	& $-0.1771$  \\
-$y_1$	  &$-0.1881$	&$-0.2032$  \\
+$x$  	  & $-0.1818$	&$-0.1472$ 	  \\
+$y$	  &$-0.1988$	&$-0.2057$	 \\
 
-$\sigma_1$ &$140.3$     & $146.1$ \\
-$e_1$	  & $0.21$	& $0.15$ \\
-$\theta_1$ &$73.6 \degr$ & $155.3 \degr$ \\
-\hline
-$x_2$	  &$-0.1639$ 	&$-0.1562$  \\
-$y_2$	  &$-0.2542$	& $-0.2195$  \\
-$M_{tot,2}$  & $3.58\times 10^{10} $  & ...	 \\  
-$\sigma_2$ & ...        &$122.6$ \\  
-$e_2$	  &$0.84$	&$0.86$  \\
-$\theta_2$ &$4.0\degr$ &$7.9\degr$  \\
-$r_e$	  & $0.21 ''$ &  ... \\
+$b$ &$0.21 $  & ...   \\
+$\kappa_0$ & ... & $0.11$        \\  
+$e$	  & $0.31$	&$0.87$ \\
+$\theta$ &$2.96 \degr$ &$7.0\degr$ \\
+$r_s$	& ...  & $0.28$\\
 \hline
 %$\chi ^2$ & $1.05$ & $0.04$ \\
 %\hline
 \end{tabular}
 
 %\end{minipage}
-
-
-
 \end{table}
 
+%\begin{table}
+
+%  \caption{Best-fit parameters of B1555+375 lens models. Subscripts 1 and 2 represent bulge\textbf{/halo} and disk components in each model respectively. Positions are offsets from radio image component A measured in units of arcsec. The velocity dispersion $\sigma$ is in units of $km/s$ and disk mass $M_{tot}$ is in units of $h^{-1} M_{\odot}$. \textbf{$e$ is ellipticity defined as the axis ratio $q=1-e$ }and $\theta$ is the position angle measured east of north.}
+%  \begin{tabular}{@{}ccc}
+%\hline 
+% Parameter  & \multicolumn{2}{c}{Lens model} \\
+%		&SIE+expdisk& 2-SIE		   
+%\\
+%\hline
+%$x_1$  	  & $-0.1794$	& $-0.1771$  \\
+%$y_1$	  &$-0.1881$	&$-0.2032$  \\
+
+%$\sigma_1$ &$140.3$     & $146.1$ \\
+%$e_1$	  & $0.21$	& $0.15$ \\
+%$\theta_1$ &$73.6 \degr$ & $155.3 \degr$ \\
+%\hline
+%$x_2$	  &$-0.1639$ 	&$-0.1562$  \\
+%$y_2$	  &$-0.2542$	& $-0.2195$  \\
+%$M_{tot,2}$  & $3.58\times 10^{10} $  & ...	 \\  
+%$\sigma_2$ & ...        &$122.6$ \\  
+%$e_2$	  &$0.84$	&$0.86$  \\
+%$\theta_2$ &$4.0\degr$ &$7.9\degr$  \\
+%$r_e$	  & $0.21 ''$ &  ... \\
+%\hline
+%$\chi ^2$ & $1.05$ & $0.04$ \\
+%\hline
+%\end{tabular}
+%\end{table}
+
 \begin{table*}
-%\centering
+\centering
  \begin{minipage}{140mm}
-  \caption{Radio observation \citep{Marlow99} and model-predicted lensed image positions (in arcsec). Both SIE+expdisk and 2-SIE lens model-predicted positions well match to the radio observation.}
+  \caption{Radio observation \citep{Marlow99} and model-predicted lensed image positions (in arcsec).}
   \begin{tabular}{@{}ccccccc}
-
 \hline
 
-Component	&\multicolumn{2}{c}{MERLIN} 	 & \multicolumn{4}{c}{Model} \\
-					&\multicolumn{2}{c}{5 GHz}		&	\multicolumn{2}{c}{SIE+expdisk} &\multicolumn{2}{c}{ 2-SIE}		\\
-					 &East &North &East 		&North &East 		&North\\ 
+Component	&\multicolumn{2}{c}{MERLIN} 	 & \multicolumn{2}{c}{Model} \\
+					&\multicolumn{2}{c}{5 GHz}		&	\multicolumn{2}{c}{SIE+expdisk} 	\\
+					 &East &North &East 		&North \\ 
 \hline
-A ........ &$0$    		&$0$		&$0.0000$ &$0.0000$   &   $0.0000$   &  $ 0.0000$\\  
-B ........ &$-0.0726(0.001)$ 	&$+0.0480(0.001)$	&$-0.0723$ &$+0.0480$ & $-0.0755 $  &  $+0.0414$  \\  
-C ........ &$-0.4117(0.001)$  &$-0.0280(0.001)$	&$-0.4114$ &$-0.0282$  & $-0.4122 $  &   $-0.0267$ \\  
-D ........ &$-0.1619(0.006)$  &$-0.3680(0.006)$	&$-0.1631$ &$-0.3628$  & $-0.1620$    &  $-0.3533$ \\  
+A ........ &$0$    		&$0$		&$0.0000$ &$0.0000$   \\  
+B ........ &$-0.0726(0.001)$ 	&$+0.0480(0.001)$	&$-0.0727$ &$+0.0477$  \\  
+C ........ &$-0.4117(0.001)$  &$-0.0280(0.001)$	&$-0.4117$ &$-0.0281$   \\  
+D ........ &$-0.1619(0.006)$  &$-0.3680(0.006)$	&$-0.1630$ &$-0.3653$  \\  
 \hline
 \end{tabular}
 
 \end{minipage}
 \medskip
-
-
-
 \end{table*}
 
+%\begin{table*}
+%\centering
+ %\begin{minipage}{140mm}
+ % \caption{Radio observation \citep{Marlow99} and model-predicted lensed image positions (in arcsec). Both SIE+expdisk and 2-SIE lens model-predicted positions well match to the radio observation.}
+ % \begin{tabular}{@{}ccccccc}
+
+%\hline
+
+%Component	&\multicolumn{2}{c}{MERLIN} 	 & \multicolumn{4}{c}{Model} \\
+%					&\multicolumn{2}{c}{5 GHz}		&	\multicolumn{2}{c}{SIE+expdisk} &\multicolumn{2}{c}{ 2-SIE}		\\
+%					 &East &North &East 		&North &East 		&North\\ 
+%\hline
+%A ........ &$0$    		&$0$		&$0.0000$ &$0.0000$   &   $0.0000$   &  $ 0.0000$\\  
+%B ........ &$-0.0726(0.001)$ 	&$+0.0480(0.001)$	&$-0.0723$ &$+0.0480$ & $-0.0755 $  &  $+0.0414$  \\  
+%C ........ &$-0.4117(0.001)$  &$-0.0280(0.001)$	&$-0.4114$ &$-0.0282$  & $-0.4122 $  &   $-0.0267$ \\  
+%D ........ &$-0.1619(0.006)$  &$-0.3680(0.006)$	&$-0.1631$ &$-0.3628$  & $-0.1620$    &  $-0.3533$ \\  
+%\hline
+%\end{tabular}
+
+%\end{minipage}
+%medskip
+%\end{table*}
+
 \begin{table}
-% \centering
+ \centering
 % \begin{minipage}{140mm}
   \caption{Comparison between radio data \citep{K03} and model-predicted flux-ratios.}
   \begin{tabular}{@{}ccccccc}
 
 \hline
-	& MERLIN  & \multicolumn{3}{c}{Model}\\
-		&5 GHz   & 1-SIE & SIE+expdisk & 2-SIE\\
+	& MERLIN  & \multicolumn{2}{c}{Model}\\
+		&5 GHz   & 1-SIE & SIE+expdisk \\
 \hline
-$f_A/f_B$			&$1.61 (0.10)$ &$1.04$& $1.62$ & $1.62$ \\ 
-$f_A/f_C$		&$1.97 (0.12)$ 	 &$3.20$ & $2.89$ & $2.00$\\
-$f_A/f_D$		&$11.62 (3.24)$  &$9.67$& $9.30$ & $11.56$\\
+$f_A/f_B$			&$1.61 (0.10)$ &$1.04$& $1.62$  \\ 
+$f_A/f_C$		&$1.97 (0.12)$ 	 &$3.20$ & $2.17$ \\
+$f_A/f_D$		&$11.62 (3.24)$  &$9.67$& $8.69$ \\
 
 \hline
 \end{tabular}
 
 %\end{minipage}
 \medskip
-
-
 \end{table}
+
+%\begin{table}
+% \centering
+% \begin{minipage}{140mm}
+%  \caption{Comparison between radio data \citep{K03} and model-predicted flux-ratios.}
+% \begin{tabular}{@{}ccccccc}
+
+%\hline
+%	& MERLIN  & \multicolumn{3}{c}{Model}\\
+%		&5 GHz   & 1-SIE & SIE+expdisk & 2-SIE\\
+%\hline
+%$f_A/f_B$			&$1.61 (0.10)$ &$1.04$& $1.62$ & $1.62$ \\ 
+%$f_A/f_C$		&$1.97 (0.12)$ 	 &$3.20$ & $2.89$ & $2.00$\\
+%$f_A/f_D$		&$11.62 (3.24)$  &$9.67$& $9.30$ & $11.56$\\
+
+%\hline
+%\end{tabular}
+
+%\end{minipage}
+%\medskip
+%\end{table}
 
 \section{Discussion}
 
