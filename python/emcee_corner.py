@@ -35,9 +35,9 @@ data=t
 
 #ndim, nsamples = 10, len(chi2)
 
-figure = triangle.corner(data, labels=[r"$b1$", r"$x1$", r"$y1$",
+figure = triangle.corner(data, labels=[r"$b$", r"$x1$", r"$y1$",
                                        r"$e1$",r"$PA1$",
-                                       r"$b2$", r"$x2$", r"$y2$",
+                                       r"$kappa_0$", r"$x2$", r"$y2$",
                                        r"$e2$",r"$PA2$",r"$rs$"
                                        ,r"x_s",r"y_s"],
 #                         extents=[(120.,170.),(0.1,0.25),(-0.35,-0.2),(0.,0.5),(60.,110.),

@@ -278,23 +278,23 @@ The lens system is red, with a strong jump in flux between the F814W
 we assign a lens redshift of $z_\ell = 1.0$ and a source redshift of
 $z_s =1.5$. \textbf{This assumption on redshifts is needed because some lens model parameters contain distance information. However, our choice of redshifts does not affect the predicted magnifications nor flux-ratios.} 
 
-\textbf{To obtain the optimal lens model, we explore the parameter space in the following way: 
+\textbf{To obtain the optimum lens model, we explore the parameter space with the following steps: 
 (1) Preparation of model starting point: Applying the priori infromation from the SHARP AO image, we set ellipticity $e=0.8$ and position angle $\theta=10 \degr$ to the exponential disk. We then use the best-fit model of \citet{Marlow99} as the starting point for the SIE profile and also the source position. The rest of parameters of exponential disk are set to be the same as the SIE component as the starting point.
-(2) Optimal model search: We let all model parameter varies but bind the centroid position of two conponents with a strong Gaussian prior ($\sigma = 0.05 $ arcsec). Run optimization with amoeba algorithm in {\tt gravlens} interatively to reach the global minimum of $chi^2$ in paramter space.
-(3) Markov Chain Monte Carlo: After obtaining the optimal lens model, we run MCMC to explore the parameter space for the model uncertainties.} 
+(2) Optimum model search: We let all model parameter varies but bind the centroid position of two conponents with a Gaussian prior ($\sigma = 0.05 $ arcsec). Run optimization with amoeba algorithm in {\tt gravlens} interatively to reach the global minimum of $\chi^2$ in paramter space.
+(3) Markov Chain Monte Carlo: After obtaining the optimum lens model, we run MCMC to explore the parameter space for the uncertainties.} 
 %The smallest $\chi^2$ doesn't necessarily give a physical model. Here are the examples we would like to discard: the ellipticity and the position angle of the disk component are far from what we see in the SHARP AO image, the center positions of two components are too far apart physically, or the positions of the lenses and the source are clearly located outside the Einstein radius in the image.
 %(3) Optimize for physical lens models: We bind the positions of the two components with a strong Gaussian prior having the same central position and $\sigma = 0.05 $ arcsec and then run optimization with amoeba algorithm to reach the final best-fit for each model.}  
 
-The best-fit parameters are shown in Table 2. 
+The optimum model parameters are listed in Table 2 and the lens model is illustrated in Fig. 3. 
 %Both of these models produce lensed images with positions and
 %fluxes that are good matches to the radio observations.  
 %While both of the two component models 
-\textbf{By adding an elongated exponential disk to a smooth potential model,  our lens model shows significant improvement on the flux ratios when comparing to the single SIE model, includeing the flux ratio anomaly between the merging images.}
 %the 2-SIE version has a somewhat
 %better performance than the SIE+expdisk model in reproducing flux
 %ratios. 
-The comparison of the observations and our lens modelling is
-given in Figure 3 and Tables 3 \& 4.  We have not included a third component such as an external
+Tables 3 \& 4 show the comparison between radio data and model predicted image positions and flux ratios.  
+\textbf{By adding an elongated exponential disk to a smooth potential model, the SIE+expdisk lens model shows significant improvement on the flux ratios when comparing to the SIE-only model, especially the flux ratio anomaly between the merging images.}
+We have not included a third component such as an external
 shear component or NFW halo into our model because the number of constraints provided by the
 image positions and fluxes would not be sufficient to constrain such a
 model. However, we note that the image not affected by dust (image C)
@@ -327,7 +327,7 @@ with contours from the MERLIN observation of \citet{Marlow99} overlaid.
 \begin{table}
  \centering
 % \begin{minipage}{140mm}
-  \caption{Best-fit parameters of B1555+375 lens model. Positions are offsets from radio image component A measured in units of arcsec. The velocity dispersion $\sigma$ is in units of $km/s$. \textbf{$e$ is ellipticity defined as the axis ratio $q=1-e$ }and $\theta$ is the position angle measured east of north.}
+  \caption{Best-fit parameters of B1555+375 SIE+expdisk lens model. Positions are offsets from radio image component A measured in units of arcsec. The velocity dispersion $\sigma$ is in units of $km/s$. \textbf{$e$ is ellipticity defined as the axis ratio $q=1-e$ }and $\theta$ is the position angle measured east of north.}
   \begin{tabular}{@{}ccc}
 \hline 
  Parameter  & SIE & Expdisk 		   
@@ -339,7 +339,7 @@ $y$	  &$-0.1988$	&$-0.2057$	 \\
 $b$ &$0.21 $  & ...   \\
 $\kappa_0$ & ... & $0.11$        \\  
 $e$	  & $0.31$	&$0.87$ \\
-$\theta$ &$2.96 \degr$ &$7.0\degr$ \\
+$\theta$ &$2.96 \degr$ &$7.00\degr$ \\
 $r_s$	& ...  & $0.28$\\
 \hline
 %$\chi ^2$ & $1.05$ & $0.04$ \\
@@ -426,12 +426,12 @@ D ........ &$-0.1619(0.006)$  &$-0.3680(0.006)$	&$-0.1630$ &$-0.3653$  \\
 \begin{table}
  \centering
 % \begin{minipage}{140mm}
-  \caption{Comparison between radio data \citep{K03} and model-predicted flux-ratios.}
+  \caption{Comparison between radio data \citep{K03} and model-predicted flux-ratios from SIE-only and SIE+expdisk model.}
   \begin{tabular}{@{}ccccccc}
 
 \hline
 	& MERLIN  & \multicolumn{2}{c}{Model}\\
-		&5 GHz   & 1-SIE & SIE+expdisk \\
+		&5 GHz   & SIE-only & SIE+expdisk \\
 \hline
 $f_A/f_B$			&$1.61 (0.10)$ &$1.04$& $1.62$  \\ 
 $f_A/f_C$		&$1.97 (0.12)$ 	 &$3.20$ & $2.17$ \\

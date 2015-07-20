@@ -263,10 +263,11 @@ nstep=10000  #number of MCMC steps
 mean=[2.052429e-01, 1.818271e-01, -1.987580e-01, 3.091056e-01, 2.957686e+00,
       1.100000e-01, 1.471605e-01, -2.056755e-01, 8.660612e-01, 6.996249e+00,2.770794e-01,
       1.952576e-01, -1.493771e-01]
-sig=[0.01,0.01,0.01,0.01,1,0.01,0.01,0.01,0.01,1,0.01,0.01,0.01]
+#sig=[0.01,0.01,0.01,0.01,1,0.01,0.01,0.01,0.01,1,0.01,0.01,0.01]
+sig=[0.05,0.05,0.05,0.02,10,0.05,0.05,0.05,0.02,10,0.05,0.05,0.05]
 #sig=np.zeros(13)
 
-w_factor=5.0 # range of random start point
+#w_factor=5.0 # range of random start point
 
 
 # random generate star points
@@ -289,7 +290,7 @@ find=open('exp_imgchain.dat','w')
 #pos, prob, state = sampler.run_mcmc(p0,burn)
 
 #print pos[0]
-
+'''
 ## collect valid start point
 
 flag=-5e11 # flag for failure chain
@@ -321,10 +322,12 @@ while k<(nwalker-1):
 p2=np.zeros(((nwalker,ndim)))
 for i in range(nwalker):
 	p2[i,:]=p1[(i*ndim):((i+1)*ndim)]
-
+'''
 ## (real) burn-in steps
 
-p3, prob, state = sampler.run_mcmc(p2,burn2)
+#p3, prob, state = sampler.run_mcmc(p2,burn2)
+p3, prob, state = sampler.run_mcmc(p0,burn2)
+
 
 # the end of burn-in step
 find.write('# \n')
