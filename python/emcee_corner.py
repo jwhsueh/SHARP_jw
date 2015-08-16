@@ -3,7 +3,7 @@ import triangle
 import matplotlib.pyplot as plt
 #import matplotlib.patches as mpat
 
-file_name=['exp_chain.dat']
+file_name=['SIEsh_5_chain.dat']
 
 k=0
 for i in file_name:
@@ -37,8 +37,10 @@ data=t
 
 figure = triangle.corner(data, labels=[r"$b$", r"$x1$", r"$y1$",
                                        r"$e1$",r"$PA1$",
-                                       r"$kappa_0$", r"$x2$", r"$y2$",
-                                       r"$e2$",r"$PA2$",r"$rs$"
+#                                       r"$kappa_0$",
+                                       r"$x2$", r"$y2$",
+                                       r"$e2$",r"$PA2$"
+                                       #,r"$rs$"
                                        ,r"x_s",r"y_s"],
 #                         extents=[(120.,170.),(0.1,0.25),(-0.35,-0.2),(0.,0.5),(60.,110.),
 #                                  (110.,160.),(0.1,0.25),(-0.3,-0.1),(0.75,0.95),(0.,20.)],

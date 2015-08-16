@@ -8,7 +8,7 @@ weos	  -1.000000
 hubble	  0.720000
 #zl	  0.500000
 zl	  0.406
-prefix	  SIE2
+prefix	  SIEsh
 xmin	  -2.7950000
 ymin	  -3.255000
 xmax	  3.2050000
@@ -60,17 +60,17 @@ startup 2 0 1
 #lens   sie      9.561308e+01 -8.419685e-01  3.561941e-01  5.948160e-01  6.549901e+01  0.000000e+00  0.000000e+00 
 #point  1.3390 -8.739058e-01  1.503495e-01 
 
-lens   sie      2.198273e+02 -8.645006e-01  1.774793e-01  2.076717e-02  1.501246e+02  0.000000e+00  0.000000e+00 
-lens   sie      4.351358e+01 -1.122961e+00  4.745203e-02  7.936309e-01  6.113072e+01  0.000000e+00  0.000000e+00 
-point  1.3390 -8.726742e-01  1.650504e-01 
+lens   sie      2.39729782e+02  -1.06269100e+00  -9.50460000e-02 8.49102000e-01   1.03245568e+02 0.000000e+00  0.000000e+00 
+lens   pert     1.339000e+00 1.16903000e-01 -2.57040000e-01   4.77696000e-01   7.18997000e+00  0.000000e+00  0.000000e+00 
+point  1.3390 -6.96272000e-01   3.04347000e-01
 
 end_startup
 
 ## for optimizations
 ## can be ignored unless you do opts
 start_setopt
-0 0 0 0 0 0 0 
-0 1 0 0 0 0 0
+1 1 1 0 0 0 0 
+0 1 1 0 0 0 0
 #1 0 0 0 0 1 0 
 0 1 1 
 end_setopt
@@ -81,10 +81,10 @@ start_command
 readobs_point obs_point_2.dat
 parprior prior_b0712_SIE2_match.dat
 
-#optimize
+optimize
 #randomize
-varyone 2 2 -1.12 -1.13 20 
-#findimg
+#varyone 2 2 -1.12 -1.13 20 
+findimg
 #writeimage
 #writecrit 1.339
 

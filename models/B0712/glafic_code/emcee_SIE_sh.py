@@ -37,7 +37,10 @@ def call_findimage(paras):
                     lens_para[2]=lens_para[2]+'%f '%paras[9+i]  #source
         
 	#print paras
-	#print lens_para
+	print lens_para
+
+        # write real chain
+        mcmc.write(lens_para[0]+lens_para[1]+lens_para[2]+'\n')
 
         # write lens models into input file
         inp.write('lens sie '+lens_para[0]+'0.0 0.0 \n')
@@ -50,6 +53,7 @@ def call_findimage(paras):
         
         tail.close()
         inp.close()
+
         
         ##
         
@@ -175,6 +179,7 @@ def lnprob(paras):
         else:
             chi2=np.inf
 
+        prob_chi2.write(chi2+'\n')
         return -0.5*np.absolute(chi2)
 
 
@@ -214,19 +219,21 @@ def writeimg(paras):
 
 #-------------main-----------------
 
-nwalker=200 #number of chains
+nwalker=30 #number of chains
 ndim=11   #number of parameters
 burn=10   #number of (burn in) collect step
-burn2=300 #number of (real) burn in step
-nstep=5000  #number of MCMC steps
+#burn2=2000 #number of (real) burn in step
+burn2=1
+nstep=10  #number of MCMC steps
 
 ## set up for start points
 
 # SIE+shear
-mean=[2.244092e+02,-8.169302e-01,-4.527316e-02,0.4,-6.346850e+01,
--5.842317e-01,  1.003198e-02,  2.491543e-01,  2.265247e+01
-,-8.356879e-01,  1.349689e-01]
-sig=[15,0.5,0.5,0.2,20,0.5,0.5,0.5,20,0.5,0.5]
+mean=[2.36496436e+02,  -1.10879100e+00,  -1.04252000e-01,
+      8.43468000e-01,   1.02018344e+02,  -1.11414000e-01,
+      -2.78323000e-01,   5.04820000e-01,   7.44723100e+00,
+      -6.85072000e-01,   2.71726000e-01]
+sig=[5,0.05,0.05,0.05,5,0.05,0.05,0.05,5,0.05,0.05]
 
 w_factor=1.0 # range of random start point
 
@@ -246,6 +253,10 @@ sampler=emcee.EnsembleSampler(nwalker,ndim,lnprob)
 find=open('imgchain.dat','w')
 
 
+# create real para chain & prob chain
+mcmc=open('parachain.dat','w')
+prob_chi2=open('chi2chain.dat','w')
+
 
 ## collect valid start point
 
@@ -254,34 +265,6 @@ flag=-np.inf # flag for failure chain
 p1=np.zeros(nwalker*ndim)
 k=0
 
-
-'''
-#while k<nwalker:
-while k<(nwalker-1):
-	p0=start_point(mean,sig,w_factor,nwalker) # re-assign starting point
-	pos, prob, state = sampler.run_mcmc(p0,burn)
-	#print prob
-	for i in range(nwalker):
-        if prob[i]!=flag:
-#			print pos[i,:]			
-            p1[(k*ndim):((k+1)*ndim)]=pos[i,:]
-            if k==(nwalker-1):
-                break
-            else:
-                k=k+1
-    	
-	sampler.reset()
-	
-
-# reshape p1->p2
-p2=np.zeros(((nwalker,ndim)))
-for i in range(nwalker):
-	p2[i,:]=p1[(i*ndim):((i+1)*ndim)]
-
-# the end of selection step
-find.write('# \n')
-
-'''
 ## (real) burn-in steps
 
 #p3, prob, state = sampler.run_mcmc(p2,burn2)
@@ -295,6 +278,7 @@ find.write('# \n')
 sampler.reset()
 #pos, prob, state = sampler.run_mcmc(p2,nstep)
 
+'''
 f = open("chain.dat", "w")
 g = open('lnprob.dat', 'w')
 
@@ -310,8 +294,10 @@ for result in sampler.sample(p3, iterations=nstep, storechain=False):
 
     	f.write(st+'\n')
 	g.write(st2+'\n')
-	
+'''
 
-f.close()
-g.close()
+#f.close()
+#g.close()
 find.close()
+mcmc.close()
+prob_chi2.close()
