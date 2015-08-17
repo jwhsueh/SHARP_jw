@@ -1,5 +1,6 @@
 
-\documentclass[useAMS,usenatbib]{mn2e}
+%\documentclass[useAMS,usenatbib]{mn2e}
+\documentclass[useAMS,usenatbib]{mnras}
 %\documentclass[usenatbib]{mn2e}
 \usepackage{graphicx}
 %\usepackage[nottoc]{tocbibind}
@@ -27,13 +28,13 @@
 %%%%% AUTHORS - PLACE YOUR OWN MACROS HERE %%%%%
 
 % Journal definitions
-\newcommand{\apj}[1]{ApJ}
-\newcommand{\mnras}[1]{MNRAS}
-\newcommand{\apjl}[1]{ApJL}
-\newcommand{\pasj}[1]{PASJ}
-\newcommand{\aj}[1]{AJ}
-\newcommand{\nat}[1]{Nature}
-\newcommand{\aap}{A\&A}
+%\newcommand{\apj}[1]{ApJ}
+%\newcommand{\mnras}[1]{MNRAS}
+%\newcommand{\apjl}[1]{ApJL}
+%\newcommand{\pasj}[1]{PASJ}
+%\newcommand{\aj}[1]{AJ}
+%\newcommand{\nat}[1]{Nature}
+%\newcommand{\aap}{A\&A}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -119,12 +120,12 @@ tool to detect \textbf{and measure} dark matter substructures \citep{Dalal2002,N
 %expected \citep{Xu14}. 
 \textbf{At present, the amount of substructure derived from flux-ratio anomalies ease the disagremeent with direct-detections and numerical simulations.
 Utilizing the surface brightness distribution of extended arcs and Einstein rings
-has been introduced by \citet{K05} and \citet{V09}. The fraction of
+has been introduced by \citet{K05} and \citet{V09}, the fraction of
 substructure measured with this \emph{gravitational imaging technique}
 is currently in agreement with theoretical expectations \citep{V14a,V12}, although the simulation results show less level of flux anomalies than expected \citep{Xu14}.}
 While this could be the result of small sample
 statistics, it could also be an indication that flux-ratio anomalies
-have a different origin than substructure. \textbf{ISM and microlensing both can produce flux anomalies in lens systems, but the effects from ISM show strong frequency dependence and observing in radio band can avoid microlensing from star-size objects \citep{KD04}. These origins are ruled out among known radio loud flux anomlous systems support the detection of substructures. }[OTHER POSSIBLE ORIGONS--SIMONA]
+have a different origin than substructure. \textbf{ISM and microlensing both can produce flux anomalies in stong lens systems, but the effects from ISM show strong frequency dependence and observing in radio band can avoid microlensing from star-size objects \citep{KD04}. These alternative origins are ruled out among known radio loud flux anomlous systems support the detection of substructures. }[OTHER POSSIBLE ORIGONS--SIMONA]
 %
 
 
@@ -383,11 +384,12 @@ $R_s$	& ...  & $0.28 \pm 0.01$\\
 %\end{tabular}
 %\end{table}
 
-\begin{table*}
+%\begin{table*}
+\begin{table}
 \centering
- \begin{minipage}{140mm}
-  \caption{Radio observation \citep{Marlow99} and model-predicted lensed image positions (in arcsec).}
-  \begin{tabular}{@{}ccccccc}
+ %\begin{minipage}{140mm}
+  \caption{Radio observation \citep{Marlow99} and model-predicted lensed image positions (in arcsec). Uncertainties in position measurements are $0.001^ {\prime \prime}$ expect image D with larger uncertainty ($0.006^ {\prime \prime}$).}
+  \begin{tabular}{@{}ccccc}
 \hline
 
 Component	&\multicolumn{2}{c}{MERLIN} 	 & \multicolumn{2}{c}{Model} \\
@@ -395,15 +397,20 @@ Component	&\multicolumn{2}{c}{MERLIN} 	 & \multicolumn{2}{c}{Model} \\
 					 &East &North &East 		&North \\ 
 \hline
 A ........ &$0$    		&$0$		&$0.0000$ &$0.0000$   \\  
-B ........ &$-0.0726\pm 0.001$ 	&$+0.0480 \pm 0.001$	&$-0.0727$ &$+0.0477$  \\  
-C ........ &$-0.4117\pm 0.001$  &$-0.0280 \pm 0.001$	&$-0.4117$ &$-0.0281$   \\  
-D ........ &$-0.1619\pm 0.006$  &$-0.3680\pm 0.006$	&$-0.1630$ &$-0.3653$  \\  
+B ........ &$-0.0726$ 	&$+0.0480 $	&$-0.0727$ &$+0.0477$  \\  
+C ........ &$-0.4117$  &$-0.0280$	&$-0.4117$ &$-0.0281$   \\  
+D ........ &$-0.1619$  &$-0.3680$	&$-0.1630$ &$-0.3653$  \\  
+%A ........ &$0$    		&$0$		&$0.0000$ &$0.0000$   \\  
+%B ........ &$-0.0726\pm 0.001$ 	&$+0.0480 \pm 0.001$	&$-0.0727$ &$+0.0477$  \\  
+%C ........ &$-0.4117\pm 0.001$  &$-0.0280 \pm 0.001$	&$-0.4117$ &$-0.0281$   \\  
+%D ........ &$-0.1619\pm 0.006$  &$-0.3680\pm 0.006$	&$-0.1630$ &$-0.3653$  \\  
 \hline
 \end{tabular}
 
-\end{minipage}
-\medskip
-\end{table*}
+%\end{minipage}
+%\medskip
+\end{table}
+%\end{table*}
 
 %\begin{table*}
 %\centering
