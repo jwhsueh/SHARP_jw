@@ -179,7 +179,7 @@ def lnprob(paras):
         else:
             chi2=np.inf
 
-        prob_chi2.write(chi2+'\n')
+        prob_chi2.write('%f'%chi2+'\n')
         return -0.5*np.absolute(chi2)
 
 
@@ -219,20 +219,18 @@ def writeimg(paras):
 
 #-------------main-----------------
 
-nwalker=30 #number of chains
+nwalker=200 #number of chains
 ndim=11   #number of parameters
-burn=10   #number of (burn in) collect step
-#burn2=2000 #number of (real) burn in step
-burn2=1
-nstep=10  #number of MCMC steps
+#burn=10   #number of (burn in) collect step
+burn2=100 #number of (real) burn in step
+nstep=10000  #number of MCMC steps
 
 ## set up for start points
 
 # SIE+shear
-mean=[2.36496436e+02,  -1.10879100e+00,  -1.04252000e-01,
-      8.43468000e-01,   1.02018344e+02,  -1.11414000e-01,
-      -2.78323000e-01,   5.04820000e-01,   7.44723100e+00,
-      -6.85072000e-01,   2.71726000e-01]
+mean=[2.324253e+02 ,-1.100387e+00, -9.439666e-02 , 8.593171e-01 , 1.015043e+02 ,
+      -1.068075e-01 ,-2.923237e-01,  5.218383e-01 , 9.857114e+00,
+      -6.550547e-01 , 2.884248e-01]
 sig=[5,0.05,0.05,0.05,5,0.05,0.05,0.05,5,0.05,0.05]
 
 w_factor=1.0 # range of random start point
@@ -273,19 +271,21 @@ p3, prob, state = sampler.run_mcmc(p0,burn2)
 
 # the end of burn-in step
 find.write('# \n')
+mcmc.write('# \n')
+prob_chi2.write('# \n')
 
 ## MCMC run
 sampler.reset()
 #pos, prob, state = sampler.run_mcmc(p2,nstep)
 
-'''
+
 f = open("chain.dat", "w")
 g = open('lnprob.dat', 'w')
 
 for result in sampler.sample(p3, iterations=nstep, storechain=False):
     position = result[0]
     lnpro = result[1]
-    
+    '''
     for k in range(nwalker):
 	st=''
 	st2='%f'%lnpro[k]
@@ -294,7 +294,7 @@ for result in sampler.sample(p3, iterations=nstep, storechain=False):
 
     	f.write(st+'\n')
 	g.write(st2+'\n')
-'''
+    '''
 
 #f.close()
 #g.close()
