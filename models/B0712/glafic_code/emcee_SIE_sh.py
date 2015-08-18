@@ -279,8 +279,8 @@ sampler.reset()
 #pos, prob, state = sampler.run_mcmc(p2,nstep)
 
 
-f = open("chain.dat", "w")
-g = open('lnprob.dat', 'w')
+#f = open("chain.dat", "w")
+#g = open('lnprob.dat', 'w')
 
 for result in sampler.sample(p3, iterations=nstep, storechain=False):
     position = result[0]
