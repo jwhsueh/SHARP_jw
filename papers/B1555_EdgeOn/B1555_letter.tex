@@ -275,7 +275,7 @@ As a first trial of modelling, we create a single SIE model to check
 the performance of a simple lensing potential. Consistent with
 previous studies \citep{Marlow99, Xu14}, a single elliptical
 potential model cannot \textbf{reproduce} the flux anomaly in B1555+375.
-\textbf{The next step is to examine if an edge-on disk can cause similar perturbations in the strong lensing system  which results in flux ratio anomalies within the merging images. Among most of mass profiles, exponential disk profile best describes the disk component in spiral galaxies because it matches the light distribution of disk \citep{Kee98}. We thus choose a SIE plus exponential disk model (SIE+expdisk) in our study of B1555+375, focusing on the role of its edge-on disk in lens modelling. The free parameters of the model are, SIE: velocity dispersion ($\sigma$), centroid positions, ellipticity ($e$), and position angle ($\theta$); exponential disk: intrinsic central density ($\kappa_0$), centroid positions, ellipticity ($e$), position angle ($\theta$), and scale length ($R_d$). Detail definition of mass profiles in {\tt gravlens} can be found in \citet{Kee01}.}
+\textbf{The next step is to examine if an edge-on disk can cause similar perturbations in the strong lensing system  which results in flux ratio anomalies within the merging images. Among most of mass profiles, exponential disk profile best describes the disk component in spiral galaxies because it matches the light distribution of disk \citep{Kee98}. We thus choose a SIE plus exponential disk model (SIE+expdisk) in our study of B1555+375, focusing on the role of its edge-on disk in lens modelling. The free parameters of the model are, SIE: Einstein radius ($b$), centroid positions, ellipticity ($e$), and position angle ($\theta$); exponential disk: intrinsic central density ($\kappa_0$), centroid positions, ellipticity ($e$), position angle ($\theta$), and scale length ($R_d$). Detail definition of mass profiles in {\tt gravlens} can be found in \citet{Kee01}.}
   We have not included a third component such as an external
 shear component or NFW halo into our model because the number of constraints provided by the
 image positions and fluxes would not be sufficient to constrain such a
@@ -334,7 +334,7 @@ with contours from the MERLIN observation of \citet{Marlow99} overlaid.
 \begin{table}
  \centering
 % \begin{minipage}{140mm}
-  \caption{Best-fit parameters of B1555+375 SIE+expdisk lens model and uncertainties. Positions are offsets from radio image component A measured in units of arcsec. The velocity dispersion $\sigma$ is in units of $km/s$. \textbf{$e$ is ellipticity defined as the axis ratio $q=1-e$ }and $\theta$ is the position angle measured east of north.}
+  \caption{Best-fit parameters of B1555+375 SIE+expdisk lens model and uncertainties. Positions are offsets from radio image component A measured in units of arcsec. The Einstein radius b is in unit of arcsec. $e$ is ellipticity defined as the axis ratio $q=1-e$ and $\theta$ is the position angle measured east of north.}
   \begin{tabular}{@{}ccc}
 \hline 
  Parameter  & SIE & Expdisk 		   
@@ -347,7 +347,7 @@ $b$ &$0.21 \pm 0.01$  & ...   \\
 $\kappa_0$ & ... & $0.11 \pm 0.01$        \\  
 $e$	  & $0.31\pm 0.01$	&$0.87 \pm 0.01$ \\
 $\theta$ &$2.96 \degr \pm 0.64 \degr$ &$7.00\degr \pm 0.70 \degr$ \\
-$R_s$	& ...  & $0.28 \pm 0.01$\\
+$R_d$	& ...  & $0.28 \pm 0.01$\\
 \hline
 %$\chi ^2$ & $1.05$ & $0.04$ \\
 %\hline
