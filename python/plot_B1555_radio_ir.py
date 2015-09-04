@@ -19,7 +19,7 @@ else:
 """ Set the input file names """
 aoim      = 'B1555_nirc2_n_Kp_6x6.fits'
 merlin_im = '1555_merlin_5ghz.fits'
-vlbi_im   = 'B1555_NA_SELFCAL.FITS'
+vlbi_im   = 'B1555_vlbi_fix_astrom.fits'
 
 """ Hardwire rms levels if needed """
 rms_vlbi = 0.0001
