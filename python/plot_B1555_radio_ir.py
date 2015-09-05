@@ -9,6 +9,7 @@ Typical output file name: 1555_ao_merlin_overlay.eps
 import imfuncs as imf
 from matplotlib import pyplot as plt
 import sys
+import numpy as n
 
 """ Set the desired output """
 if len(sys.argv)>1:
@@ -24,17 +25,19 @@ vlbi_im   = 'B1555_vlbi_fix_astrom.fits'
 """ Hardwire rms levels if needed """
 rms_vlbi = 0.0001
 
-""" Set the image center and size """
+""" Set the image center, origin location, and size """
 racent  = 239.29968
 deccent = 37.359921
+zeropos = (0.2236,0.2174)
 imsize  = 1.2       # Value in arcsec
 
 """ Set the figure size """
 plt.figure(figsize=(5.7,5.7))
 
 """ Make the overlay plot """
-imf.overlay_contours(merlin_im,vlbi_im,racent,deccent,imsize,rms2=rms_vlbi,
-                     showradec=False,sighigh=6.)
+imf.overlay_contours(aoim,merlin_im,racent,deccent,imsize,
+                     showradec=False,sighigh=6.,zeropos=zeropos,
+                     infile3=vlbi_im,rms3=rms_vlbi,ccolor3='b')
 
 """ Set up the font """
 if plt.get_backend() == 'MacOSX':
@@ -54,11 +57,17 @@ else:
 
             
 
-""" Label the lensed images """
-plt.text(0.33,0.30, 'A',fontdict=font)
-plt.text(0.17,0.36, 'B',fontdict=font)
-plt.text(-0.25,0.25,'C',fontdict=font)
-plt.text(0.16,-0.24,'D',fontdict=font)
+""" 
+Label the lensed images, taking into account a possible shift in origin,
+which would be set by the zeropos position
+"""
+labx = n.array([0.33, 0.17, -0.25,  0.16])
+laby = n.array([0.30, 0.36,  0.25, -0.24])
+labx -= zeropos[0]
+laby -= zeropos[1]
+labt = ['A', 'B', 'C', 'D']
+for i in range(len(labx)):
+    plt.text(labx[i],laby[i],labt[i],fontdict=font)
 
 """ Show/save the figure """
 if outname:
