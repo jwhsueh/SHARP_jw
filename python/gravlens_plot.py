@@ -6,28 +6,31 @@ import matplotlib.patches as mpat
 
 # gravlens file name
 
-name='exp_try3_crit.dat'
+name='B1555_expdisk_try5.crit'
+
+## NOTE!! I've made change only on x axis of B1555
 
 # lensed images
-'''
+
 ## system == B1555
 # observe data
-x0=[0.0, 0.0726,0.4117,0.1619]
+x0=[0.0, -0.0726,-0.4117,-0.1619]
 y0=[0.0, 0.0480, -0.0280,-0.3680]
 
 # model
-x=[0.4117 , 0.1629 ,-0.00,0.0727]
+x=[-0.4117 , -0.1629 ,-0.00,-0.0727]
 y=[-0.0281,-0.3653,-0.00 ,0.0477]
 
 # model paras
 # source
-sx,sy= 1.952576e-01, -1.493771e-01
+sx,sy= -1.952576e-01, -1.493771e-01
 
 # mass profile centeroid
-cx=[ 1.818271e-01, 1.471605e-01] # x position
+cx=[ -1.818271e-01, -1.471605e-01] # x position
 cy=[ -1.987580e-01, -2.056755e-01] # y position
-'''
 
+
+'''
 ## system == B0712
 # observe data
 x0=[0.0, -0.075,-1.185,-1.71]
@@ -44,7 +47,7 @@ sx,sy= -8.809485e-01,  2.514535e-01
 # mass profile centeroid
 cx=[ -8.335581e-01, -1.354868e+00] # x position
 cy=[ 3.426335e-01, 1.572431e-01] # y position
-
+'''
 
 
 ##----call functions in the end----##
@@ -62,8 +65,10 @@ def crit():
     Ly=np.zeros((n,2))
 
     for i in range(n):
-        Lx[i,0],Lx[i,1]=x1[i],x2[i]
+        Lx[i,0],Lx[i,1]=-x1[i],-x2[i]
         Ly[i,0],Ly[i,1]=y1[i],y2[i]
+
+##
 
 
     for i in range(n):
@@ -86,8 +91,10 @@ def caus():
     Lv=np.zeros((n,2))
 
     for i in range(n):
-        Lu[i,0],Lu[i,1]=u1[i],u2[i]
+        Lu[i,0],Lu[i,1]=-u1[i],-u2[i]
         Lv[i,0],Lv[i,1]=v1[i],v2[i]
+
+##
 
 
     for i in range(n):
@@ -109,10 +116,10 @@ def img_pos():
     plt.plot(x0,y0,'b+',ms=10,label='observe')
     plt.plot(x,y,'o',ms=10,mec='r',mfc='none',label='model')
     
-    #plt.xlabel('$\Delta$ $ \alpha $ (arcsec)')
-    #plt.ylabel('$\Delta \delta$ (arcsec)')
-    plt.xlabel('arcsec')
-    plt.ylabel('arcsec')
+    plt.xlabel(r'$\Delta  \alpha $ (arcsec)')
+    plt.ylabel('$\Delta \delta$ (arcsec)')
+    #plt.xlabel('arcsec')
+    #plt.ylabel('arcsec')
 
 
 
@@ -124,7 +131,7 @@ caus()
 model_plot()
 img_pos()
 
-#plt.xlim(-1.8,0.2)
-#plt.ylim(-0.8,0.4)
+plt.xlim(0.4,-0.8)
+plt.ylim(-0.8,0.4)
 plt.legend(loc=1)
 plt.show()
