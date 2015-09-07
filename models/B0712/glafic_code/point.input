@@ -8,7 +8,7 @@ weos	  -1.000000
 hubble	  0.720000
 #zl	  0.500000
 zl	  0.406
-prefix	  exp
+prefix	  exp_try3
 xmin	  -2.7950000
 ymin	  -3.255000
 xmax	  3.2050000
@@ -30,9 +30,9 @@ flag_mcmcall 1
 ## define lenses and sources
 startup 2 0 1
 
-lens   sie      2.220235e+02 -8.676073e-01  1.500000e-01  7.083494e-06 -6.575571e+01  0.000000e+00  0.000000e+00 
-lens   sers     1.523767e+08 -1.075615e+00 0.1  5.563837e-01  6.199020e+01  6.727733e-01  1.000000e+00 
-point  1.3390 -8.677645e-01  1.497091e-01 
+lens   sie      2.161371e+02 -8.335581e-01  3.426335e-01  7.482763e-04  1.315343e+02  0.000000e+00  0.000000e+00 
+lens   sers     4.298285e+10 -1.354868e+00  1.572431e-01  8.907150e-01  6.426871e+01  7.447355e-01  1.000000e+00 
+point  1.3390 -8.809485e-01  2.514535e-01 
 
 
 #lens   sie      1.961113e+02 -1.125642e+00 -3.306135e-02  8.236885e-01  9.973832e+01  0.000000e+00  0.000000e+00 
@@ -55,14 +55,14 @@ end_setopt
 start_command
 
 readobs_point obs_point_2.dat
-parprior prior_b0712_match.dat
+#parprior prior_b0712_match.dat
 
-optimize
+#optimize
 #randomize
 #varyone 2 2 -1.12 -1.13 20 
 findimg
 #writeimage
-#writecrit 1.339
+writecrit 1.339
 
 ## MCMC
 #mcmc_sigma SIE+sh_sigma.dat

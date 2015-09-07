@@ -1,4 +1,4 @@
-2SIE try14 (flux err 20%, pos y fix for both component, pos, e & PA gauss prior)
+2SIE try14 (flux ratio=0.77, flux err 20%, pos y fix for both component, pos, e & PA gauss prior)
 ------------------------------------------
 ------------------------------------------
 optimize ndim=10

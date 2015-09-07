@@ -6,7 +6,7 @@ import matplotlib.patches as mpat
 
 # gravlens file name
 
-name='B1555_expdisk_try5.crit'
+name='exp_try3_crit.dat'
 
 # lensed images
 '''
@@ -35,7 +35,7 @@ y0=[0.0, -0.16, -0.67,0.46]
 
 # model
 x=[0.0, -0.075,-1.185,-1.7103]
-y=[0.0, -0.16, -0.67,0.46]
+y=[0.0, -0.16, -0.67,0.4600]
 
 # model paras
 # source
@@ -109,19 +109,22 @@ def img_pos():
     plt.plot(x0,y0,'b+',ms=10,label='observe')
     plt.plot(x,y,'o',ms=10,mec='r',mfc='none',label='model')
     
+    #plt.xlabel('$\Delta$ $ \alpha $ (arcsec)')
+    #plt.ylabel('$\Delta \delta$ (arcsec)')
     plt.xlabel('arcsec')
     plt.ylabel('arcsec')
 
 
 
+
 ##---- call functions from here ----##
 
-#crit()
-#caus()
+crit()
+caus()
 model_plot()
 img_pos()
 
-plt.xlim(-1.8,0.2)
+#plt.xlim(-1.8,0.2)
 #plt.ylim(-0.8,0.4)
-plt.legend(loc=4)
+plt.legend(loc=1)
 plt.show()
