@@ -9,6 +9,7 @@ import matplotlib.patches as mpat
 name='B1555_expdisk_try5.crit'
 
 # lensed images
+'''
 ## system == B1555
 # observe data
 x0=[0.0, 0.0726,0.4117,0.1619]
@@ -25,6 +26,25 @@ sx,sy= 1.952576e-01, -1.493771e-01
 # mass profile centeroid
 cx=[ 1.818271e-01, 1.471605e-01] # x position
 cy=[ -1.987580e-01, -2.056755e-01] # y position
+'''
+
+## system == B0712
+# observe data
+x0=[0.0, -0.075,-1.185,-1.71]
+y0=[0.0, -0.16, -0.67,0.46]
+
+# model
+x=[0.0, -0.075,-1.185,-1.7103]
+y=[0.0, -0.16, -0.67,0.46]
+
+# model paras
+# source
+sx,sy= -8.809485e-01,  2.514535e-01
+
+# mass profile centeroid
+cx=[ -8.335581e-01, -1.354868e+00] # x position
+cy=[ 3.426335e-01, 1.572431e-01] # y position
+
 
 
 ##----call functions in the end----##
@@ -96,12 +116,12 @@ def img_pos():
 
 ##---- call functions from here ----##
 
-crit()
-caus()
+#crit()
+#caus()
 model_plot()
 img_pos()
 
-plt.xlim(-0.4,0.8)
-plt.ylim(-0.8,0.4)
+plt.xlim(-1.8,0.2)
+#plt.ylim(-0.8,0.4)
 plt.legend(loc=4)
 plt.show()
