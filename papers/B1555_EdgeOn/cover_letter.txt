@@ -1,0 +1,32 @@
+                                         Department of Physics
+                                         University of California, Davis
+                                         1 Shields Ave.
+                                         Davis, CA 9616
+
+                                         21 September, 2009
+
+
+R.F. Carswell (Editor-in-Chief)
+Monthly Notices of the Royal Astronomical Society
+
+Dear Dr. Carswell
+
+Included with this file, please find the new submission of a
+manuscript entitled "Galaxy Number Counts and Implications for Strong
+Lensing" by C. D. Fassnacht, L. V. E. Koopmans, and K. C. Wong.  The
+files associated with this submission are the LaTex text file
+(lens_numcounts.tex) and nine postscript figures.
+
+
+If you have any questions or problems regarding this manuscript, please
+contact me at your convenience.  I can be reached at the address above
+or at:
+
+     e-mail:    fassnacht@physics.ucdavis.edu
+     telephone: 530-754-4419
+     fax:       530-752-4717
+
+Best regards,
+
+Christopher Fassnacht
+
