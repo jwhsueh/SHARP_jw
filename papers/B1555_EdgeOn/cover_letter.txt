@@ -14,18 +14,17 @@ Dear Dr. Flower
 Included with this file, please find the new submission of a
 manuscript entitled “SHARP - II: Revealing a bias in observational measurements of dark matter substructure with gravitational lens flux ratios” by J.-W. Hsueh, C. D. Fassnacht, S. Vegetti, J. P. McKean, C. Spingola, M. W. Auger, L. V. E. Koopmans, and D. J. Lagattuta.  
 The files associated with this submission are the PDF file
-(B1555_EdgeOn.pdf) and the source files (B1555_EdgeOn.zip).
+(B1555_EdgeOn.pdf) and the source files (B1555_EdgeOn.zip).  The zipped source file contains the latex document, bib file, and three eps figures.
 
 
 If you have any questions or problems regarding this manuscript, please
 contact me at your convenience.  I can be reached at the address above
 or at:
 
-     e-mail:    fassnacht@physics.ucdavis.edu
-     telephone: 530-754-4419
+     e-mail:    jwhsueh@ucdavis.edu     
      fax:       530-752-4717
 
 Best regards,
 
-Christopher Fassnacht
+Jen-Wei Hsueh
 
