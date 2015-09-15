@@ -126,6 +126,8 @@ def img_pos():
 
 ##---- call functions from here ----##
 
+plt.figure(figsize=(5.7,5.7))
+
 crit()
 caus()
 model_plot()
@@ -134,4 +136,5 @@ img_pos()
 plt.xlim(0.4,-0.8)
 plt.ylim(-0.8,0.4)
 plt.legend(loc=1)
+
 plt.show()
