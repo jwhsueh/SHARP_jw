@@ -9,7 +9,7 @@ import matplotlib.patches as mpat
 name='exp_try6_crit.dat'
 
 # glafic
-name_point='exp_point.dat'
+
 name_opt='exp_optresult.dat'
 
 # number of components
@@ -57,18 +57,27 @@ cy=[ 0.15, 0.08] # y position
 
 ##----read model details from files [glafic]----##
 
-def read_src():
-	## read glafic point output
-	t=np.loadtxt(name_point)
-	
-	src=t[0,:]
-	sx,sy=src[2],src[3]
-
 def read_lens():
 	## read glafic lens optimal result
-	t=np.loadtxt(name_opt,'-')
-	t=t.split('\n')
-	print t
+	t=open(name_opt,'r')
+
+        optfile=[]
+
+        for line in t.readlines():
+            optfile.append(line)
+
+        src=optfile[-2]
+        comp1=optfile[-4]
+        comp2=optfile[-3]
+
+        src=src.split()
+        comp1=comp1.split()
+        comp2=comp2.split()
+    
+        sx,sy=float(src[2]),float(src[3])
+        cx=[float(comp1[3]),float(comp2[3])]
+        cy=[float(comp1[4]),float(comp2[4])]
+
 
 
 ##----call functions in the end----##
@@ -148,7 +157,9 @@ def img_pos():
 
 
 ##---- call functions from here ----##
-'''
+
+read_lens()
+
 plt.figure(figsize=(5.7,5.7))
 
 crit()
@@ -161,7 +172,5 @@ img_pos()
 plt.legend(loc=1)
 
 plt.show()
-'''
 
-## testing area for reading lens info
-read_lens()
+
