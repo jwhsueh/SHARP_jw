@@ -4,9 +4,16 @@ import matplotlib.patches as mpat
 
 ## inputs for plotting
 
-# gravlens file name
+# input files
 
 name='exp_try6_crit.dat'
+
+# glafic
+name_point='exp_point.dat'
+name_opt='exp_optresult.dat'
+
+# number of components
+ncom=2
 
 ## NOTE!! I've made change only on x axis of B1555
 
@@ -48,6 +55,20 @@ sx,sy= -8.809485e-01,  2.514535e-01
 cx=[ -8.7e-01, -1.08] # x position
 cy=[ 0.15, 0.08] # y position
 
+##----read model details from files [glafic]----##
+
+def read_src():
+	## read glafic point output
+	t=np.loadtxt(name_point)
+	
+	src=t[0,:]
+	sx,sy=src[2],src[3]
+
+def read_lens():
+	## read glafic lens optimal result
+	t=np.loadtxt(name_opt,'-')
+	t=t.split('\n')
+	print t
 
 
 ##----call functions in the end----##
@@ -127,7 +148,7 @@ def img_pos():
 
 
 ##---- call functions from here ----##
-
+'''
 plt.figure(figsize=(5.7,5.7))
 
 crit()
@@ -140,3 +161,7 @@ img_pos()
 plt.legend(loc=1)
 
 plt.show()
+'''
+
+## testing area for reading lens info
+read_lens()
