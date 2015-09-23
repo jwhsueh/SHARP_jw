@@ -116,7 +116,7 @@ def check_paras(paras):
 	## source pos
 	xs,ys=paras[11],paras[12]
 	xsb,ysb=paras[14],paras[15]
-	bsub=paras[13]
+	bsub=10**paras[13]
 
 	# a list of check criteria
 	#cc=np.array([xs**2+ys**2,xsb])
