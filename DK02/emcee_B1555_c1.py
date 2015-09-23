@@ -216,7 +216,7 @@ def lnprob(paras):
 
     #print chi2
 	prob_chi2.write('%f'%chi2+'\n')
-    return -0.5*np.absolute(chi2)
+	return -0.5*np.absolute(chi2)
 
 
 ###########
