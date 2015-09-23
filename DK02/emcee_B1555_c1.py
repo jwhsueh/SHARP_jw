@@ -70,48 +70,19 @@ def call_findimage(paras):
         #os.system('./lensmodel emcee_exp.input')
 
         
-        # read findimg result [output on screen]
-        '''
-        r=np.loadtxt('emcee_exp_point.dat')
+        # read findimg result [output on screen, gravlens]
 
-        rr=np.array(r[0])
-        mock=np.array([0])
-        mock=np.append(mock,rr)
-        print rr
-        print mock
-        #        print r
-        
-        nimg=mock[1]
-
-        if nimg==4:  # the n_img == 4
-	    
-
-            r=r[1:,:] #discard the first line
-            r[:,2]=np.absolute(r[:,2]) # ignore parity in magnification
-            
-            out=np.zeros((len(r[0,:]),3))
-                
-            for i in range(len(r[:,0])):
-                out[i]=np.array(r[i,:3])
-        else:
-            out=np.array([1]) # flag as not quad system
-    
-        wash=open('emcee_exp_point.dat','w')
-        wash.write('0 0 0 0\n 0 0 0 0')
-        wash.close()  # wash out after load findimg result
-        '''
-
-        print_out=commands.getstatusoutput('./lensmodel B1555_emcee.input')
+        print_out=commands.getstatusoutput('lensmodel B1555_emcee.input')
         print_out=print_out[1]
         print_out=print_out.split('\n')
                         
         ot=len(print_out)
-	print ot
+        #print print_out
         # extract findimg result
 
         # get img number info
-   '''     
-        #print print_out
+        
+    
         check=print_out[-6]
         #print check
         check=check.split()
@@ -128,16 +99,9 @@ def call_findimage(paras):
                 sp=f_str[-1].split()
                 out[3*j:3*j+3]=[np.float(sp[0]),np.float(sp[1]),np.float(sp[2])]
                 j=j+1
+    else:
+        out=np.array([1])
 
-#           for i in range(4):
-#                out[3*i:3*i+3]=[np.float(f_str[4*i]),np.float(f_str[4*i+1]),np.float(f_str[4*i+2])]
-
-
-        else:
-            out=np.array([1])
-
-'''
-        #print out
         return out   #return findimg result
 
 
