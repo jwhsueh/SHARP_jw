@@ -49,7 +49,7 @@ def call_findimage(paras):
 
 	mcs=''
 	for i in range(len(paras)):
-	        print paras[i]
+	        #print paras[i]
 		mcs=mcs+'%f '%paras[i]
 
         mcmc.write(mcs+'\n') # order: comp1+comp2+src+sub
