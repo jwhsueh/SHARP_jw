@@ -108,7 +108,8 @@ def call_findimage(paras):
         # extract findimg result
 
         # get img number info
-
+        
+        #print print_out
         check=print_out[-6]
         #print check
         check=check.split()
