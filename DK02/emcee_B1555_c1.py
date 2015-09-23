@@ -44,6 +44,10 @@ def call_findimage(paras):
 
         print lens_para[2]
         lens_para[1]=lens_para[1]+'0.0 0.0 ''%f '%paras[10] #r_s for expdisk
+
+	# write real chain
+        mcmc.write(lens_para[0]+lens_para[1]+lens_para[2]+lens_para[3]'\n')
+
         
         # write lens models into input file
         inp.write('alpha '+lens_para[0]+'0.0 0.0 0.0 0.0 1.0 \n') #SIE
@@ -218,7 +222,8 @@ def lnprob(paras):
     else:
         chi2=np.inf
 
-    print chi2
+    #print chi2
+	prob_chi2.write('%f'%chi2+'\n')
     return -0.5*np.absolute(chi2)
 
 
@@ -292,8 +297,11 @@ sampler=emcee.EnsembleSampler(nwalker,ndim,lnprob)
 
 ## create findimg chain
 
-find=open('exp_imgchain.dat','w')
+find=open('B1555_imgchain.dat','w')
 
+## create real para chain & prob chain
+mcmc=open('B1555_parachain.dat','w')
+prob_chi2=open('B1555_chi2chain.dat','w')
 
 ## brun-in steps
 
@@ -303,30 +311,18 @@ p3, prob, state = sampler.run_mcmc(p0,burn2)
 
 # the end of burn-in step
 find.write('# \n')
-
+mcmc.write('# \n')
+prob_chi2.write('# \n')
 
 ## MCMC run
 sampler.reset()
 #pos, prob, state = sampler.run_mcmc(p2,nstep)
 
-f = open("exp_chain.dat", "w")
-g = open('exp_lnprob.dat', 'w')
-
 for result in sampler.sample(p3, iterations=nstep, storechain=False):
     position = result[0]
     lnpro = result[1]
-    
-    for k in range(nwalker):
-	st=''
-	st2='%f'%lnpro[k]
-	for i in range(ndim):
-        	st=st+'%f '%position[k,i]
-
-    	f.write(st+'\n')
-	g.write(st2+'\n')
 	
 
-f.close()
-g.close()
 find.close()
-
+mcmc.close()
+prob_chi2.close()
