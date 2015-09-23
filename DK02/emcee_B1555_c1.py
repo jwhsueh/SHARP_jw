@@ -126,19 +126,19 @@ def check_paras(paras):
 
 	if (xs-center[0])**2+(ys-center[1])**2>Er**2:
 		c=1 # flag of invalid source position
-		return c
 		
-	if bsub>f_lim[1]*Er: 
+		
+	elif bsub>f_lim[1]*Er: 
 		c=1
-		return c
 		
-	if (x1-center[0])**2+(y1-center[1])**2>Er**2:
+		
+	elif (x1-center[0])**2+(y1-center[1])**2>Er**2:
 		c=1 # flag of invalid source position
-		return c
-	if (x2-center[0])**2+(y2-center[1])**2>Er**2:
+		
+	elif (x2-center[0])**2+(y2-center[1])**2>Er**2:
 		c=1 # flag of invalid source position
-		return c
-	
+
+	return c
 
 	
 
