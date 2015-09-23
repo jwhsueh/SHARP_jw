@@ -115,8 +115,14 @@ def check_paras(paras):
 	c=0
 	## source pos
 	xs,ys=paras[11],paras[12]
+	xsb,ysb=paras[14],paras[15]
+	bsub=paras[13]
 
-	if xs**2+ys**2>Er**2:
+	# a list of check criteria
+	#cc=np.array([xs**2+ys**2,xsb])
+	
+
+	if (xs-center[0])**2+(ys-center[1])**2>Er**2:
 		c=1 # flag of invalid source position
 
 	return c
