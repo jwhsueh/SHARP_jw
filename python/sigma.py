@@ -1,6 +1,6 @@
 import numpy as np
 
-file_name=['SIEsh_5_chain.dat']
+file_name=['B1555_parachain.dat']
 
 k=0
 for i in file_name:
@@ -26,6 +26,6 @@ sigR=np.floor(0.84*nch)
 for i in range(npara):
     array=t[:,i]
     array=np.sort(array)
-#    print array[sigL],array[mid],array[sigR]
-    print array[mid]-array[sigL],array[sigR]-array[mid]
+    print array[sigL],array[mid],array[sigR]
+#    print array[mid]-array[sigL],array[sigR]-array[mid]
 
