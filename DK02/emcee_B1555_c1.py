@@ -17,7 +17,7 @@ def call_findimage(paras):
     
 	paras[-3]=10**(paras[-3]) # b_sub
 
-        print paras
+#print paras
 	
     ## create input file
         head=open('input_exp.head','r')
@@ -46,8 +46,10 @@ def call_findimage(paras):
         lens_para[1]=lens_para[1]+'0.0 0.0 ''%f '%paras[10] #r_s for expdisk
 
 	# write real chain
-	mcs=''
-	for i in range(len(paras)):
+
+    mcs=''
+    for i in range(len(paras)):
+        print paras[i]
 		mcs=mcs+'%f '%paras[i]
 
         mcmc.write(mcs+'\n') # order: comp1+comp2+src+sub
