@@ -15,7 +15,7 @@ f_lim=np.array([0.001,0.1]) #upper limit of f_sub
 
 def call_findimage(paras):
     
-	paras[-3]=np.exp(paras[-3]) # b_sub
+	paras[-3]=10**(paras[-3]) # b_sub
 	
     ## create input file
         head=open('input_exp.head','r')
