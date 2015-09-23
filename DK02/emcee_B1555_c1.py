@@ -5,11 +5,11 @@ import scipy.stats
 import itertools as it
 import commands
 
-img_obs=np.array([0.0,0.0,17.0,0.0726,0.0480,10.54,0.4117,-0.0280,8.619,0.1619,-0.3680,1.462])
-err_obs=np.array([1.0e-6,1.0e-6,1.70,0.01,0.01,0.97,0.01,0.01,0.83,0.06,0.06,0.13])
+img_obs=np.array([0.0,0.0,17.0,-0.0726,0.0480,10.54,-0.4117,-0.0280,8.619,-0.1619,-0.3680,1.462])
+err_obs=np.array([1.0e-6,1.0e-6,1.071,0.001,0.001,0.664,0.001,0.001,0.543,0.006,0.006,0.092])
 
 Er=0.26 #Einstein radius in arcsec
-center=np.array([0.1875,-0.1625]) #Einstein ring center
+center=np.array([-0.1875,-0.1625]) #Einstein ring center
 f_lim=np.array([0.001,0.1]) #upper limit of f_sub
 
 
@@ -46,8 +46,8 @@ def call_findimage(paras):
         lens_para[1]=lens_para[1]+'0.0 0.0 ''%f '%paras[10] #r_s for expdisk
 
 	# write real chain
-        mcmc.write(lens_para[0]+lens_para[1]+lens_para[2]+lens_para[3]+'\n')
-
+        mcmc.write(lens_para[0]+lens_para[1]+lens_para[3]+lenspara[2]'\n') # order: comp1+comp2+src+sub
+ 
         
         # write lens models into input file
         inp.write('alpha '+lens_para[0]+'0.0 0.0 0.0 0.0 1.0 \n') #SIE
@@ -285,9 +285,9 @@ nstep=10000  #number of MCMC steps
 ## set up for start points
 
 # expdisk
-mean=[2.052429e-01, 1.818271e-01, -1.987580e-01, 3.091056e-01, 2.957686e+00,
-      1.100000e-01, 1.471605e-01, -2.056755e-01, 8.660612e-01, 6.996249e+00,2.770794e-01,
-      1.952576e-01, -1.493771e-01,-2.585,center[0],center[1]]
+mean=[2.052429e-01, -1.818271e-01, -1.987580e-01, 3.091056e-01, 2.957686e+00,
+      1.100000e-01, -1.471605e-01, -2.056755e-01, 8.660612e-01, 6.996249e+00,2.770794e-01,
+      -1.952576e-01, -1.493771e-01,-2.585,center[0],center[1]]
 #sig=[0.01,0.01,0.01,0.01,1,0.01,0.01,0.01,0.01,1,0.01,0.01,0.01]
 sig=[0.05,0.05,0.05,0.02,10,0.05,0.05,0.05,0.02,10,0.05,0.05,0.05,1.0,Er/2,Er/2]
 #sig=np.zeros(13)
@@ -324,6 +324,18 @@ p3, prob, state = sampler.run_mcmc(p0,burn2)
 find.write('# \n')
 mcmc.write('# \n')
 prob_chi2.write('# \n')
+
+# I'm try to flush it
+find.close()
+mcmc.close()
+prob_chi2.close()
+
+## create new write-in file again
+
+find=open('B1555_imgchain.dat','w')
+
+mcmc=open('B1555_parachain.dat','w')
+prob_chi2=open('B1555_chi2chain.dat','w')
 
 ## MCMC run
 sampler.reset()
