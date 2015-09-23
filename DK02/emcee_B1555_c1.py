@@ -16,6 +16,8 @@ f_lim=np.array([0.001,0.1]) #upper limit of f_sub
 def call_findimage(paras):
     
 	paras[-3]=10**(paras[-3]) # b_sub
+    
+        print paras
 	
     ## create input file
         head=open('input_exp.head','r')
@@ -37,10 +39,10 @@ def call_findimage(paras):
             lens_para[0]=lens_para[0]+'%f '%paras[i]    #bulge
             lens_para[1]=lens_para[1]+'%f '%paras[5+i]  #disk
 
-	for i in range(3):
-		lens_para[2]=lens_para[2]+'%f '%paras[-1*i-1] #substructure
+	for i in [-3,-2,-1]:
+		lens_para[2]=lens_para[2]+'%f '%paras[i] #substructure
 
-
+        print lens_para[2]
         lens_para[1]=lens_para[1]+'0.0 0.0 ''%f '%paras[10] #r_s for expdisk
         
         # write lens models into input file
@@ -317,7 +319,7 @@ w_factor=1.0 # range of random start point
 p0=np.zeros((nwalker,ndim))
 
 p0=start_point(mean,sig,w_factor,nwalker)
-print p0
+#print p0
 
 ## sampling
 
