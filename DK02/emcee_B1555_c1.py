@@ -42,7 +42,7 @@ def call_findimage(paras):
 	for i in [-3,-2,-1]:
 		lens_para[2]=lens_para[2]+'%f '%paras[i] #substructure
 
-        print lens_para[2]
+        
         lens_para[1]=lens_para[1]+'0.0 0.0 ''%f '%paras[10] #r_s for expdisk
 
 	# write real chain
@@ -76,12 +76,12 @@ def call_findimage(paras):
         
         # read findimg result [output on screen, gravlens]
 
-        print_out=commands.getstatusoutput('lensmodel B1555_emcee.input')
+        print_out=commands.getstatusoutput('~/Documents/gravlens/lensmodel B1555_emcee.input')
         print_out=print_out[1]
         print_out=print_out.split('\n')
                         
         ot=len(print_out)
-        #print print_out
+#print print_out
         # extract findimg result
 
         # get img number info
