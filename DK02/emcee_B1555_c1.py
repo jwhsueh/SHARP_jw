@@ -99,10 +99,10 @@ def call_findimage(paras):
                 sp=f_str[-1].split()
                 out[3*j:3*j+3]=[np.float(sp[0]),np.float(sp[1]),np.float(sp[2])]
                 j=j+1
-    else:
-        out=np.array([1])
+    	else:
+        	out=np.array([1])
 
-        return out   #return findimg result
+	return out   #return findimg result
 
 
 #########
