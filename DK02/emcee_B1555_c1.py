@@ -270,6 +270,8 @@ def start_point(mean,sig,w,nw):
     		for j in range(ndim):
         		pos[i,j]=mean[j]-w_factor*sig[j]+2*w_factor*sig[j]*c[j]
 
+
+
 	return pos
 
 
@@ -315,6 +317,7 @@ w_factor=1.0 # range of random start point
 p0=np.zeros((nwalker,ndim))
 
 p0=start_point(mean,sig,w_factor,nwalker)
+print p0
 
 ## sampling
 
