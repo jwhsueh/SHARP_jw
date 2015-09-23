@@ -46,7 +46,8 @@ def call_findimage(paras):
         lens_para[1]=lens_para[1]+'0.0 0.0 ''%f '%paras[10] #r_s for expdisk
 
 	# write real chain
-        mcmc.write(lens_para[0]+lens_para[1]+lens_para[3]+lenspara[2]'\n') # order: comp1+comp2+src+sub
+
+        mcmc.write(+'\n') # order: comp1+comp2+src+sub
  
         
         # write lens models into input file
