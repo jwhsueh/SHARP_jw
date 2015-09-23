@@ -16,7 +16,7 @@ f_lim=np.array([0.001,0.1]) #upper limit of f_sub
 def call_findimage(paras):
     
 	paras[-3]=10**(paras[-3]) # b_sub
-    
+
         print paras
 	
     ## create input file
@@ -81,8 +81,8 @@ def call_findimage(paras):
         print_out=print_out.split('\n')
                         
         ot=len(print_out)
-#print print_out
-        # extract findimg result
+
+        ## extract findimg result
 
         # get img number info
         
@@ -111,30 +111,15 @@ def call_findimage(paras):
 
 #########
 
-def subs(n):
+def check_paras(paras):
+	c=0
+	## source pos
+	xs,ys=paras[11],paras[12]
 
-# create substructure (SIS for test now)
+	if xs**2+ys**2>Er**2:
+		c=1 # flag of invalid source position
 
-	# n= number of substructure
-
-	# draw position of substructure (uniform prior now)
-	while(1):
-		x,y=np.random.rand(),np.random.rand
-		# check within Er or not
-		if (x**2+y**2)<1.0:
-			x,y=(x-0.5)*Er+center[0],(y-0.5)*Er+center[1] # rescale for random number
-			break
-
-	# draw mass of substructure
-
-	# log uniform prior for now
-	# log range of b
-	logb_s=np.array([np.log10(f_lim[0]*Er),np.log10(f_lim[1]*Er)])
-	c=logb_s[1]-logb_s[0]
-	b_sub=np.random.rand()*c+logb_s[0] # rescale (in log space)
-	b_sub=np.exp(b_sub)
-
-	return b_sub,x,y
+	return c
 
 	
 
@@ -197,30 +182,37 @@ def img_sort(model):
 
 def lnprob(paras):
     
-    model=call_findimage(paras)
+	## criteria check for paras
+	p_flag=check_paras(paras)
+
+	if p_flag !=1:
+		model=call_findimage(paras)
         
         
         
         # B1555 constraints
         #x= np.arrange(10)
-    y= img_obs
-    err= err_obs
+    		y= img_obs
+    		err= err_obs
         
         # check the n_img
-    if len(model) != 1:
-        model=img_sort(model)
+    		if len(model) != 1:
+        		model=img_sort(model)
             
             # write findimg chain
-        writeimg(model)
+        		writeimg(model)
             
-        chi2=0
-        for i in range(len(y)):
-            chi2=chi2+(model[i]-y[i])**2/err[i]**2
+        		chi2=0
+        		for i in range(len(y)):
+				chi2=chi2+(model[i]-y[i])**2/err[i]**2
         
         
         
-    else:
-        chi2=np.inf
+    		else:
+        		chi2=np.inf
+
+	else:
+		chi2=np.inf
 
     #print chi2
 	prob_chi2.write('%f'%chi2+'\n')
