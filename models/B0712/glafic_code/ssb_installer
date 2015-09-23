@@ -1,0 +1,173 @@
+#!/bin/sh
+
+
+# ask which version (ssbrel, ssbx, or ssbdev) to install
+valid_answer=false
+vrs=""
+while ! $valid_answer
+do
+    echo
+    echo "Please choose which distribution you want to install."
+    echo 'Enter "ssbrel", "ssbx", or "ssbdev": ' | tr -d '\n'
+    read answer
+
+    case "$answer"
+    in
+        ssbrel|SSBREL)
+            valid_answer=true
+            vrs=ssbrel
+            ;;
+        ssbx|SSBX)
+            valid_answer=true
+            vrs=ssbx
+            ;;
+        ssbdev|SSBDEV)
+            valid_answer=true
+            vrs=ssbdev
+            ;;
+        *)
+            ;;
+    esac
+done
+
+
+# figure out if Mac or Linux
+platform=`uname -s -r | sed 's/ /./g'`
+case "$platform"
+in
+    Darwin.*)
+        platform=osx
+        ;;
+    Linux.*)
+        platform=linux
+        ;;
+    *)
+        echo "ERROR: OS type not known ($platform)"
+        exit 1
+        ;;
+esac
+
+
+# determine download method based on OS
+case "$platform"
+in
+    osx)
+        dl="curl -O"
+        ;;
+    linux)
+        dl="wget"
+        ;;
+esac
+
+
+# determine default install location based on OS
+case "$platform"
+in
+    osx)
+        default_install_dir=$HOME/STScI/$vrs
+        ;;
+    linux)
+        default_install_dir=/internal/1/STScI/$vrs
+        ;;
+esac
+
+
+# if default install location exists, ask if OK
+if [ ! -z "$default_install_dir" ]
+then
+    valid_answer=false
+    while ! $valid_answer
+    do
+        echo
+        echo "Do you want to install $vrs in $default_install_dir?"
+        echo "Enter yes or no [yes]: " | tr -d '\n'
+        read answer
+
+        # only accept "yes" or "no" in response to the question; "" means "yes"
+        case "$answer"
+        in
+            yes)
+                valid_answer=true
+                install_dir=$default_install_dir
+                ;;
+            no)
+                valid_answer=true
+                install_dir=""
+                ;;
+            "")
+                valid_answer=true
+                install_dir=$default_install_dir
+                ;;
+            *)
+                ;;
+        esac
+    done
+fi
+
+
+# if no install location determined yet, ask user
+if [ -z "$install_dir" ]
+then
+    valid_answer=false
+    while ! $valid_answer
+    do
+        echo
+        echo "Please enter installation directory: " | tr -d '\n'
+        read answer
+
+        case "$answer"
+        in
+            "")
+                ;;
+            *)
+                valid_answer=true
+                ;;
+        esac
+    done
+    install_dir=$answer
+    install_dir=`echo $install_dir | sed 's/~/$HOME/g'`
+    install_dir=`eval echo $install_dir`
+
+    if [ -d "$install_dir" ]
+    then
+        echo "ERROR: $install_dir already exists"
+        exit 1
+    fi
+
+    # confirm installation with user
+    valid_answer=false
+    while ! $valid_answer
+    do
+        echo
+        echo "Installing $vrs into $install_dir.  Do you want to proceed?"
+        echo "Enter yes or no [yes]: " | tr -d '\n'
+        read answer
+
+        # only accept "yes" or "no" in response to the question; "" means "yes"
+        case "$answer"
+        in
+            yes)
+                valid_answer=true
+                echo
+                ;;
+            no)
+                exit
+                ;;
+            "")
+                valid_answer=true
+                ;;
+            *)
+                ;;
+        esac
+    done
+fi
+
+
+# download the installer
+$dl http://ssb.stsci.edu/$vrs/install_$vrs
+echo
+
+
+# do the install
+chmod +x install_$vrs
+./install_$vrs -u -n $vrs -i $install_dir
