@@ -106,11 +106,11 @@ def call_findimage(paras):
         print_out=print_out.split('\n')
                         
         ot=len(print_out)
-
+	print ot
         # extract findimg result
 
         # get img number info
-        
+   '''     
         #print print_out
         check=print_out[-6]
         #print check
@@ -136,7 +136,7 @@ def call_findimage(paras):
         else:
             out=np.array([1])
 
-
+'''
         #print out
         return out   #return findimg result
 
