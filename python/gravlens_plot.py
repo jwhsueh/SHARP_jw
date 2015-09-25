@@ -6,11 +6,11 @@ import matplotlib.patches as mpat
 
 # input files
 
-name='exp_try6_crit.dat'
+name='/Users/jwhsueh/Documents/SHARP_jw/DK02/mock.crit'
 
 # glafic
 
-name_opt='exp_optresult.dat'
+#name_opt='exp_optresult.dat'
 
 # number of components
 ncom=2
@@ -77,6 +77,10 @@ def read_lens():
         sx,sy=float(src[2]),float(src[3])
         cx=[float(comp1[3]),float(comp2[3])]
         cy=[float(comp1[4]),float(comp2[4])]
+
+##----read findimg positions from files [gravlens]----##
+
+def read_findimg():
 
 
 
@@ -158,18 +162,18 @@ def img_pos():
 
 ##---- call functions from here ----##
 
-read_lens()
+#read_lens()
 
 plt.figure(figsize=(5.7,5.7))
 
 crit()
 caus()
-model_plot()
-img_pos()
+#model_plot()
+#img_pos()
 
 #plt.xlim(0.4,-0.8)
 #plt.ylim(-0.8,0.4)
-plt.legend(loc=1)
+#plt.legend(loc=1)
 
 plt.show()
 
