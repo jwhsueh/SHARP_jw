@@ -19,6 +19,8 @@ ncom=2
 
 ## NOTE!! I've made change only on x axis of B1555
 
+global x,y,x0,y0,sx,sy,cx,cy
+
 # lensed images
 '''
 ## system == B1555
@@ -39,7 +41,7 @@ cx=[ -1.818271e-01, -1.471605e-01] # x position
 cy=[ -1.987580e-01, -2.056755e-01] # y position
 
 
-'''
+
 ## system == B0712
 # observe data
 x0=[0.0, -0.075,-1.185,-1.71]
@@ -56,6 +58,7 @@ sx,sy= -8.809485e-01,  2.514535e-01
 # mass profile centeroid
 cx=[ -8.7e-01, -1.08] # x position
 cy=[ 0.15, 0.08] # y position
+'''
 
 ##----read model details from files [glafic]----##
 
@@ -76,7 +79,8 @@ def read_lens():
         comp1=comp1.split()
         comp2=comp2.split()
     
-        sx,sy=float(src[2]),float(src[3])
+        sx=float(src[2])
+        sy=float(src[3])
         cx=[float(comp1[3]),float(comp2[3])]
         cy=[float(comp1[4]),float(comp2[4])]
 
@@ -84,9 +88,10 @@ def read_lens():
 
 def read_findimg():
 	## read gravlens image positions
-	t=np.loadtext(name_findimg)
+	t=np.loadtxt(name_findimg)
 
-	x,y=t[:,0],t[:,1]
+    x=t[:,0]
+    y=t[:,1]
 
 ##----call functions in the end----##
 
@@ -167,13 +172,16 @@ def img_pos():
 ##---- call functions from here ----##
 
 #read_lens()
+read_findimg()
 
 plt.figure(figsize=(5.7,5.7))
 
 crit()
 caus()
 #model_plot()
-#img_pos()
+x0,y0=x,y
+print x,y
+img_pos()
 
 #plt.xlim(0.4,-0.8)
 #plt.ylim(-0.8,0.4)
