@@ -17,7 +17,7 @@ def call_findimage(paras):
     
 	paras[-3]=10**(paras[-3]) # b_sub
 
-#print paras
+        print paras
 	
     ## create input file
         head=open('input_exp.head','r')
