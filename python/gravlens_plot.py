@@ -93,6 +93,7 @@ def read_findimg():
     	x=t[:,0]
     	y=t[:,1]
 
+
 ##----call functions in the end----##
 
 def crit():
@@ -179,7 +180,7 @@ plt.figure(figsize=(5.7,5.7))
 crit()
 caus()
 #model_plot()
-x0,y0=x,y
+#x0,y0=x,y
 print x,y
 img_pos()
 
