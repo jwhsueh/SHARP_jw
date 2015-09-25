@@ -8,6 +8,8 @@ import matplotlib.patches as mpat
 
 name='/Users/jwhsueh/Documents/SHARP_jw/DK02/mock.crit'
 
+name_findimg='/Users/jwhsueh/Documents/SHARP_jw/DK02/gravlens_mock_findimg.dat'
+
 # glafic
 
 #name_opt='exp_optresult.dat'
@@ -81,8 +83,10 @@ def read_lens():
 ##----read findimg positions from files [gravlens]----##
 
 def read_findimg():
+	## read gravlens image positions
+	t=np.loadtext(name_findimg)
 
-
+	x,y=t[:,0],t[:,1]
 
 ##----call functions in the end----##
 
