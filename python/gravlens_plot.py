@@ -90,8 +90,8 @@ def read_findimg():
 	## read gravlens image positions
 	t=np.loadtxt(name_findimg)
 
-    x=t[:,0]
-    y=t[:,1]
+    	x=t[:,0]
+    	y=t[:,1]
 
 ##----call functions in the end----##
 
