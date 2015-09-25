@@ -84,6 +84,8 @@ def read_lens():
         cx=[float(comp1[3]),float(comp2[3])]
         cy=[float(comp1[4]),float(comp2[4])]
 
+	return sx,sy,cx,cy
+
 ##----read findimg positions from files [gravlens]----##
 
 def read_findimg():
@@ -92,6 +94,8 @@ def read_findimg():
 
     	x=t[:,0]
     	y=t[:,1]
+
+	return x,y
 
 
 ##----call functions in the end----##
@@ -172,15 +176,15 @@ def img_pos():
 
 ##---- call functions from here ----##
 
-#read_lens()
-read_findimg()
+#sx,sy,cx,cy=read_lens()
+x,y=read_findimg()
 
 plt.figure(figsize=(5.7,5.7))
 
 crit()
 caus()
 #model_plot()
-#x0,y0=x,y
+x0,y0=x,y
 print x,y
 img_pos()
 
