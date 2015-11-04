@@ -6,7 +6,7 @@ import matplotlib.patches as mpat
 
 # input files
 
-name='/Users/jwhsueh/Documents/SHARP_jw/DK02/mock.crit'
+#name='/Users/jwhsueh/Documents/SHARP_jw/DK02/mock.crit'
 
 name_findimg='/Users/jwhsueh/Documents/SHARP_jw/DK02/gravlens_mock_findimg.dat'
 
@@ -39,7 +39,7 @@ sx,sy= -1.952576e-01, -1.493771e-01
 # mass profile centeroid
 cx=[ -1.818271e-01, -1.471605e-01] # x position
 cy=[ -1.987580e-01, -2.056755e-01] # y position
-
+'''
 
 
 ## system == B0712
@@ -48,8 +48,8 @@ x0=[0.0, -0.075,-1.185,-1.71]
 y0=[0.0, -0.16, -0.67,0.46]
 
 # model
-x=[0.0, -0.075,-1.185,-1.7103]
-y=[0.0, -0.16, -0.67,0.4600]
+x=[-9.694099e-01, 4.912447e-02,-3.756152e-02,-1.223079e+00]
+y=[-7.651540e-01,  1.666924e-01, -2.644472e-01, 5.127648e-01]
 
 # model paras
 # source
@@ -58,7 +58,7 @@ sx,sy= -8.809485e-01,  2.514535e-01
 # mass profile centeroid
 cx=[ -8.7e-01, -1.08] # x position
 cy=[ 0.15, 0.08] # y position
-'''
+
 
 ##----read model details from files [glafic]----##
 
@@ -177,15 +177,15 @@ def img_pos():
 ##---- call functions from here ----##
 
 #sx,sy,cx,cy=read_lens()
-x,y=read_findimg()
+#x,y=read_findimg()
 
 plt.figure(figsize=(5.7,5.7))
 
-crit()
-caus()
+#crit()
+#caus()
 #model_plot()
-x0,y0=x,y
-print x,y
+#x0,y0=x,y
+#print x,y
 img_pos()
 
 #plt.xlim(0.4,-0.8)
