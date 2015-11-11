@@ -1,0 +1,118 @@
+We thank the referee for his/her comments about the paper.  We have
+responded to the comments below, and modified the text accordingly.
+Overall, we have toned down our somewhat sweeping claims.
+
+> Comments to the Author: This paper presents an interesting new
+> observational result for the strong gravitational lens B1555+375,
+> along with an abundance of poorly supported conjecture.  The
+> observations of B1555+375 should be published, but the authors should
+> either remove their speculations, or (more usefully) provide evidence
+> in support of them.
+> 
+> CLASS B1555+375 is one of the "poster child" gravitational lens
+> systems.  It is famous for its prototypical flux ratio anomaly, which
+> has been cited as evidence for dark matter substructure in this
+> system.  The new result presented in this paper is near-infrared
+> imaging with Keck and HST which reveals a linear structure in the lens
+> galaxy emission consistent with an edge-on thin disk.  Most
+> intriguingly, this structure passes near the anomalous images, and
+> could explain the observed flux anomaly without the need to invoke
+> dark matter substructure.  This would be an important result, and
+> hence should be published.
+> 
+> However, the discussion in the paper lacks important quantitative
+> details.  For example, the paper does not describe the total
+> luminosity of the disky component, compared to the spheroidal
+> component of the lens galaxy.  This is important because the lens
+> model discussed in the paper requires the disk component to comprise ~
+> 10% of the mass within the Einstein radius, and it is unclear if that
+> large mass fraction is consistent with the photometry shown in Figure
+> 1.
+> 
+
+RESPONSE: The referee is correct to point out that we did not quantify
+the bulge/disk ratio in the lensing galaxy.  We have performed a
+bulge+disk fit to the lens-galaxy surface brightness distribution.
+Our fit returns a bulge component that is consistent with zero
+emission.  [DO WE WANT TO MAKE M/L RATIO CALCULATIONS??].  We have
+added text to the paper describing this result.  We note that the two
+components in our lens model can be thought of as the edge-on disk and
+the dark-matter halo of the lensing galaxy.
+
+> More importantly, the large disk component in the lens model produces
+> a significant distortion to the usually ellipsoidal critical curves
+> found in strong lenses, as shown in Fig 3.  It has long been known
+> that such departures from ellipsoidal density distributions are
+> tightly constrained by extended emission from the source galaxies,
+> e.g. arcs and Einstein rings that span a large range of azimuthal
+> angle.  The imaging shown in Fig 2 exhibits faint extended arclets
+> from the source galaxy that could constrain disky components in the
+> lens mass distribution, but the lens modeling in the paper neglects to
+> fit the extended emission, and instead only models the positions and
+> fluxes of the pointlike radio quasar.  The signal-to-noise of the
+> extended emission may be too low to provide meaningful constraints,
+> but given that the authors have this data in hand, and given that the
+> authors have considerable experience modeling this type of extended
+> emission in lens systems, they should attempt to fit the observed
+> arclets to see if a 10% mass fraction in an off-center thin disk is
+> consistent with the observed arclets.
+
+RESPONSE: The referee is correct in pointing out that the modelling of
+the extended images would provide tighter constraints on the proposed
+model. Unfortunately, in the case of B1555 IR imaging the disk is
+responsible for a significant level of dust extinction that leave
+images D and B unobservable, and even the arc near image A strongly
+affected. We have, however, tried modelling this dataset by only
+focusing on image C which is not affected by dust, and the results are
+consistent with those found by modelling the point images positions
+and fluxes. For the VLBI extended images the poor quality of the data
+prevented us from modelling this dataset in a reliable manner.  
+[ADD TEXT TO PAPER??]
+
+> 
+> The final section of the paper speculates that massive disc components
+> may be prevalent in strong lenses, and that such discs may bias
+> inferences on the abundance of dark matter substructure using strong
+> lensing.  The authors fail to provide evidence supporting these
+> speculations, even though they have the data to do so.  As noted
+> above, strong lenses with extended source emission (arcs and rings)
+> tightly constrain the presence of thin components in lens galaxies.
+> In some cases with Einstein rings, disc components are excluded from
+> contributing more than percent-level fractions of the mass density.
+> It would therefore be highly surprising for a substantial fraction of
+> strong lenses to contain hidden, massive edge-on discs that could
+> distort the lensing so significantly, as the paper intimates.
+> 
+> Rather than wildly speculating, the authors could easily check the
+> plausibility of this claim.  A number of the authors were members of
+> the SLACS collaboration, whose dataset contains many lenses with
+> extended emission from the source galaxies.  These systems are the
+> obvious way to quantify the fraction of lens systems containing
+> massive edge-on discs, since the arcs in many SLACS lenses span a wide
+> range of azimuthal angle.  Once they have quantified the abundance of
+> massive edge-on discs, the authors should then perform Monte Carlo
+> calculations of quasar lenses to calculate the statistics of flux
+> ratio anomalies produced by these discs.  Only then can they state
+> whether hidden edge-on massive discs can bias observational
+> measurements of dark matter substructure with gravitational lens flux
+> ratios.
+
+RESPONSE: In the SHARP sample, we find that 5 out of the 25 systems
+that we imaged have clear disk components, indicating that this is not
+a completely unexpected phenomenon.  While we agree with the referee
+that it is important to quantify how common disks are in lensing
+galaxies, we do not feel that the SLACS sample provides the
+appropriate comparison.  This is because a significant portion of the
+SHARP systems come from source-selected samples, such as CLASS, that
+are agnostic about the nature of the lensing galaxy.  In contrast,
+SLACS lenses were selected to be systems where the lensing galaxy was
+known a priori to be a massive elliptical galaxy.  We would therefore
+expect a lower incidence of disky systems in SLACS than in the SHARP
+sample.  We agree completely with the referee that doing a
+quantification of the statistics of massive disks and their effects on
+flux-ratio anomalies is an extremely important task and, in fact, this
+is one of the future projects that we are planning.  However, we feel
+that such an extensive analysis is beyond the scope of this letter.
+As such, we have modified the text to focus more on this individual
+lens system and put more caveats on the possible generalization of the
+results.
