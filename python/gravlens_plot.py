@@ -6,9 +6,9 @@ import matplotlib.patches as mpat
 
 # input files
 
-#name='/Users/jwhsueh/Documents/SHARP_jw/DK02/mock.crit'
+name='B1555_expdisk_try5.crit'
 
-name_findimg='/Users/jwhsueh/Documents/SHARP_jw/DK02/gravlens_mock_findimg.dat'
+#name_findimg='/Users/jwhsueh/Documents/SHARP_jw/DK02/gravlens_mock_findimg.dat'
 
 # glafic
 
@@ -22,7 +22,7 @@ ncom=2
 global x,y,x0,y0,sx,sy,cx,cy
 
 # lensed images
-'''
+
 ## system == B1555
 # observe data
 x0=[0.0, -0.0726,-0.4117,-0.1619]
@@ -58,7 +58,7 @@ sx,sy= -8.809485e-01,  2.514535e-01
 # mass profile centeroid
 cx=[ -8.7e-01, -1.08] # x position
 cy=[ 0.15, 0.08] # y position
-
+'''
 
 ##----read model details from files [glafic]----##
 
@@ -113,8 +113,8 @@ def crit():
     Ly=np.zeros((n,2))
 
     for i in range(n):
-        #        Lx[i,0],Lx[i,1]=-x1[i],-x2[i]
-        Lx[i,0],Lx[i,1]=x1[i],x2[i]
+        Lx[i,0],Lx[i,1]=-x1[i],-x2[i] # B1555
+        #Lx[i,0],Lx[i,1]=x1[i],x2[i]
         Ly[i,0],Ly[i,1]=y1[i],y2[i]
 
 ##
@@ -140,8 +140,8 @@ def caus():
     Lv=np.zeros((n,2))
 
     for i in range(n):
-        #        Lu[i,0],Lu[i,1]=-u1[i],-u2[i]
-        Lu[i,0],Lu[i,1]=u1[i],u2[i]
+        Lu[i,0],Lu[i,1]=-u1[i],-u2[i] # B1555
+        #        Lu[i,0],Lu[i,1]=u1[i],u2[i]
         Lv[i,0],Lv[i,1]=v1[i],v2[i]
 
 ##
@@ -181,17 +181,17 @@ def img_pos():
 
 plt.figure(figsize=(5.7,5.7))
 
-#crit()
-#caus()
-#model_plot()
+crit()
+caus()
+model_plot()
 #x0,y0=x,y
 #print x,y
 img_pos()
 
-#plt.xlim(0.4,-0.8)
-#plt.ylim(-0.8,0.4)
-#plt.legend(loc=1)
+plt.xlim(0.4,-0.8)
+plt.ylim(-0.8,0.4)
+plt.legend(loc=1)
 
-plt.show()
-
+#plt.show()
+plt.savefig('plot.eps',bbox_inches='tight')
 
