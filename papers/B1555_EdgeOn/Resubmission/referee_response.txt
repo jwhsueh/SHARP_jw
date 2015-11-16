@@ -34,10 +34,9 @@ RESPONSE: The referee is correct to point out that we did not quantify
 the bulge/disk ratio in the lensing galaxy.  We have performed a
 bulge+disk fit to the lens-galaxy surface brightness distribution.
 Our fit returns a bulge component that is consistent with zero
-emission.  [DO WE WANT TO MAKE M/L RATIO CALCULATIONS??].  We have
-added text to the paper describing this result.  We note that the two
-components in our lens model can be thought of as the edge-on disk and
-the dark-matter halo of the lensing galaxy.
+emission.  We have added text to the paper describing this result.  We
+note that the two components in our lens model can be thought of as
+the edge-on disk and the dark-matter halo of the lensing galaxy.
 
 > More importantly, the large disk component in the lens model produces
 > a significant distortion to the usually ellipsoidal critical curves
@@ -59,15 +58,18 @@ the dark-matter halo of the lensing galaxy.
 
 RESPONSE: The referee is correct in pointing out that the modelling of
 the extended images would provide tighter constraints on the proposed
-model. Unfortunately, in the case of B1555 IR imaging the disk is
-responsible for a significant level of dust extinction that leave
-images D and B unobservable, and even the arc near image A strongly
-affected. We have, however, tried modelling this dataset by only
-focusing on image C which is not affected by dust, and the results are
-consistent with those found by modelling the point images positions
-and fluxes. For the VLBI extended images the poor quality of the data
-prevented us from modelling this dataset in a reliable manner.  
-[ADD TEXT TO PAPER??]
+model. As a matter of fact, we had hoped to do exactly the analysis
+that the referee has suggested.  Unfortunately, in the case of B1555
+IR imaging the SNR of the lensed extended emission is low.  More
+importantly, the disk is responsible for a significant level of dust
+extinction that leave images D and B unobservable, and even the arc
+near image A strongly affected. We have, however, tried modelling this
+dataset by only focusing on image C which is not affected by dust, and
+the results are consistent with those found by modelling the point
+images positions and fluxes. For the VLBI extended images the poor
+quality of the data prevented us from modelling this dataset in a
+reliable manner.  We have added text to the manuscript explaining
+this.
 
 > 
 > The final section of the paper speculates that massive disc components
