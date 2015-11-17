@@ -106,15 +106,17 @@ that it is important to quantify how common disks are in lensing
 galaxies, we do not feel that the SLACS sample provides the
 appropriate comparison.  This is because a significant portion of the
 SHARP systems come from source-selected samples, such as CLASS, that
-are agnostic about the nature of the lensing galaxy.  In contrast,
-SLACS lenses were selected to be systems where the lensing galaxy was
-known a priori to be a massive elliptical galaxy.  We would therefore
-expect a lower incidence of disky systems in SLACS than in the SHARP
-sample.  We agree completely with the referee that doing a
-quantification of the statistics of massive disks and their effects on
-flux-ratio anomalies is an extremely important task and, in fact, this
-is one of the future projects that we are planning.  However, we feel
-that such an extensive analysis is beyond the scope of this letter.
-As such, we have modified the text to focus more on this individual
-lens system and put more caveats on the possible generalization of the
-results.
+are agnostic about the nature of the lensing galaxy.  In fact, CLASS
+contains at least one other system, B1600+434, where the lensing
+galaxy appears to be an edge-on disk with a very low bulge/disk ratio.
+In contrast, SLACS lenses were selected to be systems where the
+lensing galaxy was known a priori to be a massive elliptical galaxy.
+We would therefore expect a lower incidence of disky systems in SLACS
+than in the SHARP sample.  We agree completely with the referee that
+doing a quantification of the statistics of massive disks and their
+effects on flux-ratio anomalies is an extremely important task and, in
+fact, this is one of the future projects that we are planning.
+However, we feel that such an extensive analysis is beyond the scope
+of this letter.  As such, we have modified the text to focus more on
+this individual lens system and put more caveats on the possible
+generalization of the results.
