@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.special
+import pyfits
 
 # thin disk
 class thin:
@@ -25,7 +26,7 @@ dc=140  # current critical density, M_sun/kpc^3
 
 # line of sight mass density
 def disk(y,z,dtype):
-	sigma=2*dtype.sig/2/dtype.zd*y*np.exp(-z/dtype.zd)*scipy.special.kn(1,y/dtype.Rd)
+	sigma=2*dtype.sig/2/dtype.zd*y*np.exp(-1*np.abs(z)/dtype.zd)*scipy.special.kn(1,y/dtype.Rd)
 
 	return sigma
 
@@ -43,18 +44,43 @@ def NFW(y,z):
 	return sigma
 
 ## plot line of sight desity profile
-
+'''
+# 1D plot
 y=np.linspace(0,200,200*100)
 y=np.array(y)
 z=0.0
+'''
 
-halo=np.zeros(len(y))
+## 2D plot
+dy=np.linspace(0,10,10*100)
+dz=np.linspace(-5,5,10*100)
+
+y,z=np.meshgrid(dy,dz)
 
 disk_thin=disk(y,z,thin)
 disk_thick=disk(y,z,thick)
 halo=NFW(y,z)
-#print y
-#print halo
+
+total_mass=disk_thin+disk_thick+halo
+#total_mass=np.log10(total_mass)
+
+hdu=pyfits.PrimaryHDU(total_mass)
+hdu.writeto('total_project_mass.fits')
+
+'''
+## save figure
+
+plt.imshow(total_mass)
+plt.colorbar()
+plt.xlabel('10 kpc')
+plt.ylabel('10 kpc')
+plt.title( r' log $\Sigma_{total}$ (M_sun/kpc^2)')
+#plt.show()
+plt.savefig('total_project_mass.png',bbox_inches='tight')
+'''
+
+'''
+## 1D projected mass profile
 
 plt.loglog(y,halo,label='NFW')
 plt.loglog(y,disk_thin,'r',label='disk_thin')
@@ -64,10 +90,11 @@ plt.xlim(0,200)
 plt.ylim(1e6,1e12)
 plt.title('Edge-on view mass density profile, z=0')
 plt.xlabel('r(kpc)')
-plt.ylabel('Mass(M_sun)')
+plt.ylabel('Sigma')
 
 plt.legend()
 
 #plt.show()
 plt.savefig('lineofsight_profile0.png',bbox_inches='tight')
+'''
 
