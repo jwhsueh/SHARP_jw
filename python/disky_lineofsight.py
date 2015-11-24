@@ -2,23 +2,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.special
 import pyfits
+import scipy.interpolate
 
 # thin disk
 class thin:
 	zd=0.3
 	Rd=2.9
-	sig=816.6*10**6
+	sig=816.6*10**2
 
 # thick disk
 class thick:
 	zd=0.9
 	Rd=3.31
-	sig=209.5*10**6
+	sig=209.5*10**2
 
 # NFW
-rho_h0=0.00846*10**9
+rho_h0=0.00846*10**3
 rh=20.2
-dc=140  # current critical density, M_sun/kpc^3
+dc=150# current critical density, M_sun/kpc^3
 
 
 
@@ -33,15 +34,18 @@ def disk(y,z,dtype):
 def NFW(y,z):
 	x=np.sqrt(y**2+z**2)/rh
 	
-	flag1=np.less_equal(x,1)
-	sigma1=2*rh*dc*rho_h0/(x**2-1)*(1-2/np.sqrt(1-x**2)*np.arctanh(np.sqrt((1-x)/(1+x))))*flag1
-	#elif x==1:
-	#	sigma=2*rh*dc*rho_h0/3
-	flag2=np.greater(x,1)
-	sigma2=2*rh*dc*rho_h0/(x**2-1)*(1-2/np.sqrt(1-x**2)*np.arctan(np.sqrt((1-x)/(1+x))))*flag2
+	#flag1=np.less_equal(x,1)
+	#print flag1
+	sigma1=2*rh*dc*rho_h0/(x**2-1)*(1-2/np.sqrt(1-x**2)*np.arctanh(np.sqrt((1-x)/(1+x))))
+	sigma2=2*rh*dc*rho_h0/(x**2-1)*(1-2/np.sqrt(x**2-1)*np.arctan(np.sqrt((x-1)/(1+x))))
+	
+	sigma1[x>1]=0.0
+
+	sigma2[x<=1]=0.0
 
 	sigma=sigma1+sigma2
 	return sigma
+
 
 ## plot line of sight desity profile
 '''
@@ -53,7 +57,7 @@ z=0.0
 
 ## 2D plot
 dy=np.linspace(0,10,10*100)
-dz=np.linspace(-5,5,10*100)
+dz=np.linspace(-10,10,20*100)
 
 y,z=np.meshgrid(dy,dz)
 
@@ -61,22 +65,52 @@ disk_thin=disk(y,z,thin)
 disk_thick=disk(y,z,thick)
 halo=NFW(y,z)
 
-total_mass=disk_thin+disk_thick+halo
+disk_mass=disk_thin+disk_thick#+halo
 #total_mass=np.log10(total_mass)
 
-hdu=pyfits.PrimaryHDU(total_mass)
-hdu.writeto('total_project_mass.fits')
+## cylinder flag
+radius=10 # kpc
+
+r=np.sqrt(y**2+z**2)
+flag=np.less_equal(r,radius)
+
+# flag mass
+disk_mass=disk_mass*flag
+halo_mass=halo*flag
+
+# get rid of nan
+disk_mass[:,0]=0.0
+halo_mass[:,0]=0.0
+
+
+print np.sum(disk_mass)/(2*np.pi)#/
+print np.sum(disk_mass+halo_mass)/(2*np.pi)
+print np.sum(disk_mass)/np.sum(disk_mass+halo_mass)
+'''
+mass_d=scipy.interpolate.RectBivariateSpline(dy,dz,disk_mass)
+mass_d=scipy.interpolate.RectBivariateSpline.integral(mass_d,0,radius,0,radius)
+
+mass_t=scipy.interpolate.RectBivariateSpline(dy,dz,disk_mass+halo_mass)
+mass_t=scipy.interpolate.RectBivariateSpline.integral(mass_t,0,radius,0,radius)
+
+print mass_d#/mass_t
+
+'''
+
+
+#hdu=pyfits.PrimaryHDU(total_mass)
+#hdu.writeto('disk_project_mass.fits')
 
 '''
 ## save figure
 
-plt.imshow(total_mass)
+plt.imshow(total_mass,extent=[0,10,0,10])
 plt.colorbar()
-plt.xlabel('10 kpc')
-plt.ylabel('10 kpc')
-plt.title( r' log $\Sigma_{total}$ (M_sun/kpc^2)')
+plt.xlabel('kpc')
+plt.ylabel('kpc')
+plt.title( r'  $\Sigma_{disk}$ (M_sun/kpc^2)')
 #plt.show()
-plt.savefig('total_project_mass.png',bbox_inches='tight')
+plt.savefig('disk_project_mass.png',bbox_inches='tight')
 '''
 
 '''
