@@ -8,21 +8,19 @@ import scipy.interpolate
 class thin:
 	zd=0.3
 	Rd=2.9
-	sig=816.6*10**2
+	sig=816.6*10**6
 
 # thick disk
 class thick:
 	zd=0.9
 	Rd=3.31
-	sig=209.5*10**2
+	sig=209.5*10**6
 
 # NFW
-rho_h0=0.00846*10**3
+#rho_h0=0.00846*10**9
+rho_h0=0.00846*10**9
 rh=20.2
-dc=150# current critical density, M_sun/kpc^3
-
-
-
+dc=1#.6
 
 
 # line of sight mass density
@@ -47,6 +45,29 @@ def NFW(y,z):
 	return sigma
 
 
+def cylinder_massfraction(disk,halo,radius):
+	# disk mass grid, halo mass grid, cylinder radius
+	r=np.sqrt(y**2+z**2)
+	flag=np.less_equal(r,radius)
+
+	# flag mass
+	disk=disk*flag
+	halo=halo*flag
+
+	# get rid of nan
+	disk[:,0]=0.0
+	halo[:,0]=0.0
+
+	mass_d=scipy.interpolate.RectBivariateSpline(dz,dy,disk)
+	mass_d=scipy.interpolate.RectBivariateSpline.integral(mass_d,-radius,radius,0,radius)
+
+	mass_h=scipy.interpolate.RectBivariateSpline(dz,dy,halo)
+	mass_h=scipy.interpolate.RectBivariateSpline.integral(mass_h,-radius,radius,0,radius)
+
+	return mass_d/(mass_h+mass_d)
+
+
+
 ## plot line of sight desity profile
 '''
 # 1D plot
@@ -65,41 +86,22 @@ disk_thin=disk(y,z,thin)
 disk_thick=disk(y,z,thick)
 halo=NFW(y,z)
 
-disk_mass=disk_thin+disk_thick#+halo
+disk_mass=disk_thin+disk_thick
+total_mass=disk_thin+disk_thick+halo
 #total_mass=np.log10(total_mass)
 
+
+'''
 ## cylinder flag
-radius=10 # kpc
 
-r=np.sqrt(y**2+z**2)
-flag=np.less_equal(r,radius)
-
-# flag mass
-disk_mass=disk_mass*flag
-halo_mass=halo*flag
-
-# get rid of nan
-disk_mass[:,0]=0.0
-halo_mass[:,0]=0.0
-
-
-print np.sum(disk_mass)/(2*np.pi)#/
-print np.sum(disk_mass+halo_mass)/(2*np.pi)
-print np.sum(disk_mass)/np.sum(disk_mass+halo_mass)
-'''
-mass_d=scipy.interpolate.RectBivariateSpline(dy,dz,disk_mass)
-mass_d=scipy.interpolate.RectBivariateSpline.integral(mass_d,0,radius,0,radius)
-
-mass_t=scipy.interpolate.RectBivariateSpline(dy,dz,disk_mass+halo_mass)
-mass_t=scipy.interpolate.RectBivariateSpline.integral(mass_t,0,radius,0,radius)
-
-print mass_d#/mass_t
-
+print cylinder_massfraction(disk_mass,halo,10)
+print cylinder_massfraction(disk_mass,halo,4)
+print cylinder_massfraction(disk_mass,halo,8)
+print cylinder_massfraction(disk_mass,halo,10)
 '''
 
-
-#hdu=pyfits.PrimaryHDU(total_mass)
-#hdu.writeto('disk_project_mass.fits')
+hdu=pyfits.PrimaryHDU(disk_mass)
+hdu.writeto('disk_project_mass.fits')
 
 '''
 ## save figure
@@ -108,9 +110,9 @@ plt.imshow(total_mass,extent=[0,10,0,10])
 plt.colorbar()
 plt.xlabel('kpc')
 plt.ylabel('kpc')
-plt.title( r'  $\Sigma_{disk}$ (M_sun/kpc^2)')
+plt.title( r' $\Sigma_{total}$ (M_sun/kpc^2)')
 #plt.show()
-plt.savefig('disk_project_mass.png',bbox_inches='tight')
+plt.savefig('total_project_mass.png',bbox_inches='tight')
 '''
 
 '''
