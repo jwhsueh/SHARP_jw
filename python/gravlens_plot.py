@@ -1,6 +1,19 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpat
+import sys
+
+""" Check the command line for an optional output file name """
+print ''
+if len(sys.argv)>1:
+	outfile = sys.argv[1]
+	print 'Will save output to %s' % outfile
+	print ''
+else:
+	outfile = None
+	print 'No output file requested.'
+	print ''
+
 
 ## inputs for plotting
 
@@ -157,14 +170,14 @@ def caus():
 ## souce & component positions
 def model_plot():
     plt.plot(sx,sy,'o',ms=5,mec='k',mfc='r',label='source')
-    plt.plot(cx,cy,'^',label='lens',mfc='k')
+    plt.plot(cx,cy,'^',label='lenses',mfc='k')
 
 ##----
 
 def img_pos():
 
-    plt.plot(x0,y0,'b+',ms=10,label='observe')
-    plt.plot(x,y,'o',ms=10,mec='r',mfc='none',label='model')
+    plt.plot(x0,y0,'b+',ms=10,label='observed')
+    plt.plot(x,y,'o',ms=10,mec='r',mfc='none',label='predicted')
     
     plt.xlabel(r'$\Delta  \alpha $ (arcsec)')
     plt.ylabel('$\Delta \delta$ (arcsec)')
@@ -192,6 +205,8 @@ plt.xlim(0.4,-0.8)
 plt.ylim(-0.8,0.4)
 plt.legend(loc=1)
 
-#plt.show()
-plt.savefig('plot.eps',bbox_inches='tight')
+if outfile:
+	plt.savefig(outfile,bbox_inches='tight')
+else:
+	plt.show()
 
