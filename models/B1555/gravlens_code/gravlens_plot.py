@@ -1,1 +1,1 @@
-/Users/jwhsueh/Documents/SHARP_jw/python/gravlens_plot.py
+../../../python/gravlens_plot.py
