@@ -90,7 +90,7 @@ def num_bulge(y,z):
 		print i
 		for j in range(len(y)):
 
-			bulge3d=lambda R: R*np.exp(-(R**2+z[i]**2/q**2))/(np.sqrt(R**2-y[j]**2)*(1+np.sqrt(R**2+z[i]**2/q**2)/r0)**alpha)
+			bulge3d=lambda R: R*np.exp(-(R**2+z[i]**2/q**2)/rcut**2)/(np.sqrt(R**2-y[j]**2)*(1+np.sqrt(R**2+z[i]**2/q**2)/r0)**alpha)
 			I=scipy.integrate.quad(bulge3d,y[j],np.inf)
 
 			sigma[i,j]=2*rho_b0*I[0]
@@ -107,9 +107,9 @@ z=0.0
 '''
 
 ## 2D plot
-radius=30 # kpc
-dy=np.linspace(0,radius,radius*10)
-dz=np.linspace(-1*radius,radius,2*radius*10)
+radius=10 # kpc
+dy=np.linspace(0,radius,radius*100)
+dz=np.linspace(-1*radius,radius,2*radius*100)
 
 y,z=np.meshgrid(dy,dz)
 
@@ -120,59 +120,50 @@ bulge=num_bulge(dy,dz) # numerical bulge doesn't take meshgrid
 
 disk_mass=disk_thin+disk_thick
 total_mass=disk_thin+disk_thick+halo+bulge
-#total_mass=np.log10(total_mass)
+total_mass=np.log10(total_mass)
 
 
 
 ## cylinder flag
-'''
-enclose_mass=np.zeros((5,4))
-enclose_mass[:,0]=cylinder_massfraction(disk_mass,halo,2)
-enclose_mass[:,1]=cylinder_massfraction(disk_mass,halo,4)
-enclose_mass[:,2]=cylinder_massfraction(disk_mass,halo,8)
-enclose_mass[:,3]=cylinder_massfraction(disk_mass,halo,10)
 
-plt.scatter(np.array([2,4,8,10]),enclose_mass[2,:],label='disk+halo',marker='^')
-plt.scatter(np.array([2,4,8,10]),enclose_mass[0,:],label='disk',color='r')
-plt.scatter(np.array([2,4,8,10]),enclose_mass[1,:],color='g',label='halo')
-plt.xlabel('kpc')
-plt.ylabel('log(M)')
-plt.title('log(enclosed total mass)')
-plt.legend(loc=4)
 
 '''
-mass_r=np.array([1,2,4,6,8,10,15,20,25,30])
+#mass_r=np.array([1,2,4,6,8,10,15,20,25,30])
+mass_r=np.array([1,2,4,6,8,10])
 mass_f=np.zeros((len(mass_r),5))
 
 for i in range(len(mass_r)):
 	mass_f[i,:]=cylinder_massfraction(disk_mass,bulge,halo,mass_r[i])
 
-#print mass_f.shape
+print mass_f
 
 plt.figure(1)
+plt.axvline(x=2,color='r')
 plt.scatter(mass_r,mass_f[:,4])
-plt.axvline(x=2,ymax=0.7)
+
 plt.xlabel('kpc')
 plt.ylabel('mass fraction')
 plt.title('disk mass fraction')
 
-#plt.show()	
+plt.show()	
 plt.savefig('disk mass fraction.png',bbox_inches='tight')
 
 
 plt.figure(2)
+plt.axvline(x=2,ymax=11.5,color='r')
 plt.scatter(mass_r,mass_f[:,3],label='total',marker='^')
 plt.scatter(mass_r,mass_f[:,0],label='disk',color='r')
 plt.scatter(mass_r,mass_f[:,2],color='g',label='halo')
 plt.scatter(mass_r,mass_f[:,1],label='bulge')
-plt.axvline(x=2,ymax=11.5)
+
 plt.xlabel('kpc')
 plt.ylabel('log(M)')
 plt.title('log(enclosed total mass)')
 plt.legend(loc=2)
 
+#plt.show()
 plt.savefig('total enclose mass.png',bbox_inches='tight')
-
+'''
 #hdu=pyfits.PrimaryHDU(disk_mass)
 #hdu.writeto('disk_project_mass.fits')
 
@@ -183,7 +174,7 @@ plt.imshow(total_mass,extent=[0,radius,0,radius])
 plt.colorbar()
 plt.xlabel('kpc')
 plt.ylabel('kpc')
-plt.title( r' $\Sigma_{total}$ (M_sun/kpc^2)')
+plt.title( r'log $\Sigma_{total}$ (M_sun/kpc^2)')
 #plt.show()
 plt.savefig('total_project_mass.png',bbox_inches='tight')
 
