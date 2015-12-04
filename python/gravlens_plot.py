@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpat
 import sys
+import plot_lensmod as pltlm
 
 """ Check the command line for an optional output file name """
 print ''
@@ -75,9 +76,9 @@ cy=[ 0.15, 0.08] # y position
 
 ##----read model details from files [glafic]----##
 
-def read_lens():
+def read_lens(infile):
 	## read glafic lens optimal result
-	t=open(name_opt,'r')
+	t=open(infile,'r')
 
         optfile=[]
 
@@ -101,9 +102,9 @@ def read_lens():
 
 ##----read findimg positions from files [gravlens]----##
 
-def read_findimg():
+def read_findimg(infile):
 	## read gravlens image positions
-	t=np.loadtxt(name_findimg)
+	t=np.loadtxt(infile)
 
     	x=t[:,0]
     	y=t[:,1]
@@ -189,12 +190,13 @@ def img_pos():
 
 ##---- call functions from here ----##
 
-#sx,sy,cx,cy=read_lens()
-#x,y=read_findimg()
+#sx,sy,cx,cy=read_lens(name_opt)
+#x,y=read_findimg(name_findimg)
 
 plt.figure(figsize=(5.7,5.7))
 
 crit()
+#pltlm.plot_critcaust(name,'crit')
 caus()
 model_plot()
 #x0,y0=x,y

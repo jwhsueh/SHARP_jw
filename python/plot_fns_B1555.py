@@ -3,11 +3,16 @@ A collection of functions that are used to make the plots for B1555.
 
 These are split off from their original python programs to allow for
 the possibility of doing a multi-panel plot for the B1555 paper.
+
+Functions
+ radio_overlay_b1555  - Overlays contours from MERLIN and VLBA onto AO image
 """
 
 import numpy as n
 import imfuncs as imf
 from matplotlib import pyplot as plt
+
+#---------------------------------------------------------------------------
 
 def radio_overlay_b1555():
     """
@@ -60,3 +65,6 @@ def radio_overlay_b1555():
     labt = ['A', 'B', 'C', 'D']
     for i in range(len(labx)):
         plt.text(labx[i],laby[i],labt[i],fontdict=font)
+
+#---------------------------------------------------------------------------
+
