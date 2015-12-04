@@ -20,7 +20,8 @@ else:
 
 # input files
 
-name='B1555_expdisk_try5.crit'
+name='../models/B1555/gravlens_code/B1555_expdisk_try5_1.crit'
+obsfile = '../models/B1555/B1555_obsdat.txt'
 
 #name_findimg='/Users/jwhsueh/Documents/SHARP_jw/DK02/gravlens_mock_findimg.dat'
 
@@ -38,26 +39,22 @@ global x,y,x0,y0,sx,sy,cx,cy
 # lensed images
 
 ## system == B1555
-# observe data
-x0=[0.0, -0.0726,-0.4117,-0.1619]
-y0=[0.0, 0.0480, -0.0280,-0.3680]
-
 # model
 x=[-0.4117 , -0.1629 ,-0.00,-0.0727]
 y=[-0.0281,-0.3653,-0.00 ,0.0477]
 
-# model paras
+# model params
 # source
 sx,sy= -1.952576e-01, -1.493771e-01
 
-# mass profile centeroid
+# mass profile centroid
 cx=[ -1.818271e-01, -1.471605e-01] # x position
 cy=[ -1.987580e-01, -2.056755e-01] # y position
 '''
 
 
 ## system == B0712
-# observe data
+# observed data
 x0=[0.0, -0.075,-1.185,-1.71]
 y0=[0.0, -0.16, -0.67,0.46]
 
@@ -65,11 +62,11 @@ y0=[0.0, -0.16, -0.67,0.46]
 x=[-9.694099e-01, 4.912447e-02,-3.756152e-02,-1.223079e+00]
 y=[-7.651540e-01,  1.666924e-01, -2.644472e-01, 5.127648e-01]
 
-# model paras
+# model params
 # source
 sx,sy= -8.809485e-01,  2.514535e-01
 
-# mass profile centeroid
+# mass profile centroid
 cx=[ -8.7e-01, -1.08] # x position
 cy=[ 0.15, 0.08] # y position
 '''
@@ -114,68 +111,18 @@ def read_findimg(infile):
 
 ##----call functions in the end----##
 
-def crit():
-    ## read gravlens file
-    t=np.loadtxt(name)
-
-    ## critical curves
-    x1,x2=t[:,0],t[:,4]
-    y1,y2=t[:,1],t[:,5]
-
-    n=x1.shape[0]
-    Lx=np.zeros((n,2))
-    Ly=np.zeros((n,2))
-
-    for i in range(n):
-        Lx[i,0],Lx[i,1]=-x1[i],-x2[i] # B1555
-        #Lx[i,0],Lx[i,1]=x1[i],x2[i]
-        Ly[i,0],Ly[i,1]=y1[i],y2[i]
-
-##
-
-
-    for i in range(n):
-        plt.plot(Lx[i,:],Ly[i,:],'b')
-
-#model_plot()
-
 ##----
 
-def caus():
-## caustics
-    # read gravlens file
-    t=np.loadtxt(name)
-
-    u1,u2=t[:,2],t[:,6]
-    v1,v2=t[:,3],t[:,7]
-
-    n=u1.shape[0]
-    Lu=np.zeros((n,2))
-    Lv=np.zeros((n,2))
-
-    for i in range(n):
-        Lu[i,0],Lu[i,1]=-u1[i],-u2[i] # B1555
-        #        Lu[i,0],Lu[i,1]=u1[i],u2[i]
-        Lv[i,0],Lv[i,1]=v1[i],v2[i]
-
-##
-
-
-    for i in range(n):
-        plt.plot(Lu[i,:],Lv[i,:],'r--')
-
-#model_plot()
-
-##----
-
-## souce & component positions
+## source & component positions
 def model_plot():
-    plt.plot(sx,sy,'o',ms=5,mec='k',mfc='r',label='source')
-    plt.plot(cx,cy,'^',label='lenses',mfc='k')
+    plt.plot(sx,sy,'o',ms=10,mec='k',mfc='r',label='source')
+    plt.plot(cx,cy,'^',ms=10,label='lenses',mfc='k')
 
 ##----
 
-def img_pos():
+def img_pos(obsfile):
+
+    x0,y0 = np.loadtxt(obsfile,unpack=True,usecols=(0,1))
 
     plt.plot(x0,y0,'b+',ms=10,label='observed')
     plt.plot(x,y,'o',ms=10,mec='r',mfc='none',label='predicted')
@@ -195,13 +142,12 @@ def img_pos():
 
 plt.figure(figsize=(5.7,5.7))
 
-crit()
-#pltlm.plot_critcaust(name,'crit')
-caus()
+pltlm.plot_critcaust(name,'crit')
+pltlm.plot_critcaust(name,'caust',sls=':')
 model_plot()
 #x0,y0=x,y
 #print x,y
-img_pos()
+img_pos(obsfile)
 
 plt.xlim(0.4,-0.8)
 plt.ylim(-0.8,0.4)

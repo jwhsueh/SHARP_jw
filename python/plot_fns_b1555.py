@@ -6,11 +6,13 @@ the possibility of doing a multi-panel plot for the B1555 paper.
 
 Functions
  radio_overlay_b1555  - Overlays contours from MERLIN and VLBA onto AO image
+ gravlens_b1555       - Plots gravlens model
 """
 
 import numpy as n
 import imfuncs as imf
 from matplotlib import pyplot as plt
+import plot_lensmod as pltlm
 
 #---------------------------------------------------------------------------
 
@@ -67,4 +69,38 @@ def radio_overlay_b1555():
         plt.text(labx[i],laby[i],labt[i],fontdict=font)
 
 #---------------------------------------------------------------------------
+
+def gravlens_b1555():
+    """
+    Plots the gravlens model.  This includes the following information:
+       observed image positions
+       model-predicted image positions
+       lens centroids
+       critical and caustic curves
+    """
+
+    """ Set up input file information """
+    critfile = '../models/B1555/gravlens_code/B1555_expdisk_try5_1.crit'
+    obsfile  = '../models/B1555/B1555_obsdat.txt'
+
+    """ Get observed image postions """
+    x0,y0 = n.loadtxt(obsfile,unpack=True,usecols=(0,1))
+
+    """ Set model-predicted positions """
+    xmod = [-0.4117 , -0.1629 ,-0.00,-0.0727]
+    ymod = [-0.0281,-0.3653,-0.00 ,0.0477]
+
+    """ Set lens mass centroids """
+    cx = [ -1.818271e-01, -1.471605e-01] # x position
+    cy = [ -1.987580e-01, -2.056755e-01] # y position
+
+    """ Do the plotting """
+    pltlm.plot_critcaust(critfile,'crit')
+    pltlm.plot_critcaust(critfile,'caust',sls=':')
+    model_plot()
+    img_pos()
+
+    plt.xlim(0.4,-0.8)
+    plt.ylim(-0.8,0.4)
+    plt.legend(loc=1)
 
