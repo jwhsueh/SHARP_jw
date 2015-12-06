@@ -15,6 +15,24 @@ from matplotlib import pyplot as plt
 import plot_lensmod as pltlm
 
 #---------------------------------------------------------------------------
+def model_plot(sx, sy, cx, cy):
+    plt.plot(sx,sy,'o',ms=10,mec='k',mfc='r',label='source')
+    plt.plot(cx,cy,'^',ms=10,label='lenses',mfc='k')
+
+#---------------------------------------------------------------------------
+
+def img_pos(obsfile, xmod, ymod, showylab=True):
+
+    x0,y0 = n.loadtxt(obsfile,unpack=True,usecols=(0,1))
+
+    plt.plot(x0,y0,'b+',ms=10,label='observed')
+    plt.plot(xmod,ymod,'o',ms=10,mec='r',mfc='none',label='predicted')
+    
+    plt.xlabel(r'$\Delta  \alpha $ (arcsec)')
+    if showylab:
+        plt.ylabel('$\Delta \delta$ (arcsec)')
+
+#---------------------------------------------------------------------------
 
 def radio_overlay_b1555():
     """
@@ -83,9 +101,6 @@ def gravlens_b1555():
     critfile = '../models/B1555/gravlens_code/B1555_expdisk_try5_1.crit'
     obsfile  = '../models/B1555/B1555_obsdat.txt'
 
-    """ Get observed image postions """
-    x0,y0 = n.loadtxt(obsfile,unpack=True,usecols=(0,1))
-
     """ Set model-predicted positions """
     xmod = [-0.4117 , -0.1629 ,-0.00,-0.0727]
     ymod = [-0.0281,-0.3653,-0.00 ,0.0477]
@@ -94,13 +109,24 @@ def gravlens_b1555():
     cx = [ -1.818271e-01, -1.471605e-01] # x position
     cy = [ -1.987580e-01, -2.056755e-01] # y position
 
+    """ Set the source positions """
+    sx,sy= -1.952576e-01, -1.493771e-01
+
     """ Do the plotting """
     pltlm.plot_critcaust(critfile,'crit')
     pltlm.plot_critcaust(critfile,'caust',sls=':')
-    model_plot()
-    img_pos()
+    model_plot(sx,sy,cx,cy)
+    img_pos(obsfile,xmod,ymod)
 
     plt.xlim(0.4,-0.8)
     plt.ylim(-0.8,0.4)
     plt.legend(loc=1)
+    plt.axes().set_aspect('equal')
 
+#---------------------------------------------------------------------------
+
+def plot_2panel_b1555():
+    """
+    Creates a 2-panel figure, with one panel showing the radio/NIR overlay
+    and the other showing the results of the lens modeling.
+    """
