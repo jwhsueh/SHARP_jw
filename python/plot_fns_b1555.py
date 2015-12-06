@@ -15,23 +15,20 @@ from matplotlib import pyplot as plt
 import plot_lensmod as pltlm
 
 #---------------------------------------------------------------------------
+
 def model_plot(sx, sy, cx, cy):
     plt.plot(sx,sy,'o',ms=10,mec='k',mfc='r',label='source')
     plt.plot(cx,cy,'^',ms=10,label='lenses',mfc='k')
 
 #---------------------------------------------------------------------------
 
-def img_pos(obsfile, xmod, ymod, showylab=True):
+def img_pos(obsfile, xmod, ymod):
 
     x0,y0 = n.loadtxt(obsfile,unpack=True,usecols=(0,1))
 
     plt.plot(x0,y0,'b+',ms=10,label='observed')
     plt.plot(xmod,ymod,'o',ms=10,mec='r',mfc='none',label='predicted')
     
-    plt.xlabel(r'$\Delta  \alpha $ (arcsec)')
-    if showylab:
-        plt.ylabel('$\Delta \delta$ (arcsec)')
-
 #---------------------------------------------------------------------------
 
 def radio_overlay_b1555():
@@ -40,9 +37,9 @@ def radio_overlay_b1555():
     """
 
     """ Set the input file names """
-    aoim      = 'B1555_nirc2_n_Kp_6x6.fits'
-    merlin_im = '1555_merlin_5ghz.fits'
-    vlbi_im   = 'B1555_vlbi_fix_astrom.fits'
+    aoim      = '../data/B1555_nirc2_n_Kp_6x6.fits'
+    merlin_im = '../data/1555_merlin_5ghz.fits'
+    vlbi_im   = '../data/B1555_vlbi_fix_astrom.fits'
 
     """ Hardwire rms levels if needed """
     rms_vlbi = 0.0001
@@ -50,7 +47,7 @@ def radio_overlay_b1555():
     """ Set the image center, origin location, and size """
     racent  = 239.29968
     deccent = 37.359921
-    zeropos = (0.2236,0.2174)
+    zeropos = (0.2276,0.2194)
     imsize  = 1.2       # Value in arcsec
 
     """ Make the overlay plot """
@@ -88,13 +85,17 @@ def radio_overlay_b1555():
 
 #---------------------------------------------------------------------------
 
-def gravlens_b1555():
+def gravlens_b1555(ax=None, showylab=True):
     """
     Plots the gravlens model.  This includes the following information:
        observed image positions
        model-predicted image positions
        lens centroids
        critical and caustic curves
+
+    Inputs:
+     ax       - the matplotlib axis to which to add the plotted curve.
+                The default (None) should be fine for most applications.
     """
 
     """ Set up input file information """
@@ -113,15 +114,19 @@ def gravlens_b1555():
     sx,sy= -1.952576e-01, -1.493771e-01
 
     """ Do the plotting """
-    pltlm.plot_critcaust(critfile,'crit')
-    pltlm.plot_critcaust(critfile,'caust',sls=':')
+    pltlm.plot_critcaust(critfile,'crit',ax=ax)
+    pltlm.plot_critcaust(critfile,'caust',sls=':',ax=ax)
     model_plot(sx,sy,cx,cy)
     img_pos(obsfile,xmod,ymod)
 
-    plt.xlim(0.4,-0.8)
-    plt.ylim(-0.8,0.4)
+    plt.xlabel(r'$\Delta  \alpha $ (arcsec)')
+    if showylab:
+        plt.ylabel('$\Delta \delta$ (arcsec)')
+
+    plt.xlim(0.3724,-0.8276)
+    plt.ylim(-0.8194,0.3806)
     plt.legend(loc=1)
-    plt.axes().set_aspect('equal')
+    #plt.axes().set_aspect('equal')
 
 #---------------------------------------------------------------------------
 
@@ -130,3 +135,34 @@ def plot_2panel_b1555():
     Creates a 2-panel figure, with one panel showing the radio/NIR overlay
     and the other showing the results of the lens modeling.
     """
+
+    """ Set x and y limits for the plots """
+    x1 =  0.3724
+    x2 = -0.8276
+    y1 = -0.8194
+    y2 =  0.3806
+
+    """ Set up the figure to have the correct dimensions """
+    plt.figure(figsize=(11.,5.4))
+
+    """ Get rid of the space between the subplots"""
+    plt.subplots_adjust(wspace=0.001)
+
+    """ Make the radio overlay plot """
+    ax1 = plt.subplot(121)
+    radio_overlay_b1555()
+
+    """ Make the lens modeling plot """
+    ax2 = plt.subplot(122, sharey=ax1)
+    gravlens_b1555(ax=ax2,showylab=False)
+
+    """ Finalize the plotted ranges """
+    ax1.set_xlim(x1,x2)
+    ax1.set_ylim(y1,y2)
+    ax2.set_xlim(x1,x2)
+    ax2.set_ylim(y1,y2)
+
+    """ Handle the axis labels"""
+    yticklabels = ax2.get_yticklabels()
+    #yticklabels = ax1.get_yticklabels() + ax2.get_yticklabels()
+    plt.setp(yticklabels, visible=False)
