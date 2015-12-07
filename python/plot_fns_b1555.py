@@ -33,7 +33,8 @@ def img_pos(obsfile, xmod, ymod):
 
 def radio_overlay_b1555():
     """
-    Set up basic parameters of the B1555 system.
+    Plots the NIR AO image in greyscale, and then overlays contours
+    from two radio data sets: MERLIN and VLBA
     """
 
     """ Set the input file names """
@@ -82,6 +83,29 @@ def radio_overlay_b1555():
     labt = ['A', 'B', 'C', 'D']
     for i in range(len(labx)):
         plt.text(labx[i],laby[i],labt[i],fontdict=font)
+
+#---------------------------------------------------------------------------
+
+def mark_radio_b1555():
+    """
+    Plots the NIR AO image in greyscale, and then marks with circles
+    the location of the lensed AGN images
+    """
+
+    """ Set the input file names """
+    aofile = '../data/B1555_nirc2_n_Kp_6x6.fits'
+
+    """ Set the image center, origin location, and size """
+    racent  = 239.29968
+    deccent = 37.359921
+    zeropos = (0.2276,0.2194)
+    imsize  = 1.2       # Value in arcsec
+
+    """ Plot the AO image """
+    aoim = imf.Image(aofile)
+    aoim.display(cmap='gray_inv',subimdef='radec',subimcent=(racent,deccent),
+                 subimsize=(imsize,imsize),dispunits='radec',sighigh=6.,
+                 zeropos=zeropos)
 
 #---------------------------------------------------------------------------
 
@@ -165,4 +189,51 @@ def plot_2panel_b1555():
     """ Handle the axis labels"""
     yticklabels = ax2.get_yticklabels()
     #yticklabels = ax1.get_yticklabels() + ax2.get_yticklabels()
+    plt.setp(yticklabels, visible=False)
+
+#---------------------------------------------------------------------------
+
+def plot_3panel_b1555():
+    """
+    Creates a 2-panel figure, with one panel showing the radio/NIR overlay,
+    one showing the NIR image with just circles indicating the lensed image
+    locations, and the third showing the results of the lens modeling.
+    """
+
+    """ Set x and y limits for the plots """
+    x1 =  0.3724
+    x2 = -0.8276
+    y1 = -0.8194
+    y2 =  0.3806
+
+    """ Set up the figure to have the correct dimensions """
+    panelsize = 6.
+    xsize = 3.*panelsize + 0.4
+    plt.figure(figsize=(xsize,panelsize))
+
+    """ Get rid of the space between the subplots"""
+    plt.subplots_adjust(wspace=0.001)
+
+    """ Make the radio overlay plot """
+    ax1 = plt.subplot(131)
+    radio_overlay_b1555()
+
+    """ Make the middle plot """
+    ax2 = plt.subplot(132, sharey=ax1)
+    mark_radio_b1555()
+
+    """ Make the lens modeling plot """
+    ax3 = plt.subplot(133, sharey=ax1)
+    gravlens_b1555(ax=ax3,showylab=False)
+
+    """ Finalize the plotted ranges """
+    ax1.set_xlim(x1,x2)
+    ax1.set_ylim(y1,y2)
+    ax2.set_xlim(x1,x2)
+    ax2.set_ylim(y1,y2)
+    ax3.set_xlim(x1,x2)
+    ax3.set_ylim(y1,y2)
+
+    """ Handle the axis labels"""
+    yticklabels = ax2.get_yticklabels() + ax3.get_yticklabels()
     plt.setp(yticklabels, visible=False)
