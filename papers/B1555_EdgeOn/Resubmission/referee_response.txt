@@ -1,6 +1,5 @@
 We thank the referee for his/her comments about the paper.  We have
 responded to the comments below, and modified the text accordingly.
-Overall, we have toned down our somewhat sweeping claims.
 
 > Comments to the Author: This paper presents an interesting new
 > observational result for the strong gravitational lens B1555+375,
@@ -37,6 +36,7 @@ Our fit returns a bulge component that is consistent with zero
 emission.  We have added text to the paper describing this result.  We
 note that the two components in our lens model can be thought of as
 the edge-on disk and the dark-matter halo of the lensing galaxy.
+[SHOULD WE MENTION SWELLS RESULTS HERE??]
 
 > More importantly, the large disk component in the lens model produces
 > a significant distortion to the usually ellipsoidal critical curves
@@ -113,7 +113,11 @@ the lensing galaxy appears to be an edge-on disk with a very low
 bulge/disk ratio.  In contrast, SLACS lenses were selected to be
 systems where the lensing galaxy was known a priori to be a massive
 elliptical galaxy.  We would therefore expect a lower incidence of
-disky systems in SLACS than in the SHARP sample.  We agree completely
+disky systems in SLACS than in the SHARP sample.  The SWELLS sample
+shows a number of massive disc systems, that contribute significantly
+to the mass within 2.2 scale radii [WE DON'T MENTION THIS IN THE TEXT.
+SHOULD WE, AS LEON SUGGESTED?]
+We agree completely
 with the referee that doing a quantification of the statistics of
 massive disks and their effects on flux-ratio anomalies is an
 extremely important task and, in fact, this is one of the future
