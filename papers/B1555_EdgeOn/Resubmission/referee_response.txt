@@ -109,7 +109,7 @@ appropriate comparison.  This is because a significant portion of the
 SHARP systems come from source-selected samples, such as CLASS, that
 are agnostic about the nature of the lensing galaxy.  In fact, CLASS
 contains at least one other system, B1600+434 (albeit a double), where
-the lensing galaxy appears to be an edge-on disk with a very low
+the lensing galaxy is an edge-on disk with a very low
 bulge/disk ratio.  In contrast, SLACS lenses were selected to be
 systems where the lensing galaxy was known a priori to be a massive
 elliptical galaxy.  We would therefore expect a lower incidence of

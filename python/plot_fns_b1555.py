@@ -12,6 +12,7 @@ Functions
 import numpy as n
 import imfuncs as imf
 from matplotlib import pyplot as plt
+from matplotlib import patches
 import plot_lensmod as pltlm
 
 #---------------------------------------------------------------------------
@@ -86,7 +87,7 @@ def radio_overlay_b1555():
 
 #---------------------------------------------------------------------------
 
-def mark_radio_b1555():
+def mark_radio_b1555(color='r', radius=0.05, lw=2):
     """
     Plots the NIR AO image in greyscale, and then marks with circles
     the location of the lensed AGN images
@@ -106,6 +107,16 @@ def mark_radio_b1555():
     aoim.display(cmap='gray_inv',subimdef='radec',subimcent=(racent,deccent),
                  subimsize=(imsize,imsize),dispunits='radec',sighigh=6.,
                  zeropos=zeropos)
+
+    """ Add circles for radio positions """
+    obsfile  = '../models/B1555/B1555_obsdat.txt'
+    x0,y0 = n.loadtxt(obsfile,unpack=True,usecols=(0,1))
+    ax = plt.gca()
+    for i in range(x0.size):
+        circ = patches.Circle((x0[i],y0[i]),radius,edgecolor=color,
+                              facecolor='none',lw=lw)
+        ax.add_patch(circ)
+    plt.ylabel('')
 
 #---------------------------------------------------------------------------
 
