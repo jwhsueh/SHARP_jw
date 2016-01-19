@@ -1,0 +1,65 @@
+
+plot 03 # plot [automatic limits?] [plot grid?] [use colors?]
+	 if (!$?1) {define 1 1}
+	 if (!$?2) {define 2 1}
+	 if (!$?3) {define 3 1}
+	 erase 
+	 window 2 2 1 1 \n plotimg $1 $2 $3
+	 window 2 2 2 1 \n plotsrc $1 $2 $3
+
+plotimg 03 # plotimg [automatic limits?] [plot grid?] [use colors?]
+	 if (!$?1) {define 1 1}
+	 if (!$?2) {define 2 1}
+	 if (!$?3) {define 3 1}
+	 define limitflag $1
+	 define gridflag  $2
+	 define colorflag $3
+	 if ($limitflag==1) {limits -4.170634 5.543960 -4.876142 4.838452}
+	 box \n xlabel arcsec \n ylabel arcsec
+	 relocate $($fx1+0.5*($fx2-$fx1)) $($fy1+1.02*($fy2-$fy1))
+	 putlabel 8 image plane
+	 if ($gridflag) {myctype black \n imgplotone grid.dat}
+	 myctype red \n imgplotone crit.dat
+	 expand $($expand*1.5)
+	 myctype blue
+	 relocate 0.000000 0.000000 \n ptype 3 3 \n dot
+	 relocate 0.024946 0.070232 \n ptype 4 3 \n dot
+	 relocate 0.051000 -0.160000 \n ptype 3 3 \n dot
+	 relocate 0.020712 -0.071603 \n ptype 4 3 \n dot
+	 relocate 0.806000 -0.670000 \n ptype 3 3 \n dot
+	 relocate 0.571935 -0.679715 \n ptype 4 3 \n dot
+	 relocate 1.163000 0.460000 \n ptype 3 3 \n dot
+	 relocate 1.250984 0.356585 \n ptype 4 3 \n dot
+	 expand $($expand/1.5)
+	 myctype black
+
+plotsrc 03 # plotsrc [automatic limits?] [plot grid?] [use colors?]
+	 if (!$?1) {define 1 1}
+	 if (!$?2) {define 2 1}
+	 if (!$?3) {define 3 1}
+	 define limitflag $1
+	 define gridflag  $2
+	 define colorflag $3
+	 if ($limitflag==1) {limits -4.154690 5.559904 -4.860198 4.854396}
+	 box \n xlabel arcsec \n ylabel arcsec
+	 relocate $($fx1+0.5*($fx2-$fx1)) $($fy1+1.02*($fy2-$fy1))
+	 putlabel 8 source plane
+	 if ($gridflag) {myctype black \n srcplotone grid.dat}
+	 myctype red \n srcplotone crit.dat
+	 expand $($expand*1.5)
+	 myctype blue
+	 relocate 0.690451 -0.017492 \n ptype 4 3 \n dot
+	 expand $($expand/1.5)
+	 myctype black
+
+myctype 1
+	 if ($colorflag) {ctype $1} else {ctype black}
+
+imgplotone 11
+	 data $1 read {x1 1 y1 2 u1 3 v1 4 x2 5 y2 6 u2 7 v2 8}
+	 do i=0,dimen(x1)-1 {relocate $(x1[$i]) $(y1[$i]) draw $(x2[$i]) $(y2[$i])}
+
+srcplotone 11
+	 data $1 read {x1 1 y1 2 u1 3 v1 4 x2 5 y2 6 u2 7 v2 8}
+	 do i=0,dimen(x1)-1 {relocate $(u1[$i]) $(v1[$i]) draw $(u2[$i]) $(v2[$i])}
+
