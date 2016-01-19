@@ -1,0 +1,28 @@
+#data B1555_K03.dat
+
+## for findimg
+#maingrid 1 -2.5 2.5 25 -2.5 2.5 25
+
+## for critical curves
+gridmode 1
+set ngrid1=25
+set ngrid2=25
+set maxlev=3
+
+startup 1 1
+
+#alpha 7.625381e-01 7.099993e-01 -6.361645e-01 2.045019e-01 5.777000e+01 1.891894e-01 5.275023e+01 0.0 0.0 1.000000e+00
+
+ alpha 7.510728e-01 7.531694e-01 -6.653686e-01 3.457990e-01 5.581020e+01 1.560828e-01 5.256362e+01 0.0 0.0 1.000000e+00
+
+
+0 0 0 0 0 0 0 0 0 0
+
+
+#findimg 3.868320e-01 -4.131759e-01
+
+findimg 3.891894e-01 -4.147990e-01
+
+
+#plotcrit B1555_expdisk_try5.crit
+#plotkappa B1555_SIE_kappa.fits 3 -0.4 0.8 1200 -0.8 0.4 1200
