@@ -155,8 +155,12 @@ model_plot()
 #print x,y
 img_pos(lens_name)
 
-plt.xlim(0.4,-0.8)
-plt.ylim(-0.8,0.4)
+#plt.xlim(0.4,-0.8)
+#plt.ylim(-0.8,0.4)
+
+plt.xlim(1.6,-0.4)
+plt.ylim(-0.8,1.2)
+
 plt.legend(loc=1)
 
 if outfile:

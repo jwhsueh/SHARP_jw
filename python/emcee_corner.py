@@ -3,7 +3,7 @@ import triangle
 import matplotlib.pyplot as plt
 #import matplotlib.patches as mpat
 
-file_name=['B1555_parachain.dat']
+file_name=['../data/exp_chain.dat']
 
 k=0
 for i in file_name:
@@ -27,7 +27,7 @@ for i in file_name:
 
 #data=t[:,:11] #ignore source posotions first
 #data=t[:,:9]
-data=t[:,13:]
+data=t[:,:7]
 #print len(chi2)
 
 
@@ -36,14 +36,14 @@ data=t[:,13:]
 #ndim, nsamples = 10, len(chi2)
 
 figure = triangle.corner(data, labels=[
-                                       #r"$b$", r"$x1$", r"$y1$",
-                                       #r"$e1$",r"$PA1$",
-                                       #r"$kappa_0$",
+                                       r"$b$", r"$x1$", r"$y1$",
+                                       r"$e1$",r"$PA1$",
+                                       r"$kappa_0$",
                                        #r"$x2$", r"$y2$",
                                        #r"$e2$",r"$PA2$"
-                                       #,r"$rs$"
-                                       #,r"x_s",r"y_s",
-                                       r"b_sub",r"x_sub",r"y_sub"],
+                                       r"$rs$"],
+                                       #,r"x_s",r"y_s"]
+                                       #r"b_sub",r"x_sub",r"y_sub"],
 #                         extents=[(120.,170.),(0.1,0.25),(-0.35,-0.2),(0.,0.5),(60.,110.),
 #                                  (110.,160.),(0.1,0.25),(-0.3,-0.1),(0.75,0.95),(0.,20.)],
                          #range=[0.999,0.999,0.999,0.999,0.999,

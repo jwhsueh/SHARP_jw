@@ -179,11 +179,11 @@ interferometric arrays, which can test more complex models in the
 future by imaging the extended gravitational arc and more
 significantly detecting image D. 
 
-\textbf{To obtain the best-fit lens model, we explore the parameter space as the following:  First, we use the best-fit model of \citet{Marlow99} as the starting point for the SIE profile. By looking at the NICMOS F160W imaging, which has the highest signal-to-noise ratio of disc among the data, we fix the centroid position as $(-0.162, -0.206)$ , ellipticity as $e=0.83$, and position angle of $\theta=8^\circ$. The total number of free parameters is 9. After obtaining the best-fit lens model from {\sc gravlens}, we run a Markov-Chain Monte-Carlo (MCMC) analysis to obtain uncertainties.}
+\textbf{We use {\sc gravlens} to obtain the best-fit SIE+ExpDisc lens model. The best-fit parameters from \citet{Marlow99} are set as the starting point of the SIE profile. By looking at the NICMOS F160W imaging, which has the highest signal-to-noise ratio of disc among the data, we fix the centroid position as $(-0.162, -0.206)$ , ellipticity as $e=0.83$, and position angle of $\theta=8^\circ$. The total number of free parameters is 9. After obtaining the best-fit lens model, we run a Markov-Chain Monte-Carlo (MCMC) analysis to obtain uncertainties.}
 
 The best-fit model parameters and 68\% CL errors are listed in Table~\ref{tab:model} and the lens model is illustrated in Fig.~\ref{fig:3panel}c. Table \ref{tab:results} also shows the comparison between the observed radio data and the model-predicted image positions and flux ratios. We find that by adding an elongated exponential disc to a smooth SIE model there is significant improvement in the predicted flux ratios when compared to the results for the SIE-only model. 
 % with a reduced $\chi^2 = 2.7$
-The positions are all in agreement, and the flux ratios are consistent at the $2\sigma$ level, with excellent agreement now obtained for the two merging images A and B. The remaining differences in fluxes may due to the real lensed source being slightly extended rather than the point source that we used in our model. The model requires that the ExpDisc component makes up about 10 per cent of the total projected mass within the Einstein radius (1.7~kpc for an assumed lens redshift of $z_l = 1$).  In this central region of an edge-on spiral galaxy, the baryonic mass can be a significant component of the total enclosed mass \citep[e.g.][]{swells2}.  In the NIR imaging there is no sign of a bulge; a bulge plus disk fit to the lens galaxy surface brightness distribution gives a bulge component that is consistent with zero emission.  We therefore interpret the ExpDisc component as a good description of the baryonic mass of the lens galaxy. \textbf{[Is 0.015" still a large offset?]}
+The positions are all in agreement, and the flux ratios are consistent at the $2\sigma$ level, with excellent agreement now obtained for the two merging images A and B. The remaining differences in fluxes may due to the real lensed source being slightly extended rather than the point source that we used in our model. The model requires that the \textbf{ExpDisc component makes up about 15 per cent of the total projected mass within the Einstein radius (1.7~kpc for an assumed lens redshift of $z_l = 1$).  In this central region of an edge-on spiral galaxy, the baryonic mass can be a significant component of the total enclosed mass \citep[e.g.][]{swells2, swells5}.}  In the NIR imaging there is no sign of a bulge; a bulge plus disk fit to the lens galaxy surface brightness distribution gives a bulge component that is consistent with zero emission.  We therefore interpret the ExpDisc component as a good description of the baryonic mass of the lens galaxy. 
 %We note that there is a significant 0.036~arcsec offset between the SIE and ExpDisc components, which is likely due to an additional ellipticity in the model (e.g. from an external shear) that is being partly compensated for by the disc component. Again, more complex mass models require the stronger constraints provided by deep imaging of the full extent of the gravitational arc in future high resolution radio observations.
 
 \begin{figure*}
@@ -230,9 +230,9 @@ Image	&\multicolumn{3}{c}{Observed MERLIN} 	 	& \multicolumn{4}{c}{Model-Predict
 		&East &North & Flux ratio &East 	&North & Flux ratio &Flux ratio\\ 
 \hline
 A  &$0$    		&$0$			&  $1$ 				&$+0.000$  &$+0.000$	& $1$ 		& $1$\\  
-B  &$-0.073$	&$+0.048$	& $0.620 \pm 0.039$ 	&$-0.073$ &$+0.048$		& $0.620$ 	& $0.971$ \\  
-C  &$-0.412$ 	&$-0.028$	& $0.507\pm 0.030$	&$-0.412$ &$-0.028$		& $0.461$ 	& $0.312$\\  
-D  &$-0.162$	&$-0.368$	& $0.086 \pm 0.024$ 	&$-0.163$ &$-0.365$		& $0.115$ 	& $0.106$\\  
+B  &$-0.0726$	&$+0.0480$	& $0.620 \pm 0.039$ 	&$-0.0715$ &$+0.0487$		& $0.606$ 	& $0.971$ \\  
+C  &$-0.4117$ 	&$-0.0280$	& $0.507\pm 0.030$	&$-0.4115$ &$-0.0278$		& $0.445$ 	& $0.312$\\  
+D  &$-0.1619$	&$-0.3680$	& $0.086 \pm 0.024$ 	&$-0.1693$ &$-0.3704$		& $0.123$ 	& $0.106$\\  
 \hline
 \end{tabular}
 \label{tab:results}
@@ -246,13 +246,13 @@ D  &$-0.162$	&$-0.368$	& $0.086 \pm 0.024$ 	&$-0.163$ &$-0.365$		& $0.115$ 	& $0
 Parameter    & SIE Component & ExpDisc Component  \\
 %   & (SIE) & (ExpDisc)\\
 \hline
-$\Delta$RA	& $-0.176 \pm 0.005$		& $-0.162$ \textit{(fixed)}\\
-$\Delta$Dec	& $-0.212 \pm 0.005$		& $-0.206$ \textit{(fixed)} \\
-$b$ 			& $0.19 \pm 0.01$  		& ...  \\
-$\kappa_0$ & ... &$0.19 \pm 0.01$\\
-$e$	  		& $0.40 \pm 0.01$			& $0.83$ \textit{(fixed)} \\
-$\theta$ 		& $4.4 \pm 0.6$			& $8.0$ \textit{(fixed)}	 \\
-$R_s$			& ...  						& $0.21 \pm 0.01$	 \\
+$\Delta$RA	& $-0.177 \pm 0.005$		& $-0.162$ \textit{(fixed)}\\
+$\Delta$Dec	& $-0.205 \pm 0.005$		& $-0.206$ \textit{(fixed)} \\
+$b$ 			& $0.18 \pm 0.01$  		& ...  \\
+$\kappa_0$ & ... &$0.27 \pm 0.01$\\
+$e$	  		& $0.25 \pm 0.01$			& $0.83$ \textit{(fixed)} \\
+$\theta$ 		& $4.9 \pm 0.6$			& $8.0$ \textit{(fixed)}	 \\
+$R_s$			& ...  						& $0.24 \pm 0.01$	 \\
 \hline
 \label{tab:model}
 \end{tabular}
@@ -265,12 +265,7 @@ Although flux-ratio anomalies provide a powerful tool to investigate low-mass su
 
 Here, we find evidence for an edge-on disc in the flux-ratio anomaly
 gravitational lens B1555+375 that can account for the required
-perturbation in the mass model.  Moreover, near-infrared AO imaging of
-other lenses in the SHARP sample shows that B1555+375 is not the only
-system that has a significant disc component detection in the lensing
-galaxy; these gravitational lenses will be investigated in future
-work, but the images alone suggest that other systems may have similar
-links between flux-ratio anomalies and disc components. Such
+perturbation in the mass model.  \textbf{Although the constraint on disc mass from photometry is currently not avaliable due to the low signal-to-noise ratio in AO imaging and the lack of redshift information, our model indicates that the flux anomalies in B1555+375, at least, have strong link to the present of its edge-on disc. } Such
 high-order deviations from a smooth mass distribution have already
 been suggested previously \citep{evans03, congdon05}, but this is the
 first time that an observed disc has been explicitly modelled to
@@ -293,9 +288,13 @@ very long baseline interferometry will provide the observational
 constraints required to fully test whether the disc is sufficient to
 cause the anomaly.
 
-Our analysis of B1555+375 demonstrates that the choice of the macromodel used to describe the `smooth' lens galaxy mass distribution, combined with the limited information provided by the position of compact lensed images, can lead to a misinterpretation of the origin of flux-ratio anomalies in some systems. Before concluding that the flux-ratio anomalies in any given lens system are the result of dark matter substructure, therefore, it is critical that other possible sources of significant curvature in the lensing potential (i.e., `sharp' mass features such as edge-on disks or even massive luminous satellites) be taken into account 
-\citep[e.g.][]{Xu15}. A number of lens systems with significant disc components are
-already known, including, for example, the sample of 16 edge-on disks from SDSS found in the SWELLS survey \citep{swells1}.  This result is timely, as upcoming large-scale surveys (e.g., the Dark Energy Survey, Kilo-Degree Survey, Euclid, and the Large Synoptic Survey Telescope) will deliver orders of magnitude more gravitationally lensed quasars for which flux ratios can
+Our analysis of B1555+375 demonstrates that the choice of the macromodel used to describe the `smooth' lens galaxy mass distribution, combined with the limited information provided by the position of compact lensed images, can lead to a misinterpretation of the origin of flux-ratio anomalies in some systems. \textbf{\citet{Maller97,Kee98, Moller03} have shown that a disc with high inclination angle can significantly affects the lensing cross-section. While the current sample of lensed quasars with flux ratio anomalies is fairly small, few systems with edge-on disc is sufficient to bring a bias into the substructure analysis. Moreover, near-infrared AO imaging of
+other lenses in the SHARP sample shows that B1555+375 is not the only
+system that has a significant disc component detection close to merging images among the current sample of flux ratio anomalous systems; these gravitational lenses will be investigated in future
+work, but the images alone suggest that other systems may have similar
+links between flux-ratio anomalies and disc components. This bias brought by edge-on disc may be avoided by post-selection as the sample size grows in the future. Therefore, it is critical to obtain high-resolution imaging like SHARP of target lenses to detect `sharp' mass features such as edge-on disks or even massive luminous satellites.} 
+% A number of lens systems with significant disc components arealready known, including, for example, the sample of 16 edge-on disks from SDSS found in the SWELLS survey \citep{swells1}. 
+ This result is timely, as upcoming large-scale surveys (e.g., the Dark Energy Survey, Kilo-Degree Survey, Euclid, and the Large Synoptic Survey Telescope) will deliver orders of magnitude more gravitationally lensed quasars for which flux ratios can
   be measured using narrow lines \citep[e.g.][]{N14}.
   %Finally, we note that massive edge-on discs are \textit{not} observed in some flux-ratio anomaly systems \citep[and the presence of a disc-like component may not resolve the anomaly anyway;][]{evans03}, indicating that these systems are still useful for probing the dark matter substructure mass function.
 
@@ -309,7 +308,7 @@ already known, including, for example, the sample of 16 edge-on disks from SDSS 
 We thank the referee for comments that improved the paper.  We are grateful to Dandan Xu for useful discussions. CDF and DJL acknowledge support from NSF-AST-0909119.  LVEK is supported in part through an NWO-VICI career grant (project number 639.043.308). The NRAO is a facility of the NSF operated under cooperative agreement by Associated Universities, Inc. Based on observations made with the NASA/ESA Hubble Space Telescope, obtained from the data archive at the Space Telescope Science Institute. STScI is operated by the Association of Universities for Research in Astronomy, Inc. under NASA contract NAS 5-26555. Some of the data presented herein were obtained at the W. M. Keck Observatory, which is operated as a scientific partnership among the California Institute of Technology, the University of California and the National Aeronautics and Space Administration. The Observatory was made possible by the generous financial support of the W. M. Keck Foundation. The authors wish to recognize and acknowledge the very significant cultural role and reverence that the summit of Mauna Kea has always had within the indigenous Hawaiian community.  We are most fortunate to have the opportunity to conduct observations from this mountain.
 
 \bibliographystyle{mnras}
-\bibliography{reference.bib}
+\bibliography{reference}
 
 
 
