@@ -1,6 +1,6 @@
 import numpy as np
 
-file_name=['B1555_parachain.dat']
+file_name=['../data/exp_chain.dat']
 
 k=0
 for i in file_name:
