@@ -26,6 +26,6 @@ sigR=np.floor(0.84*nch)
 for i in range(npara):
     array=t[:,i]
     array=np.sort(array)
-    print array[sigL],array[mid],array[sigR]
-#    print array[mid]-array[sigL],array[sigR]-array[mid]
+    #    print array[sigL],array[mid],array[sigR]
+    print array[mid]-array[sigL],array[sigR]-array[mid]
 

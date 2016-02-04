@@ -38,8 +38,8 @@ plot_type=int(plot_type)
 """Also put that under /data/lens_info dir"""
 
 if plot_type==0:
-    file_name=raw_input('file name of .crit file:')
-    name='../data/lens_info/'+file_name+'.crit'
+    file_name=raw_input('file name of _crit.dat file:')
+    name='../data/lens_info/'+file_name+'_crit.dat'
 
 
 
@@ -155,11 +155,11 @@ model_plot()
 #print x,y
 img_pos(lens_name)
 
-#plt.xlim(0.4,-0.8)
-#plt.ylim(-0.8,0.4)
+plt.xlim(0.4,-0.8)
+plt.ylim(-0.8,0.4)
 
-plt.xlim(1.6,-0.4)
-plt.ylim(-0.8,1.2)
+#plt.xlim(1.6,-0.4)
+#plt.ylim(-0.8,1.2)
 
 plt.legend(loc=1)
 
