@@ -1,0 +1,16 @@
+Dear Dr. Flower,
+
+We would like to bring up a concern arises from the discussions with the referee via back and forth comments and responses. We think that referee's comments improve this paper. However, we also feel a concern that the referee's attitude toward this paper is unobjective, especially in the second referee report.
+
+First, we notice that the referee seems to have a fundamental disagreement on the topic of this work. We also feel puzzled when the referee mentioned that our results are not consistent with the title so that are unacceptable for publication. As the arXiv preprint has been released for more than a month, the feedback from the community are positive and we got no report on questioning the misleading from the title or abstract. Indeed the feedback we got do not represent every possible aspect of interpreting our work. But we think it will help by bringing up this concern on the referee’s attitude.
+
+Second, the statement made by the referee to repute our result in disc component mass is incorrect. We respect the referee’s expertise in this field and expect to receive a fair peer review. However, the referee cited the number from a group of systems having completely different nature with our object. This deepens our concern, saying that the referee may unintentionally have unobjective attitude toward this work.
+
+Our work include the following new discovers hence should be published:
+1) new infrared imaging with Keck and HST that show there is a disc that directly crosses the problem images.
+2) new radio VLBA imaging that show the radio images are not point-sources as have been previously assumed by Dalal & Kochanek (2002) and others, and so will be less sensitive to substructure, that is, the demagnification will be felt less over the whole arc.
+3) new radio VLBA imaging that show image A has a smaller angular size, relative to image B, which demonstrates that there must be a perturbation of the mass model, that is, not due to extinction (seen at optical) or absorption.
+4) new estimates of the flux-ratios using the monitoring data by Koopmans et al. (2003), which was the largest source of uncertainty in the Dalal & Kochanek analysis.
+5) a new mass model that includes the disc and can reproduce the observed image positions and flux-ratios without the need for substructure.
+
+We hope our work to receive an objective review and will expect also appreciate the referee’s professional evaluation. With the concern we address above, a suggestion to change the referee may be one of our choices if the next report is still in the similar tone. At the meanwhile, we also make changes to the paper base on the referee’s comments and hope our efforts will solve these existing disagreements between the referee and us.  
