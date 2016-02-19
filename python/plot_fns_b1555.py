@@ -134,7 +134,8 @@ def gravlens_b1555(ax=None, showylab=True):
     """
 
     """ Set up input file information """
-    critfile = '../models/B1555/gravlens_code/B1555_expdisk_try5_1.crit'
+    #critfile = '../models/B1555/gravlens_code/B1555_expdisk_try5_1.crit'
+    critfile = '../models/lens_info/B1555_try8_crit.dat'
     obsfile  = '../models/B1555/B1555_obsdat.txt'
 
     """ Set model-predicted positions """
@@ -142,11 +143,11 @@ def gravlens_b1555(ax=None, showylab=True):
     ymod = [-0.0281,-0.3653,-0.00 ,0.0477]
 
     """ Set lens mass centroids """
-    cx = [ -1.818271e-01, -1.471605e-01] # x position
-    cy = [ -1.987580e-01, -2.056755e-01] # y position
+    cx = [ -1.772157e-01, -2.049533e-01] # x position
+    cy = [ -1.615516e-01, -2.056755e-01] # y position
 
     """ Set the source positions """
-    sx,sy= -1.952576e-01, -1.493771e-01
+    sx,sy= -1.971670e-01, -1.512136e-01
 
     """ Do the plotting """
     pltlm.plot_critcaust(critfile,'crit',ax=ax)
