@@ -207,7 +207,7 @@ def plot_2panel_b1555():
 
 def plot_3panel_b1555():
     """
-    Creates a 2-panel figure, with one panel showing the radio/NIR overlay,
+    Creates a 3-panel figure, with one panel showing the radio/NIR overlay,
     one showing the NIR image with just circles indicating the lensed image
     locations, and the third showing the results of the lens modeling.
     """
