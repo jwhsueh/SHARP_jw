@@ -159,8 +159,8 @@ def gravlens_b1555(ax=None, showylab=True):
     if showylab:
         plt.ylabel('$\Delta \delta$ (arcsec)')
 
-    plt.xlim(0.3724,-0.8276)
-    plt.ylim(-0.8194,0.3806)
+    #plt.xlim(0.3724,-0.8276)
+    #plt.ylim(-0.8194,0.3806)
     plt.legend(loc=1)
     #plt.axes().set_aspect('equal')
 
@@ -226,17 +226,40 @@ def plot_3panel_b1555():
     """ Get rid of the space between the subplots"""
     plt.subplots_adjust(wspace=0.001)
 
+    """ Set up the font """
+    if plt.get_backend() == 'MacOSX':
+        font = {'style'  : 'normal',
+                'color'  : 'black',
+                'weight' : 'bold',
+                'size'   : 24,
+                }
+    else:
+        print 'Using backend %s' % (plt.get_backend())
+        font = {'family' : 'serif',
+                'style'  : 'normal',
+                'color'  : 'black',
+                'weight' : 'bold',
+                'size'   : 28,
+                }
+
+    """ Set up for plot labels """
+    lx = 0.3
+    ly = -0.75
+
     """ Make the radio overlay plot """
     ax1 = plt.subplot(131)
     radio_overlay_b1555()
+    plt.text(lx,ly,'(a)',fontdict=font)
 
     """ Make the middle plot """
     ax2 = plt.subplot(132, sharey=ax1)
     mark_radio_b1555()
+    plt.text(lx,ly,'(b)',fontdict=font)
 
     """ Make the lens modeling plot """
     ax3 = plt.subplot(133, sharey=ax1)
     gravlens_b1555(ax=ax3,showylab=False)
+    plt.text(lx,ly,'(c)',fontdict=font)
 
     """ Finalize the plotted ranges """
     ax1.set_xlim(x1,x2)
