@@ -143,8 +143,8 @@ def gravlens_b1555(ax=None, showylab=True):
     ymod = [-0.0281,-0.3653,-0.00 ,0.0477]
 
     """ Set lens mass centroids """
-    cx = [ -1.772157e-01, -2.049533e-01] # x position
-    cy = [ -1.615516e-01, -2.056755e-01] # y position
+    cx = [ -1.772157e-01, -1.615516e-01] # x position
+    cy = [ -2.049533e-01, -2.056755e-01] # y position
 
     """ Set the source positions """
     sx,sy= -1.971670e-01, -1.512136e-01
