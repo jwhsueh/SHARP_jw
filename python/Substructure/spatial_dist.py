@@ -3,6 +3,7 @@
 import numpy as np
 import NFWprofile as NFW
 import scipy.stats
+import scipy.integrate
 
 import matplotlib.pyplot as plt
 
@@ -18,47 +19,31 @@ class lenspara:
 ##------------
 
 rs = NFW.scaleR(lenspara)
-print rs
-'''
-""" NFW distirbution class """
-class NFW_norm(scipy.stats.rv_continuous):
-	def _pdf(self,r):
-		x = r/rs
-		return 1.0/x/(1+x)**2
-		#return x
+r_end = 10*rs
 
-NFW_prob = NFW_norm(a=0,b=np.Inf,name = 'NFW_norm')
+''' CDF of aribitary distribution '''
 
-print NFW_prob.a, NFW_prob.b
-check = NFW_prob.rvs(size=4)*10*rs
+ri = np.linspace(0,r_end,r_end*10000)
+pdf_d = NFW.pdf(ri,rs) # discrete pdf
+cdf_d = np.zeros(len(ri))
 
-print check
+i = 1
+while i < len(ri):
+	cdf_d[i] = cdf_d[i-1]+pdf_d[i]*(ri[1]-ri[0])
+	i = i+1
 
-#plt.hist(check)
-#plt.show()
-'''
+# normalization
+cdf_d = cdf_d/max(cdf_d)
 
-# core radius
-rc = 0.0 # arcsec
+''' Inverse CDF '''
 
-def NFW_profile(r):
-	x = r/rs
-	xc = rc/rs
-	return 1.0/(x+xc)/(1+x)**2
+Ix = cdf_d
+Iy = ri
 
 
-x = np.random.rand(500000)*10*rs
-check = NFW_profile(x)
-plt.hist(check,bins = np.linspace(0,19,2000))
-plt.xlim(0.1,1.0)
-plt.ylim(0,2000)
+rand = np.random.rand(10000)
+
+check = np.interp(rand,Ix,Iy)
+
+plt.hist(check, bins = np.linspace(0,r_end,100) )
 plt.show()
-
-'''
-
-x = np.linspace(0,10*rs,10000)
-y = NFW_profile(x)
-
-plt.loglog(x,y)
-plt.show()
-'''

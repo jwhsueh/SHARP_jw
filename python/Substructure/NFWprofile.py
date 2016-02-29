@@ -48,3 +48,10 @@ def scaleR(lenspara):
 	rs = np.degrees(rs/Dl)*3600 # arcsec 
 
 	return rs
+
+""" NFW P(r)*4 pi r^2, PDF """
+
+def pdf(r,rs):
+	x = r/rs
+	return (4.0*np.pi*r**2)*1.0/x/(1+x)**2
+
