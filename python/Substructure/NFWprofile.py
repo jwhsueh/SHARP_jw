@@ -55,3 +55,32 @@ def pdf(r,rs):
 	x = r/rs
 	return (4.0*np.pi*r**2)*1.0/x/(1+x)**2
 
+""" Discrete CDF, ready for interpolate """
+
+def cdf_d(ri,rs):
+
+	#ri = np.linspace(0,r_end,r_end*10000)
+
+	pdf_d = pdf(ri,rs) # discrete pdf
+	cdf_d = np.zeros(len(ri))
+
+	i = 1
+	while i < len(ri):
+		cdf_d[i] = cdf_d[i-1]+pdf_d[i]*(ri[1]-ri[0])
+		i = i+1
+
+	# normalization
+	cdf_d = cdf_d/max(cdf_d)
+
+	return cdf_d
+
+""" Draw from inverse_cdf will get cloned distribution """
+
+def inverse_cdf(r,rs,r_end):
+
+	ri = np.linspace(0,r_end,r_end*10000)
+	Ix = cdf_d(ri,rs)
+	Iy = ri
+
+	return np.interp(r,Ix,Iy)
+
