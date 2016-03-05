@@ -82,22 +82,31 @@ def uniform_2d(n_draw):
 
 def subhalo_lens(n_draw):
 
-	Sig_c = distance.critical_density(cosmopara,lenspara)
+	Sig_c = distance.critical_density(cosmopara,lenspara) # h M_sun/Mpc^2
 	print Sig_c
 
 	uni_m = np.random.rand(n_draw)
-	print uni_m
-	m_d = MF.inverse_cdf(uni_m,ml,mu)
+	#print uni_m
+	m_d = MF.inverse_cdf(uni_m,ml,mu) # unit: M_sun
+
+	Dl = distance.angular_distance(cosmopara,lenspara.zl)
 
 	# kappa
 
-	## b_sub & truncation radius
-	b_sub = (m_d/(np.pi*np.sqrt(lenspara.b)*Sig_c))**(2.0/3.0)
+	## b_sub (arc sec) & truncation radius
+
+	b_com4 = (m_d/(np.pi*Sig_c))**2 # b_sub^3*b [Mpc^4]
+	b_com4 = b_com4/Dl**4 # rad^4
+	b_sub3 = b_com4/lenspara.b # b_sub^3 [rad^3]
+
+	b_sub = (b_sub3)**(1.0/3.0) # rad
+	b_sub = np.degrees(b_sub)*3600 # arc sec
+
 	r_t = np.sqrt(b_sub*lenspara.b) # arc sec
 
-	rt_m = np.radians(r_t/3600)*distance.angular_distance(cosmopara,lenspara.zl)*3.08e22  # Mpc to m
+	rt_m = np.radians(r_t/3600)*Dl  # Mpc
 	Sig_d = m_d/(4.0*np.pi*rt_m**2)
-	print Sig_d
+	#print Sig_d
 	k_d = Sig_d/Sig_c
 
 	return m_d,k_d,b_sub,r_t
@@ -111,10 +120,13 @@ def subhalo_lens(n_draw):
 
 ## draw 100
 
-draw_s = 1000
+draw_s = 10000
 
 x_s,y_s,rp = NFW_2d(draw_s) # centroid position [x,y] and distance to center
 
+M_s,k_s,b_s,r_t = subhalo_lens(len(x_s))
+
+'''
 # positions within r_lim
 x_s,y_s = x_s[rp<=2.0*lenspara.b],y_s[rp<=2.0*lenspara.b]
 
@@ -122,11 +134,13 @@ print len(x_s)
 
 M_s,k_s,b_s,r_t = subhalo_lens(len(x_s))
 
-print np.sum(k_s), np.sum(2*k_s)
+print np.sum(2*k_s)
 print k_s
-
-#plt.scatter(x_s,y_s)
-#plt.show()
+#print b_s
+print M_s
+'''
+plt.hist(np.log10(M_s),bins=100)
+plt.show()
 
 ## Start to draw mass & r_t
 

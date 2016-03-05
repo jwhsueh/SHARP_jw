@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # read in cosmological parameters, redshifts (start & end)
+# in Mpc
 def angular_distance(cospara, z):
 
 	h = cospara.h
@@ -29,21 +30,27 @@ def Ez(cospara, z):
 	return (OM*(1.+z)**3+OK*(1+z)**2+OL)**(0.5)
 
 
-""" Critical Density Sigma_c in solar mass """
+""" Critical Density Sigma_c in [h M_sun/Mpc^2] """
 
 def critical_density(cospara, lenspara):
 
 	c = 3e8 # m/s
 	G = 6.67e-11 # m^3/kg/s^2
 
+	## m to Mpc
+
+	c = c/3.08e22  # Mpc/s
+	G = G/(3.08e22)**3  # Mpc^3/kg/s^2
+
 	zl,zs = lenspara.zl, lenspara.zs
+	h = cospara.h
 
 	Ds = angular_distance(cospara,zs)
 	Dl = angular_distance(cospara,zl)
 	Dls = Ds - Dl
 
-	Sigma_c = c**2/(4.0*np.pi*G)*Ds/(Dl*Dls) # kg
-	Sigma_c = Sigma_c/2e30 # M_sun
+	Sigma_c = c**2/(4.0*np.pi*G)*Ds/(Dl*Dls) # kg/Mpc^2
+	Sigma_c = Sigma_c/2e30#/h # h M_sun/Mpc^2
 
 	return Sigma_c
 
