@@ -33,7 +33,8 @@ x_lim, y_lim = lenspara.xc+np.array([-2.0*lenspara.b,2.0*lenspara.b]), lenspara.
 
 ## ------NFW profile para setting------##
 
-rs = NFW.scaleR(lenspara)
+#rs = NFW.scaleR(cosmopara,lenspara)
+'''use set_halopara to replace'''
 r_end = 100*lenspara.b
 
 ## -----substructure setting---------##
@@ -105,7 +106,7 @@ def subhalo_lens(n_draw):
 	r_t = np.sqrt(b_sub*lenspara.b) # arc sec
 
 	rt_m = np.radians(r_t/3600)*Dl  # Mpc
-	Sig_d = m_d/(4.0*np.pi*rt_m**2)
+	Sig_d = m_d/(np.pi*rt_m**2)
 	#print Sig_d
 	k_d = Sig_d/Sig_c
 
