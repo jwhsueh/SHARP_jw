@@ -50,7 +50,12 @@ def critical_density(cospara, lenspara):
 	Dls = Ds - Dl
 
 	Sigma_c = c**2/(4.0*np.pi*G)*Ds/(Dl*Dls) # kg/Mpc^2
-	Sigma_c = Sigma_c/2e30#/h # h M_sun/Mpc^2
+	Sigma_c = Sigma_c/2e30 # h M_sun/Mpc^2
 
 	return Sigma_c
 
+def arcs2meter(arcs,z):
+
+	meter = np.radians(arcs/3600.)*angular_distance(z)*3.08e22
+
+	return meter

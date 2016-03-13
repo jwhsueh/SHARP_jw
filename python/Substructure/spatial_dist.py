@@ -35,6 +35,8 @@ x_lim, y_lim = lenspara.xc+np.array([-2.0*lenspara.b,2.0*lenspara.b]), lenspara.
 
 #rs = NFW.scaleR(cosmopara,lenspara)
 '''use set_halopara to replace'''
+halopara = NFW.set_halopara(cosmopara,lenspara)
+rs = halopara.rs
 r_end = 100*lenspara.b
 
 ## -----substructure setting---------##
@@ -47,10 +49,9 @@ f_sub = 0.01 # substructure mass fraction
 def NFW_2d(n_draw):
 #n_draw = 100000
 
-	uni_r = np.random.uniform(n_draw)
+	uni_r = np.random.rand(n_draw)
 
 	r_d = NFW.inverse_cdf(uni_r,rs,r_end)
-
 
 ## 3D->2D projection
 
@@ -70,7 +71,7 @@ def NFW_2d(n_draw):
 	x_d = lenspara.xc+rp_d*np.cos(phi_d)
 	y_d = lenspara.yc+rp_d*np.sin(phi_d)
 
-	return x_d,y_d,rp_d
+	return x_d,y_d,rp_d,r_d
 
 
 def uniform_2d(n_draw):
@@ -81,7 +82,9 @@ def uniform_2d(n_draw):
 
 	return x,y,r
 
-def subhalo_lens(n_draw):
+def subhalo_lens(r_d):
+
+	n_draw = len(r_d)
 
 	Sig_c = distance.critical_density(cosmopara,lenspara) # h M_sun/Mpc^2
 	print Sig_c
@@ -96,18 +99,15 @@ def subhalo_lens(n_draw):
 
 	## b_sub (arc sec) & truncation radius
 
-	b_com4 = (m_d/(np.pi*Sig_c))**2 # b_sub^3*b [Mpc^4]
-	b_com4 = b_com4/Dl**4 # rad^4
-	b_sub3 = b_com4/lenspara.b # b_sub^3 [rad^3]
+	r_t = r_d*(m_d/NFW.enclose_mass(r_d,lenspara.zl,halopara.rho_s))**(1.0/3.0) # arc sec
 
-	b_sub = (b_sub3)**(1.0/3.0) # rad
-	b_sub = np.degrees(b_sub)*3600 # arc sec
-
-	r_t = np.sqrt(b_sub*lenspara.b) # arc sec
-
-	rt_m = np.radians(r_t/3600)*Dl  # Mpc
-	Sig_d = m_d/(np.pi*rt_m**2)
+	rt_M = np.radians(r_t/3600)*Dl  # Mpc
+	Sig_d = m_d/(np.pi*rt_M**2)
 	#print Sig_d
+
+	b_sub = m_d/(np.pi*r_t*Sig_c) # Mpc
+	b_sub = np.degrees(b_sub/Dl)*3600 # arc sec
+
 	k_d = Sig_d/Sig_c
 
 	return m_d,k_d,b_sub,r_t
@@ -121,28 +121,42 @@ def subhalo_lens(n_draw):
 
 ## draw 100
 
-draw_s = 10000
+draw_s = 100
 
-x_s,y_s,rp = NFW_2d(draw_s) # centroid position [x,y] and distance to center
+x_s,y_s,rp,rd = NFW_2d(draw_s) # centroid position [x,y] projected distance to center [rp], and actual distance [rd]
 
-M_s,k_s,b_s,r_t = subhalo_lens(len(x_s))
+#M_s,k_s,b_s,r_t = subhalo_lens(len(x_s))
 
-'''
+
 # positions within r_lim
-x_s,y_s = x_s[rp<=2.0*lenspara.b],y_s[rp<=2.0*lenspara.b]
+x_s,y_s,rd = x_s[rp<=2.0*lenspara.b],y_s[rp<=2.0*lenspara.b],rd[rp<=2.0*lenspara.b]
 
-print len(x_s)
+print len(rd)
 
-M_s,k_s,b_s,r_t = subhalo_lens(len(x_s))
+M_s,k_s,b_s,r_t = subhalo_lens(rd)
 
 print np.sum(2*k_s)
 print k_s
-#print b_s
+print b_s
 print M_s
 '''
-plt.hist(np.log10(M_s),bins=100)
-plt.show()
+#plt.scatter(x_s,y_s)
+plt.scatter(x_s,y_s)
 
+th = np.linspace(0,2*np.pi,100)
+plt.plot(0.5*np.cos(th),0.5*np.sin(th),'r', linewidth = 3.0)
+
+#plt.hist(np.log10(M_s),bins=100)
+#plt.hist(rp,bins = 100)
+
+plt.xlim(-1,1)
+plt.ylim(-1,1)
+plt.title('NFW 2D realization')
+plt.xlabel('arcsec')
+plt.ylabel('arcsec')
+plt.axis('equal')
+plt.savefig('NFW_2D_realization.png')
+'''
 ## Start to draw mass & r_t
 
 

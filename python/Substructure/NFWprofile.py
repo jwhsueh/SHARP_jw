@@ -30,10 +30,12 @@ def scaleR(cosmopara,lenspara,M_200,c_200):
 	rho_c = 3*Hz**2/(8*np.pi*G) # kg/m^3
 
 	rs = (3*M_200/8/np.pi/rho_c/c_200**3)**(1.0/3.0) # m * h^-1
+	rs_m = rs/cosmopara.h # m
+
 	rs = rs/3.08e22/cosmopara.h/100 # convert to Mpc
 	rs = np.degrees(rs/Dl)*3600 # arcsec 
 
-	return rs
+	return np.array([rs,rs_m])
 
 """ velocity dispersion of lens [m/s] """
 
@@ -72,12 +74,11 @@ def M200(cosmopara,lenspara,sig):
 
 	return M_200
 
-def c200(cosmopara,lenspara,M_200):
+def c200(h,zl,M_200):
 
-	M_200_sun = M_200/2e30 # M_sun
-	zl = lenspara.zl
+	#M_200_sun = M_200/2e30 # M_sun
 
-	c_200 = 5.71*(M_200_sun/2e12*cosmopara.h)**(-0.084)*(1+zl)**(-0.47) # no unit
+	c_200 = 5.71*(M_200/2e12*h)**(-0.084)*(1+zl)**(-0.47) # no unit
 
 	return c_200
 
@@ -123,16 +124,24 @@ def inverse_cdf(r,rs,r_end):
 def set_halopara(cosmopara,lenspara):
 
 	zl,zs = lenspara.zl, lenspara.zs
-	print zl,zs
 	
+	''' expand a parameter to array contains 2 forms of units '''
 	class halopara:
-		sig = velocity_dispersion(cosmopara,lenspara)
-		M_200 = M200(cosmopara,lenspara,sig)
-		c_200 = c200(cosmopara,lenspara,M_200)
-		rs = scaleR(cosmopara,lenspara,M_200,c_200)
-		r_200 = rs*c_200
+		sig = velocity_dispersion(cosmopara,lenspara) # m/s
+		
+		M_200 = np.array([M200(cosmopara,lenspara,sig),0.]) 
+		M_200 = np.array([M_200[0],M_200[0]/2e30])# [kg, M_sun]
+		
+		c_200 = c200(cosmopara.h,lenspara.zl,M_200[1]) # no unit
+
+		rs = scaleR(cosmopara,lenspara,M_200[0],c_200) # [arc sec, m]
+
+		r_200 = rs*c_200 # [arc sec,m]
+
+		''' use physical unit for rho_s!!! '''
 
 		def I(r_200,rs):
+
 			profile = lambda r: (4.0*np.pi*r**2)*1.0/(r/rs)/(1.+r/rs)**2
 
 			integrate = scipy.integrate.quad(profile,0,r_200)
@@ -140,34 +149,23 @@ def set_halopara(cosmopara,lenspara):
 
 			return integrate
 
-		rho_s = M_200/I(r_200,rs)
+		rho_s = M_200[0]/I(r_200[1],rs[1]) # kg/m^3
 		
 	return halopara
 
 
-""" Enclose mass within a radius r """
+""" Enclose mass within a radius ri [M_sun]"""
+""" Input ri is in arc sec """
 
-def enclose_mass(ri,cosmopara,lenspara,halopara):
+def enclose_mass(ri,zl,rho_s):
 
-	#M_200 = M200(cosmopara,sig) # kg
-	#c_200 = c200(cosmopara,lenspara,M_200) # no unit
+	ri = distance.arcs2meter(ri,zl)
 
-	#rs = scaleR(lenspara)
+	profile = lambda r: (4.0*np.pi*r**2)*1.0/(r/rs)/(1.+r/rs)**2
 
-	M_200 = halopara.M_200
-	c_200 = halopara.c_200
-	rs = halopara.rs
+	M_en = scipy.integrate.quad(profile,0,ri)
+	M_en = rho_s*M_en[0]
+	M_en = M_en/2e30 # M_sun
 
-	r_200 = rs*c_200
-
-	I = scipy.integrate.quad(0,r_200,pdf(r,rs))
-	I = I[0]
-
-	rho_s = M_200/I
-
-	M_en = scipy.integrate.quad(0,r_200,pdf(r,rs))
-
-
-def test(lenspara):
-	print lenspara.zl
+	return M_en
 
