@@ -29,11 +29,12 @@ def scaleR(cosmopara,lenspara,M_200,c_200):
 
 	rho_c = 3*Hz**2/(8*np.pi*G) # kg/m^3
 
-	rs = (3*M_200/8/np.pi/rho_c/c_200**3)**(1.0/3.0) # m * h^-1
-	rs_m = rs/cosmopara.h # m
+	rs = (3*M_200/8/np.pi/rho_c/c_200**3)**(1.0/3.0) # m 
+	rs_m = rs # m
 
-	rs = rs/3.08e22/cosmopara.h/100 # convert to Mpc
-	rs = np.degrees(rs/Dl)*3600 # arcsec 
+	#rs = rs/3.08e22/cosmopara.h/100 # convert to Mpc
+	#rs = np.degrees(rs/Dl)*3600 # arcsec 
+	rs = distance.meter2arcs(cosmopara,rs_m,zl)
 
 	return np.array([rs,rs_m])
 
@@ -139,7 +140,7 @@ def set_halopara(cosmopara,lenspara):
 		r_200 = rs*c_200 # [arc sec,m]
 
 		''' use physical unit for rho_s!!! '''
-
+		
 		def I(r_200,rs):
 
 			profile = lambda r: (4.0*np.pi*r**2)*1.0/(r/rs)/(1.+r/rs)**2
@@ -148,8 +149,21 @@ def set_halopara(cosmopara,lenspara):
 			integrate = integrate[0]
 
 			return integrate
+		
 
-		rho_s = M_200[0]/I(r_200[1],rs[1]) # kg/m^3
+		''' Let's try M_sun/pc^3 to compare w/ Milky way's value [~0.01] '''
+
+		#rho_s = M_200[0]/I(r_200[1],rs[1]) # kg/m^3
+		
+		r200_pc = r_200[1]/3.09e16
+		rs_pc = rs[1]/3.09e16
+		'''
+		ri = np.linspace(0,r200_pc,r200_pc/1000.)
+		I_d = cdf_d(ri,rs_pc)
+		'''
+		#rho_s = M_200[1]/I_d[-1] # kg/m^3
+		rho_s = M_200[1]/I(r200_pc,rs_pc)
+
 		
 	return halopara
 
@@ -157,15 +171,25 @@ def set_halopara(cosmopara,lenspara):
 """ Enclose mass within a radius ri [M_sun]"""
 """ Input ri is in arc sec """
 
-def enclose_mass(ri,zl,rho_s):
+def enclose_mass(cosmopara,ri,zl,halopara):
 
-	ri = distance.arcs2meter(ri,zl)
+	ri = distance.arcs2meter(cosmopara,ri,zl)
+
+	rs = halopara.rs[1]  # m
+	rho_s = halopara.rho_s
 
 	profile = lambda r: (4.0*np.pi*r**2)*1.0/(r/rs)/(1.+r/rs)**2
 
+	''' Use discrete integration '''
+
+	'''
 	M_en = scipy.integrate.quad(profile,0,ri)
 	M_en = rho_s*M_en[0]
+	'''
+
 	M_en = M_en/2e30 # M_sun
+
+	print M_en
 
 	return M_en
 

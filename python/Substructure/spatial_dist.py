@@ -36,7 +36,14 @@ x_lim, y_lim = lenspara.xc+np.array([-2.0*lenspara.b,2.0*lenspara.b]), lenspara.
 #rs = NFW.scaleR(cosmopara,lenspara)
 '''use set_halopara to replace'''
 halopara = NFW.set_halopara(cosmopara,lenspara)
-rs = halopara.rs
+
+print halopara.M_200
+print halopara.c_200
+print halopara.rs
+print halopara.r_200
+print halopara.rho_s
+
+rs = halopara.rs[0] # arc sec
 r_end = 100*lenspara.b
 
 ## -----substructure setting---------##
@@ -99,14 +106,14 @@ def subhalo_lens(r_d):
 
 	## b_sub (arc sec) & truncation radius
 
-	r_t = r_d*(m_d/NFW.enclose_mass(r_d,lenspara.zl,halopara.rho_s))**(1.0/3.0) # arc sec
+	r_t = r_d*(m_d/NFW.enclose_mass(cosmopara,r_d,lenspara.zl,halopara))**(1.0/3.0) # arc sec
 
-	rt_M = np.radians(r_t/3600)*Dl  # Mpc
-	Sig_d = m_d/(np.pi*rt_M**2)
+	rt_M = distance.arcs2mpc(cosmopara,r_t,lenspara.zl)  # Mpc
+	Sig_d = m_d/(np.pi*rt_M**2)/cosmopara.h # h M_sun/Mpc^2
 	#print Sig_d
 
-	b_sub = m_d/(np.pi*r_t*Sig_c) # Mpc
-	b_sub = np.degrees(b_sub/Dl)*3600 # arc sec
+	b_sub = m_d/(np.pi*rt_M*Sig_c*cosmopara.h) # Mpc
+	b_sub = distance.mpc2arcs(cosmopara,b_sub,lenspara.zl) # arc sec
 
 	k_d = Sig_d/Sig_c
 

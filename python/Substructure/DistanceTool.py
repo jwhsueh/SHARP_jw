@@ -54,8 +54,26 @@ def critical_density(cospara, lenspara):
 
 	return Sigma_c
 
-def arcs2meter(arcs,z):
+def arcs2meter(cospara,arcs,z):
 
-	meter = np.radians(arcs/3600.)*angular_distance(z)*3.08e22
+	meter = np.radians(arcs/3600.)*angular_distance(cospara,z)*3.09e22
 
 	return meter
+
+def arcs2mpc(cospara,arcs,z):
+
+	Mpc = np.radians(arcs/3600.)*angular_distance(cospara,z)
+
+	return Mpc
+
+def mpc2arcs(cospara,mpc,z):
+
+	arcs = np.degrees(mpc/angular_distance(cospara,z))*3600.
+
+	return arcs
+
+def meter2arcs(cospara,meter,z):
+
+	arcs = np.degrees(meter/3.09e22/angular_distance(cospara,z))*3600.
+
+	return arcs
