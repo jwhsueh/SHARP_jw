@@ -29,7 +29,7 @@ def scaleR(cosmopara,lenspara,M_200,c_200):
 
 	rho_c = 3*Hz**2/(8*np.pi*G) # kg/m^3
 
-	rs = (3*M_200/8/np.pi/rho_c/c_200**3)**(1.0/3.0) # m 
+	rs = (3*M_200/800./np.pi/rho_c/c_200**3)**(1.0/3.0) # m 
 	rs_m = rs # m
 
 	#rs = rs/3.08e22/cosmopara.h/100 # convert to Mpc
@@ -71,7 +71,9 @@ def M200(cosmopara,lenspara,sig):
 	Hz = 100*cosmopara.h*distance.Ez(cosmopara,zl) # km/s/Mpc
 	Hz = Hz*1e3/3.08e22 # s-1
 
-	M_200 = sig**3*(G/Hz**2)**(0.5)*(2/G)**(3./2.) # kg
+	rho_c = 3*Hz**2/(8*np.pi*G) # kg/m^3
+
+	M_200 = sig**3*np.sqrt(3./800./np.pi/rho_c)*(2./G)**(3./2.)
 
 	return M_200
 
@@ -110,12 +112,27 @@ def cdf_d(ri,rs):
 
 	return cdf_d
 
+def cdf(ri,rs):
+
+	profile = lambda r: (4.0*np.pi*r**2)*1.0/(r/rs)/(1.+r/rs)**2
+
+	integrate = np.zeros(len(ri))
+
+	for i in range(len(ri)):
+
+		I = scipy.integrate.quad(profile,0,ri[i])
+		integrate[i] = I[0]
+
+	return integrate
+
 """ Draw from inverse_cdf will get cloned distribution """
 
 def inverse_cdf(r,rs,r_end):
 
-	ri = np.linspace(0,r_end,r_end*10000)
-	Ix = cdf_d(ri,rs)
+	ri = np.linspace(0,r_end,100)
+	#Ix = cdf_d(ri,rs)
+	Ix = cdf(ri,rs)
+	Ix = Ix/Ix[-1]
 	Iy = ri
 
 	return np.interp(r,Ix,Iy)
@@ -139,30 +156,7 @@ def set_halopara(cosmopara,lenspara):
 
 		r_200 = rs*c_200 # [arc sec,m]
 
-		''' use physical unit for rho_s!!! '''
-		
-		def I(r_200,rs):
-
-			profile = lambda r: (4.0*np.pi*r**2)*1.0/(r/rs)/(1.+r/rs)**2
-
-			integrate = scipy.integrate.quad(profile,0,r_200)
-			integrate = integrate[0]
-
-			return integrate
-		
-
-		''' Let's try M_sun/pc^3 to compare w/ Milky way's value [~0.01] '''
-
-		#rho_s = M_200[0]/I(r_200[1],rs[1]) # kg/m^3
-		
-		r200_pc = r_200[1]/3.09e16
-		rs_pc = rs[1]/3.09e16
-		'''
-		ri = np.linspace(0,r200_pc,r200_pc/1000.)
-		I_d = cdf_d(ri,rs_pc)
-		'''
-		#rho_s = M_200[1]/I_d[-1] # kg/m^3
-		rho_s = M_200[1]/I(r200_pc,rs_pc)
+		rho_s = M_200[0]/(4.0*np.pi*rs[1]**3*(np.log(1.+c_200)-c_200/(1.+c_200))) # kg/m^3
 
 		
 	return halopara
@@ -176,20 +170,22 @@ def enclose_mass(cosmopara,ri,zl,halopara):
 	ri = distance.arcs2meter(cosmopara,ri,zl)
 
 	rs = halopara.rs[1]  # m
-	rho_s = halopara.rho_s
+	rho_s = halopara.rho_s # kg/m^3
 
 	profile = lambda r: (4.0*np.pi*r**2)*1.0/(r/rs)/(1.+r/rs)**2
 
-	''' Use discrete integration '''
+	M_en = np.zeros(len(ri))
 
-	'''
-	M_en = scipy.integrate.quad(profile,0,ri)
-	M_en = rho_s*M_en[0]
-	'''
+	for i in range(len(ri)):
+	
+		I = scipy.integrate.quad(profile,0,ri[i])
+		M_en[i] = rho_s*I[0]
+	
 
 	M_en = M_en/2e30 # M_sun
 
-	print M_en
+	#print 'enclose_mass'
+	#print M_en
 
 	return M_en
 

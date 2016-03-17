@@ -36,13 +36,13 @@ x_lim, y_lim = lenspara.xc+np.array([-2.0*lenspara.b,2.0*lenspara.b]), lenspara.
 #rs = NFW.scaleR(cosmopara,lenspara)
 '''use set_halopara to replace'''
 halopara = NFW.set_halopara(cosmopara,lenspara)
-
+'''
 print halopara.M_200
 print halopara.c_200
 print halopara.rs
 print halopara.r_200
 print halopara.rho_s
-
+'''
 rs = halopara.rs[0] # arc sec
 r_end = 100*lenspara.b
 
@@ -143,18 +143,23 @@ print len(rd)
 M_s,k_s,b_s,r_t = subhalo_lens(rd)
 
 print np.sum(2*k_s)
+
 print k_s
-print b_s
+#print b_s
+print r_t
 print M_s
-'''
-#plt.scatter(x_s,y_s)
+
+
 plt.scatter(x_s,y_s)
 
 th = np.linspace(0,2*np.pi,100)
-plt.plot(0.5*np.cos(th),0.5*np.sin(th),'r', linewidth = 3.0)
+#plt.plot(0.5*np.cos(th),0.5*np.sin(th),'r', linewidth = 1.0)
+plt.plot(0.55*np.cos(th),0.55*np.sin(th),'r-', linewidth = 1.0)
+plt.plot(0.45*np.cos(th),0.45*np.sin(th),'r-', linewidth = 1.0)
 
 #plt.hist(np.log10(M_s),bins=100)
-#plt.hist(rp,bins = 100)
+#plt.hist(rp,bins = 50)
+#plt.xlim(0,1.)
 
 plt.xlim(-1,1)
 plt.ylim(-1,1)
@@ -162,8 +167,10 @@ plt.title('NFW 2D realization')
 plt.xlabel('arcsec')
 plt.ylabel('arcsec')
 plt.axis('equal')
-plt.savefig('NFW_2D_realization.png')
-'''
+#plt.savefig('NFW_2D_realization.png')
+
+plt.show()
+
 ## Start to draw mass & r_t
 
 
