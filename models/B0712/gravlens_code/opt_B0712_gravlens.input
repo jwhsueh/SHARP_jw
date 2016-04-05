@@ -1,30 +1,26 @@
 set omitcore=1.0e-6
-data B0712_obs2.dat
-set chimode= 0
+data B0712_obs3.dat
+set chimode= 1
+# 0 = source plane
 set checkparity = 0
 set gridflag= 0
 
 set zlens=0.406
 set zsrc=1.34
 
-
-
 startup 2 1
 
-alpha 5.257585e-01 7.559955e-01 1.277269e-01 3.268153e-01 -4.680639e+01 0.0 0.0 0.0 0.0 1.000000e+00
- expdisk 6.614627e-01 8.00000e-01 1.277269e-01 8.054193e-01 -5.737804e+01 0.0 0.0 3.049012e-01 0.0 0.0
-
-#1 1 1 1 1 0 0 0 0 0
-#0 0 0 0 0 0 0 1 0 0
+   alpha 4.066981e-01 7.246561e-01 1.238235e-01 3.486079e-01 -4.528367e+01 0.0 0.0 0.0 0.0 1.000000e+00
+ expdisk 1.197361e+00 7.940000e-01 1.277269e-01 7.242722e-01 -5.800000e+01 0.0 0.0 3.019843e-01 0.0 0.0
 
 1 1 1 1 1 0 0 0 0 0
-1 1 1 0 0 0 0 1 0 0
+1 0 0 0 0 0 0 1 0 0
 
-patch B0712_match_gravlens.dat
+#patch B0712_match_gravlens.dat
 
 optimize
 #reopt best 1 6 
-#varyone 2 1 0.6 0.7 200 pre1
+#varyone 1 1 0.6 0.7 200 pre1
 #varytwo 1 1 0.8 1.2 100 2 1 0.4 0.6 100 pre1
 
 

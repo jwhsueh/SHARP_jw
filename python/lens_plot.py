@@ -39,7 +39,7 @@ plot_type=int(plot_type)
 
 if plot_type==0:
     file_name=raw_input('file name of _crit.dat file:')
-    name='../data/lens_info/'+file_name+'_crit.dat'
+    name='../models/lens_info/'+file_name+'_crit.dat'
 
 
 
@@ -82,7 +82,7 @@ def read_findimg(infile):
 
 def read_lens_gravlens(lens_name):
 
-    optfile = '../data/lens_info/'+lens_name+'_best.dat'
+    optfile = '../models/lens_info/'+lens_name+'_best.dat'
 
     best=open(optfile,'r')
 
@@ -117,8 +117,8 @@ def model_plot():
 
 def img_pos(lens_name):
 
-    obsfile = '../data/lens_info/'+lens_name+'_obs.dat'
-    modfile = '../data/lens_info/'+lens_name+'_mod.dat' # now is only for gravlens
+    obsfile = '../models/lens_info/'+lens_name+'_obs.dat'
+    modfile = '../models/lens_info/'+lens_name+'_mod.dat' # now is only for gravlens
 
     x0,y0 = np.loadtxt(obsfile,unpack=True,usecols=(0,1))
     x,y = np.loadtxt(modfile,unpack=True,usecols=(0,1))
@@ -155,11 +155,11 @@ model_plot()
 #print x,y
 img_pos(lens_name)
 
-plt.xlim(0.4,-0.8)
-plt.ylim(-0.8,0.4)
+#plt.xlim(0.4,-0.8)
+#plt.ylim(-0.8,0.4)
 
-#plt.xlim(1.6,-0.4)
-#plt.ylim(-0.8,1.2)
+plt.xlim(1.6,-0.4)
+plt.ylim(-0.8,1.2)
 
 plt.legend(loc=1)
 

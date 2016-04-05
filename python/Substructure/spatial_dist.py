@@ -44,6 +44,7 @@ print halopara.r_200
 print halopara.rho_s
 '''
 rs = halopara.rs[0] # arc sec
+print rs
 r_end = 100*lenspara.b
 
 ## -----substructure setting---------##
@@ -144,10 +145,10 @@ M_s,k_s,b_s,r_t = subhalo_lens(rd)
 
 print np.sum(2*k_s)
 
-print k_s
+#print k_s
 #print b_s
-print r_t
-print M_s
+#print r_t
+#print M_s
 
 
 plt.scatter(x_s,y_s)
