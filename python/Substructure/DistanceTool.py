@@ -78,14 +78,16 @@ def meter2arcs(cospara,meter,z):
 
 	return arcs
 
-def EinsteinR(cospara,zl,zs,M_lens):
+def EinsteinR(cospara,zl,zs,sigma):
 
-	Dl = angular_distance(cospara,zl)/1e3
-	Ds = angular_distance(cospara,zs)/1e3
+	c = 3e5 # km/s
+
+	Dl = angular_distance(cospara,zl)	
+	Ds = angular_distance(cospara,zs)
 	Dls = Ds - Dl
 
-	DD = Dl*Ds/Dls
+	b = 4.0*np.pi*(sigma/c)**2.0*(Dls/Ds) #radian
 
-	theta = np.sqrt(M_lens/10**(11.09)/DD) # arcsec
+	b = np.degrees(b)*3600.
 
-	return theta
+	return b

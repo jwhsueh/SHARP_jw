@@ -20,13 +20,10 @@ class cosmopara:
 GroupFirstSub = groupcat.loadHalos(basePath,ssNumber,fields = ['GroupFirstSub'])
 
 mass_msun = np.zeros(len(GroupFirstSub))
-
-#for i in range(len(GroupFirstSub)):
-
-#	all_fields = groupcat.loadSingle(basePath,ssNumber,subhaloID = GroupFirstSub[i])
-#	mass_msun[i] = all_fields['SubhaloMass']*1e10/cosmopara.h
+sigma = np.zeros(len(GroupFirstSub))
 
 SubhaloMass = groupcat.loadSubhalos(basePath,ssNumber,fields = ['SubhaloMass'])
+SubhaloVelDisp = groupcat.loadSubhalos(basePath,ssNumber,fields = ['SubhaloVelDisp'])
 
 #print GroupFirstSub[0:10]
 #print SubhaloMass[0:10]
@@ -34,20 +31,20 @@ SubhaloMass = groupcat.loadSubhalos(basePath,ssNumber,fields = ['SubhaloMass'])
 j =0
 for i in range(len(GroupFirstSub)):
 	mass_msun[j] = SubhaloMass[i]*1e10/cosmopara.h
+	sigma[j] = SubhaloVelDisp[i]
 	j = j+1
 
 mass_msun = mass_msun[mass_msun>1e9]
-
-#plt.hist(mass_msun,bins = 10000)
-#plt.xlim(1e8,1e12)
-#plt.show()
+sigma = sigma[mass_msun>1e9]
 
 
 ''' 
 #Einstein radius 
 '''
-theta_e = distance.EinsteinR(cosmopara,zl,zs,mass_msun)
+theta_e = distance.EinsteinR(cosmopara,zl,zs,sigma)
+print theta_e[0:10]
 
 plt.xlim(0,2.0)
-plt.hist(theta_e,bins=100)
+plt.ylim(0,100)
+plt.hist(theta_e)
 plt.show()
