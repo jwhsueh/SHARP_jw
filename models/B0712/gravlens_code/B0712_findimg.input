@@ -26,8 +26,5 @@ alpha 4.066981e-01 7.246561e-01 1.238235e-01 3.486079e-01 -4.528367e+01 0.0 0.0 
 # from lensmodeller
 findimg    6.709593e-01 -1.496057e-02
 
-
-
-
 #plotcrit B1555_expdisk_try5.crit
 #plotkappa B0712_kappa.fits 3 -0.2 1.8 2000 -1.0 1.0 2000

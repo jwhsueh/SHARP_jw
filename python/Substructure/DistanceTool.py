@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # read in cosmological parameters, redshifts (start & end)
-# in Mpc
+''' in Mpc '''
 def angular_distance(cospara, z):
 
 	h = cospara.h
@@ -77,3 +77,15 @@ def meter2arcs(cospara,meter,z):
 	arcs = np.degrees(meter/3.09e22/angular_distance(cospara,z))*3600.
 
 	return arcs
+
+def EinsteinR(cospara,zl,zs,M_lens):
+
+	Dl = angular_distance(cospara,zl)/1e3
+	Ds = angular_distance(cospara,zs)/1e3
+	Dls = Ds - Dl
+
+	DD = Dl*Ds/Dls
+
+	theta = np.sqrt(M_lens/10**(11.09)/DD) # arcsec
+
+	return theta
