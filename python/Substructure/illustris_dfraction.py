@@ -16,26 +16,33 @@ class cosmopara:
 	OM = 0.27
 
 
+mlow = 1e12
+mhigh = 1e14
 
 GroupFirstSub = groupcat.loadHalos(basePath,ssNumber,fields = ['GroupFirstSub'])
+GroupMass = groupcat.loadHalos(basePath,ssNumber,fields = ['GroupMass'])*1e10/cosmopara.h
 
-mass_msun = np.zeros(len(GroupFirstSub))
-sigma = np.zeros(len(GroupFirstSub))
+GroupFirstSub = GroupFirstSub[GroupMass>mlow]
+GroupMass = GroupMass[GroupMass>mlow]
 
-SubhaloMass = groupcat.loadSubhalos(basePath,ssNumber,fields = ['SubhaloMass'])
+GroupFirstSub = GroupFirstSub[GroupMass<mhigh]
+
+#SubhaloMass = groupcat.loadSubhalos(basePath,ssNumber,fields = ['SubhaloMass'])
 SubhaloVelDisp = groupcat.loadSubhalos(basePath,ssNumber,fields = ['SubhaloVelDisp'])
 
-#print GroupFirstSub[0:10]
-#print SubhaloMass[0:10]
+#mass_msun = np.zeros(len(GroupFirstSub))
+sigma = np.zeros(len(GroupFirstSub))
 
-j =0
-for i in range(len(GroupFirstSub)):
-	mass_msun[j] = SubhaloMass[i]*1e10/cosmopara.h
+j = 0
+for i in GroupFirstSub:
+
+	#mass_msun[j] = SubhaloMass[i]*1e10/cosmopara.h
 	sigma[j] = SubhaloVelDisp[i]
+	#print sigma
 	j = j+1
 
-mass_msun = mass_msun[mass_msun>1e9]
-sigma = sigma[mass_msun>1e9]
+
+
 
 
 ''' 
