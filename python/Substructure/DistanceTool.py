@@ -80,7 +80,7 @@ def meter2arcs(cospara,meter,z):
 
 def EinsteinR(cospara,zl,zs,sigma):
 
-	c = 3e5 # km/s
+	c = 3e4 # km/s
 
 	Dl = angular_distance(cospara,zl)	
 	Ds = angular_distance(cospara,zs)
