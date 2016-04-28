@@ -1,9 +1,9 @@
 import numpy as np
 import groupcat
 
-basePath = '../../data/illustris_3'
+basePath = '../../data/illustris_1'
 
-ssNumber = 99 # snapshotnumber
+ssNumber = 103 # snapshotnumber
 
 mlow = 1e12
 mhigh = 1e14
@@ -28,7 +28,7 @@ group2 = np.extract(c2, GroupFirstSub)
 
 SubID = np.intersect1d(group1,group2)
 
-catalog = open('Galaxy_099.dat','w')
+catalog = open(basePath+'/Galaxy_103.dat','w')
 
 catalog.write('# Galaxy SubID w/ group mass between 10^'+str(np.log10(mlow))+'~10^'+str(np.log10(mhigh))+'\n')
 
