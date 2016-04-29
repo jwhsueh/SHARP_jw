@@ -21,31 +21,60 @@ morFile = h5py.File(basePath+'/nonparametric_morphologies_z.hdf5')
 
 SubfindID = morFile['nonparmorphs']['snapshot_103']['SubfindID']
 SubfindID = np.array(SubfindID)
-SubfindID = sorted(SubfindID)
-print SubfindID[:50]
 
-#mask = [(i in GalaxyID) for i in SubfindID]
-#mask = np.array(mask)
-
-#print SubfindID[mask]
-
-#print np.array(SubfindID)
-#data = morFile['nonparmorphs']['snapshot_103']['ACS-F606W']['CAMERA0']['GINI']
-#print np.array(data)
+## mask for the intersection
+mask = [(i in GalaxyID) for i in SubfindID] ## This is important!! 
+mask = np.array(mask)
 
 Gini = morFile['nonparmorphs']['snapshot_103']['ACS-F606W']['CAMERA0']['GINI']
-
 M20 = morFile['nonparmorphs']['snapshot_103']['ACS-F606W']['CAMERA0']['M20']
 
-print set(GalaxyID).intersection(set(SubfindID))
-'''
-condition = []
-for i in SubfindID:
-	if i in GalaxyID:
-		condition.append(True)
-		print i
-	else:
-		condition.append(False)
-'''
-#print condition
-#Gini = Gini[condition]
+Gini = np.array(Gini)
+M20 = np.array(M20)
+#print Gini.size
+
+Gini = Gini[mask]
+M20 = M20[mask]
+SubfindID = SubfindID[mask]
+#print Gini.size
+
+def F(G,M20):
+
+	#f = np.zeros(G.size)
+	f = abs(-0.693*M20+4.95*G-3.85)
+	mask = [G < (0.14*M20+0.778)]
+
+	f[mask] = -1.0*f[mask]
+
+	return f
+
+F_index = F(Gini,M20)
+print F_index.size
+
+catalog = open(basePath+'/morphology_103.dat','w')
+catalog.write('# Galaxy SubID   Gini index   M20    F index'+'\n')
+
+for i in range(SubfindID.size):
+	catalog.write(str(SubfindID[i])+'    '+str(Gini[i])+'    '+str(M20[i])+'    '+str(F_index[i])+'\n')
+
+bulge = [F_index>0]
+G_bulge = Gini[bulge]
+M20_bulge = M20[bulge]
+
+disk = [F_index<0]
+G_disk = Gini[disk]
+M20_disk = M20[disk]
+print G_disk.size
+
+plt.plot(M20_bulge,G_bulge,'+',label = 'bulge-dominated')
+plt.plot(M20_disk,G_disk,'r+', label = 'disk-dominated')
+plt.xlabel('M20')
+plt.ylabel('Gini')
+plt.xlim(0,-3)
+plt.ylim(0.3,0.7)
+plt.legend()
+plt.show()
+
+
+
+
