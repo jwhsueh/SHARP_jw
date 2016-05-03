@@ -51,12 +51,14 @@ def F(G,M20):
 F_index = F(Gini,M20)
 print F_index.size
 
+
 catalog = open(basePath+'/morphology_103.dat','w')
 catalog.write('# Galaxy SubID   Gini index   M20    F index'+'\n')
 
 for i in range(SubfindID.size):
 	catalog.write(str(SubfindID[i])+'    '+str(Gini[i])+'    '+str(M20[i])+'    '+str(F_index[i])+'\n')
 
+'''
 bulge = [F_index>0]
 G_bulge = Gini[bulge]
 M20_bulge = M20[bulge]
@@ -74,7 +76,6 @@ plt.xlim(0,-3)
 plt.ylim(0.3,0.7)
 plt.legend()
 plt.show()
-
-
+'''
 
 

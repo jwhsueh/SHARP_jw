@@ -4,72 +4,65 @@ import groupcat
 import DistanceTool as distance
 import matplotlib.pyplot as plt
 
-basePath = '../../data/illustris_1'
-ssNumber = 99
-
-mlow = 1e12
-mhigh = 1e14
-
-Snapshot_num = 'Snapshot_'+str(ssNumber)
-
-circFile = h5py.File(basePath+'/stellar_circs.hdf5')
-
-SubfindID = circFile[Snapshot_num]['SubfindID']
-
-CircAbove07Frac = circFile[Snapshot_num]['CircAbove07Frac']
-beta = circFile[Snapshot_num]['CircTwiceBelow0Frac']
-
-
-## cross check w/ GroupFirstSub
-
-''' group catalog '''
-
-zl = 0.6
-zs = 2.0
-
 ''' cosmopara '''
 class cosmopara:
 	h = 0.704
 	OM = 0.27
 
+basePath = '../../data/illustris_1'
+ssNumber = 103
 
-GroupFirstSub = groupcat.loadHalos(basePath,ssNumber,fields = ['GroupFirstSub'])
-GroupMass = groupcat.loadHalos(basePath,ssNumber,fields = ['GroupMass'])*1e10/cosmopara.h
+Snapshot_num = 'Snapshot_'+str(ssNumber)
 
-galaxyID = GroupFirstSub[GroupMass>mlow]
-GroupMass = GroupMass[GroupMass>mlow]
+circFile = h5py.File(basePath+'/stellar_circs.hdf5')
 
-galaxyID = galaxyID[GroupMass<mhigh]
+SubfindID_circ = circFile[Snapshot_num]['SubfindID']
+print SubfindID_circ[-10:]
 
-''' select of subhalo complete '''
+CircAbove07Frac = circFile[Snapshot_num]['CircAbove07Frac']
+beta = circFile[Snapshot_num]['CircTwiceBelow0Frac']
+Js = circFile[Snapshot_num]['SpecificAngMom']
 
-dStarFrac = np.zeros(len(galaxyID))
-bStarFrac = np.zeros(len(galaxyID))
+## read in Galaxy catalog
 
-gID = list(galaxyID)
-sID = list(SubfindID)
+catalog = basePath+'/Galaxy_'+str(ssNumber)+'.dat'
+GalaxyID = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[0])
+star_ms = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[4]) # stellar mass
 
-sIndex = np.zeros(len(galaxyID))
+GalaxyID_end = max(GalaxyID)
 
-j = 0
-for element in gID:
-	sIndex = sID.index(element)
-	#print sIndex
-	dStarFrac[j] = CircAbove07Frac[sIndex]
-	bStarFrac[j] = beta[sIndex]
-	j = j+1
-	
+## mask for circFile
+mask = [(i in GalaxyID) for i in SubfindID_circ] ## This is important!! 
+mask = np.array(mask)
 
-SubhaloVelDisp = groupcat.loadSubhalos(basePath,ssNumber,fields = ['SubhaloVelDisp'])
+## star fraction& specific angular momentum
+
+CircAbove07Frac = CircAbove07Frac[mask]
+beta = beta[mask]
+Js = Js[mask]
+SubfindID_circ = SubfindID_circ[mask]
+
+## indicator of specific angular momentum
+
+Ms = []
+
+for i in range(GalaxyID.size):
+	if GalaxyID[i] in SubfindID_circ:
+		Ms.append(star_ms[i])
+	if i > GalaxyID_end: break
+
+Ms = np.array(Ms)
+
+AngMom = np.log10(Js/np.sqrt(Ms))
+
+catalog = open(basePath+'/kinematics_103.dat','w')
+catalog.write('# Galaxy SubID   Angular Momemtum   Disk star frac    Bulge star frac'+'\n')
+
+for i in range(SubfindID_circ.size):
+	catalog.write(str(SubfindID_circ[i])+'    '+str(AngMom[i])+'    '+str(CircAbove07Frac[i])+'    '+str(beta[i])+'\n')
 
 
-sigma = np.zeros(len(galaxyID))
-
-j = 0
-for i in galaxyID:
-	sigma[j] = SubhaloVelDisp[i]
-	j = j+1
-
+'''
 
 ''' 
 #Einstein radius 
@@ -78,7 +71,8 @@ theta_e = distance.EinsteinR(cosmopara,zl,zs,sigma)
 #print theta_e[0:10]
 
 
-''' select disk galaxy (different threshhold) '''
+''' #select disk galaxy (different threshhold) 
+'''
 
 disk_e1 = theta_e[bStarFrac<0.6]
 disk_ID1 = galaxyID[bStarFrac<0.6]
@@ -158,4 +152,4 @@ plt.xlim(0,1.2)
 plt.xlabel('Einstein radius (arc sec)')
 plt.ylabel('disk galaxy fraction')
 plt.show()
-
+'''
