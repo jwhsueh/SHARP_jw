@@ -3,7 +3,7 @@ import groupcat
 
 basePath = '../../data/illustris_1'
 
-ssNumber = 103 # snapshotnumber
+ssNumber = 99 # snapshotnumber
 
 mlow = 1e12
 mhigh = 1e14

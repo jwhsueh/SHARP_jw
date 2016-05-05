@@ -10,8 +10,8 @@ Snapshot_num = 'snapshot_'+str(ssNumber)
 
 ## read in Galaxy catalog
 
-catalog = basePath+'/groups_'+str(ssNumber)+'/Galaxy_'+str(ssNumber)+'.dat'
-GalaxyID = np.loadtxt(catalog)
+catalog = basePath+'/Galaxy_'+str(ssNumber)+'.dat'
+GalaxyID = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[0])
 
 # get morphology info [which band? u,g,i,H]
 
@@ -34,7 +34,9 @@ M20 = np.array(M20)
 #print Gini.size
 
 Gini = Gini[mask]
+print Gini[-10:]
 M20 = M20[mask]
+print M20[-10:]
 SubfindID = SubfindID[mask]
 #print Gini.size
 
@@ -52,13 +54,13 @@ F_index = F(Gini,M20)
 print F_index.size
 
 
-catalog = open(basePath+'/morphology_103.dat','w')
+catalog = open(basePath+'/morphology_'+str(ssNumber)+'.dat','w')
 catalog.write('# Galaxy SubID   Gini index   M20    F index'+'\n')
 
 for i in range(SubfindID.size):
 	catalog.write(str(SubfindID[i])+'    '+str(Gini[i])+'    '+str(M20[i])+'    '+str(F_index[i])+'\n')
-
 '''
+
 bulge = [F_index>0]
 G_bulge = Gini[bulge]
 M20_bulge = M20[bulge]
@@ -74,8 +76,8 @@ plt.xlabel('M20')
 plt.ylabel('Gini')
 plt.xlim(0,-3)
 plt.ylim(0.3,0.7)
-plt.legend()
+plt.legend(loc = 4)
 plt.show()
+
+
 '''
-
-

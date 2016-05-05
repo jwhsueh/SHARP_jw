@@ -10,14 +10,13 @@ class cosmopara:
 	OM = 0.27
 
 basePath = '../../data/illustris_1'
-ssNumber = 103
+ssNumber = 99
 
 Snapshot_num = 'Snapshot_'+str(ssNumber)
 
 circFile = h5py.File(basePath+'/stellar_circs.hdf5')
 
 SubfindID_circ = circFile[Snapshot_num]['SubfindID']
-print SubfindID_circ[-10:]
 
 CircAbove07Frac = circFile[Snapshot_num]['CircAbove07Frac']
 beta = circFile[Snapshot_num]['CircTwiceBelow0Frac']
@@ -53,13 +52,15 @@ for i in range(GalaxyID.size):
 
 Ms = np.array(Ms)
 
-AngMom = np.log10(Js/np.sqrt(Ms))
+AngMom = np.log10(Js/Ms**(0.5))
 
-catalog = open(basePath+'/kinematics_103.dat','w')
-catalog.write('# Galaxy SubID   Angular Momemtum   Disk star frac    Bulge star frac'+'\n')
+catalog = open(basePath+'/kinematics_'+str(ssNumber)+'.dat','w')
+#catalog.write('# Galaxy SubID   Angular Momemtum   Disk star frac    Bulge star frac'+'\n')
+
+catalog.write('# Galaxy SubID   Disk star frac    Bulge star frac'+'\n')
 
 for i in range(SubfindID_circ.size):
-	catalog.write(str(SubfindID_circ[i])+'    '+str(AngMom[i])+'    '+str(CircAbove07Frac[i])+'    '+str(beta[i])+'\n')
+	catalog.write(str(SubfindID_circ[i])+'    '+str(CircAbove07Frac[i])+'    '+str(beta[i])+'\n')
 
 
 '''

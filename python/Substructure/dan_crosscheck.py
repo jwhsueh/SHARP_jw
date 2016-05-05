@@ -5,120 +5,58 @@ import matplotlib.pyplot as plt
 
 basePath = '../../data/illustris_1'
 ssNumber = 99
+Snapshot_num = 'Snapshot_'+str(ssNumber)
 
-mlow = 1e12
-mhigh = 1e14
+DanID = np.loadtxt('JenWei_table_disk_in_x.dat',dtype = 'int',unpack=True, usecols=[0])
 
-Dan = np.loadtxt('JenWei_table_disk_in_x.dat')
-#Frac = np.loadtxt('CircAbove07Frac_01.txt')
-Frac = np.loadtxt('beta_02.txt')
+catalog = basePath+'/kinematics_'+str(ssNumber)+'.dat'
+GalaxyID = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[0])
 
-mID = Dan[:,0] # morphology ID
-fID = Frac[:,0] # dynamics ID
+bulge_frac = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[2])
+disk_frac = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[1])
 
-mID = list(mID)
-fID = list(fID)
+catalog2 = basePath+'/Galaxy_'+str(ssNumber)+'.dat'
+Galaxy_ms = np.loadtxt(catalog2,dtype = 'float',unpack=True, usecols=[4])
 
 ''' cosmopara '''
 class cosmopara:
 	h = 0.704
 	OM = 0.27
 
-GroupFirstSub = groupcat.loadHalos(basePath,ssNumber,fields = ['GroupFirstSub'])
-GroupMass = groupcat.loadHalos(basePath,ssNumber,fields = ['GroupMass'])*1e10/cosmopara.h
+## Mass selection to Dandan's picl
 
-#galaxyID = GroupFirstSub[GroupMass>mlow]
-#GroupMass = GroupMass[GroupMass>mlow]
+Dan_ms = []
+bulge_dan = []
+disk_dan = []
+for i in range(GalaxyID.size):
+	if GalaxyID[i] in DanID:
+		Dan_ms.append(Galaxy_ms[i])
+		bulge_dan.append(bulge_frac[i])
+		disk_dan.append(disk_frac[i])
+print len(Dan_ms)
 
-galaxyID = GroupFirstSub
-
-''' select of subhalo complete '''
-
-''' Disk star fraction '''
-
-Snapshot_num = 'Snapshot_'+str(ssNumber)
-
-circFile = h5py.File(basePath+'/stellar_circs.hdf5')
-
-SubfindID = circFile[Snapshot_num]['SubfindID']
-
-CircAbove07Frac = circFile[Snapshot_num]['CircAbove07Frac']
-beta = circFile[Snapshot_num]['CircTwiceBelow0Frac']
-
-m_frac = np.zeros(len(mID))
-f_frac = np.zeros(len(fID))
-
-sID = list(SubfindID)
-
-''' Subhalo mass '''
-
-SubhaloMass = groupcat.loadSubhalos(basePath,ssNumber,fields = ['SubhaloMass'])*1e10/cosmopara.h
-
-gID = list(galaxyID)
-
-m_mass = np.zeros(len(mID))
-f_mass = np.zeros(len(fID))
+## find kinematic info & mass for Dandan's selection
 
 
+## mass
 
-j = 0
-for element in mID:
-	#mIndex = gID.index(element)
-	mIndex2 = sID.index(element)
-	#print sIndex
-	m_mass[j] = SubhaloMass[element]
-	#m_frac[j] = CircAbove07Frac[mIndex2]
-	m_frac[j] = beta[mIndex2]
-	j = j+1
+## disk criteria
 
-j = 0
-for element in fID:
-	#fIndex = gID.index(element)
-	fIndex2 = sID.index(element)
-	#print sIndex
-	f_mass[j] = SubhaloMass[element]
-	#g_mass[j] = GroupMass[fIndex]
-	#f_frac[j] = CircAbove07Frac[fIndex2]
-	f_frac[j] = beta[fIndex2]
-	j = j+1	
+cri = bulge_frac<0.6
 
-mID = set(mID)
-fID = set(fID)
+DiskID = GalaxyID[cri]
+print len(DiskID)
 
-overlap = fID.intersection(mID)
+disk_cri = bulge_frac[cri]
+disk_ms = Galaxy_ms[cri]
 
-o_mass = np.zeros(len(overlap))
-o_frac = np.zeros(len(overlap))
 
-j = 0
-for element in overlap:
-	#fIndex = gID.index(element)
-	oIndex2 = sID.index(element)
-	#print sIndex
-	o_mass[j] = SubhaloMass[element]
-	#g_mass[j] = GroupMass[fIndex]
-	#o_frac[j] = CircAbove07Frac[oIndex2]
-	o_frac[j] = beta[oIndex2]
-	j = j+1	
-
-#m_mass = m_mass[m_mass>1e12]
-#m_mass = m_mass[m_mass<1e14]
-#m_frac = m_frac[m_mass>1e12]
-#m_frac = m_frac[m_mass<1e14]
-
-m_mass = np.array(np.log10(m_mass))
-f_mass = np.array(np.log10(f_mass))
-o_mass = np.array(np.log10(o_mass))
-
-print f_mass[0:10]
-#print m_frac[0:10]
-
-plt.xlim(12.,14.)
-plt.plot(m_mass,m_frac,'+',label = 'morphology')
-plt.plot(f_mass,f_frac,'r+',label = 'beta<0.2')
-plt.plot(o_mass,o_frac,'o',mec ='g',mfc = 'none',label = 'overlap (beta<0.2)')
+#plt.xlim(1e12,1e14)
+plt.plot(Dan_ms,bulge_dan,'+',label = 'morphology pick')
+plt.plot(disk_ms,disk_cri,'r+',label = 'bulge star fraction<0.6')
+#plt.plot(o_mass,o_frac,'o',mec ='g',mfc = 'none',label = 'overlap (beta<0.2)')
 plt.xlabel('log10(Mass)')
-plt.ylabel('Bulge star fraction (beta)')
+plt.ylabel('Disk star fraction (beta)')
 plt.legend()
 
 plt.show()
