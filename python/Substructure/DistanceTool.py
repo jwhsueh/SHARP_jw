@@ -30,7 +30,7 @@ def Ez(cospara, z):
 	return (OM*(1.+z)**3+OK*(1+z)**2+OL)**(0.5)
 
 
-""" Critical Density Sigma_c in [h M_sun/Mpc^2] """
+""" Critical Density Sigma_c in [M_sun/Mpc^2] """
 
 def critical_density(cospara, lenspara):
 
@@ -50,7 +50,7 @@ def critical_density(cospara, lenspara):
 	Dls = Ds - Dl
 
 	Sigma_c = c**2/(4.0*np.pi*G)*Ds/(Dl*Dls) # kg/Mpc^2
-	Sigma_c = Sigma_c/2e30 # h M_sun/Mpc^2
+	Sigma_c = Sigma_c/2e30 #  M_sun/Mpc^2
 
 	return Sigma_c
 
