@@ -2,6 +2,7 @@ import numpy as np
 import snapshot
 import h5py
 import DistanceTool as distance
+import matplotlib.pyplot as plt
 
 basePath = '/Volumes/narsil_1/jwhsueh/illustris_1'
 snapNum = 99
@@ -44,7 +45,8 @@ class lenspara:
 
 # lens critical density
 sig_c = distance.critical_density(cosmopara,lenspara) # M_sun/Mpc^2
-sig_c = sig_c/(distance.mpc2arcs(cosmopara,1.0,redshift))**2.  # M_sun/arcsec^2
+sig_c = sig_c/1e6  # M_sun/kpc^2
+print sig_c
 
 ## this function deal w/ galaxy on the boundary
 def boundary(ci):
@@ -67,30 +69,77 @@ def projection(c0,c1,c2,axis):
 
 ## this is for bisection method
 
-def bisection(f,arg,root,endpt,delta):
+def root_find(f,arg,root,endpt,delta):
 	s,e = endpt[0],endpt[1]
+	m = (s+e)/2.
 
 	while True:
 		value1 = f(arg,s)
-		value2 = f(arg,e)
+		value2 = f(arg,m)
+		value3 = f(arg,e)
 
-		if np.abs(value1-root)<delta:
-			bisec_root = value1
+		print value1,value2,value3
+
+		subs = np.array([value1-root,value2-root,value3-root])
+
+		if np.abs(value2-root)<delta:
+			bisec_root = m
 			break
 
-		elif np.abs(value2-root)<delta:
-			bisec_root = value2
-			break
-
-		elif np.abs(value1-root)<np.abs(value2-root):
-			e = (s+e)/2.0
+		elif subs[0]*subs[1]<0:
+			e = m
+			m = (s+e)/2.
+		elif subs[1]*subs[2]<0:
+			s = m
+			m = (s+e)/2.
 		else:
-			s = (s+e)/2.0
+			print "root is outside searching range"
+			bisec_root = np.NaN
+			break
 
 
+	return bisec_root
+
+## surface mass density
+
+def anulus_kappa(subhalo_class, r):
+	step = 1 # kpc
+	dm_dist,gas_dist,st_dist = subhalo_class.dm_d,subhalo_class.gas_d,subhalo_class.st_d
+
+	dm_ms,gas_ms,st_ms = subhalo_class.dm_m,subhalo_class.gas_m,subhalo_class.st_m
+
+	part_in,part_out = np.array([dm_dist<(r-step)]),np.array([dm_dist>(r+step)])
+	mask = -(part_in+part_out)
+	#print mask.size, dm_dist.size
+
+	dm_part = dm_dist[list(mask)].size
+	dm_tot = dm_part*dm_ms
+
+	part_in,part_out = np.array([gas_dist<(r-step)]),np.array([gas_dist>(r+step)])
+	mask = -(part_in+part_out)
+
+	gas_part = gas_ms[list(mask)]
+	gas_tot = np.sum(gas_part)
+
+	part_in,part_out = np.array([st_dist<(r-step)]),np.array([st_dist>(r+step)])
+	mask = -(part_in+part_out)
+
+	st_part = st_ms[list(mask)]
+	st_tot = np.sum(gas_part)
+
+	tot_ms = dm_tot+gas_tot+st_tot
+	#print tot_ms
+	kappa = tot_ms/np.pi/((r+step)**2-(r-step)**2)/sig_c # M_sun/arcsec^2
+
+	return kappa
 
 
-GalaxyID = GalaxyID[:2]
+############################
+
+GalaxyID = np.array([105690,114445])
+CM_x = np.array([14435.1,37873.5])
+CM_y = np.array([60465.2,1752.11])
+CM_z = np.array([71860.8,36323.1])
 
 for i in range(GalaxyID.size):
 
@@ -141,57 +190,50 @@ for i in range(GalaxyID.size):
 	gas_x,gas_y,gas_z = gas_x-CM_x[i],gas_y-CM_y[i],gas_z-CM_z[i]
 	st_x,st_y,st_z = st_x-CM_x[i],st_y-CM_y[i],st_z-CM_z[i]
 
+	#print min(np.abs(dm_x))
+
 	## projection & R_e
-	proj_axis = 2
+	proj_axis = 0
 
 	dm_p0,dm_p1 = projection(dm_x,dm_y,dm_z,proj_axis)
 	gas_p0,gas_p1 = projection(gas_x,gas_y,gas_z,proj_axis)
 	st_p0,st_p1 = projection(st_x,st_y,st_z,proj_axis)
+
+	#print min(np.abs(dm_p0))
 
 	# distance to CM
 	dm_dist = np.sqrt(dm_p0**2+dm_p1**2) # ckpc/h
 	gas_dist = np.sqrt(gas_p0**2+gas_p1**2)
 	st_dist = np.sqrt(st_p0**2+st_p1**2)
 
-	dm_dist = dm_dist*c/cosmopara.h/1000. # Mpc
-	gas_dist = gas_dist*c/cosmopara.h/1000. # Mpc
-	st_dist = st_dist*c/cosmopara.h/1000. # Mpc
+	dm_dist = dm_dist/cosmopara.h/c # kpc
+	gas_dist = gas_dist/cosmopara.h/c # kpc
+	st_dist = st_dist/cosmopara.h/c # kpc
 
-	dm_dist = distance.mpc2arcs(cosmopara,dm_dist,redshift) # arcsec
-	gas_dist = distance.mpc2arcs(cosmopara,gas_dist,redshift)
-	st_dist = distance.mpc2arcs(cosmopara,st_dist,redshift)
+
+
+	#dm_dist = distance.mpc2arcs(cosmopara,dm_dist,redshift) # arcsec
+	#gas_dist = distance.mpc2arcs(cosmopara,gas_dist,redshift)
+	#st_dist = distance.mpc2arcs(cosmopara,st_dist,redshift)
 
 	# mass
 	gas_ms = subhalo_gas['Masses']*1e10/cosmopara.h
 	st_ms = subhalo_st['Masses']*1e10/cosmopara.h
 
-	step = max(st_dist)*100. # resolution 0.01"
-	dist_range = np.linspace(0,max(st_dist),step)
+	class subhalo_info:
+		dm_d,gas_d,st_d = dm_dist,gas_dist,st_dist
+		dm_m,gas_m,st_m = dm_ms,gas_ms,st_ms
 
-	sigma = np.zeros(dist_range.size)
-	inter = 0
+	# bisection to find R_e
+	endpt = np.array([0.1,500.])
+	delta = 0.01
+	#print endpt
+	#print sig_c
 
-	for j in range(dist_range.size):
-		# dm
-		dm_part = dm_dist[dm_dist<dist_range[j]].size
-		dm_tot = dm_part*dm_ms
-
-		# gas
-		gas_part = gas_ms[gas_dist<dist_range[j]]
-		gas_tot = np.sum(gas_part)
-
-		# stars
-		st_part = st_ms[st_dist<dist_range[j]]
-		st_tot = np.sum(gas_part)
-
-		tot_ms = dm_tot+gas_tot+st_tot
-		sigma[j] = tot_ms/np.pi/dist_range[j]**2. # M_sun/arcsec^2
-
-		if sigma[j]>sig_c:
-			inter = inter+1
-
-		if inter == 10:
-			break
+	R_e = root_find(anulus_kappa,subhalo_info,1.0,endpt,delta) #kpc
+	R_e = distance.mpc2arcs(cosmopara,R_e/1000.,redshift)
+	print R_e
+			
 
 	#R_e = np.interp(sig_c,sigma,)
 
