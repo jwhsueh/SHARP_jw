@@ -1,9 +1,11 @@
 import numpy as np
 import groupcat
+import DistanceTool as distance
 
 basePath = '../../data/illustris_1'
 
 ssNumber = 99 # snapshotnumber
+z = 0.6
 
 mlow = 1e12
 mhigh = 1e14
@@ -28,6 +30,15 @@ star_ms = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloMassType'])
 
 GalaxyCM = SubhaloCM[GroupFirstSub,:]
 star_ms = star_ms[GroupFirstSub]
+
+#photometry
+V_mag = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloStellarPhotometrics'])[:,2]
+K_mag = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloStellarPhotometrics'])[:,3]
+
+# apparent mag
+DL = distance.luminosity_distance(cosmopara,z)*1e6 # pc
+V_mag = V_mag+5.*(np.log10(DL)-1)
+K_mag = K_mag+5.*(np.log10(DL)-1)
 
 ## use group mass as galaxy cretria 
 mlow = 1e12
@@ -61,8 +72,9 @@ catalog.write('# [0]: Galaxy SubID w/ group mass between 10^'+str(np.log10(mlow)
 catalog.write('# [1]-[3]: Galaxy CM in ckpc/h \n')
 catalog.write('# [4]: Subhalo Mass in M_sun \n')
 catalog.write('# [5]: Stellar mass in M_sun \n')
+catalog.write('# [6]-[7]: photometry V-band & K-band \n')
 
 for i in range(GalaxyID.size):
-	catalog.write(str(GalaxyID[i])+'    '+str(GalaxyCM[i,0])+'    '+str(GalaxyCM[i,1])+'    '+str(GalaxyCM[i,2])+'    '+str(GalaxyMass[i])+'    '+str(star_ms[i])+'\n')
+	catalog.write(str(GalaxyID[i])+'    '+str(GalaxyCM[i,0])+'    '+str(GalaxyCM[i,1])+'    '+str(GalaxyCM[i,2])+'    '+str(GalaxyMass[i])+'    '+str(star_ms[i])+'    '+str(V_mag[i])+'    '+str(K_mag[i])+'\n')
 
 

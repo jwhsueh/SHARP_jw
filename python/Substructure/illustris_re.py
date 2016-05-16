@@ -11,8 +11,6 @@ class cosmopara:
 	h = 0.704
 	OM = 0.27
 
-c = 3e8 # m/s
-
 ## read in Galaxy catalog
 
 catalog = '../../data/illustris_1/Galaxy_'+str(snapNum)+'.dat'
@@ -31,6 +29,7 @@ f = h5py.File(snapshot.snapPath(basePath,snapNum),'r')
 header = dict( f['Header'].attrs.items() )
 
 dm_ms =  header['MassTable'][1]*1e10/cosmopara.h # mass of dm particle [M_sun]
+print dm_ms
 
 ## see if subhalo is on boundary
 
@@ -39,14 +38,18 @@ print boxsize
 
 redshift = header['Redshift']
 
+a = 1.0/(1.0+redshift) # scale factor
+c = 3e5 # km/s
+
 class lenspara:
 	zl = redshift
 	zs = 2.0
 
 # lens critical density
-sig_c = distance.critical_density(cosmopara,lenspara) # M_sun/Mpc^2
-sig_c = sig_c/1e6  # M_sun/kpc^2
-print sig_c
+sig_c = distance.critical_density(cosmopara,lenspara)*cosmopara.h # M_sun/Mpc^2
+sig_c = sig_c/1e6 # M_sun/kpc^2
+#print sig_c/cosmopara.h
+#print distance.mpc2arcs(cosmopara,1.,redshift)
 
 ## this function deal w/ galaxy on the boundary
 def boundary(ci):
@@ -103,13 +106,14 @@ def root_find(f,arg,root,endpt,delta):
 ## surface mass density
 
 def anulus_kappa(subhalo_class, r):
-	step = 1 # kpc
+	step = 2 # kpc
 	dm_dist,gas_dist,st_dist = subhalo_class.dm_d,subhalo_class.gas_d,subhalo_class.st_d
 
 	dm_ms,gas_ms,st_ms = subhalo_class.dm_m,subhalo_class.gas_m,subhalo_class.st_m
 
 	part_in,part_out = np.array([dm_dist<(r-step)]),np.array([dm_dist>(r+step)])
 	mask = -(part_in+part_out)
+	#mask = -(part_out)
 	#print mask.size, dm_dist.size
 
 	dm_part = dm_dist[list(mask)].size
@@ -117,12 +121,14 @@ def anulus_kappa(subhalo_class, r):
 
 	part_in,part_out = np.array([gas_dist<(r-step)]),np.array([gas_dist>(r+step)])
 	mask = -(part_in+part_out)
+	#mask = -(part_out)
 
 	gas_part = gas_ms[list(mask)]
 	gas_tot = np.sum(gas_part)
 
 	part_in,part_out = np.array([st_dist<(r-step)]),np.array([st_dist>(r+step)])
 	mask = -(part_in+part_out)
+	#mask = -(part_out)
 
 	st_part = st_ms[list(mask)]
 	st_tot = np.sum(gas_part)
@@ -130,6 +136,7 @@ def anulus_kappa(subhalo_class, r):
 	tot_ms = dm_tot+gas_tot+st_tot
 	#print tot_ms
 	kappa = tot_ms/np.pi/((r+step)**2-(r-step)**2)/sig_c # M_sun/arcsec^2
+	#kappa = tot_ms/np.pi/r**2/sig_c
 
 	return kappa
 
@@ -199,18 +206,18 @@ for i in range(GalaxyID.size):
 	gas_p0,gas_p1 = projection(gas_x,gas_y,gas_z,proj_axis)
 	st_p0,st_p1 = projection(st_x,st_y,st_z,proj_axis)
 
-	#print min(np.abs(dm_p0))
+	print min(np.abs(dm_p0))
 
 	# distance to CM
-	dm_dist = np.sqrt(dm_p0**2+dm_p1**2) # ckpc/h
+	dm_dist = np.sqrt(dm_p0**2+dm_p1**2) # ckpc/h [comoving]
 	gas_dist = np.sqrt(gas_p0**2+gas_p1**2)
 	st_dist = np.sqrt(st_p0**2+st_p1**2)
 
-	dm_dist = dm_dist/cosmopara.h/c # kpc
-	gas_dist = gas_dist/cosmopara.h/c # kpc
-	st_dist = st_dist/cosmopara.h/c # kpc
+	dm_dist = dm_dist/cosmopara.h*a # kpc
+	gas_dist = gas_dist/cosmopara.h*a # kpc
+	st_dist = st_dist/cosmopara.h*a # kpc
 
-
+	print min(dm_dist)
 
 	#dm_dist = distance.mpc2arcs(cosmopara,dm_dist,redshift) # arcsec
 	#gas_dist = distance.mpc2arcs(cosmopara,gas_dist,redshift)
@@ -225,14 +232,30 @@ for i in range(GalaxyID.size):
 		dm_m,gas_m,st_m = dm_ms,gas_ms,st_ms
 
 	# bisection to find R_e
-	endpt = np.array([0.1,500.])
+	endpt = np.array([1,20])
 	delta = 0.01
-	#print endpt
-	#print sig_c
 
-	R_e = root_find(anulus_kappa,subhalo_info,1.0,endpt,delta) #kpc
-	R_e = distance.mpc2arcs(cosmopara,R_e/1000.,redshift)
-	print R_e
+	r = np.linspace(0,20,201)
+	kappa= []
+	for ri in r:
+		kappa.append(anulus_kappa(subhalo_info,ri))
+
+	#r,step = 7,1
+	#part_in,part_out = np.array([dm_dist<(r-step)]),np.array([dm_dist>(r+step)])
+	#mask = -(part_in+part_out)
+
+	#x,y = dm_p0[list(mask)],dm_p1[list(mask)]
+	#plt.scatter(x,y)
+
+
+	plt.plot(r,kappa)
+	plt.xlabel('kpc')
+	plt.ylabel('surface mass density')
+	plt.show()
+
+	#R_e = root_find(anulus_kappa,subhalo_info,1.0,endpt,delta) #Mpc
+	#R_e = distance.mpc2arcs(cosmopara,R_e,redshift)
+	#print R_e
 			
 
 	#R_e = np.interp(sig_c,sigma,)

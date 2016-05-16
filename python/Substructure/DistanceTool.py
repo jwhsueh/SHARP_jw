@@ -21,6 +21,21 @@ def angular_distance(cospara, z):
 
 	return DA
 
+def luminosity_distance(cospara,z):
+
+	h = cospara.h
+
+	''' inverse E(z) '''
+	rEz = lambda x: 1/Ez(cospara, x)
+
+	# comoving distance 
+	Dc = scipy.integrate.quad(rEz,0,z)
+	Dc = 3000.0/h*Dc[0]
+
+	DL = Dc*(1.0+z)
+
+	return DL	
+
 def Ez(cospara, z):
 	
 	OM = cospara.OM
@@ -30,7 +45,7 @@ def Ez(cospara, z):
 	return (OM*(1.+z)**3+OK*(1+z)**2+OL)**(0.5)
 
 
-""" Critical Density Sigma_c in [M_sun/Mpc^2] """
+""" Critical Density Sigma_c in [h M_sun/Mpc^2] """
 
 def critical_density(cospara, lenspara):
 
@@ -50,7 +65,7 @@ def critical_density(cospara, lenspara):
 	Dls = Ds - Dl
 
 	Sigma_c = c**2/(4.0*np.pi*G)*Ds/(Dl*Dls) # kg/Mpc^2
-	Sigma_c = Sigma_c/2e30 #  M_sun/Mpc^2
+	Sigma_c = Sigma_c/2e30*h**2 # h M_sun/Mpc^2
 
 	return Sigma_c
 
