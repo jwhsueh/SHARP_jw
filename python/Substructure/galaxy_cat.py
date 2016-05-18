@@ -25,10 +25,9 @@ GroupFirstSub = GroupFirstSub[:list_end]
 SubhaloMass = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloMass'])*1e10/cosmopara.h
 GalaxyMass = SubhaloMass[GroupFirstSub]
 
-SubhaloCM = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloCM'])
-star_ms = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloMassType'])[:,4]*1e10/cosmopara.h
+GroupCM = groupcat.loadHalos(basePath,ssNumber, fields = ['GroupPos'])
 
-GalaxyCM = SubhaloCM[GroupFirstSub,:]
+star_ms = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloMassType'])[:,4]*1e10/cosmopara.h
 star_ms = star_ms[GroupFirstSub]
 
 #photometry
@@ -52,7 +51,7 @@ for i in range(SubhaloMass.size):
 for i in range(SubhaloMass.size):
 	if GalaxyMass[i]<mlow:
 		print i
-		idx2 = i # idx_str
+		idx2 = i # idx_end
 		break
 
 GalaxyID = GroupFirstSub[idx1:idx2+1]
@@ -63,13 +62,13 @@ GalaxyMass = GalaxyMass[idx1:idx2+1]
 
 #idx1 = list(GroupFirstSub).index(SubID_str)
 
-GalaxyCM = GalaxyCM[idx1:idx2+1,:]
+GalaxyCM = GroupCM[idx1:idx2+1,:]
 star_ms = star_ms[idx1:idx2+1]
 
 catalog = open(basePath+'/Galaxy_'+str(ssNumber)+'.dat','w')
 
 catalog.write('# [0]: Galaxy SubID w/ group mass between 10^'+str(np.log10(mlow))+'~10^'+str(np.log10(mhigh))+'\n')
-catalog.write('# [1]-[3]: Galaxy CM in ckpc/h \n')
+catalog.write('# [1]-[3]: Group pos in ckpc/h \n')
 catalog.write('# [4]: Subhalo Mass in M_sun \n')
 catalog.write('# [5]: Stellar mass in M_sun \n')
 catalog.write('# [6]-[7]: photometry V-band & K-band \n')

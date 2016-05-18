@@ -52,15 +52,18 @@ for i in range(GalaxyID.size):
 
 Ms = np.array(Ms)
 
-AngMom = np.log10(Js/Ms**(0.5))
+AngMomIndex = np.log10(Js/Ms**(2./3.))
 
 catalog = open(basePath+'/kinematics_'+str(ssNumber)+'.dat','w')
 #catalog.write('# Galaxy SubID   Angular Momemtum   Disk star frac    Bulge star frac'+'\n')
 
-catalog.write('# Galaxy SubID   Disk star frac    Bulge star frac'+'\n')
+catalog.write('# [0]: Galaxy SubID'+'\n')
+catalog.write('# [1]-[2]: Disk star fraction & Bulge star fraction'+'\n')
+catalog.write('# [3]: log10 SpecificAngMom/M_star^(2/3)'+'\n')
+
 
 for i in range(SubfindID_circ.size):
-	catalog.write(str(SubfindID_circ[i])+'    '+str(CircAbove07Frac[i])+'    '+str(beta[i])+'\n')
+	catalog.write(str(SubfindID_circ[i])+'    '+str(CircAbove07Frac[i])+'    '+str(beta[i])+'	'+str(AngMomIndex[i])+'\n')
 
 
 '''
