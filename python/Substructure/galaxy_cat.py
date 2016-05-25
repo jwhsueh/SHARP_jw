@@ -4,8 +4,8 @@ import DistanceTool as distance
 
 basePath = '../../data/illustris_1'
 
-ssNumber = 99 # snapshotnumber
-z = 0.6
+ssNumber = 108 # snapshotnumber
+z = 0.4
 
 mlow = 1e12
 mhigh = 1e14
