@@ -28,10 +28,11 @@ def cdf_d(mi):
 
 """ Draw from inverse_cdf will get cloned distribution """
 
-def inverse_cdf(m,ml,mu):
+def inverse_cdf(ml,mu):
 
 	mi = np.linspace(ml,mu,(mu-ml)/1e5)
 	Ix = cdf_d(mi)
 	Iy = mi
 
-	return np.interp(m,Ix,Iy)
+	#return np.interp(m,Ix,Iy)
+	return Ix,Iy
