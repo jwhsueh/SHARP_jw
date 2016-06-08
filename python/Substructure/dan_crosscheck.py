@@ -8,7 +8,8 @@ ssNumber = 99
 Snapshot_num = 'Snapshot_'+str(ssNumber)
 
 DanID = np.loadtxt('JenWei_table_disk_in_x.dat',dtype = 'int',unpack=True, usecols=[0])
-Dan_re = np.loadtxt('JenWei_table_disk_in_x.dat',dtype = 'float',unpack=True, usecols=[1])
+DanID.sort()
+#Dan_re = np.loadtxt('JenWei_table_disk_in_x.dat',dtype = 'float',unpack=True, usecols=[1])
 
 catalog = basePath+'/kinematics_'+str(ssNumber)+'.dat'
 GalaxyID = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[0])
@@ -27,42 +28,55 @@ catalog_re = basePath+'/GalaxyRe_'+str(ssNumber)+'_x.dat'
 
 Galaxy_re = np.loadtxt(catalog_re,dtype='float',unpack=True,usecols=[1])
 
+## Dandan's full catalog
+
+catalog3 = basePath+'/Dandan_Lens'+str(ssNumber)+'.dat'
+LensID = np.loadtxt(catalog3,dtype = 'int',unpack=True, usecols=[0])
+Re = np.loadtxt(catalog3,dtype='float',unpack=True,usecols=[3])
+DMfrac = np.loadtxt(catalog3,dtype='float',unpack=True,usecols=[4])
+Mass = np.loadtxt(catalog3,dtype='float',unpack=True,usecols=[1])/0.704
+
 
 ''' cosmopara '''
 class cosmopara:
 	h = 0.704
 	OM = 0.27
 
-## Mass selection to Dandan's picl
+## Mass selection to Dandan's pick
+## also find DMfrac
 
-Dan_ms = []
-bulge_dan = []
-disk_dan = []
-Dan_V = []
-Dan_K =[]
-Dan2_re = []
+## now ID is sorted
+
+id_i = 11625
+id_e = 207298
+
+DanID_mc = np.intersect1d(DanID[DanID>=id_i],DanID[DanID<=id_e]) # mass cut
+
+# Re
+DanRe_mc = []
+DanMass_mc = []
+DanDMfrac_mc = []
+for i in range(LensID.size):
+	if LensID[i] in DanID_mc:
+		DanRe_mc.append(Re[i])
+		DanMass_mc.append(Mass[i])
+		DanDMfrac_mc.append(DMfrac[i])
+
+## Galaxy Re & DM frac
+
+# use index
+
+Galaxy_re = np.zeros(GalaxyID.size)*np.nan
+Galaxy_DMfrac = np.zeros(GalaxyID.size)*np.nan
 
 for i in range(GalaxyID.size):
-	if GalaxyID[i] in DanID:
-		Dan_ms.append(Galaxy_ms[i])
-		bulge_dan.append(bulge_frac[i])
-		disk_dan.append(disk_frac[i])
-		Dan_V.append(Galaxy_V[i])
-		Dan_K.append(Galaxy_K[i])
+	if GalaxyID[i] in LensID:
+		idx = list(LensID).index(GalaxyID[i])
+		Galaxy_re[i] = Re[idx]
+		Galaxy_DMfrac[i] = DMfrac[idx]
 
-print len(Dan_ms)
-
-for i in range(DanID.size):
-	if DanID[i] in GalaxyID:
-		Dan2_re.append(Dan_re[i])
-
-
-## find kinematic info & mass for Dandan's selection
-
-
-## mass
-
-## disk criteria
+print Galaxy_DMfrac.size, Galaxy_re.size
+#####
 
 cri = bulge_frac<0.6
 
@@ -72,22 +86,26 @@ print len(DiskID)
 disk_cri = disk_frac[cri]
 disk_ms = Galaxy_ms[cri]
 disk_re = Galaxy_re[cri]
+disk_DMfrac = Galaxy_DMfrac[cri]
 #disk_V = Galaxy_V[cri]
 #disk_K = Galaxy_K[cri]
 
 cri2 = disk_frac>0.4
 disk_ms2 = Galaxy_ms[cri2]
 disk_re2 = Galaxy_re[cri2]
+disk_DMfrac2 = Galaxy_DMfrac[cri2]
 
-bins = np.linspace(0,1.5,20)
+## find re and mass for DiskID
 
-plt.hist(Galaxy_re,bins,label = 'All galaxy',histtype='step')
-plt.hist(disk_re,bins,color = 'g',label = 'bulge Star frac<0.6',histtype='step')
-plt.hist(Dan2_re,bins,color = 'r', label='Dandan morphology pick',histtype='step')
+bins = np.linspace(0.2,1.0,20)
 
-plt.hist(disk_re2,bins,color = 'k',label = 'disk Star frac>0.4',histtype='step')
-plt.legend()
-plt.xlabel('Einstein radius (arc sec)')
+plt.hist(Galaxy_DMfrac,bins,label = 'All galaxy',histtype='step')
+plt.hist(disk_DMfrac,bins,color = 'g',label = 'bulge Star frac<0.6',histtype='step')
+plt.hist(DanDMfrac_mc,bins,color = 'r', label='Dandan morphology pick',histtype='step')
+
+plt.hist(disk_DMfrac2,bins,color = 'k',label = 'disk Star frac>0.4',histtype='step')
+plt.legend(loc =1)
+plt.xlabel('DM frac w/i Re')
 plt.ylabel('galaxy count')
 plt.title('Snapshot 99')
 plt.show()
