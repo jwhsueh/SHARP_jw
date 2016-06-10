@@ -48,9 +48,11 @@ def boundary(ci):
 Axis = np.zeros((GalaxyID.size,3))*np.nan  # principle ratational axis of each galaxy
 theta_i = np.zeros((GalaxyID.size,3))*np.nan # inclination angle of three main axis
 
+in_cat = open('../../data/illustris_1/GalaxyInclination_'+str(snapNum)+'.dat','w')
+in_cat.write('# Galaxy ID 	theta_x		theta_y		theta_z \n')
 
 for i in range(GalaxyID.size):
-
+	print GalaxyID[i]
 	# only use star particles
 
 	subhalo_st = snapshot.loadSubhalo(basePath,snapNum,GalaxyID[i],'stars')
@@ -78,7 +80,14 @@ for i in range(GalaxyID.size):
 	L_xu,L_yu,L_zu = st_Lx/L_len,st_Ly/L_len,st_Lz/L_len  # unit vector component
 
 	Axis[i,:] = np.array([L_xu,L_yu,L_zu])
-	theta_i[i,:] = np.array([np.arc])
+	theta_x,theta_y,theta_z = np.arccos(L_xu),np.arccos(L_yu),np.arccos(L_zu)
+	theta_i[i,:] = np.array([np.degrees(theta_x),np.degrees(theta_y),np.degrees(theta_z)])
+	print theta_i[i,:]
+
+	in_cat.write(str(GalaxyID[i])+'	'+str(theta_i[i,:])[1:-1]+'\n')
+
+
+
 
 
 
