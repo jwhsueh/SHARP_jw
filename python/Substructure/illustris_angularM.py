@@ -1,6 +1,7 @@
 import numpy as np
 import snapshot
 import h5py
+import groupcat
 import DistanceTool as distance
 
 basePath = '/Volumes/narsil_1/jwhsueh/illustris_1'
@@ -32,6 +33,9 @@ redshift = header['Redshift']
 
 a = 1.0/(1.0+redshift) # scale factor
 
+# get peculiar velocity of group
+SubVel = groupcat.loadSubhalos(basePath,snapNum, fields = ['SubhaloVel'])
+
 ## this function deal w/ galaxy on the boundary
 def boundary(ci):
 	
@@ -53,6 +57,10 @@ in_cat.write('# Galaxy ID 	theta_x		theta_y		theta_z \n')
 
 for i in range(GalaxyID.size):
 	print GalaxyID[i]
+
+	subID = GalaxyID[i] 
+	GalaxyVel = SubVel[subID]
+
 	# only use star particles
 
 	subhalo_st = snapshot.loadSubhalo(basePath,snapNum,GalaxyID[i],'stars')
@@ -67,7 +75,8 @@ for i in range(GalaxyID.size):
 		st_z = boundary(st_z)	
 
 	vel = subhalo_st['Velocities']
-	st_vx,st_vy,st_vz = vel[:,0],vel[:,1],vel[:,2]
+	# relative velocity to center
+	st_vx,st_vy,st_vz = vel[:,0]*np.sqrt(a)-GalaxyVel[0],vel[:,1]*np.sqrt(a)--GalaxyVel[1],vel[:,2]*np.sqrt(a)-GalaxyVel[2]
 
 	st_ms = subhalo_st['Masses']*1e10/cosmopara.h
 
@@ -80,6 +89,7 @@ for i in range(GalaxyID.size):
 	L_xu,L_yu,L_zu = st_Lx/L_len,st_Ly/L_len,st_Lz/L_len  # unit vector component
 
 	Axis[i,:] = np.array([L_xu,L_yu,L_zu])
+	print
 	theta_x,theta_y,theta_z = np.arccos(L_xu),np.arccos(L_yu),np.arccos(L_zu)
 	theta_i[i,:] = np.array([np.degrees(theta_x),np.degrees(theta_y),np.degrees(theta_z)])
 	print theta_i[i,:]

@@ -18,7 +18,9 @@ GalaxyID = np.loadtxt(galaxy_cata,dtype = 'int',unpack=True, usecols=[0])
 TotList = ['TotCata_Lens.list','TotCata_Phot.list']
 list_idx = 0
 
-p_index = 0 # Proj index
+p_index = 2 # Proj index
+
+cataName = basePath+'Dandan_Lens'+str(ssNumber)+'_z.dat'
 
 CataList = open(catPath+Proj[p_index]+TotList[list_idx],'r')
 CataList = CataList.read().splitlines()
@@ -32,7 +34,7 @@ f_idx = np.array([0,5,6,7,11])
 #f_idx = np.array([0,3,4,18,24])
 
 
-new_cata = open(basePath+'Dandan_Lens'+str(ssNumber)+'.dat','w')
+new_cata = open(cataName,'w')
 #new_cata.write('# '+str(field)+'\n')
 
 for file_name in CataList:
@@ -70,8 +72,8 @@ for file_name in CataList:
 
 new_cata.close()
 
-sort_file = basePath+'Dandan_Lens'+str(ssNumber)+'.dat'
-unsort = np.loadtxt(sort_file)
+# sort by subfindID
+unsort = np.loadtxt(cataName)
 sort = unsort[np.argsort(unsort[:,0])]
 
 ids = sort[:,0].astype(int)
@@ -79,7 +81,7 @@ print ids[:5]
 
 sort = sort[:,1:]
 
-write_file = open(basePath+'Dandan_Lens'+str(ssNumber)+'.dat','w')
+write_file = open(cataName,'w')
 
 write_file.write('#'+str(field)[1:-1]+'\n')
 

@@ -1,103 +1,128 @@
-import h5py
 import numpy as np
-import groupcat
 import matplotlib.pyplot as plt
 
 basePath = '../../data/illustris_1'
-ssNumber = 99
-Snapshot_num = 'Snapshot_'+str(ssNumber)
+ssNumber = '99'
 
-DanID = np.loadtxt('JenWei_table_disk_in_x.dat',dtype = 'int',unpack=True, usecols=[0])
-DanID.sort()
-#Dan_re = np.loadtxt('JenWei_table_disk_in_x.dat',dtype = 'float',unpack=True, usecols=[1])
+catalog = basePath+'/Galaxy_Lens'+ssNumber+'.dat'
+#GalaxyID = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[0])
+Mass = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[1])
+morph = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[13])
 
-catalog = basePath+'/kinematics_'+str(ssNumber)+'.dat'
-GalaxyID = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[0])
+Re = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[7,8,9])
+DMfrac = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[10,11,12])
 
-bulge_frac = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[2])
-disk_frac = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[1])
+theta = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[4,5,6])
 
-catalog2 = basePath+'/Galaxy_'+str(ssNumber)+'.dat'
-Galaxy_ms = np.loadtxt(catalog2,dtype = 'float',unpack=True, usecols=[4])
+# reduce to 1d [x...y...z...]
+Re,DMfrac,theta = np.ravel(Re),np.ravel(DMfrac),np.ravel(theta) 
 
-Galaxy_V = np.loadtxt(catalog2,dtype = 'float',unpack=True, usecols=[6])
-Galaxy_K = np.loadtxt(catalog2,dtype = 'float',unpack=True, usecols=[7])
+# expend array
 
-## Re catalog
-catalog_re = basePath+'/GalaxyRe_'+str(ssNumber)+'_x.dat'
+Mass = np.array([Mass,Mass,Mass]).flatten()
+print Mass
 
-Galaxy_re = np.loadtxt(catalog_re,dtype='float',unpack=True,usecols=[1])
+## Dandan's pick
 
-## Dandan's full catalog
+# three projections
 
-catalog3 = basePath+'/Dandan_Lens'+str(ssNumber)+'.dat'
-LensID = np.loadtxt(catalog3,dtype = 'int',unpack=True, usecols=[0])
-Re = np.loadtxt(catalog3,dtype='float',unpack=True,usecols=[3])
-DMfrac = np.loadtxt(catalog3,dtype='float',unpack=True,usecols=[4])
-Mass = np.loadtxt(catalog3,dtype='float',unpack=True,usecols=[1])/0.704
+morph = morph.flatten()
+#print morph
+morph = np.array([morph,morph,morph]).flatten()
+cri = morph==1
+
+Re_dan = Re[cri]
+DMfrac_dan = DMfrac[cri]
+theta_dan = theta[cri]
+Mass_dan = Mass[cri]
+
+# Edge-on/Face-on
+edge = theta_dan == 1
+face = theta_dan == 0
+
+Re_dan_ed = Re_dan[edge]
+Re_dan_fa = Re_dan[face]
+
+DMfrac_dan_ed = DMfrac_dan[edge]
+DMfrac_dan_fa = DMfrac_dan[face]
+
+Mass_dan_ed = Mass_dan[edge]
+#print Mass_dan_ed
+Mass_dan_fa = Mass_dan[face]
+
+print Mass_dan_ed.size,Mass_dan_fa.size
+
+## Kinematics pick
+
+df = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[2]) # disk str frac
+bf = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[3])
+
+df = np.array([df,df,df]).flatten()
+bf = np.array([bf,bf,bf]).flatten()
+
+cri_k1 = df==1
+cri_k2 = bf==1
+
+Re_df,Re_bf = Re[cri_k1],Re[cri_k2]
+Mass_df,Mass_bf = Mass[cri_k1],Mass[cri_k2]
+theta_df,theta_bf = theta[cri_k1],theta[cri_k2]
+
+# Edge-on/Face-on
+edge_df,edge_bf = theta_df == 1,theta_bf == 1
+face_df,face_bf = theta_df == 0,theta_bf == 0
+
+Re_df_ed, Re_df_fa = Re_df[edge_df],Re_df[face_df]
+Re_bf_ed, Re_bf_fa = Re_bf[edge_bf],Re_bf[face_bf]
+
+Mass_df_ed, Mass_df_fa = Mass_df[edge_df],Mass_df[face_df]
+Mass_bf_ed, Mass_bf_fa = Mass_bf[edge_bf],Mass_bf[face_bf]
+
+print Mass_df_ed.size,Mass_df_fa.size
+print Mass_bf_ed.size,Mass_bf_fa.size
+
+# histogram
+se = np.linspace(0.2,1.0,20)
+dot = []
+for i in range(se.size-1):
+	dot.append((se[i]+se[i+1])/2.)
+
+All = np.histogram(Re,bins = se)[0].astype(float)
+Dan = np.histogram(Re_dan,bins = se)[0].astype(float)
+Dan_ed = np.histogram(Re_dan_ed,bins = se)[0].astype(float)
+Dan_fa = np.histogram(Re_dan_fa,bins = se)[0].astype(float)
+
+df = np.histogram(Re_df,bins = se)[0].astype(float)
+df_ed = np.histogram(Re_df_ed,bins = se)[0].astype(float)
+df_fa = np.histogram(Re_df_fa,bins = se)[0].astype(float)
+
+bf = np.histogram(Re_bf,bins = se)[0].astype(float)
+bf_ed = np.histogram(Re_bf_ed,bins = se)[0].astype(float)
+bf_fa = np.histogram(Re_bf_fa,bins = se)[0].astype(float)
+
+plt.plot(dot,df/All,color='k',label = 'Disk str > 40%')
+plt.plot(dot,df_fa/All,color='g',label = 'Disk str Face-on')
+plt.plot(dot,df_ed/All,color='r',label = 'Disk str Edge-on')
+
+plt.plot(dot,bf/All,'k--',label = 'Bulge str < 60%')
+plt.plot(dot,bf_fa/All,'g--',label = 'Bulge str Face-on')
+plt.plot(dot,bf_ed/All,'r--',label = 'Bulge str Edge-on')
+
+#plt.scatter(np.log10(Mass_dan_fa),DMfrac_dan_fa,edgecolor='b',facecolors = 'none',marker='o',label='Dandan Face-on')
+#plt.scatter(np.log10(Mass_dan_ed),DMfrac_dan_ed,edgecolor='r',facecolors = 'none',marker='^',label='Dandan Edge-on')
 
 
-''' cosmopara '''
-class cosmopara:
-	h = 0.704
-	OM = 0.27
+plt.xlabel('Einstein Radius')
+plt.ylabel('Galaxy count frac')
+plt.title('Snapshot99: 3 projections')
+#plt.legend(scatterpoints=1,loc =2)
+plt.legend()
+plt.show()
 
-## Mass selection to Dandan's pick
-## also find DMfrac
+'''
+plt.hist(Re_dan_fa,bins,color='g',label = 'Dandan face-on',histtype='step')
+plt.hist(Re_dan,bins,color='k',label = 'Dandan all',histtype='step')
+plt.hist(Re_dan_ed,bins,color = 'r',label = 'Dandan Edge-on',histtype='step')
 
-## now ID is sorted
-
-id_i = 11625
-id_e = 207298
-
-DanID_mc = np.intersect1d(DanID[DanID>=id_i],DanID[DanID<=id_e]) # mass cut
-
-# Re
-DanRe_mc = []
-DanMass_mc = []
-DanDMfrac_mc = []
-for i in range(LensID.size):
-	if LensID[i] in DanID_mc:
-		DanRe_mc.append(Re[i])
-		DanMass_mc.append(Mass[i])
-		DanDMfrac_mc.append(DMfrac[i])
-
-## Galaxy Re & DM frac
-
-# use index
-
-Galaxy_re = np.zeros(GalaxyID.size)*np.nan
-Galaxy_DMfrac = np.zeros(GalaxyID.size)*np.nan
-
-for i in range(GalaxyID.size):
-	if GalaxyID[i] in LensID:
-		idx = list(LensID).index(GalaxyID[i])
-		Galaxy_re[i] = Re[idx]
-		Galaxy_DMfrac[i] = DMfrac[idx]
-
-print Galaxy_DMfrac.size, Galaxy_re.size
-#####
-
-cri = bulge_frac<0.6
-
-DiskID = GalaxyID[cri]
-print len(DiskID)
-
-disk_cri = disk_frac[cri]
-disk_ms = Galaxy_ms[cri]
-disk_re = Galaxy_re[cri]
-disk_DMfrac = Galaxy_DMfrac[cri]
-#disk_V = Galaxy_V[cri]
-#disk_K = Galaxy_K[cri]
-
-cri2 = disk_frac>0.4
-disk_ms2 = Galaxy_ms[cri2]
-disk_re2 = Galaxy_re[cri2]
-disk_DMfrac2 = Galaxy_DMfrac[cri2]
-
-## find re and mass for DiskID
-
-bins = np.linspace(0.2,1.0,20)
 
 plt.hist(Galaxy_DMfrac,bins,label = 'All galaxy',histtype='step')
 plt.hist(disk_DMfrac,bins,color = 'g',label = 'bulge Star frac<0.6',histtype='step')
@@ -109,6 +134,7 @@ plt.xlabel('DM frac w/i Re')
 plt.ylabel('galaxy count')
 plt.title('Snapshot 99')
 plt.show()
+'''
 
 '''
 plt.hist(disk_ms,bins,label = 'Bulge Star frac<0.6',)
