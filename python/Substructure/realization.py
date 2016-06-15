@@ -19,6 +19,9 @@ lens_obs = np.loadtxt(lensPath+lens_name+'_obs.dat')
 Lens = bClass.Lens(lens_setup)
 Lens.obsData(lens_obs)
 
+## cosmology parameter
+cospara = bClass.Cosmology()
+
 ## realization boundary
 x_lim = np.array([Lens.xc-2.*Lens.b,Lens.xc+2.*Lens.b])
 y_lim = np.array([Lens.yc-2.*Lens.b,Lens.yc+2.*Lens.b])
@@ -28,10 +31,10 @@ y_lim = np.array([Lens.yc-2.*Lens.b,Lens.yc+2.*Lens.b])
 f_sub = 0.01
 
 sigma_c = Lens.critical_density()*cospara.h # M_sun/Mpc^2
-kappa_tot = f_sub*2.0/sigma_c # M_sun/Mpc^2
+sigma_c = sigma_c/(distance.mpc2arcs(cospara,1.,Lens.zl))**2
+sig_tot = f_sub*sigma_c/2.0 # M_sun/arcsec^2
+print sig_tot
 
-## cosmology parameter
-cospara = bClass.Cosmology()
 
 ## 2D position + mass
 ## truncation radius (fixed at 1/60 -- F&K)
@@ -63,26 +66,29 @@ def get_mass(n_draw):
 	return m
 
 def m2b_jaffe(m_tot):
-	# M_sub = pi*b*b_sub^3/2 * sigma_c
+	# M_sub = pi*b*b_sub^3/2 * sigma_c 
 
-	b_mpc = distance.arcs2mpc(Lens.b)
+	#b_mpc = distance.arcs2mpc(cospara,Lens.b,Lens.zl)
 
-	bs_15 = m_tot/np.pi/b_mpc/sigma_c
-	bs_mpc = np.power(bs_15,2./3.)
-	bs = distance.mpc2arcs(bs_mpc)
+	bs_15 = m_tot/np.pi/Lens.b/sigma_c
+	bs = np.power(bs_15,2./3.)
+	#bs = distance.mpc2arcs(cospara,bs_mpc,Lens.zl)
 
 	return bs
 
-def jaffe_ks(b_sub,rt):
+def jaffe_sig(m_sub,rt): ## need modification [calculate sigma w/i r_t]
 
-	K = lambda r: b_sub/2.0*(1./r-1./np.sqrt(r**2+rt**2))
+	M_rt = m_sub*0.586
 
-	m_in = 2.0*np.pi*np.quad(0,b_sub,K)[0]
+	js = M_rt/(np.pi*rt**2)
 
-	ks = m_in/np.pi/b_sub**2
+	return js
 
-	return ks
+## --- realization class (store realization info)
 
+class realization_ob:
+	def __init__(self,x,y,m,b,rt):
+		self.xi,self.yi,self.mi,self.b_s,self.rt_s = x,y,m,b,rt
 
 ## Function: create realization
 
@@ -90,22 +96,77 @@ def set_realization(): # need to add realization number
 
 ##---- Here we start the drawing ----##
 
+	x_sub = []
+	y_sub = []
+	m_sub,b_sub,rt_sub = [],[],[]
+
+	sig_idx = 0.
+
 	unit_draw = 10 # 1 unit for the drawing
 
+##----keep drawing substructure
+	while True:
+		
+		print unit_draw
 	# position
-	xi,yi = uniform_2d(unit_draw)
 
-	unit_sub = xi.size # number of substructure in this unit draw
+		xi,yi = uniform_2d(unit_draw)
 
-	mi = get_mass(unit_sub)
+		unit_sub = xi.size # number of substructure in this unit draw
 
+		mi = get_mass(unit_sub)
+		print mi
+
+	#-----
+	# total mass
 	# mass to pseudo-Jaffe profile
-	b_i = m2b_jaffe(mi)
-	rt_i = np.sqrt(b_i*Lens.b)
+		b_i = m2b_jaffe(mi)
+		print b_i
+		rt_i = np.sqrt(b_i*Lens.b)
 
-	# pjaffe ks calculation
-	ks_sub = jaffe_ks(b_i,rt_i)
+	# sub sig calculation
+		sig_sum = np.sum(mi)/np.pi/(2.*Lens.b)**2
 
-	## set up counting approach
+	## set up counting approach [for loop]
+		print sig_sum
+		sig_idx = sig_idx+sig_sum
 
+		if sig_idx < sig_tot:
+			x_sub.extend(xi)
+			y_sub.extend(yi)
+			m_sub.extend(mi)
+			b_sub.extend(b_i)
+			rt_sub.extend(rt_i)
+
+		else:
+			sig_idx = sig_idx - sig_sum
+
+			delta_sig = sig_tot - sig_idx
+
+			xi,yi = xi[0],yi[0]
+			mi = delta_sig*np.pi*(2.*Lens.b)**2
+			b_i = m2b_jaffe(mi)
+			rt_i = np.sqrt(b_i*Lens.b)
+
+			x_sub.append(xi)
+			y_sub.append(yi)
+			m_sub.append(mi)
+			b_sub.append(b_i)
+			rt_sub.append(rt_i)
+
+			break
+
+	## ------end of drawing----			
+
+	# create realization class object
+
+	real_one = realization_ob(x_sub,y_sub,m_sub,b_sub,rt_sub)
+		
+	return real_one
+
+
+re_info = set_realization()
+
+print len(re_info.xi)
+##--- realization valid check
 
