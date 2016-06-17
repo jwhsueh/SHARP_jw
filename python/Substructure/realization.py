@@ -6,10 +6,12 @@ import matplotlib.pyplot as plt
 import MassFunc as MF
 import DistanceTool as distance
 import Basic_class as bClass
+import gravlens_tool as gTool
 
 ## initiate lens
 lens_name = 'B1422'
 lensPath = '../../models/lens_info/'
+gravlensPath = '../../data/sub_gravlens/'
 
 # Lens setup file
 lens_setup = np.loadtxt(lensPath+lens_name+'_setup.dat')
@@ -28,7 +30,7 @@ y_lim = np.array([Lens.yc-2.*Lens.b,Lens.yc+2.*Lens.b])
 
 
 ## substructure mass fraction
-f_sub = 0.01
+f_sub = 0.0001
 
 sigma_c = Lens.critical_density()*cospara.h # M_sun/Mpc^2
 sigma_c = sigma_c/(distance.mpc2arcs(cospara,1.,Lens.zl))**2
@@ -88,7 +90,7 @@ def jaffe_sig(m_sub,rt): ## need modification [calculate sigma w/i r_t]
 
 class realization_ob:
 	def __init__(self,x,y,m,b,rt):
-		self.xi,self.yi,self.mi,self.b_s,self.rt_s = x,y,m,b,rt
+		self.xi,self.yi,self.mi,self.bi,self.rt_i = x,y,m,b,rt
 
 ## Function: create realization
 
@@ -165,8 +167,9 @@ def set_realization(): # need to add realization number
 	return real_one
 
 
-re_info = set_realization()
+re_mod = set_realization()
 
-print len(re_info.xi)
+print len(re_mod.xi)
 ##--- realization valid check
 
+gTool.create_findimg(Lens,re_mod,gravlensPath)

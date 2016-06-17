@@ -4,15 +4,16 @@ import matplotlib.pyplot as plt
 basePath = '../../data/illustris_1'
 ssNumber = '99'
 
-catalog = basePath+'/Galaxy_Lens'+ssNumber+'.dat'
+catalog = basePath+'/Galaxy_Lens'+ssNumber+'_str.dat'
 #GalaxyID = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[0])
 Mass = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[1])
-morph = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[13])
+str_ms = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[2])
+morph = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[12])
 
-Re = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[7,8,9])
-DMfrac = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[10,11,12])
+Re = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[6,7,8])
+DMfrac = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[9,10,11])
 
-theta = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[4,5,6])
+theta = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[3,4,5])
 
 # reduce to 1d [x...y...z...]
 Re,DMfrac,theta = np.ravel(Re),np.ravel(DMfrac),np.ravel(theta) 
@@ -20,7 +21,8 @@ Re,DMfrac,theta = np.ravel(Re),np.ravel(DMfrac),np.ravel(theta)
 # expend array
 
 Mass = np.array([Mass,Mass,Mass]).flatten()
-print Mass
+str_ms = np.array([str_ms,str_ms,str_ms]).flatten()
+#print Mass
 
 ## Dandan's pick
 
@@ -35,6 +37,7 @@ Re_dan = Re[cri]
 DMfrac_dan = DMfrac[cri]
 theta_dan = theta[cri]
 Mass_dan = Mass[cri]
+str_dan = str_ms[cri]
 
 # Edge-on/Face-on
 edge = theta_dan == 1
@@ -50,8 +53,11 @@ Mass_dan_ed = Mass_dan[edge]
 #print Mass_dan_ed
 Mass_dan_fa = Mass_dan[face]
 
-print Mass_dan_ed.size,Mass_dan_fa.size
+str_dan_ed = str_dan[edge]
+str_dan_fa = str_dan[face]
 
+print Mass_dan_ed.size,Mass_dan_fa.size
+'''
 ## Kinematics pick
 
 df = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[2]) # disk str frac
@@ -79,9 +85,9 @@ Mass_bf_ed, Mass_bf_fa = Mass_bf[edge_bf],Mass_bf[face_bf]
 
 print Mass_df_ed.size,Mass_df_fa.size
 print Mass_bf_ed.size,Mass_bf_fa.size
-
+'''
 # histogram
-se = np.linspace(0.2,1.0,20)
+se = np.linspace(0.2,1.2,20)
 dot = []
 for i in range(se.size-1):
 	dot.append((se[i]+se[i+1])/2.)
@@ -90,7 +96,7 @@ All = np.histogram(Re,bins = se)[0].astype(float)
 Dan = np.histogram(Re_dan,bins = se)[0].astype(float)
 Dan_ed = np.histogram(Re_dan_ed,bins = se)[0].astype(float)
 Dan_fa = np.histogram(Re_dan_fa,bins = se)[0].astype(float)
-
+'''
 df = np.histogram(Re_df,bins = se)[0].astype(float)
 df_ed = np.histogram(Re_df_ed,bins = se)[0].astype(float)
 df_fa = np.histogram(Re_df_fa,bins = se)[0].astype(float)
@@ -98,24 +104,24 @@ df_fa = np.histogram(Re_df_fa,bins = se)[0].astype(float)
 bf = np.histogram(Re_bf,bins = se)[0].astype(float)
 bf_ed = np.histogram(Re_bf_ed,bins = se)[0].astype(float)
 bf_fa = np.histogram(Re_bf_fa,bins = se)[0].astype(float)
+'''
+#plt.plot(dot,Dan/All,color='k',label = 'morphology pick')
+#plt.plot(dot,Dan_fa/All,color='g',label = 'Face-on')
+#plt.plot(dot,Dan_ed/All,color='r',label = 'Edge-on')
 
-plt.plot(dot,df/All,color='k',label = 'Disk str > 40%')
-plt.plot(dot,df_fa/All,color='g',label = 'Disk str Face-on')
-plt.plot(dot,df_ed/All,color='r',label = 'Disk str Edge-on')
+#plt.plot(dot,bf/All,'k--',label = 'Bulge str < 60%')
+#plt.plot(dot,bf_fa/All,'g--',label = 'Bulge str Face-on')
+#plt.plot(dot,bf_ed/All,'r--',label = 'Bulge str Edge-on')
 
-plt.plot(dot,bf/All,'k--',label = 'Bulge str < 60%')
-plt.plot(dot,bf_fa/All,'g--',label = 'Bulge str Face-on')
-plt.plot(dot,bf_ed/All,'r--',label = 'Bulge str Edge-on')
-
-#plt.scatter(np.log10(Mass_dan_fa),DMfrac_dan_fa,edgecolor='b',facecolors = 'none',marker='o',label='Dandan Face-on')
-#plt.scatter(np.log10(Mass_dan_ed),DMfrac_dan_ed,edgecolor='r',facecolors = 'none',marker='^',label='Dandan Edge-on')
+plt.scatter(np.log10(str_dan_fa),DMfrac_dan_fa,edgecolor='b',facecolors = 'none',marker='o',label='morphology pick: Face-on')
+plt.scatter(np.log10(str_dan_ed),DMfrac_dan_ed,edgecolor='r',facecolors = 'none',marker='^',label='morphology pick: Edge-on')
 
 
-plt.xlabel('Einstein Radius')
-plt.ylabel('Galaxy count frac')
+plt.xlabel('log 10 stellar mass')
+plt.ylabel('DM frac w/i Re')
 plt.title('Snapshot99: 3 projections')
-#plt.legend(scatterpoints=1,loc =2)
-plt.legend()
+plt.legend(scatterpoints=1,loc =1)
+#plt.legend()
 plt.show()
 
 '''

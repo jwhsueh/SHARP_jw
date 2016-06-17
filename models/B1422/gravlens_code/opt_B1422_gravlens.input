@@ -1,6 +1,6 @@
 set omitcore=1.0e-6
 data B1422_obs_2.dat
-set chimode= 0
+set chimode= 1
 set checkparity = 0
 set gridflag= 0
 

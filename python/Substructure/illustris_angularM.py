@@ -13,7 +13,7 @@ class cosmopara:
 
 ## read in Galaxy catalog
 
-catalog = '../../data/illustris_1/Galaxy_'+str(snapNum)+'.dat'
+catalog = '../../data/illustris_1/Galaxy_'+str(snapNum)+'_str.dat'
 GalaxyID = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[0])
 CM_x = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[1])
 CM_y = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[2])
@@ -52,7 +52,7 @@ def boundary(ci):
 Axis = np.zeros((GalaxyID.size,3))*np.nan  # principle ratational axis of each galaxy
 theta_i = np.zeros((GalaxyID.size,3))*np.nan # inclination angle of three main axis
 
-in_cat = open('../../data/illustris_1/GalaxyInclination_'+str(snapNum)+'.dat','w')
+in_cat = open('../../data/illustris_1/Inclination_'+str(snapNum)+'_str.dat','w')
 in_cat.write('# Galaxy ID 	theta_x		theta_y		theta_z \n')
 
 for i in range(GalaxyID.size):
