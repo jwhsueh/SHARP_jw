@@ -30,7 +30,7 @@ y_lim = np.array([Lens.yc-2.*Lens.b,Lens.yc+2.*Lens.b])
 
 
 ## substructure mass fraction
-f_sub = 0.0001
+f_sub = 0.01
 
 sigma_c = Lens.critical_density()*cospara.h # M_sun/Mpc^2
 sigma_c = sigma_c/(distance.mpc2arcs(cospara,1.,Lens.zl))**2
@@ -172,4 +172,4 @@ re_mod = set_realization()
 print len(re_mod.xi)
 ##--- realization valid check
 
-gTool.create_findimg(Lens,re_mod,gravlensPath)
+gTool.create_opt(Lens,re_mod,gravlensPath)

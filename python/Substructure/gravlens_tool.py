@@ -3,7 +3,14 @@ import numpy as np
 import commands
 
 def create_opt(macro_mod,micro_mod,path):
-	opt_file = open(path+'valid_check.input','w')
+	opt_file = open(path+'opt_realization.input','w')
+	opt_header = open(path+'opt.head','r')
+
+	## write head file
+	head_lines = opt_header.readlines()
+
+	for Aline in head_lines:
+		opt_file.write(Aline)
 
 	## write number of lens and srcs [startup]
 
@@ -22,19 +29,62 @@ def create_opt(macro_mod,micro_mod,path):
 
 	## --end of gravlens startup--
 
-	## --write a bunch of zeros--
+	## write opt SIE flags
 
 	opt_file.write('\n')
-	zeros = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0\n'
-	for i in range(n_lens):
+	opt_file.write('1 1 1 1 1 1 1 0 0 0\n')
+
+	## --write a bunch of zeros [pjaffe]--
+
+	
+	zeros = '0 0 0 0 0 0 0 0 0 0\n'
+	for i in range(n_lens-1):
 		opt_file.write(zeros)
 
 	opt_file.write('\n')
 
 	## write opt command
 
-	src_pos = str(macro_mod.src_x)+' '+str(macro_mod.src_y)
-	opt_file.write('opt '+src_pos)
+	opt_file.write('optimize \n')
+
+	opt_file.close()
+
+	return
+
+def create_findimg(micro_mod,path):
+	findimg_file = open(path+'findimg_realization.input','w')
+	opt_result = open(path+'best.dat','r')
+
+	## need to modify
+	## write number of lens and srcs [startup]
+
+	n_lens = 1+len(micro_mod.xi)
+	findimg_file.write('startup '+str(n_lens)+' 1\n')
+
+	opt_result.readline() # get rid of first line
+	#opt_lines = opt_result.readlines()
+
+
+	for i in range(n_lens):
+		Aline = opt_result.readline()
+		findimg_file.write(Aline)
+
+
+	## --end of gravlens startup--
+
+	## --write a bunch of zeros--
+
+	zeros = '0 0 0 0 0 0 0 0 0 0\n'
+	for i in range(n_lens):
+		findimg_file.write(zeros)
+
+	findimg_file.write('\n')
+
+	## write findimg command
+
+
+
+	findimg_file.write('findimg \n')
 
 	opt_file.close()
 
