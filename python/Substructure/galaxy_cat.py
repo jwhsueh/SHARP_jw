@@ -37,6 +37,12 @@ GroupCM = GroupCM[GroupFirstSub,:]
 
 star_ms = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloMassType'])[:,4]*1e10/cosmopara.h
 star_ms = star_ms[GroupFirstSub]
+
+sigma = groupcat.loadSubhalos(basePath,ssNumber,fields = ['SubhaloVelDisp'])
+sigma = sigma[GroupFirstSub]
+
+sigma_h = 370.
+sigma_l = 130.
 '''
 #photometry
 V_mag = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloStellarPhotometrics'])[:,2]
@@ -53,25 +59,28 @@ K_mag = K_mag+5.*(np.log10(DL)-1)
 ## rewrite this part!!! [str mass]
 ## use group mass as galaxy cretria 
 ## here!!
-GalaxyID,GalaxyPos,Galaxy_ms,Galaxy_str = [],[],[],[]
+GalaxyID,GalaxyPos,Galaxy_ms,Galaxy_str,Galaxy_sig = [],[],[],[],[]
 
-for i in range(star_ms.size):
-	if star_ms[i]<mhigh and star_ms[i]>mlow:
+for i in range(sigma.size):
+	if sigma[i]<sigma_h and sigma[i]>sigma_l:
+		#print sigma[i]
 		GalaxyID.append(GroupFirstSub[i])
 		GalaxyPos.append(GroupCM[i,:])
 		Galaxy_ms.append(GalaxyMass[i])
 		Galaxy_str.append(star_ms[i])
+		Galaxy_sig.append(sigma[i])
 
 
-catalog = open(basePath+'/Galaxy_'+str(ssNumber)+'_str.dat','w')
+catalog = open(basePath+'/Galaxy_'+str(ssNumber)+'_sig.dat','w')
 
 catalog.write('# [0]: Galaxy SubID w/ group mass between 10^'+str(np.log10(mlow))+'~10^'+str(np.log10(mhigh))+'\n')
 catalog.write('# [1]-[3]: Group pos in ckpc/h \n')
 catalog.write('# [4]: Subhalo Mass in M_sun \n')
 catalog.write('# [5]: Stellar mass in M_sun \n')
+catalog.write('# [6]: 1d Velocity dispersion from all particles in km/s \n')
 #catalog.write('# [6]-[7]: photometry V-band & K-band \n')
 
 for i in range(len(GalaxyID)):
-	catalog.write(str(GalaxyID[i])+'    '+str(GalaxyPos[i])[1:-1]+'    '+str(Galaxy_ms[i])+'    '+str(Galaxy_str[i])+'\n')
+	catalog.write(str(GalaxyID[i])+'    '+str(GalaxyPos[i])[1:-1]+'    '+str(Galaxy_ms[i])+'    '+str(Galaxy_str[i])+'	'+str(Galaxy_sig[i])+'\n')
 	#catalog.write(str(table[i,:])[1:-1]+'\n')
 

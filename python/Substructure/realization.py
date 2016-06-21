@@ -168,8 +168,17 @@ def set_realization(): # need to add realization number
 
 
 re_mod = set_realization()
-
 print len(re_mod.xi)
 ##--- realization valid check
 
-gTool.create_opt(Lens,re_mod,gravlensPath)
+opt_name = 'opt_realization.input'
+finding_name = 'findimg_realization.input'
+
+gTool.create_opt(Lens,re_mod,gravlensPath,opt_name)
+## run opt file
+gTool.run_opt(gravlensPath,opt_name)
+
+## write findimg file
+gTool.create_findimg(re_mod,gravlensPath,finding_name)
+
+

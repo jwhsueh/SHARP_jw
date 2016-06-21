@@ -2,8 +2,8 @@ import os
 import numpy as np
 import commands
 
-def create_opt(macro_mod,micro_mod,path):
-	opt_file = open(path+'opt_realization.input','w')
+def create_opt(macro_mod,micro_mod,path,output):
+	opt_file = open(path+output,'w')
 	opt_header = open(path+'opt.head','r')
 
 	## write head file
@@ -51,8 +51,14 @@ def create_opt(macro_mod,micro_mod,path):
 
 	return
 
-def create_findimg(micro_mod,path):
-	findimg_file = open(path+'findimg_realization.input','w')
+def run_opt(path,optfile):
+
+	os.system('./lensmodel '+path+optfile)
+
+	return
+
+def create_findimg(micro_mod,path,output):
+	findimg_file = open(path+output,'w')
 	opt_result = open(path+'best.dat','r')
 
 	## need to modify
@@ -82,11 +88,13 @@ def create_findimg(micro_mod,path):
 
 	## write findimg command
 
+	opt_result.readline() # get rid of 'SOURCE PARMS:'
+	raw_line = opt_result.readline().split()
 
+	findimg_file.write('findimg '+raw_line[1]+raw_line[2]+'\n')
 
-	findimg_file.write('findimg \n')
-
-	opt_file.close()
+	opt_result.close()
+	findimg_file.close()
 
 	return
 
@@ -106,6 +114,6 @@ def gravlens_pjaffe(b,x,y,rt):
 
 	return Aline
 
-def opt_result(opt_file):
-	opt_output = commands.getstatusoutput('./lensmodel '+opt_file)
+def find_result(findimg_file):
+	opt_output = commands.getstatusoutput('./lensmodel '+findimg_file)
 

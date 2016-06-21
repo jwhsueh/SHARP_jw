@@ -18,8 +18,10 @@ import plot_lensmod as pltlm
 #---------------------------------------------------------------------------
 
 def model_plot(sx, sy, cx, cy):
-    plt.plot(sx,sy,'o',ms=10,mec='k',mfc='r',label='source')
-    plt.plot(cx,cy,'^',ms=10,label='lenses',mfc='k')
+    plt.scatter(sx,sy,'o',ms=10,mec='k',mfc='r',label='source')
+    #plt.scatter(cx,cy,'^',ms=10,label='lenses',mfc='k')
+    plt.scatter(cx[0],cy[0],'^',ms=10,mec='k',mfc='none',label = 'SIE center')
+    plt.scatter(cx[1],cy[1],'^',ms=10,mec='r',mfc='none',label = 'Disc center')
 
 #---------------------------------------------------------------------------
 
@@ -27,8 +29,14 @@ def img_pos(obsfile, xmod, ymod):
 
     x0,y0 = n.loadtxt(obsfile,unpack=True,usecols=(0,1))
 
-    plt.plot(x0,y0,'b+',ms=10,label='observed')
-    plt.plot(xmod,ymod,'o',ms=10,mec='r',mfc='none',label='predicted')
+    plt.scatter(x0,y0,'b+',ms=10,label='observed')
+    plt.scatter(xmod,ymod,'o',ms=10,mec='r',mfc='none',label='predicted')
+
+#---------------------------------------------------------------------------
+
+def disc_plane(x_sec,y_sec):
+
+    plt.plot(xsec,y_sec,'k--')
     
 #---------------------------------------------------------------------------
 
@@ -149,11 +157,17 @@ def gravlens_b1555(ax=None, showylab=True):
     """ Set the source positions """
     sx,sy= -1.971670e-01, -1.512136e-01
 
+    """ Set the observed disc mid plane """
+
+    x_sec = [-0.098,-0.3126]
+    y_sec = [0.3806,-0.8194]
+
     """ Do the plotting """
     pltlm.plot_critcaust(critfile,'crit',ax=ax)
     pltlm.plot_critcaust(critfile,'caust',sls=':',ax=ax)
     model_plot(sx,sy,cx,cy)
     img_pos(obsfile,xmod,ymod)
+    disc_plane(x_sec,y_sec)
 
     plt.xlabel(r'$\Delta  \alpha $ (arcsec)')
     if showylab:
@@ -161,7 +175,7 @@ def gravlens_b1555(ax=None, showylab=True):
 
     #plt.xlim(0.3724,-0.8276)
     #plt.ylim(-0.8194,0.3806)
-    plt.legend(loc=1)
+    plt.legend(loc=4,scatterpoints=1)
     #plt.axes().set_aspect('equal')
 
 #---------------------------------------------------------------------------
