@@ -18,10 +18,10 @@ import plot_lensmod as pltlm
 #---------------------------------------------------------------------------
 
 def model_plot(sx, sy, cx, cy):
-    plt.scatter(sx,sy,'o',ms=10,mec='k',mfc='r',label='source')
+    plt.scatter(sx,sy,marker='o',s= 50,edgecolor='k',facecolors='r',label='source')
     #plt.scatter(cx,cy,'^',ms=10,label='lenses',mfc='k')
-    plt.scatter(cx[0],cy[0],'^',ms=10,mec='k',mfc='none',label = 'SIE center')
-    plt.scatter(cx[1],cy[1],'^',ms=10,mec='r',mfc='none',label = 'Disc center')
+    plt.scatter(cx[0],cy[0],marker='^',edgecolor='k',s= 100,facecolors='k',label = 'SIE center')
+    plt.scatter(cx[1],cy[1],marker='^',edgecolor='k',s= 100,facecolors='r',label = 'Disc center')
 
 #---------------------------------------------------------------------------
 
@@ -29,14 +29,15 @@ def img_pos(obsfile, xmod, ymod):
 
     x0,y0 = n.loadtxt(obsfile,unpack=True,usecols=(0,1))
 
-    plt.scatter(x0,y0,'b+',ms=10,label='observed')
-    plt.scatter(xmod,ymod,'o',ms=10,mec='r',mfc='none',label='predicted')
+    plt.scatter(x0,y0,marker ='+',color='b',s= 100,label='observed')
+    plt.scatter(xmod,ymod,marker='o',edgecolor='r',s= 100,facecolors='none',label='predicted')
+    #plt.scatter(sig_dan_fa,DMfrac_dan_fa,edgecolor='b',facecolors = 'none',marker='o',label='morphology pick: Face-on')
 
 #---------------------------------------------------------------------------
 
 def disc_plane(x_sec,y_sec):
 
-    plt.plot(xsec,y_sec,'k--')
+    plt.plot(x_sec,y_sec,'k--')
     
 #---------------------------------------------------------------------------
 
@@ -159,7 +160,7 @@ def gravlens_b1555(ax=None, showylab=True):
 
     """ Set the observed disc mid plane """
 
-    x_sec = [-0.098,-0.3126]
+    x_sec = [-0.058,-0.2526]
     y_sec = [0.3806,-0.8194]
 
     """ Do the plotting """
