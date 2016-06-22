@@ -9,12 +9,12 @@ catalog = basePath+'/Galaxy_Lens'+ssNumber+'_sig.dat'
 Mass = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[1])
 str_ms = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[2])
 sigma = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[3])
-morph = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[13])
+morph = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[15])
 
-Re = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[7,8,9])
-DMfrac = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[10,11,12])
+Re = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[9,10,11])
+DMfrac = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[12,13,14])
 
-theta = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[4,5,6])
+theta = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[6,7,8])
 
 # reduce to 1d [x...y...z...]
 Re,DMfrac,theta = np.ravel(Re),np.ravel(DMfrac),np.ravel(theta) 
@@ -41,7 +41,7 @@ theta_dan = theta[cri]
 Mass_dan = Mass[cri]
 str_dan = str_ms[cri]
 sig_dan = sigma[cri]
-
+'''
 # Edge-on/Face-on
 edge = theta_dan == 1
 face = theta_dan == 0
@@ -66,8 +66,8 @@ print Mass_dan_ed.size,Mass_dan_fa.size
 '''
 ## Kinematics pick
 
-df = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[2]) # disk str frac
-bf = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[3])
+df = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[4]) # disk str frac
+bf = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[5])
 
 df = np.array([df,df,df]).flatten()
 bf = np.array([bf,bf,bf]).flatten()
@@ -78,7 +78,7 @@ cri_k2 = bf==1
 Re_df,Re_bf = Re[cri_k1],Re[cri_k2]
 Mass_df,Mass_bf = Mass[cri_k1],Mass[cri_k2]
 theta_df,theta_bf = theta[cri_k1],theta[cri_k2]
-
+'''
 # Edge-on/Face-on
 edge_df,edge_bf = theta_df == 1,theta_bf == 1
 face_df,face_bf = theta_df == 0,theta_bf == 0
@@ -100,25 +100,31 @@ for i in range(se.size-1):
 
 All = np.histogram(Re,bins = se)[0].astype(float)
 Dan = np.histogram(Re_dan,bins = se)[0].astype(float)
-Dan_ed = np.histogram(Re_dan_ed,bins = se)[0].astype(float)
-Dan_fa = np.histogram(Re_dan_fa,bins = se)[0].astype(float)
-'''
+#Dan_ed = np.histogram(Re_dan_ed,bins = se)[0].astype(float)
+#Dan_fa = np.histogram(Re_dan_fa,bins = se)[0].astype(float)
+
 df = np.histogram(Re_df,bins = se)[0].astype(float)
-df_ed = np.histogram(Re_df_ed,bins = se)[0].astype(float)
-df_fa = np.histogram(Re_df_fa,bins = se)[0].astype(float)
+#df_ed = np.histogram(Re_df_ed,bins = se)[0].astype(float)
+#df_fa = np.histogram(Re_df_fa,bins = se)[0].astype(float)
 
 bf = np.histogram(Re_bf,bins = se)[0].astype(float)
-bf_ed = np.histogram(Re_bf_ed,bins = se)[0].astype(float)
-bf_fa = np.histogram(Re_bf_fa,bins = se)[0].astype(float)
-'''
-plt.plot(dot,Dan/All,color='k',label = 'morphology pick')
-plt.plot(dot,Dan_fa/All,color='g',label = 'Face-on')
-plt.plot(dot,Dan_ed/All,color='r',label = 'Edge-on')
+#bf_ed = np.histogram(Re_bf_ed,bins = se)[0].astype(float)
+#bf_fa = np.histogram(Re_bf_fa,bins = se)[0].astype(float)
 
-#plt.plot(dot,bf/All,'k--',label = 'Bulge str < 60%')
+#plt.plot(dot,Dan/All,color='k',label = 'morphology pick')
+plt.bar(dot,Dan/All,edgecolor='k',facecolor='k',width=(se[1]-se[0])/2.,label = 'morphology pick')
+
+#plt.plot(dot,Dan_fa/All,color='g',label = 'Face-on')
+#plt.plot(dot,Dan_ed/All,color='r',label = 'Edge-on')
+
+#plt.plot(dot,bf/All,'b--',label = 'Bulge str < 60%')
+plt.bar(dot,bf/All,edgecolor='b',facecolor='none',width=(se[1]-se[0])/2.,label = 'Bulge str < 60%')
+
 #plt.plot(dot,bf_fa/All,'g--',label = 'Bulge str Face-on')
 #plt.plot(dot,bf_ed/All,'r--',label = 'Bulge str Edge-on')
 
+#plt.plot(dot,df/All,'r--',label = 'Disk str > 40%')
+plt.bar(dot,df/All,edgecolor='r',facecolor='r',width=(se[1]-se[0])/2.,label = 'Disk str > 40%')
 #plt.scatter(sig_dan_fa,DMfrac_dan_fa,edgecolor='b',facecolors = 'none',marker='o',label='morphology pick: Face-on')
 #plt.scatter(sig_dan_ed,DMfrac_dan_ed,edgecolor='r',facecolors = 'none',marker='^',label='morphology pick: Edge-on')
 

@@ -10,7 +10,7 @@ class cosmopara:
 	OM = 0.27
 
 basePath = '../../data/illustris_1'
-ssNumber = 108
+ssNumber = 99
 
 Snapshot_num = 'Snapshot_'+str(ssNumber)
 
@@ -24,9 +24,9 @@ Js = circFile[Snapshot_num]['SpecificAngMom']
 
 ## read in Galaxy catalog
 
-catalog = basePath+'/Galaxy_'+str(ssNumber)+'.dat'
+catalog = basePath+'/Galaxy_'+str(ssNumber)+'_sig.dat'
 GalaxyID = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[0])
-star_ms = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[4]) # stellar mass
+#star_ms = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[4]) # stellar mass
 
 GalaxyID_end = max(GalaxyID)
 
@@ -40,7 +40,7 @@ CircAbove07Frac = CircAbove07Frac[mask]
 beta = beta[mask]
 Js = Js[mask]
 SubfindID_circ = SubfindID_circ[mask]
-
+'''
 ## indicator of specific angular momentum
 
 Ms = []
@@ -53,15 +53,15 @@ for i in range(GalaxyID.size):
 Ms = np.array(Ms)
 
 AngMomIndex = np.log10(Js/Ms**(2./3.))
-
-catalog = open(basePath+'/kinematics_'+str(ssNumber)+'.dat','w')
+'''
+catalog = open(basePath+'/kinematics_'+str(ssNumber)+'_sig.dat','w')
 #catalog.write('# Galaxy SubID   Angular Momemtum   Disk star frac    Bulge star frac'+'\n')
 
 catalog.write('# [0]: Galaxy SubID'+'\n')
 catalog.write('# [1]-[2]: Disk star fraction & Bulge star fraction'+'\n')
-catalog.write('# [3]: log10 SpecificAngMom/M_star^(2/3)'+'\n')
+#catalog.write('# [3]: log10 SpecificAngMom/M_star^(2/3)'+'\n')
 
 
 for i in range(SubfindID_circ.size):
-	catalog.write(str(SubfindID_circ[i])+'    '+str(CircAbove07Frac[i])+'    '+str(beta[i])+'	'+str(AngMomIndex[i])+'\n')
+	catalog.write(str(SubfindID_circ[i])+'    '+str(CircAbove07Frac[i])+'    '+str(beta[i])+'	'+'\n')
 

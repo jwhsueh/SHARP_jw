@@ -15,15 +15,15 @@ DanID = np.union1d(DanID,DanID_z)
 #DanID.sort()
 
 # If they are in DanID, morphology pick flag = 1
-'''
+
 ## Kinematics
 
-catalog = basePath+'/kinematics_'+str(ssNumber)+'.dat'
+catalog = basePath+'/kinematics_'+str(ssNumber)+'_sig.dat'
 GalaxyID = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[0])
 
 bulge_frac = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[2])
 disk_frac = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[1])
-'''
+
 catalog2 = basePath+'/Galaxy_'+str(ssNumber)+'_sig.dat'
 GalaxyID = np.loadtxt(catalog2,dtype = 'int',unpack=True, usecols=[0])
 Galaxy_ms = np.loadtxt(catalog2,dtype = 'float',unpack=True, usecols=[4])
@@ -93,12 +93,12 @@ s_cata.write('#[1]: Total Mass [M_sun] \n')
 s_cata.write('#[2]: Stellar Mass [M_sun] \n')
 s_cata.write('#[3]: Velocity Dispertion [km/s] \n')
 # add tot-mass here
-#s_cata.write('#[2]: Disk str fraction > 0.4, flag = 1 \n')
-#s_cata.write('#[3]: Bulge str fraction < 0.6, flag = 1 \n')
-s_cata.write('#[4-6]: high inclination angle (60-120 degree), flag = 1; x,y,z \n')
-s_cata.write('#[7-9]: Re x,y,z \n')
-s_cata.write('#[10-12]: DM frac w/i Re x,y,z \n')
-s_cata.write('#[13]: Dandan morphology pick, flag =1 \n')
+s_cata.write('#[4]: Disk str fraction > 0.4, flag = 1 \n')
+s_cata.write('#[5]: Bulge str fraction < 0.6, flag = 1 \n')
+s_cata.write('#[6-8]: high inclination angle (60-120 degree), flag = 1; x,y,z \n')
+s_cata.write('#[9-11]: Re x,y,z \n')
+s_cata.write('#[12-14]: DM frac w/i Re x,y,z \n')
+s_cata.write('#[15]: Dandan morphology pick, flag =1 \n')
 
 
 for i in range(LensID.size):
@@ -110,7 +110,7 @@ for i in range(LensID.size):
 		s_cata.write(str(Galaxy_ms[idx])+'	')
 		s_cata.write(str(Galaxy_str[idx])+'	')
 		s_cata.write(str(Galaxy_sig[idx])+'	')
-		'''
+		
 		if disk_frac[idx]>0.4: 
 			s_cata.write('1  ')
 		else: 
@@ -120,7 +120,7 @@ for i in range(LensID.size):
 			s_cata.write('1  ')
 		else: 
 			s_cata.write('0  ')
-		'''
+		
 
 		if theta_x[idx]>60 and theta_x[idx]<120: 
 			s_cata.write('1  ')
