@@ -7,7 +7,7 @@ RESPONSE: The title has changed as referee suggested.
 
 REFEREE: In figure 2, please add a line representing the disk mid plane, and mark the disk center, and the SIE center.
 
-RESPONSE: We had added the line representing the disk mid plane in the lens model panel and also mark the disk center and SIE center separately.
+RESPONSE: We have added the line representing the disk mid plane in the lens model panel and also mark the disk center and SIE center separately.
 
 REFEREE: Is R_s is the scale length of the disc, or its scale height?  Keeton 2001 Table 1 has scale height, but the present authors refer to a scale length. There is a difference!
 

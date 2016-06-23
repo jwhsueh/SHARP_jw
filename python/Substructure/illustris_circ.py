@@ -10,7 +10,7 @@ class cosmopara:
 	OM = 0.27
 
 basePath = '../../data/illustris_1'
-ssNumber = 99
+ssNumber = 85
 
 Snapshot_num = 'Snapshot_'+str(ssNumber)
 

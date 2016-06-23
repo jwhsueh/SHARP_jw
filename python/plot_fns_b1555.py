@@ -21,7 +21,7 @@ def model_plot(sx, sy, cx, cy):
     plt.scatter(sx,sy,marker='o',s= 50,edgecolor='k',facecolors='r',label='Source')
     #plt.scatter(cx,cy,'^',ms=10,label='lenses',mfc='k')
     plt.scatter(cx[0],cy[0],marker='^',edgecolor='k',s= 100,facecolors='k',label = 'SIE center')
-    plt.scatter(cx[1],cy[1],marker='^',edgecolor='k',s= 100,facecolors='r',label = 'Disc center')
+    plt.scatter(cx[1],cy[1],marker='v',edgecolor='k',s= 100,facecolors='r',label = 'Disc center')
 
 #---------------------------------------------------------------------------
 

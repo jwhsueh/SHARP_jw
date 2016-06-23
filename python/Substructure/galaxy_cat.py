@@ -4,8 +4,8 @@ import DistanceTool as distance
 
 basePath = '../../data/illustris_1'
 
-ssNumber = 99 # snapshotnumber
-z = 0.6
+ssNumber = 85 # snapshotnumber
+z = 1.0
 
 ## total mass
 #mlow = 1e12
@@ -73,7 +73,7 @@ for i in range(sigma.size):
 
 catalog = open(basePath+'/Galaxy_'+str(ssNumber)+'_sig.dat','w')
 
-catalog.write('# [0]: Galaxy SubID w/ group mass between 10^'+str(np.log10(mlow))+'~10^'+str(np.log10(mhigh))+'\n')
+catalog.write('# [0]: Galaxy SubID w/ velocity dispertion between '+str(sigma_l)+'~'+str(sigma_h)+' km/s\n')
 catalog.write('# [1]-[3]: Group pos in ckpc/h \n')
 catalog.write('# [4]: Subhalo Mass in M_sun \n')
 catalog.write('# [5]: Stellar mass in M_sun \n')
