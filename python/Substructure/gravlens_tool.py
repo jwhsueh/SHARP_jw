@@ -115,5 +115,11 @@ def gravlens_pjaffe(b,x,y,rt):
 	return Aline
 
 def find_result(findimg_file):
-	opt_output = commands.getstatusoutput('./lensmodel '+findimg_file)
+	findimg_out = commands.getstatusoutput('./lensmodel '+findimg_file)
+
+	findimg_out=findimg_out[1].split('\n')
+
+	## checking img #
+
+	check_line = findimg_out
 
