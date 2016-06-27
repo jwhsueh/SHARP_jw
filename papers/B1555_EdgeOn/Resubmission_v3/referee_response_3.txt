@@ -3,14 +3,14 @@ A flux ratio anomaly from an edge-on disc
 to
 A flux ratio anomaly from an edge-on disc in B1555+375
 
-RESPONSE: The title has changed as referee suggested.
+RESPONSE: The title has changed as the referee suggested.
 
 REFEREE: In figure 2, please add a line representing the disk mid plane, and mark the disk center, and the SIE center.
 
-RESPONSE: We have added the line representing the disk mid plane in the lens model panel and also mark the disk center and SIE center separately.
+RESPONSE: We have added the line representing the disk mid plane in the lens model panel and also marked the disk center and SIE center separately.
 
 REFEREE: Is R_s is the scale length of the disc, or its scale height?  Keeton 2001 Table 1 has scale height, but the present authors refer to a scale length. There is a difference!
 
 RESPONSE: Referring to the mass model catalog by Keeton 2001:
 https://arxiv.org/pdf/astro-ph/0102341v2.pdf
-Equation (73) describes a projected surface mass density of an exponential disk. The R_d, which is the R_s in our paper, represents scale length, rather than scale height. Since when the disk is totally edge-on (inclination angel = 90 degree), the surface mass density  goes infinity, showing that this exponential disk profile is a infinitely thin circular disk with scale height equals zero.
+Equation (73) describes a projected surface mass density of an exponential disk. The R_d, which is the R_s in our paper, represents scale length, rather than scale height. Since when the disk is totally edge-on (inclination angel = 90 degree), the surface mass density  goes to infinity, showing that this exponential disk profile is a infinitely thin circular disk with scale height equals zero.

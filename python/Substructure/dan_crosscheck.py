@@ -1,15 +1,18 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import DistanceTool as distance
 
 basePath = '../../data/illustris_1'
 ssNumber = '99'
+z = 0.6
 
+## change
 catalog = basePath+'/Galaxy_Lens'+ssNumber+'_sig.dat'
 #GalaxyID = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[0])
 Mass = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[1])
 str_ms = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[2])
 sigma = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[3])
-morph = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[15])
+morph = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[18])
 
 Re = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[9,10,11])
 DMfrac = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[12,13,14])
@@ -41,6 +44,38 @@ theta_dan = theta[cri]
 Mass_dan = Mass[cri]
 str_dan = str_ms[cri]
 sig_dan = sigma[cri]
+
+## ------ surface brigtness selection
+
+
+''' cosmopara '''
+class cosmopara:
+	h = 0.704
+	OM = 0.27
+
+DL = distance.luminosity_distance(cosmopara,z)*1e6 # pc
+
+brightness = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[15,16,17])
+
+# reduce to 1d [x...y...z...]]
+brightness = np.ravel(brightness)
+
+## cut for all
+
+cri_cut = brightness<23.5
+print Re.size, cri_cut.size
+Re_all = Re[cri_cut]
+
+## morphology pick
+brightness_dan = brightness[cri] # cri = morph
+#print brightness_dan[:100]
+
+## surface brightness cut
+cri2 = brightness_dan<23.5
+#print cri2
+
+Re_dan = Re_dan[cri2]
+#print len(Re_dan)
 '''
 # Edge-on/Face-on
 edge = theta_dan == 1
@@ -78,6 +113,14 @@ cri_k2 = bf==1
 Re_df,Re_bf = Re[cri_k1],Re[cri_k2]
 Mass_df,Mass_bf = Mass[cri_k1],Mass[cri_k2]
 theta_df,theta_bf = theta[cri_k1],theta[cri_k2]
+
+# add phot cut
+
+brightness_df,brightness_bf = brightness[cri_k1],brightness[cri_k2]
+cri_k11,cri_k22 = brightness_df < 23.5, brightness_bf < 23.5
+
+Re_df,Re_bf = Re_df[cri_k11],Re_bf[cri_k22]
+
 '''
 # Edge-on/Face-on
 edge_df,edge_bf = theta_df == 1,theta_bf == 1
@@ -93,12 +136,12 @@ print Mass_df_ed.size,Mass_df_fa.size
 print Mass_bf_ed.size,Mass_bf_fa.size
 '''
 # histogram
-se = np.linspace(0.2,1.2,20)
+se = np.linspace(0.2,1.0,20)
 dot = []
 for i in range(se.size-1):
 	dot.append((se[i]+se[i+1])/2.)
 
-All = np.histogram(Re,bins = se)[0].astype(float)
+All = np.histogram(Re_all,bins = se)[0].astype(float)
 Dan = np.histogram(Re_dan,bins = se)[0].astype(float)
 #Dan_ed = np.histogram(Re_dan_ed,bins = se)[0].astype(float)
 #Dan_fa = np.histogram(Re_dan_fa,bins = se)[0].astype(float)
@@ -111,29 +154,29 @@ bf = np.histogram(Re_bf,bins = se)[0].astype(float)
 #bf_ed = np.histogram(Re_bf_ed,bins = se)[0].astype(float)
 #bf_fa = np.histogram(Re_bf_fa,bins = se)[0].astype(float)
 
-#plt.plot(dot,Dan/All,color='k',label = 'morphology pick')
-plt.bar(dot,Dan/All,edgecolor='k',facecolor='k',width=(se[1]-se[0])/2.,label = 'morphology pick')
+plt.plot(dot,Dan/All,color='k',label = 'morphology pick')
+#plt.bar(dot,Dan/All,edgecolor='k',facecolor='k',width=(se[1]-se[0])/2.,label = 'morphology pick')
 
 #plt.plot(dot,Dan_fa/All,color='g',label = 'Face-on')
 #plt.plot(dot,Dan_ed/All,color='r',label = 'Edge-on')
 
-#plt.plot(dot,bf/All,'b--',label = 'Bulge str < 60%')
-plt.bar(dot,bf/All,edgecolor='b',facecolor='none',width=(se[1]-se[0])/2.,label = 'Bulge str < 60%')
+plt.plot(dot,bf/All,'b--',label = 'Bulge str < 60%')
+#plt.bar(dot,bf/All,edgecolor='b',facecolor='none',width=(se[1]-se[0])/2.,label = 'Bulge str < 60%')
 
 #plt.plot(dot,bf_fa/All,'g--',label = 'Bulge str Face-on')
 #plt.plot(dot,bf_ed/All,'r--',label = 'Bulge str Edge-on')
 
-#plt.plot(dot,df/All,'r--',label = 'Disk str > 40%')
-plt.bar(dot,df/All,edgecolor='r',facecolor='r',width=(se[1]-se[0])/2.,label = 'Disk str > 40%')
+plt.plot(dot,df/All,'r--',label = 'Disk str > 40%')
+#plt.bar(dot,df/All,edgecolor='r',facecolor='r',width=(se[1]-se[0])/2.,label = 'Disk str > 40%')
 #plt.scatter(sig_dan_fa,DMfrac_dan_fa,edgecolor='b',facecolors = 'none',marker='o',label='morphology pick: Face-on')
 #plt.scatter(sig_dan_ed,DMfrac_dan_ed,edgecolor='r',facecolors = 'none',marker='^',label='morphology pick: Edge-on')
 
 
 plt.xlabel('Einstein Radius')
 plt.ylabel('Galaxy Fraction')
-plt.title('Snapshot99: VelDisp selection')
+plt.title('Snapshot99: Photometry cut 23.5 mag/arcsec^2')
 #plt.legend(scatterpoints=1,loc =1)
-plt.legend()
+plt.legend(loc = 1)
 plt.show()
 
 '''
