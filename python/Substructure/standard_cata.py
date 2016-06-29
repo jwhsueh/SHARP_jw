@@ -130,7 +130,7 @@ s_cata.write('#[0]: SubfindID \n')
 s_cata.write('#[1]: Total Mass [M_sun] \n')
 s_cata.write('#[2]: Stellar Mass [M_sun] \n')
 s_cata.write('#[3]: Velocity Dispertion [km/s] \n')
-# add tot-mass here
+# add CM here
 s_cata.write('#[4]: Disk str fraction > 0.4, flag = 1 \n')
 s_cata.write('#[5]: Bulge str fraction < 0.6, flag = 1 \n')
 s_cata.write('#[6-8]: high inclination angle (60-120 degree), flag = 1; x,y,z \n')

@@ -73,7 +73,10 @@ for i in range(GalaxyID.size):
 	if (max(st_y)-min(st_y)> 0.5*boxsize): 
 		st_y = boundary(st_y)
 	if (max(st_z)-min(st_z)> 0.5*boxsize): 
-		st_z = boundary(st_z)	
+		st_z = boundary(st_z)
+
+	## change ref point to subhalo CM
+	st_x,st_y,st_z = st_x-CM_x[i],st_y-CM_y[i],st_z-CM_z[i]	
 
 	vel = subhalo_st['Velocities']
 	# relative velocity to center
