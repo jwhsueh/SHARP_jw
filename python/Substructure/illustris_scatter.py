@@ -56,7 +56,7 @@ def projection(c0,c1,c2,axis):
 		p0,p1 = c1,c2
 	elif axis == 1: # x-z plane
 		p0,p1 = c0,c2
-	else: # x-y plane
+	elif axis==2: # x-y plane
 		p0,p1 = c0,c1
 
 	return p0,p1
@@ -64,7 +64,7 @@ def projection(c0,c1,c2,axis):
 
 ## -------start to plot particles
 
-ID = 93295
+ID = 113727
 
 idx = list(GalaxyID).index(ID)
 print idx
@@ -101,7 +101,8 @@ st_ms = st_ms[mask]
 
 ## grid & grid size
 
-proj = 2 # projected axis
+proj = 1 # projected axis
+print proj
 
 # projected
 
@@ -138,12 +139,14 @@ mass_smooth = scipy.ndimage.filters.gaussian_filter(mass_grid,sigma = 3)
 
 # plot 
 #plt.scatter(st_x,st_z,marker='.')
-CS = plt.contourf(grid_1/10,grid_0/10,mass_smooth,[2e6,4e6,6e6,1e7,1.4e7,1.8e7,2.2e7,2.6e7,3e7,5e7,7e7])
+#CS = plt.contourf(grid_1/10,grid_0/10,mass_smooth,[2e6,4e6,6e6,1e7,1.4e7,1.8e7,2.2e7,2.6e7,3e7,5e7,7e7])
+CS = plt.contourf(grid_1/10,grid_0/10,mass_smooth)
 plt.colorbar()
 
-plt.title('SubfindID 93295 , IncAngle = 28 deg')
+plt.title('SubfindID_'+ str(GalaxyID)+', IncAngle = 86 deg')
 plt.xlim(-10,10)
 plt.ylim(-10,10)
 plt.xlabel('kpc/h')
 plt.ylabel('kpc/h')
-plt.show()
+#plt.show()
+plt.savefig('./illustris_cross/Subfind_'+str(GalaxyID)+'_y.png')

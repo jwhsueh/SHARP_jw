@@ -27,6 +27,7 @@ GroupFirstSub = groupcat.loadHalos(basePath,ssNumber,fields = ['GroupFirstSub'])
 list_end = list(GroupFirstSub).index(4294967295)
 
 GroupFirstSub = GroupFirstSub[:list_end]
+print GroupFirstSub.size
 
 
 SubhaloMass = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloMass'])*1e10/cosmopara.h
@@ -40,7 +41,7 @@ GroupCM = GroupCM[GroupFirstSub,:]
 star_ms = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloMassType'])[:,4]*1e10/cosmopara.h
 star_ms = star_ms[GroupFirstSub]
 
-#Rhal_st = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloHalfmassRadType'])[:,4]*a # kpc/h, half mass radius of star particles
+Rhal_st = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloHalfmassRadType'])[:,4]*a # kpc/h, half mass radius of star particles
 
 sigma = groupcat.loadSubhalos(basePath,ssNumber,fields = ['SubhaloVelDisp'])
 sigma = sigma[GroupFirstSub]
@@ -73,8 +74,26 @@ for i in range(sigma.size):
 		Galaxy_ms.append(GalaxyMass[i])
 		Galaxy_str.append(star_ms[i])
 		Galaxy_sig.append(sigma[i])
-		#Galaxy_Rh.append(Rhal_st[i])
+		Galaxy_Rh.append(Rhal_st[i])
 
+## check if the halo is relax
+
+catalog_r =basePath+'/m200_halos_hydr_rel_'+str(ssNumber)+'.txt'
+cat_ID = np.loadtxt(catalog_r,dtype = 'int',unpack=True, usecols=[4])
+relax = np.loadtxt(catalog_r,dtype = 'int',unpack=True, usecols=[1]) # 0:relax, 1:not relax
+
+for i in range(cat_ID.size):
+
+	if cat_ID[i] in GalaxyID and relax[i] == 1:
+		print cat_ID[i]
+		idx = GalaxyID.index(cat_ID[i])
+
+		GalaxyID.pop(idx)
+		GalaxyPos.pop(idx)
+		Galaxy_ms.pop(idx)
+		Galaxy_str.pop(idx)
+		Galaxy_sig.pop(idx)
+		Galaxy_Rh.pop(idx)
 
 catalog = open(basePath+'/Galaxy_'+str(ssNumber)+'_sig.dat','w')
 
@@ -87,6 +106,6 @@ catalog.write('# [7]: half mass radius of star particle in kpc/h \n')
 #catalog.write('# [6]-[7]: photometry V-band & K-band \n')
 
 for i in range(len(GalaxyID)):
-	catalog.write(str(GalaxyID[i])+'    '+str(GalaxyPos[i])[1:-1]+'    '+str(Galaxy_ms[i])+'    '+str(Galaxy_str[i])+'	'+str(Galaxy_sig[i])+ '\n')
+	catalog.write(str(GalaxyID[i])+'    '+str(GalaxyPos[i])[1:-1]+'    '+str(Galaxy_ms[i])+'    '+str(Galaxy_str[i])+'	'+str(Galaxy_sig[i])+' '+str(Galaxy_Rh[i]) +'\n')
 	#catalog.write(str(table[i,:])[1:-1]+'\n')
 
