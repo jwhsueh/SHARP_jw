@@ -166,19 +166,56 @@ def set_realization(): # need to add realization number
 		
 	return real_one
 
+## ---- check if result is w/i 2-sigma----
+def pos_check(obs_x,obs_y,obs_err,opt):
+
+	mod_x,mod_y = opt[0],opt[1]
+	dif_x = np.fabs(obs_x - mod_x)
+	dif_y = np.fabs(obs_y - mod_y)
+	obs_err = np.average(obs_err)
+
+	result = True 
+
+	for element in dif_x:
+		if element > 2.*obs_err:
+			result = False
+
+	for element in dif_y:
+		if element > 2.*obs_err:
+			result = False
+
+	return result
+
+## ------
 
 re_mod = set_realization()
 print len(re_mod.xi)
 ##--- realization valid check
 
 opt_name = 'opt_realization.input'
-finding_name = 'findimg_realization.input'
+findimg_name = 'findimg_realization.input'
 
 gTool.create_opt(Lens,re_mod,gravlensPath,opt_name)
 ## run opt file
 gTool.run_opt(gravlensPath,opt_name)
 
+print '----Optimization done----'
+
 ## write findimg file
-gTool.create_findimg(re_mod,gravlensPath,finding_name)
+gTool.create_findimg(re_mod,gravlensPath,findimg_name)
+
+print '----create findimg file done----'
+
+result = gTool.run_findimg(findimg_name)
+
+if result == np.nan:
+	# run above again
+
+elif pos_check(Lens.img_x,Lens.img_y,Lens.img_err,result): # check if within 2-sigma position, True = valid
+
+	# calculate R_cusp, R_fold
+
+else:
+	# run above again
 
 

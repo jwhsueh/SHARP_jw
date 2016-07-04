@@ -114,12 +114,31 @@ def gravlens_pjaffe(b,x,y,rt):
 
 	return Aline
 
-def find_result(findimg_file):
+def run_findimg(findimg_file):
 	findimg_out = commands.getstatusoutput('./lensmodel '+findimg_file)
 
 	findimg_out=findimg_out[1].split('\n')
 
 	## checking img #
 
-	check_line = findimg_out
+	check_line = findimg_out[-6].split()
+	# if it's four images
+	if check_line[0] == '#':
+		# save x y mag
+		x,y,mag = [],[],[]
+		for i in [-2,-3,-4,-5]:
+			Aline = findimg_out[i].split()
+			x.append(Aline[0])
+			y.append(Aline[1])
+			mag.append(Aline[2])
+
+		result = [x,y,mag]
+
+
+	else:
+		print '* Not a quad-system'
+
+		result = np.nan
+
+	return result
 

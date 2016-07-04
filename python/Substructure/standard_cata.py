@@ -161,17 +161,17 @@ for i in range(LensID.size):
 			s_cata.write('0  ')
 		
 
-		if theta_x[idx]>60. and theta_x[idx]<120.: 
+		if theta_x[idx]>80. and theta_x[idx]<100.: 
 			s_cata.write('1  ')
 		else: 
 			s_cata.write('0  ')
 
-		if theta_y[idx]>60. and theta_y[idx]<120.: 
+		if theta_y[idx]>80. and theta_y[idx]<100.: 
 			s_cata.write('1  ')
 		else: 
 			s_cata.write('0  ')
 
-		if theta_z[idx]>60 and theta_z[idx]<120.: 
+		if theta_z[idx]>80 and theta_z[idx]<100.: 
 			s_cata.write('1  ')
 		else: 
 			s_cata.write('0  ')
