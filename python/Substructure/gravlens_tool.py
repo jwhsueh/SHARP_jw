@@ -57,24 +57,51 @@ def run_opt(path,optfile):
 
 	return
 
+def create_bestSub(path):
+
+	best_out = open(path+'best.dat','r')
+
+	lines = best_out.readlines()
+
+	lines = lines[1:-17]
+
+	best_sub = open(path+'bestSub.dat','w')
+
+	for Aline in lines:
+		best_sub.write(Aline)
+
+	best_out.close()
+	best_sub.close()
+
+	return
+
 def create_findimg(micro_mod,path,output):
 	findimg_file = open(path+output,'w')
-	opt_result = open(path+'best.dat','r')
+
+	create_bestSub(path)
+	opt_result = open(path+'bestSub.dat','r')
 
 	## need to modify
 	## write number of lens and srcs [startup]
 
-	n_lens = 1+len(micro_mod.xi)
+	# get another function to create pure best substructure result
+
+	lines = opt_result.readlines()[:-1]
+	n_lens = len(lines)
 	findimg_file.write('startup '+str(n_lens)+' 1\n')
 
-	opt_result.readline() # get rid of first line
+	#opt_result.readline() # get rid of first line
 	#opt_lines = opt_result.readlines()
 
+	# write in substructures
 
-	for i in range(n_lens):
-		Aline = opt_result.readline()
+	for Aline in lines:
+		#Aline = opt_result.readline()
 		findimg_file.write(Aline)
+		#print Aline
+		#print '##'+str(i)
 
+	opt_result.close()
 
 	## --end of gravlens startup--
 
@@ -87,11 +114,14 @@ def create_findimg(micro_mod,path,output):
 	findimg_file.write('\n')
 
 	## write findimg command
+	# get srcs position
+	opt_result = open(path+'best.dat','r')
+	raw_line = opt_result.readlines() # get all the rest lines
+	#print raw_line
+	raw_line = raw_line[-11].split()
+	#print raw_line
 
-	opt_result.readline() # get rid of 'SOURCE PARMS:'
-	raw_line = opt_result.readline().split()
-
-	findimg_file.write('findimg '+raw_line[1]+raw_line[2]+'\n')
+	findimg_file.write('findimg '+raw_line[1]+' '+raw_line[2]+'\n')
 
 	opt_result.close()
 	findimg_file.close()
@@ -114,10 +144,12 @@ def gravlens_pjaffe(b,x,y,rt):
 
 	return Aline
 
-def run_findimg(findimg_file):
-	findimg_out = commands.getstatusoutput('./lensmodel '+findimg_file)
+def run_findimg(path,findimg_file):
+	findimg_out = commands.getstatusoutput('./lensmodel '+path+findimg_file)
 
 	findimg_out=findimg_out[1].split('\n')
+
+	print findimg_out
 
 	## checking img #
 
@@ -128,9 +160,9 @@ def run_findimg(findimg_file):
 		x,y,mag = [],[],[]
 		for i in [-2,-3,-4,-5]:
 			Aline = findimg_out[i].split()
-			x.append(Aline[0])
-			y.append(Aline[1])
-			mag.append(Aline[2])
+			x.append(float(Aline[0]))
+			y.append(float(Aline[1]))
+			mag.append(float(Aline[2]))
 
 		result = [x,y,mag]
 

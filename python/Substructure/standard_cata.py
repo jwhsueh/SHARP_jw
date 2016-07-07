@@ -40,8 +40,8 @@ GalaxyID = np.loadtxt(catalog2,dtype = 'int',unpack=True, usecols=[0])
 Galaxy_ms = np.loadtxt(catalog2,dtype = 'float',unpack=True, usecols=[4])
 Galaxy_str = np.loadtxt(catalog2,dtype = 'float',unpack=True, usecols=[5])
 Galaxy_sig = np.loadtxt(catalog2,dtype = 'float',unpack=True, usecols=[6])
-
-
+Galaxy_relax = np.loadtxt(catalog2,dtype = 'float',unpack=True, usecols=[8])
+Galaxy_K = np.loadtxt(catalog2,dtype = 'float',unpack=True, usecols=[9])
 
 ## Lens properties from Dandan's full catalog [all mass range]
 
@@ -138,6 +138,8 @@ s_cata.write('#[9-11]: Re x,y,z \n')
 s_cata.write('#[12-14]: DM frac w/i Re x,y,z \n')
 s_cata.write('#[15-17]: surface brightness at Reff_exp in x,y,z [mag/arcsec^2] \n')
 s_cata.write('#[18]: Dandan morphology pick, flag =1 \n')
+s_cata.write('#[19]: relax = 0, not relax =1 \n')
+s_cata.write('#[20]: Galaxy magnitude K-band\n')
 
 
 for i in range(LensID.size):
@@ -185,6 +187,12 @@ for i in range(LensID.size):
 		## Dandan's morphology pick flag
 
 		if LensID[i] in DanID:
-			s_cata.write('1 \n')
+			s_cata.write('1  ')
 		else:
-			s_cata.write('0 \n')
+			s_cata.write('0  ')
+
+		# relax flag
+		s_cata.write(str(int(Galaxy_relax[idx]))+' ')
+
+		# Photometry
+		s_cata.write(str(Galaxy_K[idx])+'\n')

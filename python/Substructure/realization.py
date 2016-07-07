@@ -206,16 +206,21 @@ gTool.create_findimg(re_mod,gravlensPath,findimg_name)
 
 print '----create findimg file done----'
 
-result = gTool.run_findimg(findimg_name)
+result = gTool.run_findimg(gravlensPath,findimg_name)
 
 if result == np.nan:
 	# run above again
+	print 'realization fail'
+	print result
 
 elif pos_check(Lens.img_x,Lens.img_y,Lens.img_err,result): # check if within 2-sigma position, True = valid
-
+	## ok we need to assign image letter again
 	# calculate R_cusp, R_fold
+	print 'calculate R_cusp'
 
 else:
 	# run above again
+	print 'realization fail'
+	print result
 
 

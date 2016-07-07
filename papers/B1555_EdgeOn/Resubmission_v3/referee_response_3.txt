@@ -13,4 +13,4 @@ REFEREE: Is R_s is the scale length of the disc, or its scale height?  Keeton 20
 
 RESPONSE: Referring to the mass model catalog by Keeton 2001:
 https://arxiv.org/pdf/astro-ph/0102341v2.pdf
-Equation (73) describes a projected surface mass density of an exponential disk. The R_d, which is the R_s in our paper, represents scale length, rather than scale height. Since when the disk is totally edge-on (inclination angel = 90 degree), the surface mass density  goes to infinity, showing that this exponential disk profile is a infinitely thin circular disk with scale height equals zero.
+Equation (73) describes the projected surface mass density of an exponential disk. The R_d, which is the R_s in our paper, represents scale length, rather than scale height. When the disk is totally edge-on (inclination angle = 90 degrees), the surface mass density goes to infinity. Thus, in this case, showing the exponential disk profile is infinitely thin, circular, and has a scale height of zero.

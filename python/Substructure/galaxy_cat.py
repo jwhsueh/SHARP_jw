@@ -48,7 +48,7 @@ sigma = sigma[GroupFirstSub]
 
 sigma_h = 370.
 sigma_l = 130.
-'''
+
 #photometry
 V_mag = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloStellarPhotometrics'])[:,2]
 K_mag = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloStellarPhotometrics'])[:,3]
@@ -57,14 +57,14 @@ K_mag = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloStellarPhotom
 DL = distance.luminosity_distance(cosmopara,z)*1e6 # pc
 V_mag = V_mag+5.*(np.log10(DL)-1)
 K_mag = K_mag+5.*(np.log10(DL)-1)
-'''
+
 
 #print star_ms
 
 ## rewrite this part!!! [str mass]
 ## use group mass as galaxy cretria 
 ## here!!
-GalaxyID,GalaxyPos,Galaxy_ms,Galaxy_str,Galaxy_sig,Galaxy_Rh = [],[],[],[],[],[]
+GalaxyID,GalaxyPos,Galaxy_ms,Galaxy_str,Galaxy_sig,Galaxy_Rh,Galaxy_K = [],[],[],[],[],[],[]
 
 for i in range(sigma.size):
 	if sigma[i]<sigma_h and sigma[i]>sigma_l:
@@ -75,6 +75,7 @@ for i in range(sigma.size):
 		Galaxy_str.append(star_ms[i])
 		Galaxy_sig.append(sigma[i])
 		Galaxy_Rh.append(Rhal_st[i])
+		Galaxy_K.append(K_mag[i])
 
 ## check if the halo is relax
 
@@ -82,18 +83,14 @@ catalog_r =basePath+'/m200_halos_hydr_rel_'+str(ssNumber)+'.txt'
 cat_ID = np.loadtxt(catalog_r,dtype = 'int',unpack=True, usecols=[4])
 relax = np.loadtxt(catalog_r,dtype = 'int',unpack=True, usecols=[1]) # 0:relax, 1:not relax
 
+relax_flag = np.zeros(len(GalaxyID))
+
 for i in range(cat_ID.size):
 
-	if cat_ID[i] in GalaxyID and relax[i] == 1:
-		print cat_ID[i]
+	if cat_ID[i] in GalaxyID:
 		idx = GalaxyID.index(cat_ID[i])
+		relax_flag[idx] = relax[i]
 
-		GalaxyID.pop(idx)
-		GalaxyPos.pop(idx)
-		Galaxy_ms.pop(idx)
-		Galaxy_str.pop(idx)
-		Galaxy_sig.pop(idx)
-		Galaxy_Rh.pop(idx)
 
 catalog = open(basePath+'/Galaxy_'+str(ssNumber)+'_sig.dat','w')
 
@@ -103,9 +100,11 @@ catalog.write('# [4]: Subhalo Mass in M_sun \n')
 catalog.write('# [5]: Stellar mass in M_sun \n')
 catalog.write('# [6]: 1d Velocity dispersion from all particles in km/s \n')
 catalog.write('# [7]: half mass radius of star particle in kpc/h \n')
+catalog.write('# [8]: main halo is relax: 0, not relax:1 \n')
+catalog.write('# [9]: photometry K-band \n')
 #catalog.write('# [6]-[7]: photometry V-band & K-band \n')
 
 for i in range(len(GalaxyID)):
-	catalog.write(str(GalaxyID[i])+'    '+str(GalaxyPos[i])[1:-1]+'    '+str(Galaxy_ms[i])+'    '+str(Galaxy_str[i])+'	'+str(Galaxy_sig[i])+' '+str(Galaxy_Rh[i]) +'\n')
+	catalog.write(str(GalaxyID[i])+'    '+str(GalaxyPos[i])[1:-1]+'    '+str(Galaxy_ms[i])+'    '+str(Galaxy_str[i])+'	'+str(Galaxy_sig[i])+' '+str(Galaxy_Rh[i]) +' '+str(relax_flag[i])+' '+str(Galaxy_K[i])+'\n')
 	#catalog.write(str(table[i,:])[1:-1]+'\n')
 
