@@ -64,7 +64,7 @@ K_mag = K_mag+5.*(np.log10(DL)-1)
 ## rewrite this part!!! [str mass]
 ## use group mass as galaxy cretria 
 ## here!!
-GalaxyID,GalaxyPos,Galaxy_ms,Galaxy_str,Galaxy_sig,Galaxy_Rh,Galaxy_K = [],[],[],[],[],[],[]
+GalaxyID,GalaxyPos,Galaxy_ms,Galaxy_str,Galaxy_sig,Galaxy_Rh,Galaxy_V = [],[],[],[],[],[],[]
 
 for i in range(sigma.size):
 	if sigma[i]<sigma_h and sigma[i]>sigma_l:
@@ -75,7 +75,7 @@ for i in range(sigma.size):
 		Galaxy_str.append(star_ms[i])
 		Galaxy_sig.append(sigma[i])
 		Galaxy_Rh.append(Rhal_st[i])
-		Galaxy_K.append(K_mag[i])
+		Galaxy_V.append(V_mag[i])
 
 ## check if the halo is relax
 
@@ -101,10 +101,10 @@ catalog.write('# [5]: Stellar mass in M_sun \n')
 catalog.write('# [6]: 1d Velocity dispersion from all particles in km/s \n')
 catalog.write('# [7]: half mass radius of star particle in kpc/h \n')
 catalog.write('# [8]: main halo is relax: 0, not relax:1 \n')
-catalog.write('# [9]: photometry K-band \n')
+catalog.write('# [9]: photometry V-band \n')
 #catalog.write('# [6]-[7]: photometry V-band & K-band \n')
 
 for i in range(len(GalaxyID)):
-	catalog.write(str(GalaxyID[i])+'    '+str(GalaxyPos[i])[1:-1]+'    '+str(Galaxy_ms[i])+'    '+str(Galaxy_str[i])+'	'+str(Galaxy_sig[i])+' '+str(Galaxy_Rh[i]) +' '+str(relax_flag[i])+' '+str(Galaxy_K[i])+'\n')
+	catalog.write(str(GalaxyID[i])+'    '+str(GalaxyPos[i])[1:-1]+'    '+str(Galaxy_ms[i])+'    '+str(Galaxy_str[i])+'	'+str(Galaxy_sig[i])+' '+str(Galaxy_Rh[i]) +' '+str(relax_flag[i])+' '+str(Galaxy_V[i])+'\n')
 	#catalog.write(str(table[i,:])[1:-1]+'\n')
 
