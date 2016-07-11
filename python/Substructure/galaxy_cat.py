@@ -52,11 +52,13 @@ sigma_l = 130.
 #photometry
 V_mag = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloStellarPhotometrics'])[:,2]
 K_mag = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloStellarPhotometrics'])[:,3]
+r_mag = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloStellarPhotometrics'])[:,5]
 
 # apparent mag
 DL = distance.luminosity_distance(cosmopara,z)*1e6 # pc
 V_mag = V_mag+5.*(np.log10(DL)-1)
 K_mag = K_mag+5.*(np.log10(DL)-1)
+r_mag = r_mag+5.*(np.log10(DL)-1)
 
 
 #print star_ms
@@ -101,7 +103,7 @@ catalog.write('# [5]: Stellar mass in M_sun \n')
 catalog.write('# [6]: 1d Velocity dispersion from all particles in km/s \n')
 catalog.write('# [7]: half mass radius of star particle in kpc/h \n')
 catalog.write('# [8]: main halo is relax: 0, not relax:1 \n')
-catalog.write('# [9]: photometry V-band \n')
+catalog.write('# [9]: photometry r-band \n')
 #catalog.write('# [6]-[7]: photometry V-band & K-band \n')
 
 for i in range(len(GalaxyID)):

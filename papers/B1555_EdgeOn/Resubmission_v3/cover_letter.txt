@@ -1,0 +1,18 @@
+Dear Editor,
+
+Included with this file, please find the revised submission of a manuscript entitled 
+“SHARP - II. Mass structure in strong lenses is not necessarily dark matter substructure: A flux ratio anomaly from an edge-on disc in B1555+375” by J.-W. Hsueh, C. D. Fassnacht, S. Vegetti, J. P. McKean, C. Spingola, M. W. Auger, L. V. E. Koopmans, and D. J. Lagattuta.  
+The files associated with this submission are the PDF file (B1555_EdgeOn.pdf) 
+and the source files (B1555_EdgeOn.zip).  The zipped source file contains the latex document, bib file, and two eps figures.
+
+
+If you have any questions or problems regarding this manuscript, please
+contact me at your convenience.  I can be reached at the address above
+or at:
+
+     e-mail:    jwhsueh@ucdavis.edu     
+
+Best regards,
+
+Jen-Wei Hsueh
+

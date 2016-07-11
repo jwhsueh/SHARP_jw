@@ -59,11 +59,12 @@ def run_opt(path,optfile):
 
 def create_bestSub(path):
 
-	best_out = open(path+'best.dat','r')
+	best_out = open('best.dat','r')
 
 	lines = best_out.readlines()
 
-	lines = lines[1:-17]
+	lines = lines[1:-16]
+	#print lines
 
 	best_sub = open(path+'bestSub.dat','w')
 
@@ -115,7 +116,7 @@ def create_findimg(micro_mod,path,output):
 
 	## write findimg command
 	# get srcs position
-	opt_result = open(path+'best.dat','r')
+	opt_result = open('best.dat','r')
 	raw_line = opt_result.readlines() # get all the rest lines
 	#print raw_line
 	raw_line = raw_line[-11].split()
@@ -149,7 +150,9 @@ def run_findimg(path,findimg_file):
 
 	findimg_out=findimg_out[1].split('\n')
 
-	print findimg_out
+	#print findimg_out
+
+	result = open(path+'findimg.out','w')
 
 	## checking img #
 
@@ -157,20 +160,66 @@ def run_findimg(path,findimg_file):
 	# if it's four images
 	if check_line[0] == '#':
 		# save x y mag
-		x,y,mag = [],[],[]
+		#x,y,mag = [],[],[]
 		for i in [-2,-3,-4,-5]:
 			Aline = findimg_out[i].split()
-			x.append(float(Aline[0]))
-			y.append(float(Aline[1]))
-			mag.append(float(Aline[2]))
+			#x.append(float(Aline[0]))
+			#y.append(float(Aline[1]))
+			#mag.append(float(Aline[2]))
+			result.write(Aline[0]+' '+Aline[1]+' '+Aline[2]+'\n')
 
-		result = [x,y,mag]
+			flag = True
+
+		#result = [x,y,mag] # write into a file
 
 
 	else:
 		print '* Not a quad-system'
+		flag = False
+		result.write('# Not a quad-system')
 
-		result = np.nan
+	result.close()
+
+	return flag
+
+def assign_img(path,x_obs):
+	img_file = path+'findimg.out'
+	
+	table = np.loadtxt(img_file)
+
+	result = open(path+'findimg.out','w')
+
+	for i in range(len(x_obs)):
+		d = table[:,0] - x_obs[i] # difference in pos_x
+		d = np.abs(d)
+		d_min = np.min(d)
+		idx = list(d).index(d_min)
+
+		result.write(str(table[idx,:])[1:-1]+'\n')
+
+	return
+
+## ---- check if result is w/i 2-sigma----
+def pos_check(path,obs_x,obs_y,obs_err):
+
+	img_file = path+'findimg.out'
+	
+	table = np.loadtxt(img_file)
+	#print obs_err
+	mod_x,mod_y = table[:,0],table[:,1]
+	dif_x = np.abs(obs_x - mod_x)
+	dif_y = np.abs(obs_y - mod_y)
+	obs_err = np.average(obs_err)
+
+	print obs_x
+	print mod_x
+	print obs_err
+	print dif_x,dif_y
+
+	result = True 
+
+	if np.average(dif_x) > 3.*obs_err or np.average(dif_y) > 3.*obs_err:
+		result = False
+
 
 	return result
-

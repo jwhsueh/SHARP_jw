@@ -21,8 +21,12 @@ theta = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[6,7,8])
 
 relax = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[19])
 V_mag = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[20])
+
+SB = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[15,16,17])
+
 # reduce to 1d [x...y...z...]
-Re,DMfrac,theta = np.ravel(Re),np.ravel(DMfrac),np.ravel(theta) 
+Re,DMfrac,theta = np.ravel(Re),np.ravel(DMfrac),np.ravel(theta)
+SB = np.ravel(SB) 
 
 # expend array
 
@@ -32,11 +36,15 @@ sigma = np.array([sigma,sigma,sigma]).flatten()
 relax = np.array([relax,relax,relax]).flatten()
 V_mag = np.array([V_mag,V_mag,V_mag]).flatten()
 #print Mass
-'''
+mag_cut = 24.
+SB_cut = 24
+
+
 ## magnitude cut for all
-cri0 = V_mag<24
+#cri0 = V_mag<mag_cut
+cri0 = SB<SB_cut
 Re_mag = Re[cri0]
-'''
+
 ## Dandan's pick
 
 # three projections
@@ -54,44 +62,23 @@ Mass_dan = Mass[cri]
 str_dan = str_ms[cri]
 sig_dan = sigma[cri]
 Vmag_dan = V_mag[cri]
+SB_dan = SB[cri]
 
 ## relax
 cri_relax = Dan_relax ==0
 Re_dan = Re_dan[cri_relax]
 Vmag_dan = Vmag_dan[cri_relax]
-'''
+SB_dan = SB_dan[cri_relax]
+
 # mag cut
-cri_V = Vmag_dan<24
+#cri_V = Vmag_dan<mag_cut
+cri_V = SB_dan <SB_cut
 Re_dan = Re_dan[cri_V]
+
+
 '''
-
-## ------ surface brigtness selection
-
-
-''' cosmopara '''
-class cosmopara:
-	h = 0.704
-	OM = 0.27
-
-DL = distance.luminosity_distance(cosmopara,z)*1e6 # pc
-
-brightness = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[15,16,17])
-
-# reduce to 1d [x...y...z...]]
-brightness = np.ravel(brightness)
-'''
-## cut for all
-
-cri_cut = brightness<23.5
-print Re.size, cri_cut.size
-Re_all = Re[cri_cut]
-
-## morphology pick
-brightness_dan = brightness[cri] # cri = morph
-#print brightness_dan[:100]
-
 ## surface brightness cut
-cri2 = brightness_dan<23.5
+cri2 = brightness_dan<25.5
 #print cri2
 
 Re_dan = Re_dan[cri2]
@@ -140,18 +127,20 @@ theta_bf = theta[cri_k2]
 
 relax_df,relax_bf = relax[cri_k1],relax[cri_k2]
 Vmag_df,Vmag_bf = V_mag[cri_k1],V_mag[cri_k2]
+SB_df,SB_bf = SB[cri_k1],SB[cri_k2]
 
 ## relax
 
 crik1_relax,crik2_relax = relax_df==0,relax_bf==0
 Re_df,Re_bf = Re_df[crik1_relax],Re_bf[crik2_relax]
 Vmag_df,Vmag_bf = Vmag_df[crik1_relax],Vmag_bf[crik2_relax]
-'''
+SB_df,SB_bf = SB_df[crik1_relax],SB_bf[crik2_relax]
+
 ## mag cut
 
-crik1_mag,crik2_mag = Vmag_df<24,Vmag_bf<24
+#crik1_mag,crik2_mag = Vmag_df<mag_cut,Vmag_bf<mag_cut
+crik1_mag,crik2_mag = SB_df<SB_cut,SB_bf<SB_cut
 Re_df,Re_bf = Re_df[crik1_mag],Re_bf[crik2_mag]
-'''
 # add phot cut
 
 #brightness_df,brightness_bf = brightness[cri_k1],brightness[cri_k2]
@@ -176,13 +165,30 @@ Re_bf_ed, Re_bf_fa = Re_bf[edge_bf],Re_bf[face_bf]
 #print Mass_df_ed.size,Mass_df_fa.size
 #print Mass_bf_ed.size,Mass_bf_fa.size
 '''
+
+## ---- additional surface brightness cut
+'''
+for i in range(Re_dan.size):
+	if SB_dan[i]>SB_cut:
+		list(Re_dan).pop(i)
+'''
+for i in range(Re_df.size):
+	if SB_df[i]>SB_cut:
+		list(Re_df).pop(i)
+
+for i in range(Re_bf.size):
+	if SB_bf[i]>SB_cut:
+		list(Re_bf).pop(i)
+
+
 # histogram
 se = np.linspace(0.0,1.5,15)
 dot = []
 for i in range(se.size-1):
 	dot.append((se[i]+se[i+1])/2.)
 
-All = np.histogram(Re,bins = se)[0].astype(float)
+All = np.histogram(Re_mag,bins = se)[0].astype(float)
+#All = np.histogram(Re,bins = se)[0].astype(float)
 Dan = np.histogram(Re_dan,bins = se)[0].astype(float)
 #Dan_ed = np.histogram(Re_dan_ed,bins = se)[0].astype(float)
 #Dan_fa = np.histogram(Re_dan_fa,bins = se)[0].astype(float)
@@ -211,17 +217,22 @@ plt.plot(dot,bf/All,'b-.',label = 'Bulge Star Fraction < 60%',linestyle = 'steps
 
 plt.plot(dot,df/All,'r-.',label = 'Disk Star Fraction > 40%',linestyle = 'steps')
 #plt.bar(np.array(dot)+0.03,df/All,edgecolor='k',facecolor='r',width=(se[1]-se[0])/5.,label = 'Disk Star Fraction > 40%')
-#plt.scatter(sig_dan_fa,DMfrac_dan_fa,edgecolor='b',facecolors = 'none',marker='o',label='morphology pick: Face-on')
-#plt.scatter(sig_dan_ed,DMfrac_dan_ed,edgecolor='r',facecolors = 'none',marker='^',label='morphology pick: Edge-on')
+
+
+#plt.scatter(Re_bf,SB_bf,edgecolor='r',facecolors = 'r',marker='^',label='Bulge Star Fraction < 60%')
+#plt.scatter(Re_dan,SB_dan,edgecolor='b',facecolors = 'none',marker='o',label='Morphology')
+#plt.scatter(Re_df,SB_df,edgecolor='k',facecolors = 'k',marker='v',label='Disk Star Fraction > 40%')
+#plt.scatter(Re,V_mag,edgecolor='k',facecolors = 'none',marker='o',label='All galaxy')
 
 
 plt.xlabel('Einstein Radius (arc sec)')
-plt.ylabel('Disk System Fraction')
-plt.title('Illustris Snapshot99 (z=0.6)')
-#plt.legend(scatterpoints=1,loc =1)
-plt.legend(loc = 1)
-plt.xlim(0.2,1.4)
-plt.ylim(0.,0.6)
+#plt.ylabel('Disk System Fraction')
+plt.ylabel('r-band surface brightness')
+plt.title('Effective surface brightness of ExpDisk')
+plt.legend(scatterpoints=1,loc =1)
+#plt.legend(loc = 1)
+plt.xlim(0.2,1.2)
+#plt.ylim(18,32)
 plt.show()
 
 '''
