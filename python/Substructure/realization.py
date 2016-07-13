@@ -10,6 +10,7 @@ import gravlens_tool as gTool
 
 ## initiate lens
 lens_name = 'B1422'
+lens_type = 'cusp'
 lensPath = '../../models/lens_info/'
 gravlensPath = '../../data/sub_gravlens/'
 
@@ -30,7 +31,7 @@ y_lim = np.array([Lens.yc-2.*Lens.b,Lens.yc+2.*Lens.b])
 
 
 ## substructure mass fraction
-f_sub = 0.005
+f_sub = 0.01
 
 sigma_c = Lens.critical_density()*cospara.h # M_sun/Mpc^2
 sigma_c = sigma_c/(distance.mpc2arcs(cospara,1.,Lens.zl))**2
@@ -167,47 +168,63 @@ def set_realization(): # need to add realization number
 	return real_one
 
 
-## ------
-
-re_mod = set_realization()
-print len(re_mod.xi)
-##--- realization valid check
-
-opt_name = 'opt_realization.input'
-findimg_name = 'findimg_realization.input'
-
-gTool.create_opt(Lens,re_mod,gravlensPath,opt_name)
-## run opt file
-gTool.run_opt(gravlensPath,opt_name)
-
-print '----Optimization done----'
-
-## write findimg file
-gTool.create_findimg(re_mod,gravlensPath,findimg_name)
-
-print '----create findimg file done----'
-
-flag = gTool.run_findimg(gravlensPath,findimg_name)
-
-print '----write findimg result----'
-
+## -------------------------------
+valid_num = 5000
 sucess = 0
 
-if flag == False:
+cusp_file = open(gravlensPath+str(lens_name)+'_Rcusp.dat','a')
+cusp_file.write('# f_sub='+str(f_sub)+', realization='+str(valid_num)+'\n')
+
+fold_file = open(gravlensPath+str(lens_name)+'_Rfold.dat','a')
+fold_file.write('# f_sub='+str(f_sub)+', realization='+str(valid_num)+'\n')
+
+
+while True:
+	re_mod = set_realization()
+	print len(re_mod.xi)
+
+	opt_name = 'opt_realization.input'
+	findimg_name = 'findimg_realization.input'
+
+	gTool.create_opt(Lens,re_mod,gravlensPath,opt_name)
+	## run opt file
+	gTool.run_opt(gravlensPath,opt_name)
+
+	print '----Optimization done----'
+
+	## write findimg file
+	gTool.create_findimg(re_mod,gravlensPath,findimg_name)
+
+	print '----create findimg file done----'
+
+	flag = gTool.run_findimg(gravlensPath,findimg_name)
+
+	print '----write findimg result----'
+
+	
+
+	if flag == False:
 	# run above again
-	print 'realization fail'
-	print result
-
-else:
-	gTool.assign_img(gravlensPath,Lens.img_x)
-	check = gTool.pos_check(gravlensPath,Lens.img_x,Lens.img_y,Lens.img_err)
-
-	if check == False:
-		print '# realization fail'
+		print 'realization fail'
 
 	else:
-		print '# realization created'
-		sucess = sucess+1
+		gTool.assign_img(gravlensPath,Lens.img_x)
+		check = gTool.pos_check(gravlensPath,Lens.img_x,Lens.img_y,Lens.img_err)
+
+		if check == False:
+			print '# realization fail'
+
+		else:
+			print '# realization created'
+			sucess = sucess+1
+
+			gTool.write_Rcusp(cusp_file,gravlensPath)
+			gTool.write_Rfold(fold_file,gravlensPath)
 
 
+	if sucess>=valid_num:
+		break
 
+
+print 'final sucess = '
+print sucess

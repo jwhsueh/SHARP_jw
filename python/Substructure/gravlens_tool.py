@@ -213,13 +213,45 @@ def pos_check(path,obs_x,obs_y,obs_err):
 
 	print obs_x
 	print mod_x
-	print obs_err
-	print dif_x,dif_y
+	print table[:,2]
+	#print obs_err
+	#print dif_x,dif_y
 
 	result = True 
 
-	if np.average(dif_x) > 3.*obs_err or np.average(dif_y) > 3.*obs_err:
-		result = False
+	#if np.average(dif_x) > 3.*obs_err or np.average(dif_y) > 3.*obs_err:
+	#	result = False
 
+	for element in dif_x:
+		if element>2.*obs_err:
+			result=False
+
+	for element in dif_x:
+		if element>2.*obs_err:
+			result=False
 
 	return result
+
+## ----R_cusp, R_fold-----
+
+def write_Rcusp(Rfile,path):
+	mod_file = path+'findimg.out'
+
+	flux = np.loadtxt(mod_file,dtype='float',unpack=True,usecols=[2])
+
+	R_cusp = (flux[0]-flux[1]+flux[2])/np.abs(flux[0]+flux[1]+flux[2])
+
+	Rfile.write(str(R_cusp)+'\n')
+
+	return
+
+def write_Rfold(Rfile,path):
+	mod_file = path+'findimg.out'
+
+	flux = np.loadtxt(mod_file,dtype='float',unpack=True,usecols=[2])
+
+	R_fold = (flux[0]-flux[1])/np.abs(flux[0]+flux[1])
+
+	Rfile.write(str(R_fold)+'\n')
+
+	return
