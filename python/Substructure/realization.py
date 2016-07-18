@@ -13,6 +13,7 @@ lens_name = 'B1422'
 lens_type = 'cusp'
 lensPath = '../../models/lens_info/'
 gravlensPath = '../../data/sub_gravlens/'
+realPath = gravlensPath+lens_name+'_realization/'
 
 # Lens setup file
 lens_setup = np.loadtxt(lensPath+lens_name+'_setup.dat')
@@ -178,6 +179,9 @@ cusp_file.write('# f_sub='+str(f_sub)+', realization='+str(valid_num)+'\n')
 fold_file = open(gravlensPath+str(lens_name)+'_Rfold.dat','a')
 fold_file.write('# f_sub='+str(f_sub)+', realization='+str(valid_num)+'\n')
 
+chi_file = open(gravlensPath+str(lens_name)+'_chi2.dat','a')
+fold_file.write('# f_sub='+str(f_sub)+', realization='+str(valid_num)+'\n')
+
 
 while True:
 	re_mod = set_realization()
@@ -214,12 +218,21 @@ while True:
 		if check == False:
 			print '# realization fail'
 
-		else:
+		else: ##------created
 			print '# realization created'
 			sucess = sucess+1
 
 			gTool.write_Rcusp(cusp_file,gravlensPath)
 			gTool.write_Rfold(fold_file,gravlensPath)
+			gTool.write_chi2(chi_file,Lens,gravlensPath)
+
+			## save realization info
+			gTool.write_realization(sucess,gravlensPath,realPath)
+
+
+
+
+
 
 
 	if sucess>=valid_num:

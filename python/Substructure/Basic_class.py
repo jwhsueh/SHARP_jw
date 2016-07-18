@@ -38,7 +38,8 @@ class Lens:
 		self.img_y = data[:,1]
 		self.img_f = data[:,2]
 		self.img_err = data[:,3]
-		self.img_ferr = data[:,4]
+		self.img_fr = data[:,4]
+		self.img_frerr = data[:,5]
 
 	def  lens_setFile(self,setup):
 

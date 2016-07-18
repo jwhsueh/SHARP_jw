@@ -112,7 +112,7 @@ The \emph{gravitational imaging technique}, which alternatively utilizes the sur
 
 %While this could be the result of small sample statistics, it could also be an indication that the flux-ratio anomalies have a different origin than substructure. 
  
-In this letter, we explore the idea that not all flux-ratio anomalies are due to the presence of clumpy substructure, but that some originate from more complex lens galaxy mass distributions than have initially been considered. To this end, we use new infrared \textbf{and radio interferometric} imaging data from the Strong lensing at High Angular Resolution Programme \citep[SHARP;][Chen et al. 2016 submitted]{mckean07,lagattuta10,SHARP12, V12}. The main goal of SHARP is to investigate galaxy structure and other astrophysical topics through the re-observation of known gravitational lens systems at high angular resolution, making use of observations with (1) adaptive optics (AO) on the W. M. Keck telescope, (2) the {\it Hubble Space Telescope (HST)}, and (3) large radio and mm interferometric arrays. 
+In this letter, we explore the idea that not all flux-ratio anomalies are due to the presence of clumpy substructure, but that some originate from more complex lens galaxy mass distributions than have initially been considered. To this end, we use new infrared and radio interferometric imaging data from the Strong lensing at High Angular Resolution Programme \citep[SHARP;][Chen et al. 2016 submitted]{mckean07,lagattuta10,SHARP12, V12}. The main goal of SHARP is to investigate galaxy structure and other astrophysical topics through the re-observation of known gravitational lens systems at high angular resolution, making use of observations with (1) adaptive optics (AO) on the W. M. Keck telescope, (2) the {\it Hubble Space Telescope (HST)}, and (3) large radio and mm interferometric arrays. 
 
 Here we focus on CLASS B1555+375 \citep{Marlow99}, which was discovered as part of the Cosmic Lens All-Sky Survey \citep{CLASS1,CLASS2}. B1555+375 has four lensed images with a maximum separation of 426~mas in a fold configuration.  The two merging lensed images show a strong and persistent flux-ratio anomaly at radio wavelengths, and previous radio monitoring observations ruled out microlensing effects as the cause of the anomaly \citep{K03}. As B1555+375 was included in the observational and theoretical analyses of both \citet{Dalal2002} and \citet{Xu15}, understanding its mass distribution is of key importance to assess any systematics with the inferred level of substructure in the lensing halo with the flux-ratio anomaly method. The SHARP imaging data are introduced in Section 2 and we present a revised lens model using these data in Section 3. The results of this analysis and their implications are discussed in Section 4. Note that the redshifts of both the lens galaxy and the lensed source are unknown for B1555+375, so we assume redshifts of $z_l = 1$ and $z_s = 1.5$, respectively, due to their red colours \citep{Marlow99}. This assumption has no effect on the derived magnifications or flux ratios of our analysis.
 
@@ -128,7 +128,7 @@ B1555+375 was also observed with the {\it HST} in three broad bands.  The optica
 
 There are several notable features in the high-resolution AO and {\it HST} data. These include the nearly complete lack of emission associated with lensed images B and D, 
 %as can be seen by comparing the radio contours to the $K^\prime$-band emission 
-(Fig.~\ref{fig:3panel}b), and the faint, but clearly visible emission from the lensing galaxy that appears to be an edge-on disc, with a position angle of $\sim 10$~deg and an axis ratio $q \sim 0.2$.  We note that the position angle of the lensing galaxy is such that the disc emission lies close to the lensed images B and D. Therefore, the lack of emission from these \textbf{rest-frame optical} images is likely due to dust extinction and additional demagnification due to lensing. 
+(Fig.~\ref{fig:3panel}b), and the faint, but clearly visible emission from the lensing galaxy that appears to be an edge-on disc, with a position angle of $\sim 10$~deg and an axis ratio $q \sim 0.2$.  We note that the position angle of the lensing galaxy is such that the disc emission lies close to the lensed images B and D. Therefore, the lack of emission from these rest-frame optical images is likely due to dust extinction and additional demagnification due to lensing. 
 
 \subsection{Very Long Baseline Array imaging}
 
@@ -162,11 +162,11 @@ The flux-ratio anomaly and relative sizes of the images at radio-wavelengths imp
 We use the lens modelling code {\sc gravlens} \citep{Kee01} to model the compact radio components. The inputs to the model are the observed image positions measured from the MERLIN radio observations of \citet{Marlow99} as all of the images are significantly detected in these data. The flux-ratio measurements are taken from \citet{K03}, who used half a year of MERLIN monitoring to obtain flux-ratio curves. In total, there are 11 constraints to the mass model provided by the observational data. As a first trial of modelling, we re-create the singular isothermal ellipsoid without external shear model (SIE; 7 free parameters) of \citet{Marlow99} to check the performance of a simple lensing potential. Consistent with previous studies \citep{Marlow99,Xu15}, a single elliptical potential model cannot reproduce the observed flux ratios in B1555+375 (see Table~\ref{tab:results}). 
 %; reduced $\chi^2 =97.3$
 
-The next step is to test if a physically plausible edge-on disc can cause a perturbation in the strong lensing mass model that produces the observed flux ratio anomaly of  merging images A and B. \textbf{An exponential disc component is added to the smooth lens model. Previous study has shown that exponential disc profile best describes the light distribution of the disc component in spiral galaxies \citep{Kee98}.} The free parameters of this model are the SIE Einstein radius ($b$), centroid position, ellipticity ($e = 1 - q$), position angle ($\theta$), the exponential disc intrinsic central density ($\kappa_0$) and scale length ($R_s$). A detailed definition of these mass profiles is described by \citet{Kee01}. The source position adds two additional model parameters. 
+The next step is to test if a physically plausible edge-on disc can cause a perturbation in the strong lensing mass model that produces the observed flux ratio anomaly of  merging images A and B. An exponential disc component is added to the smooth lens model. Previous study has shown that exponential disc profile best describes the light distribution of the disc component in spiral galaxies \citep{Kee98}. The free parameters of this model are the SIE Einstein radius ($b$), centroid position, ellipticity ($e = 1 - q$), position angle ($\theta$), the exponential disc intrinsic central density ($\kappa_0$) and scale length ($R_s$). A detailed definition of these mass profiles is described by \citet{Kee01}. The source position adds two additional model parameters. 
 %We have not included a third component such as an external shear or additional NFW halo term because the number of constraints provided by the compact images detected by MERLIN is not sufficient to constrain such a model.
 %An SIE profile is also sufficient to include the halo mass since B1555 has a small Einstein radius.} 
 
-More sophisticated mass models \textbf{(i.e. external shear or additional halo term)} require additional
+More sophisticated mass models (i.e. external shear or additional halo term) require additional
 constraints, such as those from the lensed extended emission in either
 the NIR or radio imaging.  While we have successfully used the former
 approach in the past \citep[e.g.][]{V12}, for B1555+375 the extinction
@@ -183,7 +183,7 @@ significantly detecting image D.
 We use {\sc gravlens} to obtain the best-fit SIE+ExpDisc lens model. The best-fit parameters from \citet{Marlow99} are chosen as the starting point of the SIE profile. We have used the NICMOS F160W imaging, in which the disc component has the highest signal-to-noise ratio amongst our data, to fix the disc centroid position relative to image A to $(-0.162, -0.206)$, its ellipticity to $e=0.83$, and its position angle to $\theta=8^\circ$. The total number of free parameters is 9. After obtaining the best-fit lens model, we run a Markov-Chain Monte-Carlo (MCMC) analysis to obtain the uncertainties.
 
 
-\textbf{Our model predicted results are shown in Table \ref{tab:results} with comparison to the observed data and the single SIE lens model.} The best-fit model parameters and 68 per cent confidence level (CL) errors are listed in Table~\ref{tab:model}, and the lens model is illustrated in Fig.~\ref{fig:3panel}c.  We find that adding an elongated exponential disc to a smooth SIE model \textbf{successfully reproduces the flux ratio anomaly in this system}. 
+Our model predicted results are shown in Table \ref{tab:results} with comparison to the observed data and the single SIE lens model. The best-fit model parameters and 68 per cent confidence level (CL) errors are listed in Table~\ref{tab:model}, and the lens model is illustrated in Fig.~\ref{fig:3panel}c.  We find that adding an elongated exponential disc to a smooth SIE model successfully reproduces the flux ratio anomaly in this system. 
 % with a reduced $\chi^2 = 2.7$
 The positions are all in agreement, and the flux ratios are consistent at the $2\sigma$ level, with excellent agreement now obtained for the two merging images A and B. The remaining differences in the fluxes may be due to the real lensed source being slightly extended rather than the point source that we used in our model. The model requires that the disc component makes up about 15 per cent of the total projected mass within the Einstein radius.
 % (1.7~kpc for an assumed lens redshift of $z_l = 1$ but the mass fraction is independent of the lens and source redshifts since this ratio is independent of distance).  In this central region of an edge-on spiral galaxy, the baryonic mass can be a significant component of the total projected mass. 
@@ -199,10 +199,8 @@ Investigations of edge-on spiral lenses, for example from the SWELLS survey, sho
 {\bf (b)} $K^\prime$-band AO image with the locations of the four radio components
 marked with circles.  
 %
-{\bf (c)} Observed radio position: blue pluses. Model-predicted position: red open
-circles. The lens-plane critical curves
-are shown with the blue solid line and the source-plane caustics are
-shown with the red dotted line. The position of the source is at
+{\bf (c)} Observed radio positions: blue pluses; Model-predicted positions: red open
+circles; Lens-plane critical curves: blue solid curves; Source-plane caustics: red dotted curves. The source position is at
 ($-0.1953$, $-0.1494$), which is marked by the red filled circle. The
 centroid positions of the SIE and ExpDisc components of the lens are marked by the black and red filled triangles respectively. The disc middle plane measured with NICMOS image is shown with the black dashed line.
 }
@@ -244,7 +242,7 @@ D  &$-0.1619$	&$-0.3680$	& $0.086 \pm 0.024$ 	&$-0.1693$ &$-0.3704$		& $0.123$ 	
 
 \begin{table}
 \centering
-\caption{Best-fit model parameters and uncertainties for our two-component SIE + exponential disc lens model (our single SIE model is effectively equivalent to the model in \citet{Marlow99} and so is not shown here). The positions are measured in arcsec, relative to the MERLIN radio position of image A. The position angles are measured in degrees east of north. The Einstein radius $b$ and disc scale radius ($R_s$) are measured in arcsec.}
+\caption{Best-fit model parameters and uncertainties for our two-component SIE + ExpDisc lens model (our single SIE model is effectively equivalent to the model in \citet{Marlow99} and so is not shown here). The positions are measured in arcsec, relative to the MERLIN radio position of image A. The position angles are measured in degrees east of north. The Einstein radius $b$ and disc scale radius ($R_s$) are measured in arcsec.}
 \begin{tabular}{ccc}
 \hline 
 Parameter    & SIE Component & ExpDisc Component  \\

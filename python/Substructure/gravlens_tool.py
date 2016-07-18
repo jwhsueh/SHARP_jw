@@ -255,3 +255,42 @@ def write_Rfold(Rfile,path):
 	Rfile.write(str(R_fold)+'\n')
 
 	return
+
+def write_chi2(chi_file,lens,path):
+	mod_file = path+'findimg.out'
+	x_mod = np.loadtxt(mod_file,dtype='float',unpack=True,usecols=[0])
+	y_mod = np.loadtxt(mod_file,dtype='float',unpack=True,usecols=[1])
+	f_mod = np.loadtxt(mod_file,dtype='float',unpack=True,usecols=[2])
+
+	# flux ratio
+	fr_mod = f_mod/f_mod[0]
+
+	x_obs,y_obs,fr_obs = lens.img_x,lens.img_y,lens.img_fr
+	pos_err,fr_err = lens.img_err,lens.img_frerr
+
+	print x_obs,y_obs,fr_obs,pos_err,fr_err
+	print x_mod,y_mod,fr_mod
+
+	chi2 = 0.
+	for i in range(x_obs.size):
+		chi2 = chi2+(x_obs[i]-x_mod[i])**2/pos_err[i]**2+(y_obs[i]-y_mod[i])**2/pos_err[i]**2
+
+		if i >0:
+			chi2 = chi2 + (fr_obs[i]-fr_mod[i])**2/fr_err[i]**2
+
+
+	chi_file.write(str(chi2)+'\n')
+
+def write_realization(Rnum,path,Rpath):
+
+	info = open(path+'bestSub.dat','r')
+	real_file = open(Rpath+'realization_'+str(Rnum)+'.dat','w')
+
+	lines = info.readlines()
+
+	for Aline in lines:
+		real_file.write(Aline)
+
+	info.close()
+	real_file.close()
+
