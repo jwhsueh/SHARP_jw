@@ -1,10 +1,10 @@
 import numpy as np
 import groupcat
 
-catPath = '../../data/Snap099Data4JW/Snap099Cata/'
-basePath = '../../data/illustris_1/'
+ssNumber = '085'
 
-ssNumber = 99
+catPath = '/Volumes/narsil_1/jwhsueh/illustris_1/snapshot_catalog/LensingCataSnap'+str(ssNumber)+'/'
+basePath = '../../data/illustris_1/'
 
 Proj = ['NatProj_1/','NatProj_2/','NatProj_3/']
 
@@ -15,23 +15,26 @@ Proj = ['NatProj_1/','NatProj_2/','NatProj_3/']
 
 #GroupFirstSub = groupcat.loadHalos(basePath,ssNumber,fields = ['GroupFirstSub'])
 
-TotList = ['TotCata_Lens.list','TotCata_Phot.list']
-list_idx = 1
-
+TotList = ['TotCata_Lens.list','TotCata_Phot.list','TotCata_Gas.list']
+list_idx = 0
 p_index = 0 # Proj index
 
-cataName = basePath+'Dandan_Phot'+str(ssNumber)+'_x.dat'
+cataName = basePath+'Dandan_Lens'+ssNumber+'_x.dat'
 
 CataList = open(catPath+Proj[p_index]+TotList[list_idx],'r')
 CataList = CataList.read().splitlines()
 
 ## Lens
-#field = ['SubfindID','mass [M_sun/h]','mass w/i R_ein','R_ein', 'DMfrac w/i R_ein']
-#f_idx = np.array([0,5,6,7,11])
+field = ['SubfindID','mass [M_sun/h]','mass w/i R_ein','R_ein', 'DMfrac w/i R_ein']
+f_idx = np.array([0,5,6,7,11])
 
 ## Phot
-field = ['SubfindID','mass [M_sun/h]','stellar mass','Sersic index','half-stellar mass radius (arcsec)','surface brightness ar Reff_Exp (mag/arcsec^2)','1:Early(deV);0:Late type(Exp)']
-f_idx = np.array([0,3,4,10,18,22,24])
+#field = ['SubfindID','mass [M_sun/h]','stellar mass','Sersic index','half-stellar mass radius (arcsec)','surface brightness ar Reff_Exp (mag/arcsec^2)','1:Early(deV);0:Late type(Exp)']
+#f_idx = np.array([0,3,4,10,18,22,24])
+
+## Gas
+#field = ['subfindID','fgas','fcgs']
+#f_idx = np.array([0,25,28])
 
 
 new_cata = open(cataName,'w')
@@ -53,7 +56,8 @@ for file_name in CataList:
 
 	#cata_file = open(catPath+Proj[p_index]+file_name,'r')
 	#sub_table = np.loadtxt(cata_file,skiprows=1,unpack=True, usecols=[3,4,18,22,24])
-	sub_table = np.loadtxt(cata_file,skiprows=1,unpack=True, usecols=[3,4,10,18,22,24])
+	#sub_table = np.loadtxt(cata_file,skiprows=1,unpack=True, usecols=[5,6,7,11])
+	sub_table = np.loadtxt(cata_file,skiprows=1,unpack=True, usecols=[5,6,7,11])
 	#print sub_table
 	valid_id = 1
 
@@ -63,6 +67,9 @@ for file_name in CataList:
 			if frs_idx[i] == 0 and sub_table[valid_id,i]>0:	
 
 				new_cata.write(str(SubfindID[i])+'	'+str(sub_table[:-2,i])[1:-1]+'	'+str(sub_table[-2:,i])[1:-1]+'\n')
+
+			elif frs_idx[i] == 0:
+				print sub_table[valid_id,i], groupID[0]
 
 	elif sub_table[valid_id]>0:
 

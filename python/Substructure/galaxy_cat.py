@@ -4,8 +4,8 @@ import DistanceTool as distance
 
 basePath = '../../data/illustris_1'
 
-ssNumber = 99 # snapshotnumber
-z = 0.6
+ssNumber = 85 # snapshotnumber
+z = 1.0
 
 a = 1./(1.+z)
 
@@ -46,16 +46,20 @@ Rhal_st = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloHalfmassRad
 sigma = groupcat.loadSubhalos(basePath,ssNumber,fields = ['SubhaloVelDisp'])
 sigma = sigma[GroupFirstSub]
 
-sigma_h = 370.
-sigma_l = 130.
+#sigma_h = 370.
+#sigma_l = 130.
+sigma_h = 500.
+sigma_l = 0.
 
 #photometry
+B_mag = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloStellarPhotometrics'])[:,1]
 V_mag = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloStellarPhotometrics'])[:,2]
 K_mag = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloStellarPhotometrics'])[:,3]
 r_mag = groupcat.loadSubhalos(basePath,ssNumber, fields = ['SubhaloStellarPhotometrics'])[:,5]
 
 # apparent mag
 DL = distance.luminosity_distance(cosmopara,z)*1e6 # pc
+B_mag = B_mag+5.*(np.log10(DL)-1)
 V_mag = V_mag+5.*(np.log10(DL)-1)
 K_mag = K_mag+5.*(np.log10(DL)-1)
 r_mag = r_mag+5.*(np.log10(DL)-1)
@@ -66,7 +70,7 @@ r_mag = r_mag+5.*(np.log10(DL)-1)
 ## rewrite this part!!! [str mass]
 ## use group mass as galaxy cretria 
 ## here!!
-GalaxyID,GalaxyPos,Galaxy_ms,Galaxy_str,Galaxy_sig,Galaxy_Rh,Galaxy_V = [],[],[],[],[],[],[]
+GalaxyID,GalaxyPos,Galaxy_ms,Galaxy_str,Galaxy_sig,Galaxy_Rh,Galaxy_r,Galaxy_B,Galaxy_V = [],[],[],[],[],[],[],[],[]
 
 for i in range(sigma.size):
 	if sigma[i]<sigma_h and sigma[i]>sigma_l:
@@ -77,6 +81,8 @@ for i in range(sigma.size):
 		Galaxy_str.append(star_ms[i])
 		Galaxy_sig.append(sigma[i])
 		Galaxy_Rh.append(Rhal_st[i])
+		Galaxy_r.append(r_mag[i])
+		Galaxy_B.append(B_mag[i])
 		Galaxy_V.append(V_mag[i])
 
 ## check if the halo is relax
@@ -94,7 +100,7 @@ for i in range(cat_ID.size):
 		relax_flag[idx] = relax[i]
 
 
-catalog = open(basePath+'/Galaxy_'+str(ssNumber)+'_sig.dat','w')
+catalog = open(basePath+'/Galaxy_'+str(ssNumber)+'_test.dat','w')
 
 catalog.write('# [0]: Galaxy SubID w/ velocity dispertion between '+str(sigma_l)+'~'+str(sigma_h)+' km/s\n')
 catalog.write('# [1]-[3]: Group pos in ckpc/h \n')
@@ -104,9 +110,11 @@ catalog.write('# [6]: 1d Velocity dispersion from all particles in km/s \n')
 catalog.write('# [7]: half mass radius of star particle in kpc/h \n')
 catalog.write('# [8]: main halo is relax: 0, not relax:1 \n')
 catalog.write('# [9]: photometry r-band \n')
+catalog.write('# [10]: photometry B-band \n')
+catalog.write('# [11]: photometry V-band \n')
 #catalog.write('# [6]-[7]: photometry V-band & K-band \n')
 
 for i in range(len(GalaxyID)):
-	catalog.write(str(GalaxyID[i])+'    '+str(GalaxyPos[i])[1:-1]+'    '+str(Galaxy_ms[i])+'    '+str(Galaxy_str[i])+'	'+str(Galaxy_sig[i])+' '+str(Galaxy_Rh[i]) +' '+str(relax_flag[i])+' '+str(Galaxy_V[i])+'\n')
+	catalog.write(str(GalaxyID[i])+'    '+str(GalaxyPos[i])[1:-1]+'    '+str(Galaxy_ms[i])+'    '+str(Galaxy_str[i])+'	'+str(Galaxy_sig[i])+' '+str(Galaxy_Rh[i]) +' '+str(relax_flag[i])+' '+str(Galaxy_r[i])+' '+str(Galaxy_B[i])+' '+str(Galaxy_V[i])+'\n')
 	#catalog.write(str(table[i,:])[1:-1]+'\n')
 

@@ -6,9 +6,9 @@ import snapshot
 import pandas as pd
 
 basePath = '../../data/illustris_1'
-redshift = 0.2
+redshift = 1.0
 
-ssNumber = '120'
+ssNumber = '085'
 
 
 ## maybe we don't need this part
@@ -36,12 +36,13 @@ kinematics = pd.read_csv(catalog,sep = '\s+',names = kine_field,comment = '#')
 
 ## -------- group catalog properties [general] ----- ##
 
-catalog2 = basePath+'/Galaxy_'+str(ssNumber)+'_sig.dat'
+catalog2 = basePath+'/Galaxy_'+str(ssNumber)+'_test.dat'
 group_field = ['subfindID','pos_x','pos_y','pos_z','mass','stellar_mass','velDisp','R_halfmass','relaxation','r_mag','B_mag','V_mag']
 group = pd.read_csv(catalog2,sep = '\s+',names = group_field,comment = '#')
 
 # standard DataFrame
-standard = pd.merge(group,kinematics,how = 'inner',on = 'subfindID')
+standard = pd.merge(group,kinematics,how = 'outer',on = 'subfindID')
+print np.array(group.subfindID)[-1],np.array(standard.subfindID)[-1]
 
 ## -------- inclination angle --------- ##
 
@@ -120,27 +121,27 @@ Gas_z = pd.read_csv(catalog3z,sep = '\s+',names = Gas_fz,comment = '#')
 
 ## -------- put together to larger cataloga (x,y,z) ------- ##
 
-standard_x = pd.merge(standard,Lens_x,how = 'inner',on = 'subfindID')
-standard_x = pd.merge(standard_x,inc_x,how = 'inner',on = 'subfindID')
-standard_x = pd.merge(standard_x,Phot_x,how = 'inner',on = 'subfindID')
-standard_x = pd.merge(standard_x,Gas_x,how = 'inner',on = 'subfindID')
+standard_x = pd.merge(standard,Lens_x,how = 'outer',on = 'subfindID')
+standard_x = pd.merge(standard_x,inc_x,how = 'outer',on = 'subfindID')
+standard_x = pd.merge(standard_x,Phot_x,how = 'outer',on = 'subfindID')
+standard_x = pd.merge(standard_x,Gas_x,how = 'outer',on = 'subfindID')
 
-standard_y = pd.merge(standard,Lens_y,how = 'inner',on = 'subfindID')
-standard_y = pd.merge(standard_y,inc_y,how = 'inner',on = 'subfindID')
-standard_y = pd.merge(standard_y,Phot_y,how = 'inner',on = 'subfindID')
-standard_y = pd.merge(standard_y,Gas_y,how = 'inner',on = 'subfindID')
+standard_y = pd.merge(standard,Lens_y,how = 'outer',on = 'subfindID')
+standard_y = pd.merge(standard_y,inc_y,how = 'outer',on = 'subfindID')
+standard_y = pd.merge(standard_y,Phot_y,how = 'outer',on = 'subfindID')
+standard_y = pd.merge(standard_y,Gas_y,how = 'outer',on = 'subfindID')
 
-standard_z = pd.merge(standard,Lens_z,how = 'inner',on = 'subfindID')
-standard_z = pd.merge(standard_z,inc_z,how = 'inner',on = 'subfindID')
-standard_z = pd.merge(standard_z,Phot_z,how = 'inner',on = 'subfindID')
-standard_z = pd.merge(standard_z,Gas_z,how = 'inner',on = 'subfindID')
+standard_z = pd.merge(standard,Lens_z,how = 'outer',on = 'subfindID')
+standard_z = pd.merge(standard_z,inc_z,how = 'outer',on = 'subfindID')
+standard_z = pd.merge(standard_z,Phot_z,how = 'outer',on = 'subfindID')
+standard_z = pd.merge(standard_z,Gas_z,how = 'outer',on = 'subfindID')
 
 
-#standard = pd.merge(standard,Lens_cata,how = 'inner',on = 'subfindID')
-#standard = pd.merge(standard,Phot_cata,how = 'inner',on = 'subfindID')
+#standard = pd.merge(standard,Lens_cata,how = 'outer',on = 'subfindID')
+#standard = pd.merge(standard,Phot_cata,how = 'outer',on = 'subfindID')
 
 #print standard
 
-standard_x.to_csv(basePath+'/full_'+str(ssNumber)+'_x.dat',sep = '\t',index = False)
-standard_y.to_csv(basePath+'/full_'+str(ssNumber)+'_y.dat',sep = '\t',index = False)
-standard_z.to_csv(basePath+'/full_'+str(ssNumber)+'_z.dat',sep = '\t',index = False)
+standard_x.to_csv(basePath+'/test_'+str(ssNumber)+'_x.dat',sep = '\t',index = False)
+standard_y.to_csv(basePath+'/test_'+str(ssNumber)+'_y.dat',sep = '\t',index = False)
+standard_z.to_csv(basePath+'/test_'+str(ssNumber)+'_z.dat',sep = '\t',index = False)
