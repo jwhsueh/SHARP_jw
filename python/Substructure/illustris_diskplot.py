@@ -8,6 +8,7 @@ import DistanceTool as distance
 basePath = '../../data/illustris_1/'
 ssNumber = '120'
 redshift = 0.2
+print ssNumber
 
 catalog_x = basePath+'test_'+str(ssNumber)+'_x.dat'
 catalog_y = basePath+'test_'+str(ssNumber)+'_y.dat'
@@ -23,7 +24,14 @@ all_table = all_table.loc[(all_table.r_mag <100)&(all_table.B_mag <100)&(all_tab
 #print all_table
 
 ## stellar mass lower limit
-all_table = all_table.loc[(all_table.stellar_mass>1e10),:]
+all_table = all_table.loc[(all_table.stellar_mass>1e9),:]
+
+## add columns
+
+all_table.stellar_mass = all_table.stellar_mass/0.71
+all_table['log_stellar_mass']= np.log10(all_table.stellar_mass)
+all_table['color'] = all_table.B_mag - all_table.V_mag
+all_table['mor_mix'] = 0
 
 ## total flux cut
 
@@ -32,14 +40,12 @@ all_table = all_table.loc[(all_table.stellar_mass>1e10),:]
 
 ## relaxation
 table = all_table.loc[(all_table.relaxation == 0),:] # table is for disk systems
+#table = all_table # disk_table
 
 ## edge-on pick
 #table = table.loc[(table.theta > 80.) & (table.theta < 100.),:]
 
-## add columns
 
-table['log_stellar_mass']= np.log10(table.stellar_mass)
-table['color'] = table.B_mag - table.V_mag
 
 #print table.log_stellar_mass
 
@@ -58,7 +64,11 @@ table['SB_exp_m'] = -5./2.*(table.SB_Exp+8.9)
 
 ## ---- morphology pick ----- ##
 
-morphology = table.loc[(table.Sersic <2) & (table.morphology == 0),:]
+morphology_single = table.loc[(table.Sersic <2) & (table.morphology == 0),:]
+
+table.mor_mix.loc[table.subfindID.isin(morphology_single.subfindID)] = 1 # morphology coverage pick
+
+morphology = table.loc[(table.mor_mix == 1),:]
 
 ## ---- kinematics pick ---- ##
 
@@ -67,7 +77,7 @@ bulge_star = table.loc[(table.bulge_star_f < 0.6),:]
 '''
 ## ---- hybird catagories ---- ##
 
-three = table.loc[(table.Sersic <2) & (table.morphology == 0)&(table.disk_star_f > 0.4)&(table.bulge_star_f < 0.6),:]
+three = table.loc[(table.mor_mix == 1)&(table.disk_star_f > 0.4)&(table.bulge_star_f < 0.6),:]
 
 #print morphology
 #print bulge_star
@@ -75,15 +85,15 @@ m_only = morphology.loc[(~morphology.subfindID.isin(bulge_star.subfindID)),:]
 k_only = bulge_star.loc[(~bulge_star.subfindID.isin(morphology.subfindID)),:]
 b_only = k_only.loc[(~k_only.subfindID.isin(disk_star.subfindID)),:]
 
-three.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_three.dat',sep = '\t',index = False)
-m_only.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_mOnly.dat',sep = '\t',index = False)
-k_only.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_kOnly.dat',sep = '\t',index = False)
-b_only.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_bOnly.dat',sep = '\t',index = False)
-'''
-## ---- edge-on & face-on ----- ##
-edge_mor = morphology.loc[(table.theta > 80.) & (table.theta < 100.),:]
-face_mor = morphology.loc[(table.theta < 80.) | (table.theta > 100.),:]
+three.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_three_st.dat',sep = '\t',index = False)
+m_only.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_mOnly_st.dat',sep = '\t',index = False)
+k_only.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_kOnly_st.dat',sep = '\t',index = False)
+b_only.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_bOnly_st.dat',sep = '\t',index = False)
 
+## ---- edge-on & face-on ----- ##
+#edge_mor = morphology.loc[(table.theta > 80.) & (table.theta < 100.),:]
+#face_mor = morphology.loc[(table.theta < 80.) | (table.theta > 100.),:]
+'''
 '''
 ## ---- magnitude cut ---- ##
 morphology_cut = morphology.loc[(morphology.r_mag<25.),:]
@@ -97,16 +107,17 @@ print morphology.shape, morphology_cut.shape
 #Dan = np.array(morphology.R_E)
 #df,bf = np.array(disk_star.R_E),np.array(bulge_star.R_E)
 
-All = np.array(all_table.velDisp)
-Dan = np.array(morphology.velDisp)
-df,bf = np.array(disk_star.velDisp),np.array(bulge_star.velDisp)
+All = np.array(all_table.log_stellar_mass)
+Dan = np.array(morphology.log_stellar_mass)
+df,bf = np.array(disk_star.log_stellar_mass),np.array(bulge_star.log_stellar_mass)
 
 #print All
 #print Dan
 
 # histogram
 #se = np.linspace(0.0,1.5,15)
-se = np.linspace(0,370,40)
+se = np.linspace(9,12,20)
+#se = np.linspace(50,400,20)
 dot = []
 for i in range(se.size-1):
 	dot.append((se[i]+se[i+1])/2.)
@@ -116,9 +127,10 @@ Dan = np.histogram(Dan,bins = se)[0].astype(float)
 df = np.histogram(df,bins = se)[0].astype(float)
 bf = np.histogram(bf,bins = se)[0].astype(float)
 
-hist = pd.DataFrame({'velDisp':dot,'All':All,'morphology':Dan,'disk_star':df,'bulge_star':bf})
+hist = pd.DataFrame({'log_stellar_mass':dot,'All':All,'morphology':Dan,'disk_star':df,'bulge_star':bf})
 
-hist.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'sig_hist.dat',sep = '\t',index = False)
+hist.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'st_hist_30.dat',sep = '\t',index = False)
+
 
 '''
 plt.plot(dot,Dan/All,color='k',label = 'morphology',linestyle='steps')

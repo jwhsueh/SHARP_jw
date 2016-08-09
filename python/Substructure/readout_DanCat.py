@@ -1,7 +1,7 @@
 import numpy as np
 import groupcat
 
-ssNumber = '085'
+ssNumber = '120'
 
 catPath = '/Volumes/narsil_1/jwhsueh/illustris_1/snapshot_catalog/LensingCataSnap'+str(ssNumber)+'/'
 basePath = '../../data/illustris_1/'
@@ -16,7 +16,7 @@ Proj = ['NatProj_1/','NatProj_2/','NatProj_3/']
 #GroupFirstSub = groupcat.loadHalos(basePath,ssNumber,fields = ['GroupFirstSub'])
 
 TotList = ['TotCata_Lens.list','TotCata_Phot.list','TotCata_Gas.list']
-list_idx = 0
+list_idx = 2
 p_index = 0 # Proj index
 
 cataName = basePath+'Dandan_Lens'+ssNumber+'_x.dat'
@@ -25,12 +25,12 @@ CataList = open(catPath+Proj[p_index]+TotList[list_idx],'r')
 CataList = CataList.read().splitlines()
 
 ## Lens
-field = ['SubfindID','mass [M_sun/h]','mass w/i R_ein','R_ein', 'DMfrac w/i R_ein']
-f_idx = np.array([0,5,6,7,11])
+#field = ['SubfindID','mass [M_sun/h]','mass w/i R_ein','R_ein', 'DMfrac w/i R_ein']
+#f_idx = np.array([0,5,6,7,11])
 
 ## Phot
-#field = ['SubfindID','mass [M_sun/h]','stellar mass','Sersic index','half-stellar mass radius (arcsec)','surface brightness ar Reff_Exp (mag/arcsec^2)','1:Early(deV);0:Late type(Exp)']
-#f_idx = np.array([0,3,4,10,18,22,24])
+field = ['SubfindID','stellar mass','Sersic index','half-stellar mass radius (arcsec)','surface brightness ar Reff_Exp (mag/arcsec^2)','1:Early(deV);0:Late type(Exp)']
+f_idx = np.array([0,8,10,18,22,24])
 
 ## Gas
 #field = ['subfindID','fgas','fcgs']
@@ -57,7 +57,7 @@ for file_name in CataList:
 	#cata_file = open(catPath+Proj[p_index]+file_name,'r')
 	#sub_table = np.loadtxt(cata_file,skiprows=1,unpack=True, usecols=[3,4,18,22,24])
 	#sub_table = np.loadtxt(cata_file,skiprows=1,unpack=True, usecols=[5,6,7,11])
-	sub_table = np.loadtxt(cata_file,skiprows=1,unpack=True, usecols=[5,6,7,11])
+	sub_table = np.loadtxt(cata_file,skiprows=1,unpack=True, usecols=[8,10,18,22,24])
 	#print sub_table
 	valid_id = 1
 

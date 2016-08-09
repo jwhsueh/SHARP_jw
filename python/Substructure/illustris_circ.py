@@ -10,7 +10,7 @@ class cosmopara:
 	OM = 0.27
 
 basePath = '../../data/illustris_1'
-ssNumber = 85
+ssNumber = 120
 
 Snapshot_num = 'Snapshot_'+str(ssNumber)
 
@@ -24,7 +24,7 @@ Js = circFile[Snapshot_num]['SpecificAngMom']
 
 ## read in Galaxy catalog
 
-catalog = basePath+'/Galaxy_'+str(ssNumber)+'_sig.dat'
+catalog = basePath+'/Galaxy_'+str(ssNumber)+'_test.dat'
 GalaxyID = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[0])
 #star_ms = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[4]) # stellar mass
 
@@ -54,7 +54,7 @@ Ms = np.array(Ms)
 
 AngMomIndex = np.log10(Js/Ms**(2./3.))
 '''
-catalog = open(basePath+'/kinematics_'+str(ssNumber)+'_sig.dat','w')
+catalog = open(basePath+'/kinematics_'+str(ssNumber)+'_test.dat','w')
 #catalog.write('# Galaxy SubID   Angular Momemtum   Disk star frac    Bulge star frac'+'\n')
 
 catalog.write('# [0]: Galaxy SubID'+'\n')

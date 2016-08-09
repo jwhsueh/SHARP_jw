@@ -21,10 +21,24 @@ group2 = pd.read_csv(catalog,sep = '\s+',names = group_field,comment = '#')
 
 ## stellar_mass cut
 
-#group0 = group0.loc[(group0.stellar_mass>1e10),:]
-#group1 = group1.loc[(group1.stellar_mass>1e10),:]
-#group2 = group2.loc[(group2.stellar_mass>1e10),:]
+z0 = group0.loc[(group0.stellar_mass>1e9),:]
+z1 = group1.loc[(group1.stellar_mass>1e9),:]
+z2 = group2.loc[(group2.stellar_mass>1e9),:]
 
+z0['log_stellar_mass'] = np.log10(z0.stellar_mass)
+z1['log_stellar_mass'] = np.log10(z1.stellar_mass)
+z2['log_stellar_mass'] = np.log10(z2.stellar_mass)
+
+
+## scatter plot
+
+plt.scatter(z0.velDisp,z0.log_stellar_mass,c = 'b',label = 'z='+str(z[0]),marker = 'x')
+plt.scatter(z1.velDisp,z1.log_stellar_mass,c='g',label = 'z='+str(z[1]),marker = 'x')
+plt.scatter(z2.velDisp,z2.log_stellar_mass,c = 'r',label = 'z='+str(z[2]),marker = 'x')
+plt.title('All galaxies')
+plt.show()
+
+'''
 se = np.linspace(0,370,40)
 dot = []
 for i in range(se.size-1):
@@ -45,3 +59,4 @@ plt.ylabel('counts')
 plt.title('All galaxies')
 #plt.show()
 plt.savefig(basePath+'redshift_evo/velDisp.png')
+'''
