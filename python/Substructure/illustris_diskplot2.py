@@ -26,6 +26,9 @@ all_table = table.append(table_z,ignore_index = True)
 ## stellar mass lower limit
 all_table = all_table.loc[(all_table.stellar_mass>1e9),:]
 
+## only pick central galaxy
+all_table = all_table.loc[(all_table.subflag == 0),:]
+
 ## add columns
 
 all_table.stellar_mass = all_table.stellar_mass/0.71
@@ -129,7 +132,7 @@ bf = np.histogram(bf,bins = se)[0].astype(float)
 
 hist = pd.DataFrame({'log_stellar_mass':dot,'All':All,'morphology':Dan,'disk_star':df,'bulge_star':bf})
 
-hist.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'st_hist_all.dat',sep = '\t',index = False)
+hist.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'st_hist_30.dat',sep = '\t',index = False)
 
 
 '''

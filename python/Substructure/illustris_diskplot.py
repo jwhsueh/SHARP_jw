@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 import DistanceTool as distance
 
 basePath = '../../data/illustris_1/'
-ssNumber = '120'
-redshift = 0.2
+ssNumber = '085'
+redshift = 1.0
 print ssNumber
 
 catalog_x = basePath+'test_'+str(ssNumber)+'_x.dat'
@@ -19,7 +19,7 @@ table_x,table_y,table_z = pd.read_csv(catalog_x,sep = '\t'),pd.read_csv(catalog_
 table = table_x.append(table_y,ignore_index = True)
 all_table = table.append(table_z,ignore_index = True)
 
-all_table = all_table.loc[(all_table.r_mag <100)&(all_table.B_mag <100)&(all_table.V_mag <100),:]
+#all_table = all_table.loc[(all_table.r_mag <100)&(all_table.B_mag <100)&(all_table.V_mag <100),:]
 
 #print all_table
 

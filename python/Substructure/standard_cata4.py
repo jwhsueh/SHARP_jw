@@ -6,9 +6,9 @@ import snapshot
 import pandas as pd
 
 basePath = '../../data/illustris_1'
-redshift = 1.0
+redshift = 0.2
 
-ssNumber = '085'
+ssNumber = '120'
 print ssNumber
 
 
@@ -70,14 +70,14 @@ inc_x = pd.DataFrame({'subfindID':IDs,'theta':theta_x})
 inc_y = pd.DataFrame({'subfindID':IDs,'theta':theta_y})
 inc_z = pd.DataFrame({'subfindID':IDs,'theta':theta_z})
 '''
-'''
+
 ## ----- FULL lens catalog (Dandan) ----- ##
 
-catalog3x = basePath+'/Dandan_Lens'+str(ssNumber)+'_x.dat'
-catalog3y = basePath+'/Dandan_Lens'+str(ssNumber)+'_y.dat'
-catalog3z = basePath+'/Dandan_Lens'+str(ssNumber)+'_z.dat'
+catalog3x = basePath+'/Tot_Lens'+str(ssNumber)+'_x.dat'
+catalog3y = basePath+'/Tot_Lens'+str(ssNumber)+'_y.dat'
+catalog3z = basePath+'/Tot_Lens'+str(ssNumber)+'_z.dat'
 
-Lens_f = ['subfindID','mass','2dmass_R_E','R_E','DMfrac_R_E']
+Lens_f = ['subfindID','subflag','mass','2dmass_R_E','R_E','DMfrac_R_E']
 #Lens_fy = ['subfindID','mass','2dmass_R_Ey','R_Ey','DMfrac_R_Ey']
 #Lens_fz = ['subfindID','mass','2dmass_R_Ez','R_Ez','DMfrac_R_Ez']
 
@@ -93,7 +93,7 @@ Lens_z = pd.DataFrame(Lens_z,columns = ['subfindID','2dmass_R_E','R_E','DMfrac_R
 #Lens_cata = pd.merge(Lens_cata,Lens_z,how='inner',on = 'subfindID')
 
 #print Lens_cata
-'''
+
 ## ----- FULL photometry catalog (Dandan) ----- ##
 
 catalog3x = basePath+'/Tot_Phots'+str(ssNumber)+'_x.dat'
@@ -128,7 +128,7 @@ Phot_x.relaxation.loc[Phot_x.groupID.isin(not_relax.groupID)] = 1
 Phot_y.relaxation.loc[Phot_y.groupID.isin(not_relax.groupID)] = 1
 Phot_z.relaxation.loc[Phot_z.groupID.isin(not_relax.groupID)] = 1
 
-print Phot_x.relaxation
+#print Phot_x.relaxation
 
 '''
 ## ----- FULL gas catalog (Dandan) ----- ##
@@ -149,19 +149,21 @@ Gas_z = pd.read_csv(catalog3z,sep = '\s+',names = Gas_fz,comment = '#')
 
 ## -------- put together to larger cataloga (x,y,z) ------- ##
 
-#standard_x = pd.merge(standard,Lens_x,how = 'inner',on = 'subfindID')
+standard_x = pd.merge(kinematics,Lens_x,how = 'inner',on = 'subfindID')
+#print standard_x
 #standard_x = pd.merge(standard_x,inc_x,how = 'inner',on = 'subfindID')
-standard_x = pd.merge(kinematics,Phot_x,how = 'inner',on = 'subfindID')
+standard_x = pd.merge(standard_x,Phot_x,how = 'inner',on = 'subfindID')
+#print standard_x
 #standard_x = pd.merge(standard_x,Gas_x,how = 'inner',on = 'subfindID')
 
-#standard_y = pd.merge(standard,Lens_y,how = 'inner',on = 'subfindID')
+standard_y = pd.merge(kinematics,Lens_y,how = 'inner',on = 'subfindID')
 #standard_y = pd.merge(standard_y,inc_y,how = 'inner',on = 'subfindID')
-standard_y = pd.merge(kinematics,Phot_y,how = 'inner',on = 'subfindID')
+standard_y = pd.merge(standard_y,Phot_y,how = 'inner',on = 'subfindID')
 #standard_y = pd.merge(standard_y,Gas_y,how = 'inner',on = 'subfindID')
 
-#standard_z = pd.merge(standard,Lens_z,how = 'inner',on = 'subfindID')
+standard_z = pd.merge(kinematics,Lens_z,how = 'inner',on = 'subfindID')
 #standard_z = pd.merge(standard_z,inc_z,how = 'inner',on = 'subfindID')
-standard_z = pd.merge(kinematics,Phot_z,how = 'inner',on = 'subfindID')
+standard_z = pd.merge(standard_z,Phot_z,how = 'inner',on = 'subfindID')
 #standard_z = pd.merge(standard_z,Gas_z,how = 'inner',on = 'subfindID')
 
 

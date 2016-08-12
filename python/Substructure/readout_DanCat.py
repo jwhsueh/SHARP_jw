@@ -1,7 +1,7 @@
 import numpy as np
 import groupcat
 
-ssNumber = '085'
+ssNumber = '120'
 print ssNumber
 
 catPath = '/Volumes/narsil_1/jwhsueh/illustris_1/snapshot_catalog/LensingCataSnap'+str(ssNumber)+'/'
@@ -17,22 +17,22 @@ Proj = ['NatProj_1/','NatProj_2/','NatProj_3/']
 #GroupFirstSub = groupcat.loadHalos(basePath,ssNumber,fields = ['GroupFirstSub'])
 
 TotList = ['TotCata_Lens.list','TotCata_Phot.list','TotCata_Gas.list']
-list_idx = 1
-p_index = 2 # Proj index
+list_idx = 0
+p_index = 0 # Proj index
 print p_index
 
-cataName = basePath+'Tot_Phots'+ssNumber+'_z.dat'
+cataName = basePath+'Tot_Lens'+ssNumber+'_x.dat'
 
 CataList = open(catPath+Proj[p_index]+TotList[list_idx],'r')
 CataList = CataList.read().splitlines()
 
 ## Lens
-#field = ['SubfindID','mass [M_sun/h]','mass w/i R_ein','R_ein', 'DMfrac w/i R_ein']
+field = ['SubfindID','central galaxy = 0','mass [M_sun/h]','mass w/i R_ein','R_ein', 'DMfrac w/i R_ein']
 #f_idx = np.array([0,1,5,6,7,11])
 
 ## Phot
-field = ['SubfindID','central galaxy = 0','stellar mass','Sersic index','half-stellar mass radius (arcsec)','surface brightness ar Reff_Exp (mag/arcsec^2)','1:Early(deV);0:Late type(Exp)']
-f_idx = np.array([0,1,8,10,18,22,24])
+#field = ['SubfindID','central galaxy = 0','stellar mass','Sersic index','half-stellar mass radius (arcsec)','surface brightness ar Reff_Exp (mag/arcsec^2)','1:Early(deV);0:Late type(Exp)']
+#f_idx = np.array([0,1,8,10,18,22,24])
 
 ## Gas
 #field = ['subfindID','fgas','fcgs']
@@ -53,11 +53,11 @@ for file_name in CataList:
 	SubfindID = np.loadtxt(cata_file,dtype = 'int',skiprows=1,unpack=True, usecols=[0])
 
 	#cata_file = open(catPath+Proj[p_index]+file_name,'r')
-	#sub_table = np.loadtxt(cata_file,skiprows=1,unpack=True, usecols=[3,4,18,22,24])
-	#sub_table = np.loadtxt(cata_file,skiprows=1,unpack=True, usecols=[5,6,7,11])
-	sub_table = np.loadtxt(cata_file,skiprows=1,unpack=True, usecols=[1,8,10,18,22,24])
+	sub_table = np.loadtxt(cata_file,skiprows=1,unpack=True, usecols=[1,5,6,7,11])
+	#sub_table = np.loadtxt(cata_file,skiprows=1,unpack=True, usecols=[1,8,10,18,22,24])
+	#sub_table = np.loadtxt(cata_file,skiprows=1,unpack=True, usecols=[1,25,28])
 	#print sub_table
-	valid_id = 1
+	valid_id = 2
 
 	if SubfindID.size >1:
 
