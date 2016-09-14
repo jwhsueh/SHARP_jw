@@ -1,0 +1,21 @@
+set omitcore=1.0e-6
+data MG0414_obs2.dat
+set chimode= 1
+set checkparity = 0
+set gridflag= 0
+
+set zlens=0.536
+set zsrc=3.62
+
+
+
+startup 1 1
+
+alpha 1.181042e+00 -1.014126e+00 7.093672e-01 1.692566e-01 -8.140651e+01 1.553872e-03 -8.558482e+01 0.0 0.0 1.000000e+00
+
+1 1 1 1 1 1 1 0 0 0
+
+optimize
+
+
+quit

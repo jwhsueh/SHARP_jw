@@ -14,7 +14,7 @@ plotimg 03 # plotimg [automatic limits?] [plot grid?] [use colors?]
 	 define limitflag $1
 	 define gridflag  $2
 	 define colorflag $3
-	 if ($limitflag==1) {limits -4.061153 5.697237 -4.655793 5.102598}
+	 if ($limitflag==1) {limits -4.037624 5.597828 -4.653002 4.982450}
 	 box \n xlabel arcsec \n ylabel arcsec
 	 relocate $($fx1+0.5*($fx2-$fx1)) $($fy1+1.02*($fy2-$fy1))
 	 putlabel 8 image plane
@@ -23,13 +23,13 @@ plotimg 03 # plotimg [automatic limits?] [plot grid?] [use colors?]
 	 expand $($expand*1.5)
 	 myctype blue
 	 relocate 0.000000 0.000000 \n ptype 3 3 \n dot
-	 relocate 0.001087 -0.000504 \n ptype 4 3 \n dot
-	 relocate 0.060000 -0.156000 \n ptype 3 3 \n dot
-	 relocate 0.057449 -0.159142 \n ptype 4 3 \n dot
-	 relocate 0.812000 -0.663000 \n ptype 3 3 \n dot
-	 relocate 0.813245 -0.663232 \n ptype 4 3 \n dot
-	 relocate 1.174000 0.459000 \n ptype 3 3 \n dot
-	 relocate 1.174316 0.459013 \n ptype 4 3 \n dot
+	 relocate 0.000015 0.000006 \n ptype 4 3 \n dot
+	 relocate 0.054880 -0.154840 \n ptype 3 3 \n dot
+	 relocate 0.054871 -0.154849 \n ptype 4 3 \n dot
+	 relocate 0.795760 -0.652680 \n ptype 3 3 \n dot
+	 relocate 0.795762 -0.652693 \n ptype 4 3 \n dot
+	 relocate 1.146600 0.447890 \n ptype 3 3 \n dot
+	 relocate 1.146597 0.447884 \n ptype 4 3 \n dot
 	 expand $($expand/1.5)
 	 myctype black
 
@@ -40,7 +40,7 @@ plotsrc 03 # plotsrc [automatic limits?] [plot grid?] [use colors?]
 	 define limitflag $1
 	 define gridflag  $2
 	 define colorflag $3
-	 if ($limitflag==1) {limits -3.890942 5.867449 -4.485581 5.272809}
+	 if ($limitflag==1) {limits -3.903925 5.731527 -4.519303 5.116149}
 	 box \n xlabel arcsec \n ylabel arcsec
 	 relocate $($fx1+0.5*($fx2-$fx1)) $($fy1+1.02*($fy2-$fy1))
 	 putlabel 8 source plane
@@ -48,7 +48,7 @@ plotsrc 03 # plotsrc [automatic limits?] [plot grid?] [use colors?]
 	 myctype red \n srcplotone crit.dat
 	 expand $($expand*1.5)
 	 myctype blue
-	 relocate 0.693727 0.038661 \n ptype 4 3 \n dot
+	 relocate 0.649572 -0.011379 \n ptype 4 3 \n dot
 	 expand $($expand/1.5)
 	 myctype black
 

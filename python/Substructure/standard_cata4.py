@@ -6,7 +6,7 @@ import snapshot
 import pandas as pd
 
 basePath = '../../data/illustris_1'
-redshift = 0.2
+#redshift = 1.0
 
 ssNumber = '120'
 print ssNumber
@@ -92,25 +92,21 @@ Lens_z = pd.DataFrame(Lens_z,columns = ['subfindID','2dmass_R_E','R_E','DMfrac_R
 #Lens_cata = pd.merge(Lens_x,Lens_y,how='inner',on = 'subfindID')
 #Lens_cata = pd.merge(Lens_cata,Lens_z,how='inner',on = 'subfindID')
 
-#print Lens_cata
+#print Lens_x.subfindID
 
 ## ----- FULL photometry catalog (Dandan) ----- ##
 
-catalog3x = basePath+'/Tot_Phots'+str(ssNumber)+'_x.dat'
-catalog3y = basePath+'/Tot_Phots'+str(ssNumber)+'_y.dat'
-catalog3z = basePath+'/Tot_Phots'+str(ssNumber)+'_z.dat'
+catalog3x = basePath+'/Tot_Phot'+str(ssNumber)+'_x.dat'
+catalog3y = basePath+'/Tot_Phot'+str(ssNumber)+'_y.dat'
+catalog3z = basePath+'/Tot_Phot'+str(ssNumber)+'_z.dat'
 
-Phot_fx = ['subfindID','subflag','mass','stellar_mass','Sersic','SteR_halfmass','SB_Exp','morphology']
-Phot_fy = ['subfindID','subflag','stellar_mass','Sersic','SteR_halfmass','SB_Exp','morphology']
-Phot_fz = ['subfindID','subflag','stellar_mass','Sersic','SteR_halfmass','SB_Exp','morphology']
+Phot_fx = ['subfindID','subflag','stellar_mass','SteR_halfmass','Sersic','SB_Exp','morphology']
+Phot_fy = ['subfindID','subflag','stellar_mass','SteR_halfmass','Sersic','SB_Exp','morphology']
+Phot_fz = ['subfindID','subflag','stellar_mass','SteR_halfmass','Sersic','SB_Exp','morphology']
 
 Phot_x = pd.read_csv(catalog3x,sep = '\s+',names = Phot_fx,comment = '#')
 Phot_y = pd.read_csv(catalog3y,sep = '\s+',names = Phot_fy,comment = '#')
 Phot_z = pd.read_csv(catalog3z,sep = '\s+',names = Phot_fz,comment = '#')
-
-Phot_x = pd.DataFrame(Phot_x,columns = ['subfindID','subflag','stellar_mass','Sersic','SteR_halfmass','SB_Exp','morphology'])
-Phot_y = pd.DataFrame(Phot_y,columns = ['subfindID','subflag','stellar_mass','Sersic','SteR_halfmass','SB_Exp','morphology'])
-Phot_z = pd.DataFrame(Phot_z,columns = ['subfindID','subflag','stellar_mass','Sersic','SteR_halfmass','SB_Exp','morphology'])
 
 Phot_x.subflag = Phot_x.subflag.astype(int)
 Phot_y.subflag = Phot_y.subflag.astype(int)
@@ -171,6 +167,10 @@ standard_z = pd.merge(standard_z,Phot_z,how = 'inner',on = 'subfindID')
 #standard = pd.merge(standard,Phot_cata,how = 'inner',on = 'subfindID')
 
 #print standard
+
+standard_x.sort_values(by='subfindID')
+standard_y.sort_values(by='subfindID')
+standard_z.sort_values(by='subfindID')
 
 standard_x.to_csv(basePath+'/AllGalaxy_'+str(ssNumber)+'_x.dat',sep = '\t',index = False)
 standard_y.to_csv(basePath+'/AllGalaxy_'+str(ssNumber)+'_y.dat',sep = '\t',index = False)

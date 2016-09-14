@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 import DistanceTool as distance
 
 basePath = '../../data/illustris_1/'
-ssNumber = '085'
-redshift = 1.0
+ssNumber = '099'
+#redshift = 0.2
 print ssNumber
 
 catalog_x = basePath+'AllGalaxy_'+str(ssNumber)+'_x.dat'
@@ -19,22 +19,21 @@ table_x,table_y,table_z = pd.read_csv(catalog_x,sep = '\t'),pd.read_csv(catalog_
 table = table_x.append(table_y,ignore_index = True)
 all_table = table.append(table_z,ignore_index = True)
 
+#print all_table.stellar_mass
 #all_table = all_table.loc[(all_table.r_mag <100)&(all_table.B_mag <100)&(all_table.V_mag <100),:]
-
-#print all_table
 
 ## stellar mass lower limit
 all_table = all_table.loc[(all_table.stellar_mass>1e9),:]
 
 ## only pick central galaxy
-all_table = all_table.loc[(all_table.subflag == 0),:]
+#all_table = all_table.loc[(all_table.subflag == 0),:]
 
 ## add columns
 
 all_table.stellar_mass = all_table.stellar_mass/0.71
 all_table['log_stellar_mass']= np.log10(all_table.stellar_mass)
 #all_table['color'] = all_table.B_mag - all_table.V_mag
-all_table['mor_mix'] = 0
+all_table['mor_mix'] = 1
 
 ## total flux cut
 
@@ -43,7 +42,7 @@ all_table['mor_mix'] = 0
 
 ## relaxation
 table = all_table.loc[(all_table.relaxation == 0),:] # table is for disk systems
-#table = all_table # disk_table
+
 
 ## edge-on pick
 #table = table.loc[(table.theta > 80.) & (table.theta < 100.),:]
@@ -67,32 +66,48 @@ table['SB_exp_m'] = -5./2.*(table.SB_Exp+8.9)
 
 ## ---- morphology pick ----- ##
 
-morphology_single = table.loc[(table.Sersic <2) & (table.morphology == 0),:]
+table.mor_mix.loc[(table.Sersic <2) & (table.morphology == 0)] = 0
 
-table.mor_mix.loc[table.subfindID.isin(morphology_single.subfindID)] = 1 # morphology coverage pick
+#morphology_single = table.loc[(table.Sersic <2) & (table.morphology == 0),:]
+#table.mor_mix.loc[table.subfindID.isin(morphology_single.subfindID)] = 0 # morphology coverage pick
 
-morphology = table.loc[(table.mor_mix == 1),:]
+morphology = table.loc[(table.mor_mix == 0),:]
 
 ## ---- kinematics pick ---- ##
 
 disk_star = table.loc[(table.disk_star_f > 0.4),:]
 bulge_star = table.loc[(table.bulge_star_f < 0.6),:]
-'''
-## ---- hybird catagories ---- ##
 
-three = table.loc[(table.mor_mix == 1)&(table.disk_star_f > 0.4)&(table.bulge_star_f < 0.6),:]
+## ---- selection flag ---- ##
+flag_table = pd.DataFrame({'subfindID':table.subfindID})
+flag_table['df_flag'] = 1
+flag_table['bf_flag'] = 1
+flag_table['mormix_flag'] = 1
+
+flag_table.df_flag.loc[(table.disk_star_f >0.4)] = 0
+flag_table.bf_flag.loc[(table.bulge_star_f < 0.6)] = 0
+flag_table.mormix_flag.loc[(table.mor_mix == 0)] = 0
+
+flag_table.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_flag_all2.dat',sep = '\t',index = False)
+
+
+## ---- hybird catagories ---- ## [!!! This need to redo !!! use selection flag !!!]
+
+three = table.loc[(flag_table.df_flag==0) & (flag_table.bf_flag==0) & (flag_table.mormix_flag==0),:]
 
 #print morphology
 #print bulge_star
-m_only = morphology.loc[(~morphology.subfindID.isin(bulge_star.subfindID)),:]
-k_only = bulge_star.loc[(~bulge_star.subfindID.isin(morphology.subfindID)),:]
-b_only = k_only.loc[(~k_only.subfindID.isin(disk_star.subfindID)),:]
+m_only = table.loc[(flag_table.df_flag==1) & (flag_table.bf_flag==1) & (flag_table.mormix_flag==0),:]
+k_only = table.loc[(flag_table.df_flag==0) & (flag_table.bf_flag==0) & (flag_table.mormix_flag==1),:]
+b_only = table.loc[(flag_table.df_flag==1) & (flag_table.bf_flag==0) & (flag_table.mormix_flag==1),:]
 
-three.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_three_st.dat',sep = '\t',index = False)
-m_only.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_mOnly_st.dat',sep = '\t',index = False)
-k_only.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_kOnly_st.dat',sep = '\t',index = False)
-b_only.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_bOnly_st.dat',sep = '\t',index = False)
+three.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_three_all2.dat',sep = '\t',index = False)
+m_only.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_mOnly_all2.dat',sep = '\t',index = False)
+k_only.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_kOnly_all2.dat',sep = '\t',index = False)
+b_only.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'_bOnly_all2.dat',sep = '\t',index = False)
 
+
+'''
 ## ---- edge-on & face-on ----- ##
 #edge_mor = morphology.loc[(table.theta > 80.) & (table.theta < 100.),:]
 #face_mor = morphology.loc[(table.theta < 80.) | (table.theta > 100.),:]
@@ -132,7 +147,7 @@ bf = np.histogram(bf,bins = se)[0].astype(float)
 
 hist = pd.DataFrame({'log_stellar_mass':dot,'All':All,'morphology':Dan,'disk_star':df,'bulge_star':bf})
 
-hist.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'st_hist_30.dat',sep = '\t',index = False)
+hist.to_csv(basePath+'redshift_evo/snapshot'+ssNumber+'st_hist_all2.dat',sep = '\t',index = False)
 
 
 '''

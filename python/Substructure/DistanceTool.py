@@ -101,7 +101,7 @@ def EinsteinR(cospara,zl,zs,sigma):
 	Ds = angular_distance(cospara,zs)
 	Dls = Ds - Dl
 
-	b = 4.0*np.pi*(sigma/c)**2.0*(Dls/Ds) #radian
+	b = 4.0*np.pi*(sigma/c)**2.0*(Dls/Ds/Dl) #radian
 
 	b = np.degrees(b)*3600.
 
