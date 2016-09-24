@@ -41,7 +41,7 @@ imsize  = 1.2       # Value in arcsec
 
 """ Make the overlay plot """
 imf.overlay_contours(aoim,vlbi_im,racent,deccent,imsize,rms2=rms_vlbi,
-                     showradec=False,sighigh=6.,zeropos=zeropos)
+                     showradec=False,fmax=6.,zeropos=zeropos)
 
 """ Set up the font """
 if plt.get_backend() == 'MacOSX':

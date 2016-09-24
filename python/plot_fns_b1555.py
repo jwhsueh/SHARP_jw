@@ -63,7 +63,7 @@ def radio_overlay_b1555():
 
     """ Make the overlay plot """
     imf.overlay_contours(aoim,merlin_im,racent,deccent,imsize,
-                         showradec=False,sighigh=6.,zeropos=zeropos,
+                         showradec=False,fmax=6.,zeropos=zeropos,
                          infile3=vlbi_im,rms3=rms_vlbi,ccolor3='b')
 
     """ Set up the font """
@@ -114,7 +114,7 @@ def mark_radio_b1555(color='r', radius=0.05, lw=2):
     """ Plot the AO image """
     aoim = imf.Image(aofile)
     aoim.display(cmap='gray_inv',subimdef='radec',subimcent=(racent,deccent),
-                 subimsize=(imsize,imsize),dispunits='radec',sighigh=6.,
+                 subimsize=(imsize,imsize),dispunits='radec',fmax=6.,
                  zeropos=zeropos)
 
     """ Add circles for radio positions """
