@@ -14,7 +14,7 @@ snapNum = '099'
 ssNum = 99
 
 catalog = '../../data/illustris_1/Galaxy_'+str(snapNum)+'_sig.dat'
-in_cata = open('../../data/illustris_1/Inclination_'+str(snapNum)+'_test.dat','w')
+in_cata = open('../../data/illustris_1/Inclination_'+str(snapNum)+'_HD.dat','w')
 
 #### -------------------------------- #####
 
@@ -60,7 +60,7 @@ def boundary(ci):
 
 ## calculate angular momentum on each axis
 
-Axis = np.zeros((GalaxyID.size,3))*np.nan  # principle ratational axis of each galaxy
+Axis = np.zeros((GalaxyID.size,3))*np.nan  # principle rotational axis of each galaxy
 theta_i = np.zeros((GalaxyID.size,3))*np.nan # inclination angle of three main axis
 
 
@@ -89,10 +89,15 @@ for i in range(GalaxyID.size):
 	st_x,st_y,st_z = st_x-CM_x[i],st_y-CM_y[i],st_z-CM_z[i]	# ckpc/h
 	st_x,st_y,st_z = st_x*a,st_y*a,st_z*a # kpc/h
 
+	## Hubble drag
+	hd_x,hd_y,hd_z = st_x*100.*distance.Ez(cosmopara,redshift),st_y*100.*distance.Ez(cosmopara,redshift),st_z*100.*distance.Ez(cosmopara,redshift)
+
 	vel = subhalo_st['Velocities']
 
 	#st_vx,st_vy,st_vz = vel[:,0]*np.sqrt(a)-GalaxyVel[0],vel[:,1]*np.sqrt(a)-GalaxyVel[1],vel[:,2]*np.sqrt(a)-GalaxyVel[2]
 	st_vx,st_vy,st_vz = vel[:,0]*np.sqrt(a),vel[:,1]*np.sqrt(a),vel[:,2]*np.sqrt(a) # km/s
+	# apply Hubble drag
+	st_vx,st_vy,st_vz = st_vx+hd_x,st_vy+hd_y,st_vz+hd_z
 
 	st_ms = subhalo_st['Masses']*1e10/cosmopara.h
 
@@ -102,7 +107,7 @@ for i in range(GalaxyID.size):
 	if r_cut == 0.0:
 		r_cut = 10.
 
-	r_cut = 10.
+	#r_cut = 10.
 
 	mask = st_r < 2.0*r_cut
 
@@ -110,7 +115,7 @@ for i in range(GalaxyID.size):
 	st_vx,st_vy,st_vz = st_vx[mask],st_vy[mask],st_vz[mask]
 	st_ms = st_ms[mask]
 
-	## average velocity of star particles with mass weigted
+	## average velocity of star particles with mass weigted (effective velocity)
 	avg_vx,avg_vy,avg_vz = np.sum(st_vx*st_ms)/np.sum(st_ms),np.sum(st_vy*st_ms)/np.sum(st_ms),np.sum(st_vz*st_ms)/np.sum(st_ms)
 	# w.r.t. average velocity of star particles
 	st_vx,st_vy,st_vz = st_vx-avg_vx,st_vy-avg_vy,st_vz-avg_vz
