@@ -106,3 +106,10 @@ def EinsteinR(cospara,zl,zs,sigma):
 	b = np.degrees(b)*3600.
 
 	return b
+
+def Hubble_time(cospara):
+	tH_678=14.4 # 14.4 Gyr for H0=67.8
+
+	tH=tH_678*(67.8/(100.*cospara.h))
+
+	return tH

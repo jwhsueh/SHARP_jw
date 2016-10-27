@@ -71,7 +71,7 @@ SubVel = groupcat.loadSubhalos(snapshotPath,snapNum, fields = ['SubhaloVel']) # 
 
 ## ----------- gas particles
 
-subfindID = 287087
+subfindID = 72224
 
 idx = list(GalaxyID).index(subfindID) 
 
@@ -101,19 +101,36 @@ gas_vx,gas_vy,gas_vz = gas_vx+hd_x,gas_vy+hd_y,gas_vz+hd_z # apply Hubble drag
 
 ## ----- velocity is done
 
-gas_ms = sub_gas['Masses']*1e10/cosmopara.h
+
+
+#gas_ms = sub_gas['Masses']*1e10/cosmopara.h
 #gas_ms = sub_gas['Masses']/cosmopara.h
 
 ## ----- kinematics energy
-KE = 0.5*gas_ms*(gas_vz**2+gas_vy**2+gas_vz**2)
+KE = 0.5*(gas_vz**2+gas_vy**2+gas_vz**2)
 
 ## ----- potential energy
 U = sub_gas['Potential']/a # (km/s)^2
 #U = sub_gas['Potential']/a*gas_ms # (km/s)^2
 
+## ---- mask out particles in outer region
+
+## only use particles w/i 2x half mass radius
+gas_r = np.sqrt(gas_x**2+gas_y**2+gas_z**2)
+r_cut = R_half[idx]/cosmopara.h
+	
+if r_cut == 0.0:
+	r_cut = 10.
+
+mask = gas_r < 2.0*r_cut
+
+gas_x,gas_y,gas_z = gas_x[mask],gas_y[mask],gas_z[mask]
+gas_vx,gas_vy,gas_vz = gas_vx[mask],gas_vy[mask],gas_vz[mask]
+U,KE=U[mask],KE[mask]
+
 ## ----- binding energy
-#E = U+KE
-E=U
+E = U+KE
+#E=U
 
 ## ---------- principal axis anugular momentum ------------- ##
 
@@ -136,7 +153,7 @@ gas_Lz = (gas_x*gas_vy-gas_y*gas_vx)
 gas_Jz = gas_Lx*np.cos(th_x)+gas_Ly*np.cos(th_y)+gas_Lz*np.cos(th_z)
 
 #plt.scatter(KE/1e5,gas_Jz/1e3)
-plt.scatter(U/1e5,gas_Jz/1e3,marker='.',s=1)
+plt.scatter(U/2/1e5,gas_Jz/1e3,marker='.',s=1)
 plt.xlabel("Binding Energy E/(10^5 km^2/s^2)")
 plt.ylabel("Jz/(10^3 kpc km/s)")
 plt.title('Gas Particles')
