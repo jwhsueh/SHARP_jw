@@ -71,7 +71,7 @@ SubVel = groupcat.loadSubhalos(snapshotPath,snapNum, fields = ['SubhaloVel']) # 
 
 ## ----------- gas particles
 
-subfindID = 72224
+subfindID = 347491
 
 idx = list(GalaxyID).index(subfindID) 
 

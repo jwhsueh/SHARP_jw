@@ -4,12 +4,18 @@ import matplotlib.pyplot as plt
 from photutils import find_peaks
 from astropy.stats import sigma_clipped_stats
 from itertools import combinations
+from astropy import convolution
 
 filepath='/Users/jwhsueh/Documents/glamer/examples/ParticleExample/build/'
-filename='image_sub34749132src_1.fits'
+filename='image_281185sub32src_0.fits'
 
 image_fits=pyfits.open(filepath+filename)
 image=image_fits[0].data
+image_or=image
+
+## smoothing
+kernel=convolution.Gaussian2DKernel(5)
+image=convolution.convolve(image,kernel)
 
 # get image size
 img_size=image.shape[0]
@@ -20,7 +26,7 @@ threshold=median+(20*std)
 peaks=find_peaks(image,threshold,box_size=5)
 
 print peaks
-
+'''
 ## throw out source peak
 # by distance to center
 center=img_size/2
@@ -33,9 +39,15 @@ threshold=np.min(peaks['peak_value'][idx])
 peaks=find_peaks(image,threshold,box_size=5)
 print peaks
 #print len(peaks['x_peak'])
-
+'''
 if (len(peaks['x_peak']) <4):
 	print "Number of lensed images is less than four!!"
+
+#plt.imshow(image_or)
+#plt.scatter(peaks['x_peak'],peaks['y_peak'],marker='*',s=100,color='k')
+#plt.show()
+
+'''
 
 ## ----- Clustering process ----
 #	This part pick C(n,4) pts from peak detection result
@@ -95,6 +107,9 @@ sur_mask = np.in1d(img_idx,comb_list[sur_comb_idx])
 lens_x,lens_y,lens_f=peaks['x_peak'][sur_mask],peaks['y_peak'][sur_mask],peaks['peak_value'][sur_mask]
 
 print lens_x,lens_y,lens_f
+'''
+
+lens_x,lens_y,lens_f=peaks['x_peak'],peaks['y_peak'],peaks['peak_value']
 
 ## select image A,B & C [pick up the closet three pts]
 # find the shortest two line from C(4,2)
@@ -149,6 +164,11 @@ rfold=(np.sum(dou_f)-2.*mid_f)/np.sum(dou_f)
 rcusp=(np.sum(tri_f)-2.*mid_f)/np.sum(tri_f)
 
 print rfold,rcusp
+
+plt.imshow(image_or)
+plt.scatter(tri_x,tri_y,marker='*',s=100,color='k')
+plt.show()
+
 '''
 plt.imshow(image)
 plt.savefig('../../data/glamer/test0_img.png')

@@ -4,6 +4,8 @@ import h5py
 import groupcat
 import DistanceTool as distance
 import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+
 
 #### --------------change path setting here -------------#####
 ## snapshotPath: where the snapshot directory is
@@ -34,6 +36,7 @@ def boundary(ci):
 
 	return ci
 
+
 hubble_time=distance.Hubble_time(cosmopara) # Gyr
 #### ---------------------------- ####
 
@@ -41,11 +44,12 @@ hubble_time=distance.Hubble_time(cosmopara) # Gyr
 
 f = h5py.File(snapshot.snapPath(snapshotPath,ssNum),'r')
 header = dict( f['Header'].attrs.items() )
-
-boxsize = header['BoxSize']  # ckpc/h
 redshift = header['Redshift']
 
 a = 1.0/(1.0+redshift) # scale factor
+
+boxsize = header['BoxSize']*a/cosmopara.h  # kpc/h
+print boxsize
 
 # age of universe
 t_box=hubble_time*a**(3./2.)
@@ -66,80 +70,76 @@ R_half=groupcat.loadSubhalos(snapshotPath,snapNum, fields = ['SubhaloHalfmassRad
 R_half=R_half*a/cosmopara.h
 
 # young star age cut
-disk_age=5 # Gyr
+disk_age=0.5 # Gyr
 
 Axis = np.zeros((len(subID),3))*np.nan  # principle rotational axis of each galaxy
 theta_i = np.zeros((len(subID),3))*np.nan # inclination angle of three main axis
 
-#subID=subID[2:3]
-subID=np.array([6])
+subID=np.array([347491])
 
 for i in range(len(subID)):
 
 	subhalo_st=snapshot.loadSubhalo(snapshotPath,snapNum,subID[i],'stars')
-	subhalo_gas=snapshot.loadSubhalo(snapshotPath,snapNum,subID[i],'gas')
 
 	center=pos[subID[i],:]
 
 	coord = subhalo_st['Coordinates']*a/cosmopara.h # kpc
 	st_x,st_y,st_z = coord[:,0],coord[:,1],coord[:,2]
-	coord = subhalo_gas['Coordinates']*a/cosmopara.h # kpc
-	gas_x,gas_y,gas_z = coord[:,0],coord[:,1],coord[:,2]
 
 	if (max(st_x)-min(st_x)> 0.5*boxsize): 
 		st_x = boundary(st_x)
-		gas_x = boundary(gas_x)
 	if (max(st_y)-min(st_y)> 0.5*boxsize): 
 		st_y = boundary(st_y)
-		gas_y = boundary(gas_y)
 	if (max(st_z)-min(st_z)> 0.5*boxsize): 
 		st_z = boundary(st_z)
-		gas_z = boundary(gas_z)
 
 	## change ref point to subhalo center
-	st_pos=np.transpose(np.array([st_x-center[0],st_y-center[1],st_z-center[2]]))
-	gas_pos=np.transpose(np.array([gas_x-center[0],gas_y-center[1],gas_z-center[2]]))
+	st_x,st_y,st_z = st_x-center[0],st_y-center[1],st_z-center[2]
 
 	## Hubble drag
-	st_hd=st_pos*100.*distance.Ez(cosmopara,redshift)
-	st_v = subhalo_st['Velocities']*np.sqrt(a) # km/s
-	st_v=st_v+st_hd	# apply Hubble drag
+	hd_x,hd_y,hd_z = st_x*100.*cosmopara.h*distance.Ez(cosmopara,redshift),st_y*100.*cosmopara.h*distance.Ez(cosmopara,redshift),st_z*100.*cosmopara.h*distance.Ez(cosmopara,redshift)
 
-	gas_hd=gas_pos*100.*distance.Ez(cosmopara,redshift)
-	gas_v = subhalo_gas['Velocities']*np.sqrt(a) # km/s
-	gas_v=gas_v+gas_hd
+	vel = subhalo_st['Velocities']*np.sqrt(a) # km/s
+
+	st_vx,st_vy,st_vz = vel[:,0],vel[:,1],vel[:,2]
+	# apply Hubble drag
+	st_vx,st_vy,st_vz = st_vx+hd_x,st_vy+hd_y,st_vz+hd_z
 
 	st_ms = subhalo_st['Masses']*1e10/cosmopara.h
-	gas_ms = subhalo_gas['Masses']*1e10/cosmopara.h
 
 	# age of star
-	#age_scale=subhalo_st['GFM_StellarFormationTime'] # in scale factor
-	#st_age=t_box-hubble_time*age_scale**(3./2.) # Gyr
+	age_scale=subhalo_st['GFM_StellarFormationTime'] # in scale factor
+	st_age=t_box-hubble_time*age_scale**(3./2.) # Gyr
 
-	st_U = subhalo_st['Potential']/a # (km/s)^2
-	gas_U = subhalo_gas['Potential']/a # (km/s)^2
+	U = subhalo_st['Potential']/a # (km/s)^2
 
 	## only use particles w/i 2x half mass radius
-	st_r = np.sqrt(st_pos[:,0]**2+st_pos[:,1]**2+st_pos[:,2]**2)
-	gas_r = np.sqrt(gas_pos[:,0]**2+gas_pos[:,1]**2+gas_pos[:,2]**2)
+	st_r = np.sqrt(st_x**2+st_y**2+st_z**2)
 	r_cut = R_half[subID[i]]
+	mask = st_r < 2.0*r_cut
 
 	# apply raidus mask
-	mask = st_r < 2.0*r_cut
-	st_pos = st_pos[mask,:]
-	st_v = st_v[mask,:]
+	st_x,st_y,st_z = st_x[mask],st_y[mask],st_z[mask]
+	st_vx,st_vy,st_vz = st_vx[mask],st_vy[mask],st_vz[mask]
 	st_ms = st_ms[mask]
-	st_U=st_U[mask]
+	st_age=st_age[mask]
+	U=U[mask]
 	st_r=st_r[mask]
 
-	mask = gas_r < 2.0*r_cut
-	gas_pos = gas_pos[mask,:]
-	gas_v = gas_v[mask,:]
-	gas_ms = gas_ms[mask]
-	gas_U=gas_U[mask]
-	gas_r=gas_r[mask]
+	#plt.scatter(st_x,st_y,marker='.',s=1)
+	#plt.show()
 
+	
+	## only use young star
+	mask=st_age<disk_age
+	st_xm,st_ym,st_zm = st_x[mask],st_y[mask],st_z[mask]
+	st_vxm,st_vym,st_vzm = st_vx[mask],st_vy[mask],st_vz[mask]
+	st_msm = st_ms[mask]
+	Um=U[mask]
+	st_agem=st_age[mask]
+	#print st_age[:100]
 	'''
+
 	## only use young star
 	mask=st_age<disk_age
 	st_x,st_y,st_z = st_x[mask],st_y[mask],st_z[mask]
@@ -149,55 +149,55 @@ for i in range(len(subID)):
 	st_age=st_age[mask]
 	#print st_age[:100]
 	'''
+	st_Lx = (st_ym*st_vzm-st_zm*st_vym)*st_msm
+	st_Ly = (st_zm*st_vxm-st_xm*st_vzm)*st_msm
+	st_Lz = (st_xm*st_vym-st_ym*st_vxm)*st_msm
 
-	st_L=np.cross(st_pos,st_v)
-	gas_L=np.cross(gas_pos,gas_v)
+	#st_Lx = (st_y*st_vz-st_z*st_vy)*st_ms
+	#st_Ly = (st_z*st_vx-st_x*st_vz)*st_ms
+	#st_Lz = (st_x*st_vy-st_y*st_vx)*st_ms
 
-	# use star particle to calculate principal axis
-	L_len = np.sqrt(np.sum(st_L[:,0]*st_ms)**2+np.sum(st_L[:,1]*st_ms)**2+np.sum(st_L[:,2]*st_ms)**2)
-	
-	# angular momentum unit vector
-	L_u=np.array([np.sum(st_L[:,0])/L_len,np.sum(st_L[:,1])/L_len,np.sum(st_L[:,2])/L_len])
+	L_len = np.sqrt(np.sum(st_Lx)**2+np.sum(st_Ly)**2+np.sum(st_Lz)**2)
 
-	#Axis[i,:] = np.array([L_xu,L_yu,L_zu])
+	L_xu,L_yu,L_zu = np.sum(st_Lx)/L_len,np.sum(st_Ly)/L_len,np.sum(st_Lz)/L_len  # unit vector component
 
-	theta=np.arccos(L_u)
-	theta_i[i,:]=np.degrees(theta)
+	Axis[i,:] = np.array([L_xu,L_yu,L_zu])
+
+	theta_x,theta_y,theta_z = np.arccos(L_xu),np.arccos(L_yu),np.arccos(L_zu)
+
+	theta_i[i,:] = np.array([np.degrees(theta_x),np.degrees(theta_y),np.degrees(theta_z)])
 
 	print 'subID = '+str(subID[i])
 	print 'Inclination angle = '+ str(theta_i[i,:])[1:-1]
+	print r_cut
 
-	## project to pricipal axis [specific]
-	st_Jz=np.dot(st_L,L_u)
-	gas_Jz=np.dot(gas_L,L_u)
+	## calculate Js
+	# find theta_s
 
-	#st_Jz=-1.0*(st_Lx*np.sin(theta_x+np.pi/2)+st_Ly*np.sin(theta_y+np.pi/2)+st_Lz*np.sin(theta_z+np.pi/2))/st_ms
-	#gas_Jz=-1.0*(gas_Lx*np.sin(theta_x+np.pi/2)+gas_Ly*np.sin(theta_y+np.pi/2)+gas_Lz*np.sin(theta_z+np.pi/2))/gas_ms
+	st_Jzm=(st_Lx*L_xu+st_Ly*L_yu+st_Lz*L_zu)/st_msm
+
+	st_Lx = (st_y*st_vz-st_z*st_vy)
+	st_Ly = (st_z*st_vx-st_x*st_vz)
+	st_Lz = (st_x*st_vy-st_y*st_vx)
+
+	st_Jz=(st_Lx*L_xu+st_Ly*L_yu+st_Lz*L_zu)
+	#st_Jz=st_Lx/st_ms
 
 	## specific binding energy
-	K=0.5*(st_v[:,0]**2+st_v[:,1]**2+st_v[:,2]**2)
-	# centrifugal potential
-	U_cen=0.5*(st_L[:,0]**2+st_L[:,1]**2+st_L[:,2]**2)/(st_r**2)
-
-	Es=st_U+K-U_cen
-	#print Es
-	#Es=gas_U
-
-	mask=Es<0
-	st_Jz=st_Jz[mask]
-	Es=Es[mask]
+	st_uz=st_vx*np.sin(theta_x)+st_vy*np.sin(theta_y)+st_vz*np.sin(theta_z)
+	#Es = U+0.5*(st_uz/10)**2
+	Es=U
 
 	E_bin=np.linspace(np.min(Es)/1e5,np.max(Es)/1e5,1001)
 	print np.min(Es),np.max(Es)
 	E_list=np.zeros(len(E_bin)-1)
 	Jz_list=np.zeros(len(E_bin)-1)
-
+	'''
 
 	for j in range(len(E_bin)-1):
 		mask=Es/1e5<E_bin[j+1]
 
 		Jz_pool=st_Jz[mask]/1e3
-		#Jz_pool=gas_Jz[mask]/1e3
 		Es_pool=Es[mask]/1e5
 
 		Jz_binmax=np.max(Jz_pool)
@@ -207,16 +207,23 @@ for i in range(len(subID)):
 		Jz_list[j]=Jz_binmax
 		E_list[j]=Es_binmax
 
-	## fit with quadratic curve
+	## fit with exp curve
 
-	coef=np.poly1d(np.polyfit(E_list,Jz_list,2))
-	#cort=coef(np.min(Es)/1e5)
-	cort=0
+	#plt.scatter(E_list,Jz_list)
+	#plt.show()
+
+	coef=np.poly1d(np.polyfit(E_list,np.log(Jz_list),1))
+	#coef=np.poly1d(np.polyfit(E_list,Jz_list,2))
+	#coef,pcov=curve_fit(expfit,E_list,Jz_list)
 	
-	plt.scatter(Es/1e5,st_Jz/1e3,marker='.',s=1)
-	#plt.scatter(Es/1e5,gas_Jz/1e3,marker='.',s=1)
+	
+	#plt.scatter(U/1e5,st_Jz/1e9,marker='.',s=1)
+	plt.scatter(U/1e5,st_Jz/1e3,marker='.',s=1)
 	#plt.scatter(E_list,Jz_list,c='r')
-	plt.plot(E_bin,coef(E_bin)-cort,'-r')
+	plt.plot(E_bin,np.exp(coef(E_bin)),'-r')
+	#plt.plot(E_bin,coef(E_bin),'-r')
+	plt.plot(E_bin,0.7*np.exp(coef(E_bin)),'-r')
+	#plt.plot(E_bin,expfit(E_bin,*coef),'-r')
 	plt.xlabel("Binding Energy E/(10^5 km^2/s^2)")
 	plt.ylabel("Jz/(10^3 kpc km/s)")
 	plt.title('Star Particles')
@@ -225,27 +232,34 @@ for i in range(len(subID)):
 
 	## calculate circularity
 
-	#J_circ=coef(st_U/1e5)-cort
-	J_circ=coef(st_U/1e5)
-	print J_circ
+	J_circ=coef(Es/1e5)
+	#print J_circ
 	eps=st_Jz/1e3/J_circ
-
-	# histogram
-	hist,bin_edge=np.histogram(eps,bins=100)
-	idx=list(hist).index(np.max(hist))
-	#eps_2=eps-bin_edge[idx]
-	eps_2=eps
-
-	plt.hist(eps_2,bins=30)
+	#print eps[:100]
+	#plt.hist(eps,bins=20)
 	#plt.show()
-
+	'''
 	## kinematics component star fraction
-	thin_disk=eps_2[eps_2>0.7]
-	bulge=eps_2[eps_2<0]
+	
+	mask=st_age<0.5
+	#mask=st_Jz>0.7
+	disk_x,disk_y,disk_z=st_x[mask],st_y[mask],st_z[mask]
+	plt.scatter(st_y,st_z,marker='.',s=1,label='stars',color='r')
+	plt.scatter(disk_y,disk_z,marker='.',s=1,label='star age < 0.5 Gyr')
+	plt.legend(scatterpoints=1)
+	plt.axis('equal')
+	#plt.savefig(str(subID[0])+'_proj1.png',bbox_inches='tight')
+	plt.show()
+	
+
+	#thin_disk=eps[(eps>0.7)&(eps>1.0)]
+	#bulge=eps[(eps<0)&(eps>-1.0)]
+
+	thin_disk=eps[(eps>0.7)]
+	bulge=eps[(eps<0)&(eps>-1.0)]
 	#bulge=eps_2[eps_2<bin_edge[idx+1]]
 
 	#print thin_disk
 	#print bulge
-
+	print np.sum(st_ms[mask]),np.sum(st_ms)
 	print float(len(thin_disk))/len(eps),2*float(len(bulge))/len(eps)
-	
