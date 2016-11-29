@@ -4,7 +4,9 @@ import matplotlib.pyplot as plt
 dirc='../../data/illustris_1/'
 
 ## all
-table=np.loadtxt(dirc+'AllGalaxy_099_y.dat',skiprows=1)
+table=np.loadtxt(dirc+'AllGalaxy_099_x.dat',skiprows=1)
+table2=np.loadtxt(dirc+'AllGalaxy_099_y.dat',skiprows=1)
+table3=np.loadtxt(dirc+'AllGalaxy_099_z.dat',skiprows=1)
 
 subfindID=table[:,0]
 df=table[:,1]

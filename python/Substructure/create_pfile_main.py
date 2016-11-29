@@ -3,6 +3,7 @@ import snapshot
 import h5py
 import DistanceTool as distance
 import matplotlib.pyplot as plt
+import groupcat
 
 basePath = '/Volumes/narsil_1/jwhsueh/illustris_1'
 snapNum = 99
@@ -29,6 +30,7 @@ boxsize = header['BoxSize']  # ckpc/h
 redshift = header['Redshift']
 
 a = 1.0/(1.0+redshift) # scale factor
+#boxsize = boxsize/1000./cosmopara.h # cMpc, glamer
 boxsize = boxsize*a/1000./cosmopara.h # Mpc
 #boxsize = boxsize# ckpc/h
 
@@ -37,7 +39,11 @@ boxsize = boxsize*a/1000./cosmopara.h # Mpc
 catalog = '../../data/illustris_1/Galaxy_0'+str(snapNum)+'_test.dat'
 
 GalaxyID = np.loadtxt(catalog,dtype = 'int',unpack=True, usecols=[0])
-CM_x = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[1])*a/1000./cosmopara.h # Mpc, glamer needs
+#CM_x = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[1])/1000./cosmopara.h # cMpc, glamer needs
+#CM_y = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[2])/1000./cosmopara.h # cMpc
+#CM_z = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[3])/1000./cosmopara.h # cMpc
+
+CM_x = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[1])*a/1000./cosmopara.h # Mpc
 CM_y = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[2])*a/1000./cosmopara.h # Mpc
 CM_z = np.loadtxt(catalog,dtype = 'float',unpack=True, usecols=[3])*a/1000./cosmopara.h # Mpc
 
@@ -72,15 +78,17 @@ def projection(c0,c1,c2,axis):
 
 ## -------start to plot particles
 
-ID = 281185
-mainID=999
+subID = 218142
 
-idx = list(GalaxyID).index(ID)
+firstsubID=groupcat.loadHalos(basePath,snapNum, fields = ['GroupFirstSub'])
+mainID=list(firstsubID).index(subID)
+
+idx = list(GalaxyID).index(subID)
 print idx
-GalaxyID = ID
 
 halo_dm = snapshot.loadHalo(basePath,snapNum,mainID,'dm')
-coord = halo_dm['Coordinates']*a/1000.*cosmopara.h # Mpc, glamer
+#coord = halo_dm['Coordinates']/1000./cosmopara.h # cMpc, glamer
+coord = halo_dm['Coordinates']*a/1000./cosmopara.h # Mpc
 #coord = subhalo_dm['Coordinates']
 dm_x,dm_y,dm_z = coord[:,0],coord[:,1],coord[:,2]
 
@@ -96,7 +104,8 @@ if (max(dm_z)-min(dm_z)> 0.5*boxsize):
 print 'halo dm coord loaded'
 
 halo_gas = snapshot.loadHalo(basePath,snapNum,mainID,'gas')
-coord = halo_gas['Coordinates']*a/1000.*cosmopara.h # Mpc,glamer
+#coord = halo_gas['Coordinates']/1000./cosmopara.h # cMpc,glamer
+coord = halo_gas['Coordinates']*a/1000./cosmopara.h # Mpc
 #coord = subhalo_gas['Coordinates']
 gas_x,gas_y,gas_z = coord[:,0],coord[:,1],coord[:,2]
 
@@ -110,12 +119,13 @@ if (max(gas_z)-min(gas_z)> 0.5*boxsize):
 print 'halo gas coord loaded'
 
 halo_st = snapshot.loadHalo(basePath,snapNum,mainID,'stars')
-coord = halo_st['Coordinates']*a/1000.*cosmopara.h # Mpc,glamer
+#coord = halo_st['Coordinates']/1000./cosmopara.h # cMpc,glamer
+coord = halo_st['Coordinates']*a/1000./cosmopara.h # Mpc
 #coord = subhalo_st['Coordinates']
 st_x,st_y,st_z = coord[:,0],coord[:,1],coord[:,2]
 
 if (max(st_x)-min(st_x)> 0.5*boxsize): 
-	gas_x = boundary(st_x)
+	st_x = boundary(st_x)
 if (max(st_y)-min(st_y)> 0.5*boxsize): 
 	st_y = boundary(st_y)
 if (max(st_z)-min(st_z)> 0.5*boxsize): 
@@ -126,8 +136,9 @@ print 'halo stars coord loaded'
 
 ## ---- subhalo particles ------- ##
 
-subhalo_dm = snapshot.loadSubhalo(basePath,snapNum,GalaxyID,'dm')
-coord = subhalo_dm['Coordinates']*a/1000.*cosmopara.h # Mpc, glamer
+subhalo_dm = snapshot.loadSubhalo(basePath,snapNum,subID,'dm')
+#coord = subhalo_dm['Coordinates']/1000./cosmopara.h # cMpc, glamer
+coord = subhalo_dm['Coordinates']*a/1000./cosmopara.h # Mpc
 #coord = subhalo_dm['Coordinates']
 sub_dm_x,sub_dm_y,sub_dm_z = coord[:,0],coord[:,1],coord[:,2]
 
@@ -142,8 +153,9 @@ if (max(sub_dm_z)-min(sub_dm_z)> 0.5*boxsize):
 
 print 'subhalo dm coord loaded'
 
-subhalo_gas = snapshot.loadSubhalo(basePath,snapNum,GalaxyID,'gas')
-coord = subhalo_gas['Coordinates']*a/1000.*cosmopara.h # Mpc,glamer
+subhalo_gas = snapshot.loadSubhalo(basePath,snapNum,subID,'gas')
+#coord = subhalo_gas['Coordinates']/1000./cosmopara.h # cMpc,glamer
+coord = subhalo_gas['Coordinates']*a/1000./cosmopara.h # Mpc
 #coord = subhalo_gas['Coordinates']
 sub_gas_x,sub_gas_y,sub_gas_z = coord[:,0],coord[:,1],coord[:,2]
 
@@ -156,13 +168,14 @@ if (max(sub_gas_z)-min(sub_gas_z)> 0.5*boxsize):
 
 print 'subhalo gas coord loaded'
 
-subhalo_st = snapshot.loadSubhalo(basePath,snapNum,GalaxyID,'stars')
-coord = subhalo_st['Coordinates']*a/1000.*cosmopara.h # Mpc,glamer
+subhalo_st = snapshot.loadSubhalo(basePath,snapNum,subID,'stars')
+#coord = subhalo_st['Coordinates']/1000./cosmopara.h # cMpc,glamer
+coord = subhalo_st['Coordinates']*a/1000./cosmopara.h # Mpc
 #coord = subhalo_st['Coordinates']
 sub_st_x,sub_st_y,sub_st_z = coord[:,0],coord[:,1],coord[:,2]
 
 if (max(sub_st_x)-min(sub_st_x)> 0.5*boxsize): 
-	sub_gas_x = boundary(sub_st_x)
+	sub_st_x = boundary(sub_st_x)
 if (max(sub_st_y)-min(sub_st_y)> 0.5*boxsize): 
 	sub_st_y = boundary(sub_st_y)
 if (max(sub_st_z)-min(sub_st_z)> 0.5*boxsize): 
@@ -196,8 +209,8 @@ st_x,st_y,st_z = st_x[st_r<r_cut],st_y[st_r<r_cut],st_z[st_r<r_cut]
 
 # subset of star particles
 #st_x,st_y,st_z = st_x[:70000],st_y[:70000],st_z[:70000]
-'''
 
+'''
 
 ## change ref point to all positive
 ## ---- change ---- ##
@@ -219,17 +232,32 @@ sub_st_ms = subhalo_st['Masses']*1e10/cosmopara.h
 #gas_ms = subhalo_gas['Masses'] #10^10 Msun/h
 #st_ms = subhalo_st['Masses']
 
+## ------ seperate substructure particles out ------ ##
 
+mask_dm=np.in1d(dm_x,sub_dm_x,invert=True)
+mask_st=np.in1d(st_x,sub_st_x,invert=True)
+mask_gas=np.in1d(gas_x,sub_gas_x,invert=True)
+
+osub_dm_x,osub_dm_y,osub_dm_z=dm_x[mask_dm],dm_y[mask_dm],dm_z[mask_dm]
+osub_gas_x,osub_gas_y,osub_gas_z=gas_x[mask_gas],gas_y[mask_gas],gas_z[mask_gas]
+osub_st_x,osub_st_y,osub_st_z=st_x[mask_st],st_y[mask_st],st_z[mask_st]
+
+osub_gas_ms=gas_ms[mask_gas]
+osub_st_ms=st_ms[mask_st]
 
 ### write in mass file 
 
-out_file = open('../../data/illustris_1/snapshot_'+str(snapNum)+'_particle/particle_'+str(GalaxyID)+'wsub_dm.dat','w')
-out_file2 = open('../../data/illustris_1/snapshot_'+str(snapNum)+'_particle/particle_'+str(GalaxyID)+'wsub_gas.dat','w')
-out_file3 = open('../../data/illustris_1/snapshot_'+str(snapNum)+'_particle/particle_'+str(GalaxyID)+'wsub_st.dat','w')
+#out_file = open('../../data/illustris_1/snapshot_'+str(snapNum)+'_particle/particle_'+str(subID)+'osub_dm.dat','w')
+#out_file2 = open('../../data/illustris_1/snapshot_'+str(snapNum)+'_particle/particle_'+str(subID)+'osub_gas.dat','w')
+#out_file3 = open('../../data/illustris_1/snapshot_'+str(snapNum)+'_particle/particle_'+str(subID)+'osub_st.dat','w')
 
-out_file4 = open('../../data/illustris_1/snapshot_'+str(snapNum)+'_particle/particle_'+str(GalaxyID)+'_dm.dat','w')
-out_file5 = open('../../data/illustris_1/snapshot_'+str(snapNum)+'_particle/particle_'+str(GalaxyID)+'_gas.dat','w')
-out_file6 = open('../../data/illustris_1/snapshot_'+str(snapNum)+'_particle/particle_'+str(GalaxyID)+'_st.dat','w')
+out_file = open('../../data/illustris_1/snapshot_'+str(snapNum)+'_particle/particle_'+str(subID)+'wsub_dm_test.dat','w')
+out_file2 = open('../../data/illustris_1/snapshot_'+str(snapNum)+'_particle/particle_'+str(subID)+'wsub_gas_test.dat','w')
+out_file3 = open('../../data/illustris_1/snapshot_'+str(snapNum)+'_particle/particle_'+str(subID)+'wsub_st_test.dat','w')
+
+out_file4 = open('../../data/illustris_1/snapshot_'+str(snapNum)+'_particle/particle_'+str(subID)+'_dm_test.dat','w')
+out_file5 = open('../../data/illustris_1/snapshot_'+str(snapNum)+'_particle/particle_'+str(subID)+'_gas_test.dat','w')
+out_file6 = open('../../data/illustris_1/snapshot_'+str(snapNum)+'_particle/particle_'+str(subID)+'_st_test.dat','w')
 
 out_file.write('# nparticles '+str(dm_x.size)+'\n')
 out_file2.write('# nparticles '+str(gas_x.size)+'\n')
@@ -237,6 +265,16 @@ out_file3.write('# nparticles '+str(st_x.size)+'\n')
 out_file4.write('# nparticles '+str(sub_dm_x.size)+'\n')
 out_file5.write('# nparticles '+str(sub_gas_x.size)+'\n')
 out_file6.write('# nparticles '+str(sub_st_x.size)+'\n')
+'''
+for i in range(osub_dm_x.size):
+	out_file.write(str(osub_dm_x[i])+'\t'+str(osub_dm_y[i])+'\t'+str(osub_dm_z[i])+'\t'+str(dm_ms)+'\n')
+
+for i in range(osub_gas_x.size):
+	out_file2.write(str(osub_gas_x[i])+'\t'+str(osub_gas_y[i])+'\t'+str(osub_gas_z[i])+'\t'+str(osub_gas_ms[i])+'\n')
+
+for i in range(osub_st_x.size):
+	out_file3.write(str(osub_st_x[i])+'\t'+str(osub_st_y[i])+'\t'+str(osub_st_z[i])+'\t'+str(osub_st_ms[i])+'\n')
+'''
 
 for i in range(dm_x.size):
 	out_file.write(str(dm_x[i])+'\t'+str(dm_y[i])+'\t'+str(dm_z[i])+'\t'+str(dm_ms)+'\n')
