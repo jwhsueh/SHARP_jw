@@ -158,10 +158,10 @@ img_pos(lens_name)
 #plt.xlim(0.4,-0.8)
 #plt.ylim(-0.8,0.4)
 
-plt.xlim(-2.0,0.5)
+plt.xlim(2.0,-0.5)
 plt.ylim(-1.0,1.5)
 
-plt.legend(loc=1)
+plt.legend(loc=1,scatterpoints=1)
 
 if outfile:
 	plt.savefig(outfile,bbox_inches='tight')

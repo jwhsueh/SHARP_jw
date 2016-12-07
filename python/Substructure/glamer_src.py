@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-caus=np.loadtxt('/Users/jwhsueh/Documents/glamer/examples/ParticleExample/build/caustic_nosub_218142_proj1.txt')
-caus2=np.loadtxt('/Users/jwhsueh/Documents/glamer/examples/ParticleExample/build/caustic_218142_proj1sub.txt')
+caus=np.loadtxt('/Users/jwhsueh/Documents/glamer/examples/ParticleExample/build/caustic_218142_p1_.txt')
+caus2=np.loadtxt('/Users/jwhsueh/Documents/glamer/examples/ParticleExample/build/caustic_218142_p1_sh.txt')
 #crit=np.loadtxt('/Users/jwhsueh/Documents/glamer/examples/ParticleExample/build/critical_proj3_281185sub_64.txt')
 #crit2=np.loadtxt('/Users/jwhsueh/Documents/glamer/examples/ParticleExample/build/critical_proj3_281185_64.txt')
 #src_pt=np.loadtxt('/Users/jwhsueh/Documents/glamer/examples/ParticleExample/build/src_position2.txt')
@@ -21,11 +21,11 @@ plt.figure(1)
 #plt.scatter(caus[:,0],caus[:,1],color='r',marker='.',s=1)
 #plt.scatter(src_pt[:100,0],src_pt[:100,1],marker='.',s=1)
 #plt.scatter(src_pt[:,0],src_pt[:,1],marker='.',s=1)
-plt.plot(caus[:,0],caus[:,1],color='r',label='no sub')
-plt.plot(caus2[:,0],caus2[:,1],color='k',label='w/ sub')
+plt.plot(caus[:,0],caus[:,1],color='r',label='NN=128')
+plt.plot(caus2[:,0],caus2[:,1],color='k',label='NN=32')
 
-plt.scatter( -2.02653e-06, 8.80556e-07,color='k')
-plt.scatter(-5.72076e-06, 5.07763e-06,color='r')
+plt.scatter(-0.000292478, 0.000334511,color='r',marker='x')
+plt.scatter( -0.000292483, 0.000334503,color='k',marker='x')
 
 #plt.scatter(-1.53229e-06, -6.62259e-07,color='k',marker='x')
 #plt.scatter( -4.92227e-06, 5.27715e-06,color='r',marker='x')
@@ -48,7 +48,8 @@ plt.ylim(-6.0*1e-6,-5.0*1e-6)
 plt.xlim(-4.0*1e-6,-2.0*1e-6)
 plt.title("NN=64 w/o sub")
 '''
-plt.show()
+plt.legend()
+#plt.show()
 
-#plt.legend()
-#plt.savefig('../../data/glamer/cusp_test.png')
+#
+plt.savefig('../../data/glamer/NN_caustic.png')
