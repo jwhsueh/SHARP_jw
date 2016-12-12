@@ -49,7 +49,7 @@ def radio_overlay_b0712():
 
     """ Set the input file names """
     aoim      = '../data/B0712_nirc2_n_Kp_6x6.fits'
-    merlin_im = '../data/B0712_BS251A1.fits'
+    #merlin_im = '../data/B0712_BS251A1.fits'
     vlbi_im   = '../data/B0712_BS251A1.fits'
 
     """ Hardwire rms levels if needed """
@@ -62,9 +62,9 @@ def radio_overlay_b0712():
     imsize  = 1.2       # Value in arcsec
 
     """ Make the overlay plot """
-    imf.overlay_contours(aoim,merlin_im,racent,deccent,imsize,
-                         showradec=False,fmax=6.,zeropos=zeropos,
-                         infile3=vlbi_im,rms3=rms_vlbi,ccolor3='b')
+    imf.overlay_contours(aoim,vlbi_im,racent,deccent,imsize,
+                         showradec=False,fmax=6.,zeropos=zeropos)
+                         #infile3=vlbi_im,rms3=rms_vlbi,ccolor3='b')
 
     """ Set up the font """
     if plt.get_backend() == 'MacOSX':

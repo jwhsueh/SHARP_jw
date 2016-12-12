@@ -70,7 +70,7 @@ for i in range(GalaxyID.size):
 	print 'SubfindID = '+str(GalaxyID[i])
 
 	subID = GalaxyID[i] 
-	GalaxyVel = SubVel[subID]
+	GalaxyVel = SubVel[subID] ### HERE!!!
 
 	# only use star particles
 
