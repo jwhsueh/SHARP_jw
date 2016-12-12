@@ -56,8 +56,8 @@ def radio_overlay_b0712():
     rms_vlbi = 0.0001
 
     """ Set the image center, origin location, and size """
-    racent  = 239.29968
-    deccent = 37.359921
+    racent  = 109.01522
+    deccent = 47.147301
     zeropos = (0.2276,0.2194)
     imsize  = 1.2       # Value in arcsec
 
@@ -106,8 +106,8 @@ def mark_radio_b0712(color='r', radius=0.05, lw=2):
     aofile = '../data/B0712_nirc2_n_Kp_6x6.fits'
 
     """ Set the image center, origin location, and size """
-    racent  = 239.29968
-    deccent = 37.359921
+    racent  = 109.01522
+    deccent = 47.147301
     zeropos = (0.2276,0.2194)
     imsize  = 1.2       # Value in arcsec
 
