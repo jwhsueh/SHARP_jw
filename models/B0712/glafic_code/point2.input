@@ -58,7 +58,7 @@ readobs_point obs_point_2.dat
 #parprior prior_b0712_match.dat
 
 critdens 0.41 1.34
-arcsec2mpc 0.41 2
+arcsec2mpc 0.41 0.62
 #optimize
 #randomize
 #varyone 2 2 -1.12 -1.13 20 

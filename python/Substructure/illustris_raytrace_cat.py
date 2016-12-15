@@ -12,11 +12,17 @@ class cosmopara:
 
 ## drawing number
 
-e_num=50
-tri_num=22
-dou_num=88
-only_m_num=44
-only_k_num=66
+#e_num=50
+#tri_num=22
+#dou_num=88
+#only_m_num=44
+#only_k_num=66
+
+e_num=0
+tri_num=65
+dou_num=0
+only_m_num=0
+only_k_num=0
 
 
 ## all
@@ -41,7 +47,7 @@ cenID=cenID[mask]
 subfindID=table[:,0]
 df=table[:,1]
 bf=table[:,2]
-Re=table[:,4]
+Re=table[:,3]
 #subflag=table[:,5]
 ser=table[:,8]
 mor=table[:,10]
@@ -51,7 +57,7 @@ mask=np.in1d(subfindID,cenID)
 subfindID,bf,ser,mor,df,Re=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask],Re[mask]
 
 ## Re flag
-mask=Re>0.
+mask=Re>0.3
 subfindID,bf,ser,mor,df=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask]
 
 ## set up subgroup
@@ -85,7 +91,7 @@ e_idx,tri_idx,dou_idx,only_mx,only_kx=e_id+0.1,tri_id+0.1,dou_id+0.1,only_m+0.1,
 subfindID=table2[:,0]
 df=table2[:,1]
 bf=table2[:,2]
-Re=table2[:,4]
+Re=table2[:,3]
 #subflag=table[:,5]
 ser=table2[:,8]
 mor=table2[:,10]
@@ -95,7 +101,7 @@ mask=np.in1d(subfindID,cenID)
 subfindID,bf,ser,mor,df,Re=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask],Re[mask]
 
 ## Re flag
-mask=Re>0.
+mask=Re>0.3
 subfindID,bf,ser,mor,df=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask]
 
 ## set up subgroup
@@ -125,11 +131,11 @@ e_idy,tri_idy,dou_idy,only_my,only_ky=e_id+0.2,tri_id+0.2,dou_id+0.2,only_m+0.2,
 
 ## --------------- ##
 
-## projection2
+## projection3
 subfindID=table3[:,0]
 df=table3[:,1]
 bf=table3[:,2]
-Re=table3[:,4]
+Re=table3[:,3]
 #subflag=table[:,5]
 ser=table3[:,8]
 mor=table3[:,10]
@@ -139,7 +145,7 @@ mask=np.in1d(subfindID,cenID)
 subfindID,bf,ser,mor,df,Re=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask],Re[mask]
 
 ## Re flag
-mask=Re>0.
+mask=Re>0.3
 subfindID,bf,ser,mor,df=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask]
 
 ## set up subgroup
@@ -167,9 +173,10 @@ print e_id.shape,tri_id.shape,dou_id.shape,only_k.shape,only_m.shape
 # projection2 mark
 e_idz,tri_idz,dou_idz,only_mz,only_kz=e_id+0.3,tri_id+0.3,dou_id+0.3,only_m+0.3,only_k+0.3
 
+
 ## ----------- ##
 
-## start drawing
+
 
 e_id=np.append(e_idx,e_idy)
 e_id=np.append(e_id,e_idz)
@@ -186,6 +193,8 @@ only_m=np.append(only_m,only_mz)
 only_k=np.append(only_kx,only_ky)
 only_k=np.append(only_k,only_kz)
 
+## start drawing
+
 e_draw=np.sort(np.random.choice(e_id,e_num,replace=False))
 #print e_draw
 tri_draw=np.sort(np.random.choice(tri_id,tri_num,replace=False))
@@ -197,6 +206,7 @@ only_k_draw=np.sort(np.random.choice(only_k,only_k_num,replace=False))
 
 ## create catalog
 
+# from drawing
 e_int=e_draw.astype(int)
 tri_int=tri_draw.astype(int)
 dou_int=dou_draw.astype(int)
@@ -232,7 +242,7 @@ for element in projID:
 cat_full=cat_full.astype(int)
 print cat_full[:10,:]
 
-np.savetxt(dirc+'raytrace_catalog1.dat',cat_full,fmt='%d',delimiter='\t')
+np.savetxt(dirc+'raytrace_catalog2_tri.dat',cat_full,fmt='%d',delimiter='\t')
 
 ## ---------- ##
 
@@ -259,4 +269,4 @@ for element in d_projID:
 	idx=list(catalogID).index(galaxyID)
 	cat_mark[idx,proj]=2
 
-np.savetxt(dirc+'raytrace_catalog1_mark.dat',cat_mark,fmt='%d',delimiter='\t')
+#np.savetxt(dirc+'raytrace_catalog2_tri.dat',cat_mark,fmt='%d',delimiter='\t')

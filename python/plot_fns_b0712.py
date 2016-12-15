@@ -53,17 +53,18 @@ def radio_overlay_b0712():
     vlbi_im   = '../data/B0712_BS251A1.fits'
 
     """ Hardwire rms levels if needed """
-    rms_vlbi = 0.0001
+
+    rms_vlbi = 0.00005
 
     """ Set the image center, origin location, and size """
     racent  = 109.01522
-    deccent = 47.147301
-    zeropos = (0.2276,0.2194)
-    imsize  = 1.2       # Value in arcsec
+    deccent = 47.147305
+    zeropos = (-0.79375,-0.16978)
+    imsize  = 3       # Value in arcsec
 
     """ Make the overlay plot """
     imf.overlay_contours(aoim,vlbi_im,racent,deccent,imsize,
-                         showradec=False,fmax=6.,zeropos=zeropos)
+                         showradec=False,fmax=6.,zeropos=zeropos,rms2=rms_vlbi)
                          #infile3=vlbi_im,rms3=rms_vlbi,ccolor3='b')
 
     """ Set up the font """
@@ -86,8 +87,8 @@ def radio_overlay_b0712():
     Label the lensed images, taking into account a possible shift in origin,
     which would be set by the zeropos position
     """
-    labx = n.array([0.33, 0.17, -0.25,  0.16])
-    laby = n.array([0.30, 0.36,  0.25, -0.24])
+    labx = n.array([-0.9, -0.8, 0.15,  0.6])
+    laby = n.array([-0.20,-0.50,  -1.05, 0.4])
     labx -= zeropos[0]
     laby -= zeropos[1]
     labt = ['A', 'B', 'C', 'D']
@@ -107,9 +108,9 @@ def mark_radio_b0712(color='r', radius=0.05, lw=2):
 
     """ Set the image center, origin location, and size """
     racent  = 109.01522
-    deccent = 47.147301
-    zeropos = (0.2276,0.2194)
-    imsize  = 1.2       # Value in arcsec
+    deccent = 47.147305
+    zeropos = (-0.79375,-0.16978)
+    imsize  = 3       # Value in arcsec
 
     """ Plot the AO image """
     aoim = imf.Image(aofile)
@@ -156,19 +157,19 @@ def gravlens_b0712(ax=None, showylab=True):
     cy = [ 1.462434e-01, 1.697811e-01] # y position
 
     """ Set the source positions """
-    sx,sy= -1.971670e-01, -1.512136e-01
+    sx,sy= 6.924205e-01,  1.039049e-02
 
     """ Set the observed disc mid plane """
 
-    x_sec = [-0.0608,-0.2724]
-    y_sec = [0.3806,-0.8194]
+    #x_sec = [-0.0608,-0.2724]
+    #y_sec = [0.3806,-0.8194]
 
     """ Do the plotting """
     pltlm.plot_critcaust(critfile,'crit',ax=ax)
     pltlm.plot_critcaust(critfile,'caust',sls=':',ax=ax)
     model_plot(sx,sy,cx,cy)
     img_pos(obsfile,xmod,ymod)
-    disc_plane(x_sec,y_sec)
+    #disc_plane(x_sec,y_sec)
 
     plt.xlabel(r'$\Delta  \alpha $ (arcsec)')
     if showylab:
@@ -176,7 +177,7 @@ def gravlens_b0712(ax=None, showylab=True):
 
     #plt.xlim(0.3724,-0.8276)
     #plt.ylim(-0.8194,0.3806)
-    plt.legend(loc=4,scatterpoints=1)
+    plt.legend(loc=3,scatterpoints=1)
     #plt.axes().set_aspect('equal')
 
 #---------------------------------------------------------------------------
@@ -188,10 +189,10 @@ def plot_2panel_b0712():
     """
 
     """ Set x and y limits for the plots """
-    x1 =  0.3724
-    x2 = -0.8276
-    y1 = -0.8194
-    y2 =  0.3806
+    x1 =  1.4
+    x2 = -0.5
+    y1 = -0.7
+    y2 =  0.5
 
     """ Set up the figure to have the correct dimensions """
     plt.figure(figsize=(11.,5.4))
@@ -228,10 +229,10 @@ def plot_3panel_b0712():
     """
 
     """ Set x and y limits for the plots """
-    x1 =  0.3724
-    x2 = -0.8276
-    y1 = -0.8194
-    y2 =  0.3806
+    x1 =  2.0
+    x2 = -0.5
+    y1 = -1.3
+    y2 =  1.2
 
     """ Set up the figure to have the correct dimensions """
     panelsize = 6.
@@ -258,8 +259,8 @@ def plot_3panel_b0712():
                 }
 
     """ Set up for plot labels """
-    lx = 0.3
-    ly = -0.75
+    lx = -0.1
+    ly = -1.2
 
     """ Make the radio overlay plot """
     ax1 = plt.subplot(131)
