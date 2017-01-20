@@ -18,8 +18,8 @@ class cosmopara:
 #only_m_num=44
 #only_k_num=66
 
-e_num=0
-tri_num=65
+e_num=65
+tri_num=0
 dou_num=0
 only_m_num=0
 only_k_num=0
@@ -242,7 +242,7 @@ for element in projID:
 cat_full=cat_full.astype(int)
 print cat_full[:10,:]
 
-np.savetxt(dirc+'raytrace_catalog2_tri.dat',cat_full,fmt='%d',delimiter='\t')
+np.savetxt(dirc+'raytrace_catalog2_elp.dat',cat_full,fmt='%d',delimiter='\t')
 
 ## ---------- ##
 

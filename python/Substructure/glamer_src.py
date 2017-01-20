@@ -1,11 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-caus=np.loadtxt('/Volumes/sting_1/snap99_353010_test/caustic_353010_p3.txt')
-#caus2=np.loadtxt('/Volumes/sting_1/snap99_269779_test/caustic_269779_p3sub.txt')
+caus=np.loadtxt('/Volumes/sting_1/snap99_275833/caustic_275833_p1.txt')
+caus2=np.loadtxt('/Volumes/sting_1/snap99_275833/caustic_275833_p1sub.txt')
 #crit=np.loadtxt('/Users/jwhsueh/Documents/glamer/examples/ParticleExample/build/critical_proj3_281185sub_64.txt')
 #crit2=np.loadtxt('/Users/jwhsueh/Documents/glamer/examples/ParticleExample/build/critical_proj3_281185_64.txt')
-src_pt=np.loadtxt('/Volumes/sting_1/snap99_353010_test/353010_p3_src.dat')
+src_pt=np.loadtxt('/Volumes/sting_1/snap99_275833/275833_p1_src.dat')
+src2_pt=np.loadtxt('/Volumes/sting_1/snap99_275833/275833_p1sub_src.dat')
 
 #mask2=crit2[:,2]==0
 #mask=crit[:,2]==0
@@ -20,9 +21,10 @@ plt.figure(1)
 #plt.subplot(211)
 #plt.scatter(caus[:,0],caus[:,1],color='r',marker='.',s=1)
 #plt.scatter(src_pt[:100,0],src_pt[:100,1],marker='.',s=1)
-plt.scatter(src_pt[:,0],src_pt[:,1],marker='.',s=1)
+plt.scatter(src_pt[:,0],src_pt[:,1],marker='.',s=1,color='r')
+plt.scatter(src2_pt[:,0],src_pt[:,1],marker='.',s=1)
 plt.plot(caus[:,0],caus[:,1],color='r',label='no sub')
-#plt.plot(caus2[:,0],caus2[:,1],color='k',label='w/ sub')
+plt.plot(caus2[:,0],caus2[:,1],color='k',label='w/ sub')
 
 #plt.scatter(0.000225848, 0.000256699,color='r',marker='x')
 #plt.scatter( 0.000225807, 0.000256587,color='k',marker='x')

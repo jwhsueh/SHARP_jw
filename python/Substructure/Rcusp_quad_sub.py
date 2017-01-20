@@ -8,38 +8,29 @@ from astropy import convolution
 from astropy.table import Table
 
 ### change here ###
-subID=271265
-proj=1
+subID=238069
+proj=2
 NN='64'
 
-rmax = 0.00000238947
+rmax = 4.14821e-06
 real_size = 1.1*2*rmax # rad
 real_size = np.degrees(real_size)*3600*1000 # mas
 print real_size
 mer_beam = 10 # mas
 
-n_src=10 # number of sources
+n_src=50 # number of sources
 img_size=256
 
 beam = mer_beam/(real_size/img_size)
 print beam
 
-## sub flag =1
-subflag=0
-
-if (subflag==0):
-	output_name = '/'+str(subID)+'_p'+str(proj)+'_'+NN+'_Rcusp.txt' # no sub
-else:
-	output_name = '/'+str(subID)+'_p'+str(proj)+'sub_'+NN+'_Rcusp.txt' # w/ sub
-
-imagepath='/Volumes/sting_1/snap99_'+str(subID)
 filepath='/Volumes/sting_1/snap99_'+str(subID)
-outpath='/Volumes/sting_1/data/Rcusp'
+output_name = '/'+str(subID)+'_p'+str(proj)+'_'+NN+'_Rcusp.txt' # no sub
+#output_name = '/'+str(subID)+'_p'+str(proj)+'sub_'+NN+'_Rcusp.txt' # w/ sub
 
-
-rcusp_file=open(outpath+output_name,'w')
+rcusp_file=open(filepath+output_name,'w')
 rcusp_file.write('# n_src = '+str(n_src)+'\n')
-rcusp_file.write('# Rfold\tRcusp\n')
+rcusp_file.write('# Rfold\tRcusp\tRfold_s\tRcusp_s\n')
 
 
 drop=0
@@ -47,15 +38,17 @@ drop_file='/'+str(subID)+'_p'+str(proj)+'_'+NN+'_drop.txt'
 #drop_log=open(filepath+drop_file,'w')
 drop_log=open(filepath+drop_file,'a+')
 
+## suscess flag
+nosub=0
+wsub=0  # 1 = drop
+
+
 for i in range(n_src):
 	print "# "+str(i)+" source:"
 
-	if (subflag==0):
-		filename='/image_'+str(subID)+'_p'+str(proj)+'_'+NN+'src_'+str(i)+'.fits' # no sub
-		img_outname= '/image_'+str(subID)+'_p'+str(proj)+'_'+NN+'src_'+str(i)+'.png' # no sub
-	else:
-		filename='/image_'+str(subID)+'_p'+str(proj)+'sub_'+NN+'src_'+str(i)+'.fits' # w/ sub
-		img_outname= '/image_'+str(subID)+'_p'+str(proj)+'sub_'+NN+'src_'+str(i)+'.png' # w/ sub
+	# go over nosub
+	filename='/image_'+str(subID)+'_p'+str(proj)+'_'+NN+'src_'+str(i)+'.fits' # no sub
+	filename_sub='/image_'+str(subID)+'_p'+str(proj)+'sub_'+NN+'src_'+str(i)+'.fits' # w/ sub
 
 	image_fits=pyfits.open(filepath+filename)
 	image=image_fits[0].data
@@ -68,15 +61,6 @@ for i in range(n_src):
 	mean,median,std=sigma_clipped_stats(image,sigma=3.0)
 	threshold=median+(20*std)
 	peaks=find_peaks(image,threshold,box_size=5)
-
-	## ---- In case that source sometimes show up on the grid
-
-	dist2cen = np.sqrt((peaks['x_peak']-img_size/2)**2+(peaks['y_peak']-img_size/2)**2)
-	mask = list(dist2cen).index(min(dist2cen))
-	#print min(dist2cen)
-	if (dist2cen[mask]<30):
-		print "mask out the source (central part)"
-		peaks.remove_row(mask)
 
 	lens_x,lens_y,lens_f = peaks['x_peak'],peaks['y_peak'],peaks['peak_value']
 	#print peaks
@@ -95,17 +79,17 @@ for i in range(n_src):
 
 		idx = list(diff).index(max(diff))
 
-		peaks.add_row([corner_x[idx],corner_y[idx],-1])
+		peaks.add_row([corner_x[idx],corner_y[idx],min(peaks['peak_value'])])
 		lens_x,lens_y,lens_f=peaks['x_peak'],peaks['y_peak'],peaks['peak_value']
 
-	'''
+
+	# In case that source sometimes show up on the grid
 	if (len(peaks['x_peak']) == 5):
 		print "mask out the source"
 		mask = list(peaks['peak_value']).index(min(peaks['peak_value']))
 		peaks.remove_row(mask)
 		lens_x,lens_y,lens_f=peaks['x_peak'],peaks['y_peak'],peaks['peak_value']
-	'''
-
+	
 	if (len(peaks['x_peak']) >4):
 		print "Go into clustering"
 		## ----- Clustering process ----
@@ -117,14 +101,12 @@ for i in range(n_src):
 		#	Survival combination is the one has minimum sum of clustering distance (w/ flux weighted)
 		#	flux wighted: devided by the total flux of active pts. this means when two sets have close minimum sum of clustering
 		#				the set with larger total flux will survive.
-		#	Will reject the combination with too small separation
 		## ----------------------
 
 		img_idx=np.arange(len(peaks['x_peak']))
 		comb_list=list(combinations(img_idx,4))
 		#print comb_list
-		comb_dist_sum=np.zeros(len(comb_list))	# np.inf: this combination is abandoned 
-		
+		comb_dist_sum=np.zeros(len(comb_list))	# 1e10: this combination is abandoned 
 
 		for k in range(len(comb_list)):
 			active_idx=comb_list[k]
@@ -135,26 +117,14 @@ for i in range(n_src):
 			act_x,act_y,act_f=peaks['x_peak'][act_mask],peaks['y_peak'][act_mask],peaks['peak_value'][act_mask]
 			rest_x,rest_y,rest_f=peaks['x_peak'][~act_mask],peaks['y_peak'][~act_mask],peaks['peak_value'][~act_mask]
 
-			##  start to reject the ones with too small separation in the combination
-			act_pair = list(combinations(active_idx,2))
-			#print act_pair
-			act_dist = np.zeros(len(act_pair))
-
-			for j in range(len(act_pair)):
-				idx0,idx1 = act_pair[j][0], act_pair[j][1]
-				act_dist[j] = np.sqrt((peaks['x_peak'][idx0]-peaks['x_peak'][idx1])**2+(peaks['y_peak'][idx0]-peaks['y_peak'][idx1])**2)
-			#print np.min(act_dist)
-
-			if (np.min(act_dist)<7):
-				comb_dist_sum[k]=np.inf # this set of active pts is abandoned
-
 			## start to find brighter points than each rest points
-			# compare maximum peak in active and rest pts pool			
+			# compare maximum peak in active and rest pts pool
+			
 			if(np.max(rest_f)>np.max(act_f)): # rest pts actually contain one of lens image [This is not enough!]
-				comb_dist_sum[k]=np.inf
-			# this set of active pts is abandoned
+				comb_dist_sum[k]=1e10
+				# this set of active pts is abandoned
 
-			if (comb_dist_sum[k]<np.inf):
+			else:
 				## ---- start to calculate minimum dist to one of the active pts brighter than this rest pt
 
 				dist_sum=0.
@@ -203,27 +173,15 @@ for i in range(n_src):
 		min_1=np.min(line_len_pop) # 2nd min
 		idx1=list(line_len).index(min_1)
 
-		if (min_0+min_1 < img_size/4):
-			print "check"
-
 		# get the line pts of 1st & 2nd mins
 
 		line0,line1=line_comb[idx0],line_comb[idx1]
 		tri_pt_idx=list(set().union(line0,line1))
-		# here we have the triplet combination
+		#print tri_pt_idx
 
-		tri_mask=np.in1d(quad_idx,tri_pt_idx)
-		tri_x,tri_y,tri_f=lens_x[tri_mask],lens_y[tri_mask],lens_f[tri_mask]
-
-		if (np.in1d(0,tri_x) | np.in1d(img_size-1,tri_x)):
-			print "Merging images are too close! (corner)"
-			drop=drop+1
-			rcusp_file.write('# '+str(i)+' source dropped\n')
-			drop_log.write(str(i)+'\n')
-
-		elif (len(tri_pt_idx)==3):
-			#tri_mask=np.in1d(quad_idx,tri_pt_idx)
-			#tri_x,tri_y,tri_f=lens_x[tri_mask],lens_y[tri_mask],lens_f[tri_mask]
+		if (len(tri_pt_idx)==3):
+			tri_mask=np.in1d(quad_idx,tri_pt_idx)
+			tri_x,tri_y,tri_f=lens_x[tri_mask],lens_y[tri_mask],lens_f[tri_mask]
 			## now we have the triple pts with smallest distance
 
 			## save merging double index
@@ -252,12 +210,9 @@ for i in range(n_src):
 
 			print rfold,rcusp
 
-			rcusp_file.write(str(rfold)+'\t'+str(rcusp)+'\n')
+			#rcusp_file.write(str(rfold)+'\t'+str(rcusp)+'\n')
 
-			plt.imshow(image)
-			plt.scatter(tri_x,tri_y,marker='*',s=100,color='k')
-			plt.savefig(imagepath+img_outname)
-			plt.clf()
+			# go over subs
 
 
 		else:

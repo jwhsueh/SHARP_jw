@@ -20,8 +20,8 @@ import plot_lensmod as pltlm
 def model_plot(sx, sy, cx, cy):
     plt.scatter(sx,sy,marker='o',s= 50,edgecolor='k',facecolors='r',label='Source')
     #plt.scatter(cx,cy,'^',ms=10,label='lenses',mfc='k')
-    plt.scatter(cx[0],cy[0],marker='^',edgecolor='k',s= 100,facecolors='k',label = 'SIE center')
-    plt.scatter(cx[1],cy[1],marker='v',edgecolor='k',s= 100,facecolors='r',label = 'Disc center')
+    plt.scatter(cx[0],cy[0],marker='^',edgecolor='k',s= 100,facecolors='k',label = 'SIE centre')
+    plt.scatter(cx[1],cy[1],marker='v',edgecolor='k',s= 100,facecolors='r',label = 'Disc centre')
 
 #---------------------------------------------------------------------------
 
@@ -149,15 +149,15 @@ def gravlens_b0712(ax=None, showylab=True):
     obsfile  = '../models/lens_info/B0712_obs.dat'
 
     """ Set model-predicted positions """
-    xmod = [8.118827e-01 , 6.600332e-04 ,5.714488e-02,1.172337e+00]
-    ymod = [-6.630242e-01 ,2.504895e-04,-1.557516e-01 ,4.585341e-01]
+    xmod = [8.119778e-01 , 1.236877e-04 ,5.593499e-02,1.173966e+00]
+    ymod = [-6.630301e-01 ,7.317180e-05,-1.560910e-01 ,4.590439e-01]
 
     """ Set lens mass centroids """
-    cx = [ 7.937542e-01, 8.485733e-01] # x position
-    cy = [ 1.462434e-01, 1.697811e-01] # y position
+    cx = [ 7.852072e-01, 8.956939e-01] # x position
+    cy = [ 1.424232e-01, 2.004992e-01] # y position
 
     """ Set the source positions """
-    sx,sy= 6.924205e-01,  1.039049e-02
+    sx,sy= 6.953240e-01,  1.520697e-02
 
     """ Set the observed disc mid plane """
 
