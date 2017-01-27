@@ -52,7 +52,7 @@ plt.ylim(-6.0*1e-6,-5.0*1e-6)
 plt.xlim(-4.0*1e-6,-2.0*1e-6)
 plt.title("NN=64 w/o sub")
 '''
-#plt.legend()
+plt.legend()
 plt.show()
 
 #plt.savefig('../../data/glamer/displace2_caustic.png')

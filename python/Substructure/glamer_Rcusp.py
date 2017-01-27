@@ -3,8 +3,9 @@ import matplotlib.pyplot as plt
 
 path='/Volumes/sting_1/data/'
 
-list_file = path+'snap99_tri2_Rcusp.txt'
-list_file_sub = path+'snap99_tri2_sub_Rcusp.txt'
+list_file = path+'snap99_elp2_sub_Rcusp.txt'
+#list_file_sub = path+'snap99_elp2_sub_Rcusp.txt'
+list_file_sub = path+'snap99_tri2_sub_Rcusp.txt'  # disc
 
 file_list = np.genfromtxt(list_file,dtype='str')
 file_list_sub = np.genfromtxt(list_file_sub,dtype='str')
@@ -19,10 +20,14 @@ for file_one in file_list_sub:
 	table = np.loadtxt(path+'Rcusp/'+file_one+'.txt')
 	Rfold_s,Rcusp_s = np.append(Rfold_s,table[:,0]),np.append(Rcusp_s,table[:,1])
 
-Rfold=Rfold[np.abs(Rfold)<0.5]
-Rfold_s=Rfold_s[np.abs(Rfold_s)<0.5]
+Rfold=Rfold[np.abs(Rfold)<1.0]
+Rfold_s=Rfold_s[np.abs(Rfold_s)<1.0]
 #Rcusp_s=Rcusp[np.abs(Rcusp)<1.0]
 
+#Rfold=Rfold[Rfold<0.5]
+#Rfold_s=Rfold_s[Rfold_s<0.5]
+
+print Rfold.size, Rfold_s.size
 #### 
 '''
 table_path=path+'snap99_263313_test/Rcusp_263313_p1_64.txt'
@@ -53,14 +58,15 @@ w_Rfold_s = np.ones_like(Rfold_s)/len(Rfold_s)
 w_Rcusp = np.ones_like(Rcusp)/len(Rcusp)
 w_Rcusp_s = np.ones_like(Rcusp_s)/len(Rcusp_s)
 
-#plt.hist(np.abs(Rcusp),alpha=0.5,color='b',label='no sub',weights=w_Rcusp,bins=20)
-#plt.hist(np.abs(Rcusp_s),alpha=0.5,color='r',label='w/ sub',weights=w_Rcusp_s,bins=20)
+#plt.hist(np.abs(Rcusp),alpha=0.5,color='b',label='non disc',weights=w_Rcusp,bins=np.linspace(0,0.6,30))
+#plt.hist(np.abs(Rcusp_s),alpha=0.5,color='r',label='disc',weights=w_Rcusp_s,bins=np.linspace(0,0.6,30))
 #plt.xlabel('|Rcusp|')
+plt.title('w/ sub')
 
-plt.hist(np.abs(Rfold),alpha=0.5,color='b',label='no sub',weights=w_Rfold,bins=20)
-plt.hist(np.abs(Rfold_s),alpha=0.5,color='r',label='w/ sub',weights=w_Rfold_s,bins=20)
+plt.hist(np.abs(Rfold),alpha=0.5,color='b',label='non disk',weights=w_Rfold,bins=np.linspace(0,0.4,40))
+plt.hist(np.abs(Rfold_s),alpha=0.5,color='r',label='disk',weights=w_Rfold_s,bins=np.linspace(0,0.4,40))
 plt.xlabel('|Rfold|')
 plt.legend()
 #plt.show()
-plt.savefig('../../data/glamer/glamer_Rfold_tri2_half.png')
+plt.savefig('../../data/glamer/glamer_Rfold_sub_half.png')
 
