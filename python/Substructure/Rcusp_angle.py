@@ -1,4 +1,4 @@
-import pyfits
+from astropy.io import fits
 import numpy as np
 import matplotlib.pyplot as plt
 from photutils import find_peaks
@@ -6,72 +6,108 @@ from astropy.stats import sigma_clipped_stats
 from itertools import combinations
 from astropy import convolution
 from astropy.table import Table
+from astropy.wcs import WCS
 
 ### change here ###
-subID=179899
-proj=1
+subID=219449
+proj=2
 NN='64'
+## sub flag =1
+subflag=0
 
-rmax =3.69361e-06
+#cflag = 0
+
+rmax =2.11367e-06
 real_size = 1.1*2*rmax # rad
 # or here
-#real_size =1.04336679208202E-05
+#real_size =1.04E-05
+
 real_size = np.degrees(real_size)*3600*1000 # mas
+
+# or here
+#real_size = 0.0010720012
+# degree
+#real_size = real_size*3600*1000 #mas
+
 print real_size
-mer_beam = 10 # mas
+mer_beam = 50 # mas
 
 n_src=50 # number of sources
 img_size=256
+len_cen = np.array([img_size/2-1,img_size/2-1])
 
 beam = mer_beam/(real_size/img_size)
 print beam
 
-## sub flag =1
-subflag=1
+
 
 if (subflag==0):
-	output_name = '/'+str(subID)+'_p'+str(proj)+'_'+NN+'_Rcusp.txt' # no sub
+	output_name = '/'+str(subID)+'_p'+str(proj)+'_'+NN+'_Rcusp_m.txt' # no sub
 	cmask = 30 # for source mask
 else:
 	output_name = '/'+str(subID)+'_p'+str(proj)+'sub_'+NN+'_Rcusp.txt' # w/ sub
 	cmask = 50
 
+
+#if (cflag==1):
+#	output_name = '/'+str(subID)+'_p'+str(proj)+'_'+NN+'_Rcusp_c.txt' # no sub
+#	cmask = 50 # for source mask
+
 imagepath='/Volumes/sting_1/snap99_'+str(subID)
 filepath='/Volumes/sting_1/snap99_'+str(subID)
-outpath='/Volumes/sting_1/data/Rcusp'
+outpath='/Volumes/sting_1/data/Rcusp_c'
+magpath='/Volumes/sting_1/data/invmag/'
+
+#mag_filename = '/particles'+str(subID)+'_p'+str(proj)+'_pt_zoom_'+NN+'.invmag.fits'
+#mag_fits=fits.open(magpath+mag_filename)
+#mag = 1/mag_fits[0].data
+#mag_wcs = WCS(mag_fits[0].header)
 
 
 rcusp_file=open(outpath+output_name,'w')
 rcusp_file.write('# n_src = '+str(n_src)+'\n')
-rcusp_file.write('# Rfold\tRcusp\n')
+rcusp_file.write('# Rfold\tRcusp\tphi0\tphi1\n')
 
 
 drop=0
 drop_file='/'+str(subID)+'_p'+str(proj)+'_'+NN+'_drop.txt'
-#drop_log=open(filepath+drop_file,'w')
-drop_log=open(filepath+drop_file,'a+')
+drop_log=open(filepath+drop_file,'w')
+#drop_log=open(filepath+drop_file,'a+')
 
 for i in range(n_src):
 	print "# "+str(i)+" source:"
 
+	
 	if (subflag==0):
 		filename='/image_'+str(subID)+'_p'+str(proj)+'_'+NN+'src_'+str(i)+'.fits' # no sub
-		img_outname= '/image_'+str(subID)+'_p'+str(proj)+'_'+NN+'src_'+str(i)+'.png' # no sub
+		img_outname= '/image_'+str(subID)+'_p'+str(proj)+'_'+NN+'src_'+str(i)+'_m' # no sub
+
 	else:
 		filename='/image_'+str(subID)+'_p'+str(proj)+'sub_'+NN+'src_'+str(i)+'.fits' # w/ sub
-		img_outname= '/image_'+str(subID)+'_p'+str(proj)+'sub_'+NN+'src_'+str(i)+'.png' # w/ sub
+		img_outname= '/image_'+str(subID)+'_p'+str(proj)+'sub_'+NN+'src_'+str(i) # w/ sub
+	
 
-	image_fits=pyfits.open(filepath+filename)
+	#if (cflag==1):
+	#	filename='/image_'+str(subID)+'_p'+str(proj)+'_'+NN+'src_'+str(i)+'.fits' # no sub
+	#	img_outname= '/image_'+str(subID)+'_p'+str(proj)+'_'+NN+'src_'+str(i)+'_c' # no sub
+
+	image_fits=fits.open(filepath+filename)
+	#image_wcs=WCS(image_fits[0].header)
 	image=image_fits[0].data
 	image_or=image
+	#plt.imshow(image_or)
+	#plt.show()
 
 	## smoothing
 	kernel=convolution.Gaussian2DKernel(beam)
 	image=convolution.convolve(image,kernel)
 
-	mean,median,std=sigma_clipped_stats(image,sigma=3.0)
+	mean,median,std=sigma_clipped_stats(image_or,sigma=3.0)
 	threshold=median+(20*std)
-	peaks=find_peaks(image,threshold,box_size=5)
+	peaks=find_peaks(image,threshold,box_size=5) # w/ convolve 
+	#c_peaks=find_peaks(image,threshold,box_size=5) # 
+
+	#print peaks
 
 	## ---- In case that source sometimes show up on the grid
 
@@ -225,7 +261,7 @@ for i in range(n_src):
 
 		tri_mask=np.in1d(quad_idx,tri_pt_idx)
 		#print quad_idx, ~tri_mask
-
+		'''
 		if (min_0+min_1 < img_size/4):
 			
 			# replace the fainter one in line0 as the fourth img
@@ -236,10 +272,9 @@ for i in range(n_src):
 			else:
 				fake_idx = pt0
 
-			#print line0,line1
 			line0[line0==fake_idx] = fourth_idx
 			line1[line1==fake_idx] = fourth_idx
-			#print line0,line1
+		'''
 
 		tri_pt_idx=list(set().union(line0,line1)) # here we have the triplet combination
 		#print tri_pt_idx			
@@ -253,17 +288,20 @@ for i in range(n_src):
 			drop_log.write(str(i)+'\n')
 
 		elif (len(tri_pt_idx)==3):
-			#tri_mask=np.in1d(quad_idx,tri_pt_idx)
-			#tri_x,tri_y,tri_f=lens_x[tri_mask],lens_y[tri_mask],lens_f[tri_mask]
-			## now we have the triple pts with smallest distance
+			## re-calculate line length of line0, line1
+			pt0,pt1 = line0[0],line0[1]
+			len0 = np.sqrt((lens_x[pt0]-lens_x[pt1])**2+(lens_y[pt0]-lens_y[pt1])**2)
+			pt0,pt1 = line1[0],line1[1]
+			len1 = np.sqrt((lens_x[pt0]-lens_x[pt1])**2+(lens_y[pt0]-lens_y[pt1])**2)
 
-			## save merging double index
-			dou_mask=np.in1d(quad_idx,line0)
-			dou_x,dou_y,dou_f=lens_x[dou_mask],lens_y[dou_mask],lens_f[dou_mask]
+			if (len1 < len0):
+				line_long,line_short = line0,line1
+				line0,line1 = line_short,line_long
 
 			## find image B (to assign parity)
 			delta_x=np.max(tri_x)-np.min(tri_x)
 			delta_y=np.max(tri_y)-np.min(tri_y)
+
 
 			if (delta_x>delta_y): # projection axis=x
 				proj_cord=tri_x
@@ -274,6 +312,27 @@ for i in range(n_src):
 
 			middle=np.median(proj_cord)
 			md_idx=list(proj_cord).index(middle)
+			md_mask = np.in1d(np.arange(3),md_idx)
+
+			## calculate phi0 (delta phi)
+			pt_x,pt_y = tri_x[~md_mask],tri_y[~md_mask]
+			#print Table([pt_x,pt_y])
+			vec0 = np.array([pt_x[0]-len_cen[0],pt_y[0]-len_cen[1]])
+			vec1 = np.array([pt_x[1]-len_cen[0],pt_y[1]-len_cen[1]])
+			phi0 = np.arccos(np.dot(vec0,vec1)/np.sqrt(np.dot(vec0,vec0)*np.dot(vec1,vec1))) # rad
+			phi0 = np.degrees(phi0)
+
+			## save merging double index
+			dou_mask=np.in1d(quad_idx,line0)
+			dou_x,dou_y,dou_f=lens_x[dou_mask],lens_y[dou_mask],lens_f[dou_mask]
+
+			## calculate phi1
+			pt_x,pt_y = dou_x,dou_y
+			#print Table([pt_x,pt_y])
+			vec0 = np.array([pt_x[0]-len_cen[0],pt_y[0]-len_cen[1]])
+			vec1 = np.array([pt_x[1]-len_cen[0],pt_y[1]-len_cen[1]])
+			phi1 = np.arccos(np.dot(vec0,vec1)/np.sqrt(np.dot(vec0,vec0)*np.dot(vec1,vec1))) # rad
+			phi1 = np.degrees(phi1)		
 
 			## assign parity
 			mid_f=tri_f[md_idx] # this is the flux of img B (should assign negative parity)
@@ -281,14 +340,20 @@ for i in range(n_src):
 			rfold=(np.sum(dou_f)-2.*mid_f)/np.sum(dou_f)
 			rcusp=(np.sum(tri_f)-2.*mid_f)/np.sum(tri_f)
 
-			print rfold,rcusp
+			print rfold,rcusp,phi0,phi1
 
-			rcusp_file.write(str(rfold)+'\t'+str(rcusp)+'\n')
+			rcusp_file.write(str(rfold)+'\t'+str(rcusp)+'\t'+str(phi0)+'\t'+str(phi1)+'\n')
 
+			# closest triplet img
 			plt.imshow(image)
-			plt.scatter(tri_x,tri_y,marker='*',s=100,color='k')
-			plt.savefig(imagepath+img_outname)
+			plt.scatter(tri_x,tri_y,marker='o',s=100,edgecolor='r',facecolor='none')
+			#plt.show()
+			plt.savefig(imagepath+img_outname+'.png')
 			plt.clf()
+
+			# closest triplet txt
+			tri_table = Table([tri_x,tri_y,tri_f])
+			tri_table.write(imagepath+img_outname+".txt",format='ascii')
 
 
 		else:

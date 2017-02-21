@@ -1,0 +1,20 @@
+set omitcore=1.0e-6
+data 179899_src0.dat
+set chimode= 1
+# 0 = source plane
+set checkparity = 0
+set gridflag= 0
+
+#set zlens=0.6
+#set zsrc=2.0
+
+startup 1 1
+
+  alpha 5.041207e-01 8.331855e-01 8.614601e-01 3.763852e-01 -6.631899e+01 9.905569e-02 -8.770241e+00 0.0 0.0 1.000000e+00
+1 1 1 1 1 1 1 0 0 0
+
+optimize
+optimize
+optimize
+
+quit
