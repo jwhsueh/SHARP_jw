@@ -9,25 +9,25 @@ from astropy.table import Table
 from astropy.wcs import WCS
 
 ### change here ###
-subID=219449
-proj=2
+subID=96606
+proj=3
 NN='64'
 ## sub flag =1
 subflag=0
 
 #cflag = 0
 
-rmax =2.11367e-06
-real_size = 1.1*2*rmax # rad
+#rmax =2.11367e-06
+#real_size = 1.1*2*rmax # rad
 # or here
 #real_size =1.04E-05
 
-real_size = np.degrees(real_size)*3600*1000 # mas
+#real_size = np.degrees(real_size)*3600*1000 # mas
 
 # or here
-#real_size = 0.0010720012
+real_size = 0.00091355251
 # degree
-#real_size = real_size*3600*1000 #mas
+real_size = real_size*3600*1000 #mas
 
 print real_size
 mer_beam = 50 # mas
@@ -70,8 +70,8 @@ rcusp_file.write('# Rfold\tRcusp\tphi0\tphi1\n')
 
 
 drop=0
-drop_file='/'+str(subID)+'_p'+str(proj)+'_'+NN+'_drop.txt'
-drop_log=open(filepath+drop_file,'w')
+#drop_file='/'+str(subID)+'_p'+str(proj)+'_'+NN+'_drop.txt'
+#drop_log=open(filepath+drop_file,'w')
 #drop_log=open(filepath+drop_file,'a+')
 
 for i in range(n_src):
@@ -366,7 +366,7 @@ for i in range(n_src):
 		print "Not a quad!"
 		drop=drop+1
 		rcusp_file.write('# '+str(i)+' source dropped\n')
-		drop_log.write(str(i)+'\n')
+		#drop_log.write(str(i)+'\n')
 
 
 	

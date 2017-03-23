@@ -193,6 +193,8 @@ only_m=np.append(only_m,only_mz)
 only_k=np.append(only_kx,only_ky)
 only_k=np.append(only_k,only_kz)
 
+print tri_id.size,tri_id
+
 ## start drawing
 
 e_draw=np.sort(np.random.choice(e_id,e_num,replace=False))
@@ -242,7 +244,7 @@ for element in projID:
 cat_full=cat_full.astype(int)
 print cat_full[:10,:]
 
-np.savetxt(dirc+'raytrace_catalog2_elp.dat',cat_full,fmt='%d',delimiter='\t')
+#np.savetxt(dirc+'raytrace_catalog2_elp.dat',cat_full,fmt='%d',delimiter='\t')
 
 ## ---------- ##
 

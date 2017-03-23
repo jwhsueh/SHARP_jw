@@ -9,30 +9,26 @@ from astropy.table import Table
 from astropy.wcs import WCS
 
 ### change here ###
-subID=175082
-proj=3
+subID=238069
+proj=2
 NN='64'
+#NN='128'
 ## sub flag =1
 subflag=0
 
 #cflag = 0
 
-#rmax =2.37E-06
-#real_size = 1.1*2*rmax # rad
-# or here
-#real_size =1.04E-05
-
-#real_size = np.degrees(real_size)*3600*1000 # mas
-
-# or here (degree)
-real_size = 0.00072204531
+# or here 
+real_size =9.13E-06 # rad
+real_size = np.degrees(real_size)
+#real_size = 0.00071305158 # in deg
 # degree
 real_size = real_size*3600*1000 #mas
 
 print real_size
 mer_beam = 10 # mas
 
-n_src=50 # number of sources
+n_src=100 # number of sources
 img_size=256
 len_cen = np.array([img_size/2-1,img_size/2-1])
 
@@ -43,7 +39,7 @@ print beam
 
 if (subflag==0):
 	output_name = '/'+str(subID)+'_p'+str(proj)+'_'+NN+'_Rcusp_s.txt' # no sub
-	cmask = 30 # for source mask
+	cmask = 50 # for source mask
 else:
 	output_name = '/'+str(subID)+'_p'+str(proj)+'sub_'+NN+'_Rcusp.txt' # w/ sub
 	cmask = 50
@@ -53,20 +49,20 @@ else:
 #	output_name = '/'+str(subID)+'_p'+str(proj)+'_'+NN+'_Rcusp_c.txt' # no sub
 #	cmask = 50 # for source mask
 
-imagepath='/Volumes/sting_1/snap99_'+str(subID)
-filepath='/Volumes/sting_1/snap99_'+str(subID)
+imagepath='/Volumes/sting_1/snap99_'+str(subID)+'_test'
+filepath='/Volumes/sting_1/snap99_'+str(subID)+'_test'
 outpath='/Volumes/sting_1/data/Rcusp_c'
 magpath='/Volumes/sting_1/data/invmag'
 
-mag_filename = '/particles'+str(subID)+'_p'+str(proj)+'_pt_zoom_'+NN+'.invmag.fits'
-mag_fits=fits.open(magpath+mag_filename)
+mag_filename = '/particles'+str(subID)+'_p'+str(proj)+'_'+NN+'.invmag.fits'
+mag_fits=fits.open(filepath+mag_filename)
 mag = 1/mag_fits[0].data
 mag_wcs = WCS(mag_fits[0].header)
 
 
 rcusp_file=open(outpath+output_name,'w')
-rcusp_file.write('# n_src = '+str(n_src)+'\n')
-rcusp_file.write('# Rfold\tRcusp\tphi0\tphi1\n')
+#rcusp_file.write('# n_src = '+str(n_src)+'\n')
+#rcusp_file.write('# Rfold\tRcusp\tphi0\tphi1\n')
 
 
 drop=0
@@ -100,7 +96,7 @@ for i in range(n_src):
 
 	## smoothing
 	kernel=convolution.Gaussian2DKernel(beam)
-	#image=convolution.convolve(image,kernel)
+	image=convolution.convolve(image,kernel)
 
 	mean,median,std=sigma_clipped_stats(image_or,sigma=3.0)
 	threshold=median+(20*std)
@@ -261,7 +257,7 @@ for i in range(n_src):
 
 		tri_mask=np.in1d(quad_idx,tri_pt_idx)
 		#print quad_idx, ~tri_mask
-		
+		'''
 		if (min_0+min_1 < img_size/4):
 			
 			# replace the fainter one in line0 as the fourth img
@@ -274,13 +270,14 @@ for i in range(n_src):
 
 			line0[line0==fake_idx] = fourth_idx
 			line1[line1==fake_idx] = fourth_idx
-		
+		'''
 
 		tri_pt_idx=list(set().union(line0,line1)) # here we have the triplet combination
 		#print tri_pt_idx			
 		tri_mask=np.in1d(quad_idx,tri_pt_idx)
 		tri_x,tri_y,tri_f=lens_x[tri_mask],lens_y[tri_mask],lens_f[tri_mask]
 
+		
 		if (np.in1d(0,tri_x) | np.in1d(img_size-1,tri_x)):
 			print "Merging images are too close!"
 			drop=drop+1
@@ -297,7 +294,7 @@ for i in range(n_src):
 			if (len1 < len0):
 				line_long,line_short = line0,line1
 				line0,line1 = line_short,line_long
-
+		
 			## find magnification
 			
 			#for i in range(3):
@@ -312,7 +309,7 @@ for i in range(n_src):
 
 			tri_table = Table([tri_x,tri_y,tri_f])
 			print tri_table
-			
+			'''
 			## save merging double index
 			dou_mask=np.in1d(quad_idx,line0)
 			dou_x,dou_y,dou_f=lens_x[dou_mask],lens_y[dou_mask],lens_f[dou_mask]
@@ -366,8 +363,8 @@ for i in range(n_src):
 			rcusp=(np.sum(tri_f))/np.sum(np.abs(tri_f))
 
 			print rfold,rcusp,phi0,phi1
-
-			rcusp_file.write(str(rfold)+'\t'+str(rcusp)+'\t'+str(phi0)+'\t'+str(phi1)+'\n')
+			'''
+			#rcusp_file.write(str(rfold)+'\t'+str(rcusp)+'\t'+str(phi0)+'\t'+str(phi1)+'\n')
 
 			# closest triplet img
 			plt.imshow(image)
@@ -384,13 +381,13 @@ for i in range(n_src):
 		else:
 			print "Merging images are too close!"
 			drop=drop+1
-			rcusp_file.write('# '+str(i)+' source dropped\n')
+			#rcusp_file.write('# '+str(i)+' source dropped\n')
 			drop_log.write(str(i)+'\n')
 
 	else:
 		print "Not a quad!"
 		drop=drop+1
-		rcusp_file.write('# '+str(i)+' source dropped\n')
+		#rcusp_file.write('# '+str(i)+' source dropped\n')
 		drop_log.write(str(i)+'\n')
 
 

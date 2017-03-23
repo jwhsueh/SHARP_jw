@@ -1,0 +1,22 @@
+set omitcore=1.0e-6
+data 173853_p3_src0.dat
+set chimode= 1
+# 0 = source plane
+set checkparity = 0
+set gridflag= 0
+
+#set zlens=0.6
+#set zsrc=2.0
+
+startup 2 1
+   alpha 2.486091e+00 -5.289259e-01 -1.007456e+00 9.201420e-03 -2.854681e+01 0.0 0.0 0.0 0.0 1.000000e+00
+expdiskA 1.048320e-01 -5.289259e-01 -1.007456e+00 6.818647e-01 -5.928025e+01 0.0 0.0 3.855339e-01 0.0 0.0
+
+1 0 0 1 1 0 0 0 0 0
+1 0 0 1 1 0 0 1 0 0
+
+optimize
+optimize
+optimize
+
+quit

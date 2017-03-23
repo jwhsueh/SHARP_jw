@@ -14,7 +14,7 @@ plotimg 03 # plotimg [automatic limits?] [plot grid?] [use colors?]
 	 define limitflag $1
 	 define gridflag  $2
 	 define colorflag $3
-	 if ($limitflag==1) {limits -0.782052 2.448423 -0.753777 2.476697}
+	 if ($limitflag==1) {limits -1.468838 1.469440 -1.456981 1.481297}
 	 box \n xlabel arcsec \n ylabel arcsec
 	 relocate $($fx1+0.5*($fx2-$fx1)) $($fy1+1.02*($fy2-$fy1))
 	 putlabel 8 image plane
@@ -22,14 +22,14 @@ plotimg 03 # plotimg [automatic limits?] [plot grid?] [use colors?]
 	 myctype red \n imgplotone crit.dat
 	 expand $($expand*1.5)
 	 myctype blue
-	 relocate 1.360000 0.480000 \n ptype 3 3 \n dot
-	 relocate 1.360001 0.480025 \n ptype 4 3 \n dot
-	 relocate 0.406000 0.700000 \n ptype 3 3 \n dot
-	 relocate 0.405972 0.700011 \n ptype 4 3 \n dot
-	 relocate 0.660000 1.320000 \n ptype 3 3 \n dot
-	 relocate 0.660000 1.320000 \n ptype 4 3 \n dot
-	 relocate 0.940000 1.326700 \n ptype 3 3 \n dot
-	 relocate 0.939998 1.326677 \n ptype 4 3 \n dot
+	 relocate -0.488000 -0.163000 \n ptype 3 3 \n dot
+	 relocate -0.487963 -0.163005 \n ptype 4 3 \n dot
+	 relocate 0.103500 0.532000 \n ptype 3 3 \n dot
+	 relocate 0.103492 0.531986 \n ptype 4 3 \n dot
+	 relocate -0.214400 0.518000 \n ptype 3 3 \n dot
+	 relocate -0.214402 0.518038 \n ptype 4 3 \n dot
+	 relocate 0.569300 -0.406600 \n ptype 3 3 \n dot
+	 relocate 0.569317 -0.406590 \n ptype 4 3 \n dot
 	 expand $($expand/1.5)
 	 myctype black
 
@@ -40,7 +40,7 @@ plotsrc 03 # plotsrc [automatic limits?] [plot grid?] [use colors?]
 	 define limitflag $1
 	 define gridflag  $2
 	 define colorflag $3
-	 if ($limitflag==1) {limits -0.782052 2.448423 -0.753777 2.476697}
+	 if ($limitflag==1) {limits -1.468838 1.469440 -1.456981 1.481297}
 	 box \n xlabel arcsec \n ylabel arcsec
 	 relocate $($fx1+0.5*($fx2-$fx1)) $($fy1+1.02*($fy2-$fy1))
 	 putlabel 8 source plane
@@ -48,7 +48,7 @@ plotsrc 03 # plotsrc [automatic limits?] [plot grid?] [use colors?]
 	 myctype red \n srcplotone crit.dat
 	 expand $($expand*1.5)
 	 myctype blue
-	 relocate 0.896306 0.833279 \n ptype 4 3 \n dot
+	 relocate 0.059469 -0.015229 \n ptype 4 3 \n dot
 	 expand $($expand/1.5)
 	 myctype black
 
