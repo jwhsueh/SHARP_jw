@@ -8,7 +8,7 @@ path='/Volumes/sting_1/data/'
 
 list_file = path+'snap99_elp2_Rcusp.txt'
 #list_file_sub = path+'snap99_elp2_sub_Rcusp.txt'
-list_file_sub = path+'snap99_tri2_Rcusp.txt'  # disc
+list_file_sub = path+'snap99_elph_Rcusp.txt'  # disc
 list_file_in = path+'snap99_tri2_size.txt'
 
 file_list = np.genfromtxt(list_file,dtype='str')
@@ -24,16 +24,20 @@ for file_one in file_list:
 	#Rfold,Rcusp,phi0,phi1 = np.append(Rfold,table[:,0][mask]),np.append(Rcusp,table[:,1][mask]),np.append(phi0,table[:,2][mask]),np.append(phi1,table[:,3][mask])
 	Rfold,Rcusp,phi0,phi1 = np.append(Rfold,table[:,0]),np.append(Rcusp,table[:,1]),np.append(phi0,table[:,2]),np.append(phi1,table[:,3])
 
+
 Rfold_s,Rcusp_s,phi0_s,phi1_s  = np.empty(1),np.empty(1),np.empty(1),np.empty(1)
 
-'''
+
 for file_one in file_list_sub:
 	#print file_one
-	table = np.loadtxt(path+'Rcusp_c/'+file_one+'_64_Rcusp_ga.txt')
+	table = np.loadtxt(path+'Rcusp_f/'+file_one+'_64_Rcusp_ga.txt')
 	#mask = np.loadtxt(path+'cm_test/snap99_'+file_one+'_hfmask.txt').astype(bool)
 	#mask = mask[:(table[:,0]).size]
 	#Rfold_s,Rcusp_s,phi0_s,phi1_s = np.append(Rfold_s,table[:,0][mask]),np.append(Rcusp_s,table[:,1][mask]),np.append(phi0_s,table[:,2][mask]),np.append(phi1_s,table[:,3][mask])
 	Rfold_s,Rcusp_s,phi0_s,phi1_s = np.append(Rfold_s,table[:,0]),np.append(Rcusp_s,table[:,1]),np.append(phi0_s,table[:,2]),np.append(phi1_s,table[:,3])
+
+
+## edge-on selection
 '''
 for i in range(file_list_sub.size):
 	file_one = file_list_sub[i]
@@ -42,7 +46,7 @@ for i in range(file_list_sub.size):
 	if np.logical_and(ina>=80,ina<=100):
 		table = np.loadtxt(path+'Rcusp_c/'+file_one+'_64_Rcusp_ga.txt')
 		Rfold_s,Rcusp_s,phi0_s,phi1_s = np.append(Rfold_s,table[:,0]),np.append(Rcusp_s,table[:,1]),np.append(phi0_s,table[:,2]),np.append(phi1_s,table[:,3])
-
+'''
 
 mask = np.abs(Rfold)<0.9
 Rfold,Rcusp,phi0,phi1=Rfold[mask],Rcusp[mask],phi0[mask],phi1[mask]
@@ -69,48 +73,64 @@ print Rfold.size, Rfold_s.size,phi0.size,phi1_s.size
 #### 
 
 ## ---- probability contour
+'''
 ## cusp
-edge = np.linspace(50,150,11)
+edge = np.linspace(20,110,10)
+print edge
 
 prob_table = np.zeros((5,edge.size-1))
 prob_list = np.array([0.5,0.2,0.1,0.05,0.01])
+prob_sig = np.zeros((5,edge.size-1))
 
 for j in range(edge.size-1):
-	#mask = np.logical_and(phi0_s>=edge[j],phi0_s<edge[j+1])
-	mask = np.logical_and(phi0>=edge[j],phi0<edge[j+1])
+	mask = np.logical_and(phi0_s>=edge[j],phi0_s<edge[j+1])
+	#mask = np.logical_and(phi0>=edge[j],phi0<edge[j+1])
 
 	#phi0_b = phi0[mask]
-	#Rcusp_b = np.abs(Rcusp_s[mask])
-	Rcusp_b = np.abs(Rcusp[mask])
+	Rcusp_b = np.abs(Rcusp_s[mask])
+	#Rcusp_b = np.abs(Rcusp[mask])
 	print Rcusp_b.size
+	sig = np.sqrt(Rcusp_b.size)
 
 	Rcusp_b = np.sort(Rcusp_b)
 	idx = np.round(Rcusp_b.size*prob_list).astype(int)
 
 	prob_table[:,j] = Rcusp_b[-idx]
+	prob_sig[:,j] = Rcusp_b[-idx]/sig
 	print Rcusp_b[-idx]
 
 ## fold
-
-edge2 = np.linspace(0.2,0.8,7)
+'''
+edge2 = np.linspace(0,50,11)
 print edge2
 
 prob_table = np.zeros((5,edge2.size-1))
+prob_sig = np.zeros((5,edge2.size-1))
+#prob_sig = np.zeros(edge2.size-1)
 prob_list = np.array([0.5,0.2,0.1,0.05,0.01])
 
 for j in range(edge2.size-1):
-	mask = np.logical_and(phi1_s/57.3>=edge2[j],phi1_s/57.3<edge2[j+1])
+	mask = np.logical_and(phi1_s>=edge2[j],phi1_s<edge2[j+1])
 	#mask = np.logical_and(phi1/57.3>=edge2[j],phi1/57.3<edge2[j+1])
 
 	Rfold_b = np.abs(Rfold_s[mask])
 	#Rfold_b = np.abs(Rfold[mask])
-	print Rfold_b.size
+	print Rfold_b.size, np.sqrt(Rfold_b.size)
+	sig = np.sqrt(Rfold_b.size)
+	#sig_list = prob_list+sig
+	print np.average(Rfold_b),sig*np.average(Rfold_b)
+	#print np.sqrt(Rfold_b.size)/Rfold_b.size
 
 	Rfold_b = np.sort(Rfold_b)
 	idx = np.round(Rfold_b.size*prob_list).astype(int)
+	#idx_p = np.round(Rfold_b.size*sig_list).astype(int)
+	#print idx_p
 
 	prob_table[:,j] = Rfold_b[-idx]
+	prob_sig[:,j] = Rfold_b[-idx]/sig
+	#prob_sig[:,j] = Rfold_b[-idx]-Rfold_b[-idx_p]
 	print Rfold_b[-idx]
+	#print Rfold_b[-idx]-Rfold_b[-idx_p]
 
 
 ####
@@ -131,19 +151,21 @@ w_Rcusp_s = np.ones_like(Rcusp_s)/len(Rcusp_s)
 
 #plt.hist(phi0_s,bins=np.linspace(0,180,40))
 
+#plt.scatter(phi1_s,np.abs(Rfold_s),marker='*',color='r',alpha=0.3)
+plt.scatter(phi0_s,np.abs(Rcusp_s),marker='*',color='r',alpha=0.3)
 
 
 #H,xbin,ybin = np.histogram2d(phi0,np.abs(Rcusp),bins=(np.linspace(0,180,40),np.linspace(0,0.5,50)))
-H,xbin,ybin = np.histogram2d(phi1,(Rfold),bins=(np.linspace(0,60,40),np.linspace(0,0.5,50)))
-H=H.T
+#H,xbin,ybin = np.histogram2d(phi1,(Rfold),bins=(np.linspace(0,60,40),np.linspace(0,0.5,50)))
+#H=H.T
 #H = gaussian_filter(H,2.0)
 #H = np.abs(H -1)
-plt.imshow(H,interpolation='nearest',origin='low',extent=[xbin[0],xbin[-1],ybin[0],ybin[-1]])
+#plt.imshow(H,interpolation='nearest',origin='low',extent=[xbin[0],xbin[-1],ybin[0],ybin[-1]])
 #fig = plt.contour(xbin[:-1],ybin[:-1],H,[1,4,7,10,13])
 #fig = plt.contour(xbin[:-1],ybin[:-1],H,[1,2,3,4,5])
 #fig = plt.contour(xbin[:-1],ybin[:-1],H)
 #plt.clabel(fig)
-plt.gca().set_aspect(60/0.4)
+#plt.gca().set_aspect(60/0.4)
 #plt.gca().set_aspect(180/0.5)
 
 '''
@@ -161,37 +183,53 @@ plt.clabel(fig)
 
 
 '''
-plt.plot(edge[0:-1]+5,prob_table[4,:],color='k',linestyle='-.',label='1%')
+plt.plot(edge[1:-1]+5,prob_table[4,1:],color='k',linestyle='-.',label='1%')
 plt.plot(edge[0:-1]+5,prob_table[3,:],color='g',label='5%')
 plt.plot(edge[0:-1]+5,prob_table[2,:],color='r',label='10%')
 plt.plot(edge[0:-1]+5,prob_table[1,:],color='b',label='20%')
 plt.plot(edge[0:-1]+5,prob_table[0,:],color='k',label='50%')
+plt.fill_between(edge[1:-1]+5,prob_table[4,1:]-prob_sig[4,1:],prob_table[4,1:]+prob_sig[4,1:],color='k',alpha=0.1)
+plt.fill_between(edge[0:-1]+5,prob_table[2,:]-prob_sig[2,:],prob_table[2,:]+prob_sig[2,:],color='r',alpha=0.1)
+plt.fill_between(edge[0:-1]+5,prob_table[3,:]-prob_sig[3,:],prob_table[3,:]+prob_sig[3,:],color='g',alpha=0.3)
+plt.fill_between(edge[0:-1]+5,prob_table[0,:]-prob_sig[0,:],prob_table[0,:]+prob_sig[0,:],color='k',alpha=0.3)
+plt.fill_between(edge[0:-1]+5,prob_table[1,:]-prob_sig[1,:],prob_table[1,:]+prob_sig[1,:],color='b',alpha=0.3)
 
 
-plt.plot(edge2[0:-1]+5/57.3,prob_table[4,:],color='k',linestyle='-.',label='1%')
-plt.plot(edge2[0:-1]+5/57.3,prob_table[3,:],color='g',label='5%')
-plt.plot(edge2[0:-1]+5/57.3,prob_table[2,:],color='r',label='10%')
-plt.plot(edge2[0:-1]+5/57.3,prob_table[1,:],color='b',label='20%')
-plt.plot(edge2[0:-1]+5/57.3,prob_table[0,:],color='k',label='50%')
+
+plt.plot(edge2[1:-1]+2.5,prob_table[4,1:],color='k',linestyle='-.',label='1%')
+plt.plot(edge2[0:-1]+2.5,prob_table[3,:],color='g',label='5%')
+plt.plot(edge2[0:-1]+2.5,prob_table[2,:],color='r',label='10%')
+plt.plot(edge2[0:-1]+2.5,prob_table[1,:],color='b',label='20%')
+plt.plot(edge2[0:-1]+2.5,prob_table[0,:],color='k',label='50%')
+plt.fill_between(edge2[1:-1]+2.5,prob_table[4,1:]-prob_sig[4,1:],prob_table[4,1:]+prob_sig[4,1:],color='k',alpha=0.1)
+plt.fill_between(edge2[0:-1]+2.5,prob_table[2,:]-prob_sig[2,:],prob_table[2,:]+prob_sig[2,:],color='r',alpha=0.1)
+plt.fill_between(edge2[0:-1]+2.5,prob_table[3,:]-prob_sig[3,:],prob_table[3,:]+prob_sig[3,:],color='g',alpha=0.3)
+plt.fill_between(edge2[0:-1]+2.5,prob_table[0,:]-prob_sig[0,:],prob_table[0,:]+prob_sig[0,:],color='k',alpha=0.3)
+plt.fill_between(edge2[0:-1]+2.5,prob_table[1,:]-prob_sig[1,:],prob_table[1,:]+prob_sig[1,:],color='b',alpha=0.3)
 '''
+
+#plt.fill_between(edge2[0:-1]+2.5,prob_table[4,:]-prob_sig[4,:],prob_table[4,:]+prob_sig[4,:],color='k',alpha=0.1)
+
+#print prob_table[0,:]
+#print prob_sig
 
 #B1555 & B0712
 #plt.scatter([0.365,0.243],[0.235,0.085],marker='*',color='k',s=100)
 
-#plt.title('disks half area (pt~750)')
-plt.title('disks gauss fit ')
+#plt.title('disc (half sample)')
+plt.title('edge-on disks')
 #plt.title('elliptical gauss fit')
-#plt.ylabel('|Rcusp|')
-plt.ylabel('|Rfold|')
+plt.ylabel('|Rcusp|')
+#plt.ylabel('|Rfold|')
 #plt.ylabel('number counts')
-#plt.xlabel('delta phi')
+plt.xlabel('delta phi')
 #plt.xlabel('phi 1')
-plt.xlabel('theta1/theta_E')
+#plt.xlabel('theta1/theta_E')
 plt.legend(loc=1)
-#plt.xlim(50,150)
-#plt.xlim(10,50)
-#plt.ylim(0,0.9)
+plt.xlim(40,100)
+#plt.xlim(5,40)
+plt.ylim(0,0.9)
 #plt.colorbar()
-plt.show()
-#plt.savefig('../../data/glamer/glamer_tri_ga_fold_pd.png')
+#plt.show()
+#plt.savefig('../../data/glamer/glamer_edge_cusp_pd.png')
 

@@ -49,6 +49,7 @@ df=table[:,1]
 bf=table[:,2]
 Re=table[:,3]
 #subflag=table[:,5]
+ms=table[:,6]
 ser=table[:,8]
 mor=table[:,10]
 
@@ -68,8 +69,20 @@ mor_mask=(ser<2.0)&(mor==0.)
 tri_mask=(bf<0.6)&(df>0.4)&(ser<2.0)&(mor==0.)
 
 k_id=subfindID[bf_mask]
+k_ms=ms[bf_mask]
 m_id=subfindID[mor_mask]
+m_ms=ms[mor_mask] 
 tri_id=subfindID[tri_mask]
+
+d_id = subfindID[df_mask]
+d_ms=ms[df_mask]
+
+km_file = '../../data/illustris_1/snap99_p1_kms.txt'
+np.savetxt(km_file,k_ms)
+mor_file = '../../data/illustris_1/snap99_p1_mms.txt'
+np.savetxt(mor_file,m_ms)
+dm_file = '../../data/illustris_1/snap99_p1_dms.txt'
+np.savetxt(dm_file,d_ms)
 
 u_id=np.union1d(k_id,m_id)
 in_id=np.intersect1d(k_id,m_id)
@@ -79,8 +92,9 @@ only_k=k_id[~np.in1d(k_id,in_id)]
 only_m=m_id[~np.in1d(m_id,in_id)]
 
 e_id=subfindID[~np.in1d(subfindID,u_id)]
+#e_ms=ms[~np.in1d(subfindID,u_id)]
 
-print e_id.shape,tri_id.shape,dou_id.shape,only_k.shape,only_m.shape
+#print e_id.shape,tri_id.shape,dou_id.shape,only_k.shape,only_m.shape
 
 # projection1 mark
 e_idx,tri_idx,dou_idx,only_mx,only_kx=e_id+0.1,tri_id+0.1,dou_id+0.1,only_m+0.1,only_k+0.1
@@ -93,6 +107,7 @@ df=table2[:,1]
 bf=table2[:,2]
 Re=table2[:,3]
 #subflag=table[:,5]
+ms=table[:,6]
 ser=table2[:,8]
 mor=table2[:,10]
 
@@ -112,8 +127,22 @@ mor_mask=(ser<2.0)&(mor==0.)
 tri_mask=(bf<0.6)&(df>0.4)&(ser<2.0)&(mor==0.)
 
 k_id=subfindID[bf_mask]
+k_ms=ms[bf_mask]
 m_id=subfindID[mor_mask]
+m_ms=ms[mor_mask] 
 tri_id=subfindID[tri_mask]
+tri_ms=ms[tri_mask]
+
+d_id = subfindID[df_mask]
+d_ms=ms[df_mask]
+
+km_file = '../../data/illustris_1/snap99_p2_kms.txt'
+np.savetxt(km_file,k_ms)
+mor_file = '../../data/illustris_1/snap99_p2_mms.txt'
+np.savetxt(mor_file,m_ms)
+dm_file = '../../data/illustris_1/snap99_p2_dms.txt'
+np.savetxt(dm_file,d_ms)
+
 
 u_id=np.union1d(k_id,m_id)
 in_id=np.intersect1d(k_id,m_id)
@@ -123,8 +152,9 @@ only_k=k_id[~np.in1d(k_id,in_id)]
 only_m=m_id[~np.in1d(m_id,in_id)]
 
 e_id=subfindID[~np.in1d(subfindID,u_id)]
+#e_ms=ms[~np.in1d(subfindID,u_id)]
 
-print e_id.shape,tri_id.shape,dou_id.shape,only_k.shape,only_m.shape
+#print e_id.shape,tri_id.shape,dou_id.shape,only_k.shape,only_m.shape
 
 # projection2 mark
 e_idy,tri_idy,dou_idy,only_my,only_ky=e_id+0.2,tri_id+0.2,dou_id+0.2,only_m+0.2,only_k+0.2
@@ -137,6 +167,7 @@ df=table3[:,1]
 bf=table3[:,2]
 Re=table3[:,3]
 #subflag=table[:,5]
+ms=table[:,6]
 ser=table3[:,8]
 mor=table3[:,10]
 
@@ -156,8 +187,21 @@ mor_mask=(ser<2.0)&(mor==0.)
 tri_mask=(bf<0.6)&(df>0.4)&(ser<2.0)&(mor==0.)
 
 k_id=subfindID[bf_mask]
+k_ms=ms[bf_mask]
 m_id=subfindID[mor_mask]
+m_ms=ms[mor_mask] 
 tri_id=subfindID[tri_mask]
+tri_ms=ms[tri_mask]
+
+d_id = subfindID[df_mask]
+d_ms=ms[df_mask]
+
+km_file = '../../data/illustris_1/snap99_p3_kms.txt'
+np.savetxt(km_file,k_ms)
+mor_file = '../../data/illustris_1/snap99_p3_mms.txt'
+np.savetxt(mor_file,m_ms)
+dm_file = '../../data/illustris_1/snap99_p3_dms.txt'
+np.savetxt(dm_file,d_ms)
 
 u_id=np.union1d(k_id,m_id)
 in_id=np.intersect1d(k_id,m_id)
@@ -167,8 +211,9 @@ only_k=k_id[~np.in1d(k_id,in_id)]
 only_m=m_id[~np.in1d(m_id,in_id)]
 
 e_id=subfindID[~np.in1d(subfindID,u_id)]
+#e_ms=ms[~np.in1d(subfindID,u_id)]
 
-print e_id.shape,tri_id.shape,dou_id.shape,only_k.shape,only_m.shape
+#print e_id.shape,tri_id.shape,dou_id.shape,only_k.shape,only_m.shape
 
 # projection2 mark
 e_idz,tri_idz,dou_idz,only_mz,only_kz=e_id+0.3,tri_id+0.3,dou_id+0.3,only_m+0.3,only_k+0.3
