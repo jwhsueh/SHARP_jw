@@ -1,0 +1,117 @@
+LENS PARMS:
+   alpha 4.106689e-01 1.627264e-01 6.812323e-03 2.804499e-01 8.829358e+01 2.199939e-02 5.389156e+01 0.0 0.0 1.000000e+00
+processing flux dataset #1
+source flux 1.074451e-01
+img 1 obs  1.368000e+00 mod  7.331802e-01
+img 2 obs  1.368000e+00 mod -1.655530e+00
+img 3 obs  1.368000e+00 mod  1.399843e+00
+img 4 obs  1.368000e+00 mod -1.326421e+00
+cumulative flux chi^2 = 4.884123e-07
+SOURCE PARMS:
+   ptsrc 1.074451e-01 2.350070e-01 -8.898834e-03 0.0 0.0 0.0 0.0 0.0
+SOURCE 1: 2.350070e-01 -8.898834e-03 1.074451e-01 7.000000e-01  # u v fsrc h
+CHISQ: 8.205396e-05 8.156554e-05 4.884123e-07 0.000000e+00 2.652630e-12 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 # tot pos flux tdel gal plim crv ring weak
+LENS PARMS:
+   alpha 4.240317e-01 1.627264e-01 6.812323e-03 2.804499e-01 8.829358e+01 2.199939e-02 5.389156e+01 0.0 0.0 1.000000e+00
+processing flux dataset #1
+source flux 1.069866e-01
+img 1 obs  1.368000e+00 mod  7.231992e-01
+img 2 obs  1.368000e+00 mod -1.638527e+00
+img 3 obs  1.368000e+00 mod  1.386821e+00
+img 4 obs  1.368000e+00 mod -1.365768e+00
+cumulative flux chi^2 = 4.893123e-07
+SOURCE PARMS:
+   ptsrc 1.069866e-01 2.370379e-01 -9.516970e-03 0.0 0.0 0.0 0.0 0.0
+SOURCE 1: 2.370379e-01 -9.516970e-03 1.069866e-01 7.000000e-01  # u v fsrc h
+CHISQ: 1.909568e+01 1.909568e+01 4.893123e-07 0.000000e+00 2.652630e-12 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 # tot pos flux tdel gal plim crv ring weak
+LENS PARMS:
+   alpha 4.106689e-01 1.760893e-01 6.812323e-03 2.804499e-01 8.829358e+01 2.199939e-02 5.389156e+01 0.0 0.0 1.000000e+00
+processing flux dataset #1
+source flux 1.130081e-01
+img 1 obs  1.368000e+00 mod  7.422111e-01
+img 2 obs  1.368000e+00 mod -1.656600e+00
+img 3 obs  1.368000e+00 mod  1.420083e+00
+img 4 obs  1.368000e+00 mod -1.300658e+00
+cumulative flux chi^2 = 4.821494e-07
+SOURCE PARMS:
+   ptsrc 1.130081e-01 2.464194e-01 -9.281306e-03 0.0 0.0 0.0 0.0 0.0
+SOURCE 1: 2.464194e-01 -9.281306e-03 1.130081e-01 7.000000e-01  # u v fsrc h
+CHISQ: 7.801757e+00 7.801757e+00 4.821494e-07 0.000000e+00 3.105384e-12 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 # tot pos flux tdel gal plim crv ring weak
+LENS PARMS:
+   alpha 4.106689e-01 1.627264e-01 2.017515e-02 2.804499e-01 8.829358e+01 2.199939e-02 5.389156e+01 0.0 0.0 1.000000e+00
+processing flux dataset #1
+source flux 1.064824e-01
+img 1 obs  1.368000e+00 mod  7.322125e-01
+img 2 obs  1.368000e+00 mod -1.700549e+00
+img 3 obs  1.368000e+00 mod  1.408178e+00
+img 4 obs  1.368000e+00 mod -1.241938e+00
+cumulative flux chi^2 = 5.323202e-07
+SOURCE PARMS:
+   ptsrc 1.064824e-01 2.359816e-01 4.507835e-03 0.0 0.0 0.0 0.0 0.0
+SOURCE 1: 2.359816e-01 4.507835e-03 1.064824e-01 7.000000e-01  # u v fsrc h
+CHISQ: 1.438854e+01 1.438854e+01 5.323202e-07 0.000000e+00 2.688693e-12 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 # tot pos flux tdel gal plim crv ring weak
+LENS PARMS:
+   alpha 4.106689e-01 1.627264e-01 6.812323e-03 2.904499e-01 8.829358e+01 2.199939e-02 5.389156e+01 0.0 0.0 1.000000e+00
+processing flux dataset #1
+source flux 1.082799e-01
+img 1 obs  1.368000e+00 mod  7.089270e-01
+img 2 obs  1.368000e+00 mod -1.587950e+00
+img 3 obs  1.368000e+00 mod  1.351300e+00
+img 4 obs  1.368000e+00 mod -1.463992e+00
+cumulative flux chi^2 = 4.922484e-07
+SOURCE PARMS:
+   ptsrc 1.082799e-01 2.378076e-01 -9.400691e-03 0.0 0.0 0.0 0.0 0.0
+SOURCE 1: 2.378076e-01 -9.400691e-03 1.082799e-01 7.000000e-01  # u v fsrc h
+CHISQ: 7.407395e-01 7.407390e-01 4.922484e-07 0.000000e+00 2.652630e-12 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 # tot pos flux tdel gal plim crv ring weak
+LENS PARMS:
+   alpha 4.106689e-01 1.627264e-01 6.812323e-03 2.804499e-01 8.929358e+01 2.199939e-02 5.389156e+01 0.0 0.0 1.000000e+00
+processing flux dataset #1
+source flux 1.024863e-01
+img 1 obs  1.368000e+00 mod  7.024618e-01
+img 2 obs  1.368000e+00 mod -1.596247e+00
+img 3 obs  1.368000e+00 mod  1.343153e+00
+img 4 obs  1.368000e+00 mod -1.461435e+00
+cumulative flux chi^2 = 5.043853e-07
+SOURCE PARMS:
+   ptsrc 1.024863e-01 2.348660e-01 -7.701633e-03 0.0 0.0 0.0 0.0 0.0
+SOURCE 1: 2.348660e-01 -7.701633e-03 1.024863e-01 7.000000e-01  # u v fsrc h
+CHISQ: 4.704874e+00 4.704874e+00 5.043853e-07 0.000000e+00 2.652630e-12 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 # tot pos flux tdel gal plim crv ring weak
+LENS PARMS:
+   alpha 4.106689e-01 1.627264e-01 6.812323e-03 2.804499e-01 8.829358e+01 3.199939e-02 5.389156e+01 0.0 0.0 1.000000e+00
+processing flux dataset #1
+source flux 1.159005e-01
+img 1 obs  1.368000e+00 mod  7.734018e-01
+img 2 obs  1.368000e+00 mod -1.742346e+00
+img 3 obs  1.368000e+00 mod  1.440298e+00
+img 4 obs  1.368000e+00 mod -1.097943e+00
+cumulative flux chi^2 = 5.718397e-07
+SOURCE PARMS:
+   ptsrc 1.159005e-01 2.385907e-01 -1.233009e-02 0.0 0.0 0.0 0.0 0.0
+SOURCE 1: 2.385907e-01 -1.233009e-02 1.159005e-01 7.000000e-01  # u v fsrc h
+CHISQ: 1.824985e+01 1.824985e+01 5.718397e-07 0.000000e+00 2.652630e-12 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 # tot pos flux tdel gal plim crv ring weak
+LENS PARMS:
+   alpha 4.106689e-01 1.627264e-01 6.812323e-03 2.804499e-01 8.829358e+01 2.199939e-02 5.489156e+01 0.0 0.0 1.000000e+00
+processing flux dataset #1
+source flux 1.072517e-01
+img 1 obs  1.368000e+00 mod  7.279210e-01
+img 2 obs  1.368000e+00 mod -1.644895e+00
+img 3 obs  1.368000e+00 mod  1.391616e+00
+img 4 obs  1.368000e+00 mod -1.351425e+00
+cumulative flux chi^2 = 4.872044e-07
+SOURCE PARMS:
+   ptsrc 1.072517e-01 2.354568e-01 -8.853201e-03 0.0 0.0 0.0 0.0 0.0
+SOURCE 1: 2.354568e-01 -8.853201e-03 1.072517e-01 7.000000e-01  # u v fsrc h
+CHISQ: 4.470648e-02 4.470599e-02 4.872044e-07 0.000000e+00 2.652630e-12 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 # tot pos flux tdel gal plim crv ring weak
+LENS PARMS:
+   alpha 4.106689e-01 1.627264e-01 6.812323e-03 2.804499e-01 8.829358e+01 2.199939e-02 5.389156e+01 0.0 0.0 1.000000e+00
+processing flux dataset #1
+source flux 1.074451e-01
+img 1 obs  1.368000e+00 mod  7.331802e-01
+img 2 obs  1.368000e+00 mod -1.655530e+00
+img 3 obs  1.368000e+00 mod  1.399843e+00
+img 4 obs  1.368000e+00 mod -1.326421e+00
+cumulative flux chi^2 = 4.884123e-07
+SOURCE PARMS:
+   ptsrc 1.074451e-01 2.350070e-01 -8.898834e-03 0.0 0.0 0.0 0.0 0.0
+SOURCE 1: 2.350070e-01 -8.898834e-03 1.074451e-01 7.000000e-01  # u v fsrc h
+CHISQ: 8.205396e-05 8.156554e-05 4.884123e-07 0.000000e+00 2.652630e-12 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 # tot pos flux tdel gal plim crv ring weak

@@ -8,8 +8,8 @@ from astropy.table import Table
 listpath='/Volumes/sting_1/data'
 outpath='/Volumes/sting_1/data/Rcusp_f'
 
-list_file = listpath+'/snap99_elph_Rcusp.txt'
-size_file = listpath+'/snap99_elph_size.txt'
+list_file = listpath+'/snap99_fa_Rcusp.txt'
+size_file = listpath+'/snap99_fa_size.txt'
 
 list_tab = np.genfromtxt(list_file,dtype='str')
 size_tab = np.loadtxt(size_file)
@@ -22,8 +22,8 @@ boxsize = 30
 img_size=256
 len_cen = np.array([img_size/2-1,img_size/2-1])
 
-#list_tab = ['267939_p2','269350_p3','282839_p2','292855_p2']
-#size = np.array([np.degrees(1.10E-05)])
+list_tab = ['217576_p1']
+size = np.array([5.43E-04])
 #size = np.array([5.49E-04,4.71E-04,4.97E-04,4.72E-04]) # in deg
 n_src = np.empty(len(list_tab))
 n_src.fill(100)

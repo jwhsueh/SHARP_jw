@@ -9,7 +9,7 @@ from astropy.table import Table
 from astropy.wcs import WCS
 
 ### change here ###
-subID=297720
+subID=217576
 proj=1
 NN='64'
 #NN='128'
@@ -21,7 +21,7 @@ subflag=0
 # or here 
 #real_size =5.21E-06# rad
 #real_size = np.degrees(real_size)
-real_size =2.99E-04# in deg
+real_size =5.43E-04# in deg
 # degree
 real_size = real_size*3600*1000 #mas
 
@@ -30,8 +30,7 @@ print real_size
 
 n_src=100 # number of sources
 img_size=256
-len_cen = np.array([img_size/2-0.5,img_size/2-0.5])
-pix_size = real_size/img_size/1000 # arcsecond
+len_cen = np.array([img_size/2-1,img_size/2-1])
 
 mer_beam = 10 # mas
 beam = mer_beam/(real_size/img_size)
@@ -41,7 +40,7 @@ print beam
 
 if (subflag==0):
 	output_name = '/'+str(subID)+'_p'+str(proj)+'_'+NN+'_Rcusp_s.txt' # no sub
-	cmask = 50 # for source mask
+	cmask = 30 # for source mask
 else:
 	output_name = '/'+str(subID)+'_p'+str(proj)+'sub_'+NN+'_Rcusp.txt' # w/ sub
 	cmask = 50
@@ -54,12 +53,12 @@ else:
 imagepath='/Volumes/sting_1/snap99_'+str(subID)
 filepath='/Volumes/sting_1/snap99_'+str(subID)
 outpath='/Volumes/sting_1/data/Rcusp_c'
-#magpath='/Volumes/sting_1/data/invmag'
+magpath='/Volumes/sting_1/data/invmag'
 
-#mag_filename = '/particles'+str(subID)+'_p'+str(proj)+'_'+NN+'.invmag.fits'
-#mag_fits=fits.open(filepath+mag_filename)
-#mag = 1/mag_fits[0].data
-#mag_wcs = WCS(mag_fits[0].header)
+mag_filename = '/particles'+str(subID)+'_p'+str(proj)+'_'+NN+'.invmag.fits'
+mag_fits=fits.open(filepath+mag_filename)
+mag = 1/mag_fits[0].data
+mag_wcs = WCS(mag_fits[0].header)
 
 
 rcusp_file=open(outpath+output_name,'w')
@@ -92,8 +91,6 @@ for i in range(n_src):
 	image_fits=fits.open(filepath+filename)
 	image_wcs=WCS(image_fits[0].header)
 	image=image_fits[0].data
-	img_wcs=WCS(image_fits[0].header)
-	#print img_wcs.wcs_pix2world(img_size/2+0.5,img_size/2+0.5,1)
 	image_or=image
 	#plt.imshow(image_or)
 	#plt.show()
@@ -233,11 +230,6 @@ for i in range(n_src):
 
 		if (len(lens_x)==4):
 
-			## print out the four img in arc second
-			arc_x,arc_y = (lens_x-len_cen[0])*pix_size, (lens_y-len_cen[1])*pix_size
-			np.savetxt(imagepath+img_outname+"_wcs.txt",np.c_[arc_x,arc_y])
-
-
 			## select image A,B & C [pick up the closet three pts]
 			# find the shortest two line from C(4,2)
 			quad_idx=np.arange(4)
@@ -319,11 +311,11 @@ for i in range(n_src):
 					#frame_y,frame_x = np.ogrid[-tri_y[i]:img_size-tri_y[i],-tri_x[i]:img_size-tri_x[i]]
 					#mask = frame_x*frame_x+frame_y*frame_y < (beam)**2
 					#tri_f[i] = np.sum(image[mask])
-				#peak_wcs = image_wcs.wcs_pix2world(tri_x,tri_y,1)
-				#px,py = mag_wcs.wcs_world2pix(peak_wcs[0],peak_wcs[1],1)
-				#print px,py
-				#for i in range(3):
-				#	tri_f[i] = mag[int(py[i]),int(px[i])]
+				peak_wcs = image_wcs.wcs_pix2world(tri_x,tri_y,1)
+				px,py = mag_wcs.wcs_world2pix(peak_wcs[0],peak_wcs[1],1)
+				print px,py
+				for i in range(3):
+					tri_f[i] = mag[int(py[i]),int(px[i])]
 
 				tri_table = Table([tri_x,tri_y,tri_f])
 				print tri_table

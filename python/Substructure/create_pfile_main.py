@@ -8,7 +8,7 @@ import groupcat
 basePath = '/Volumes/narsil_1/jwhsueh/illustris_1'
 snapNum = 99
 
-subID = 235407
+subID = 191286
 
 class cosmopara:
 	h = 0.704

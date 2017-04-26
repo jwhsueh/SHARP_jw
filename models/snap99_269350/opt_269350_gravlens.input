@@ -1,5 +1,5 @@
 set omitcore=1.0e-6
-data 179899_src.dat
+data 269350_src.dat
 set chimode= 0
 # 0 = source plane
 set checkparity = 0
@@ -10,8 +10,7 @@ set gridflag= 0
 
 startup 1 1
 
-   alpha 4.916043e-01 4.717998e-02 -1.040026e-02 3.715869e-01 5.884121e+01 1.681402e-01 -3.176359e+01 0.0 0.0 1.000000e+00
-
+   alpha 4.252351e-01 1.147943e-01 6.940722e-03 2.822509e-01 8.862075e+01 2.546709e-02 5.596020e+01 0.0 0.0 1.000000e+00
 1 1 1 1 1 1 1 0 0 0
 
 optimize

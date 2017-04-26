@@ -55,11 +55,15 @@ mor=table[:,10]
 
 ##--- central & DM mass cut
 mask=np.in1d(subfindID,cenID)
-subfindID,bf,ser,mor,df,Re=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask],Re[mask]
+subfindID,bf,ser,mor,df,Re,ms=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask],Re[mask],ms[mask]
+Rea,msa = Re,ms
+
+all_list = '../../data/illustris_1/snap99_p1_all.txt'
+np.savetxt(all_list,np.c_[msa,Rea],newline='\n')
 
 ## Re flag
-mask=Re>0.3
-subfindID,bf,ser,mor,df=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask]
+#mask=Re>0.3
+#subfindID,bf,ser,mor,df=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask]
 
 ## set up subgroup
 
@@ -72,17 +76,25 @@ k_id=subfindID[bf_mask]
 k_ms=ms[bf_mask]
 m_id=subfindID[mor_mask]
 m_ms=ms[mor_mask] 
+m_re=Re[mor_mask]
+
 tri_id=subfindID[tri_mask]
+tri_ms=ms[tri_mask]
+tri_re=Re[tri_mask]
+tri_bf=bf[tri_mask]
+tri_df=df[tri_mask]
+tri_dim = tri_ms*(1-2.*tri_bf)
 
 d_id = subfindID[df_mask]
 d_ms=ms[df_mask]
+d_re=Re[df_mask]
 
-km_file = '../../data/illustris_1/snap99_p1_kms.txt'
-np.savetxt(km_file,k_ms)
-mor_file = '../../data/illustris_1/snap99_p1_mms.txt'
-np.savetxt(mor_file,m_ms)
-dm_file = '../../data/illustris_1/snap99_p1_dms.txt'
-np.savetxt(dm_file,d_ms)
+mor_file = '../../data/illustris_1/snap99_p1_mor.txt'
+np.savetxt(mor_file,np.c_[m_ms,m_re])
+k_file = '../../data/illustris_1/snap99_p1_k.txt'
+np.savetxt(k_file,np.c_[d_ms,d_re])
+tri_file = '../../data/illustris_1/snap99_p1_tri.txt'
+np.savetxt(tri_file,np.c_[tri_id,tri_ms,tri_re,tri_dim,tri_df])
 
 u_id=np.union1d(k_id,m_id)
 in_id=np.intersect1d(k_id,m_id)
@@ -91,8 +103,13 @@ dou_id=in_id[~np.in1d(in_id,tri_id)]
 only_k=k_id[~np.in1d(k_id,in_id)]
 only_m=m_id[~np.in1d(m_id,in_id)]
 
-e_id=subfindID[~np.in1d(subfindID,u_id)]
-#e_ms=ms[~np.in1d(subfindID,u_id)]
+e_mask = ~np.in1d(subfindID,u_id)
+e_id=subfindID[e_mask]
+e_ms=ms[e_mask]
+e_re = Re[e_mask]
+
+e_file = '../../data/illustris_1/snap99_p1_e.txt'
+np.savetxt(e_file,np.c_[e_ms,e_re])
 
 #print e_id.shape,tri_id.shape,dou_id.shape,only_k.shape,only_m.shape
 
@@ -113,11 +130,15 @@ mor=table2[:,10]
 
 ##--- central & DM mass cut
 mask=np.in1d(subfindID,cenID)
-subfindID,bf,ser,mor,df,Re=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask],Re[mask]
+subfindID,bf,ser,mor,df,Re,ms=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask],Re[mask],ms[mask]
+Rea,msa = Re,ms
+
+all_list = '../../data/illustris_1/snap99_p2_all.txt'
+np.savetxt(all_list,np.c_[msa,Rea],newline='\n')
 
 ## Re flag
-mask=Re>0.3
-subfindID,bf,ser,mor,df=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask]
+#mask=Re>0.0
+#subfindID,bf,ser,mor,df=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask]
 
 ## set up subgroup
 
@@ -130,19 +151,25 @@ k_id=subfindID[bf_mask]
 k_ms=ms[bf_mask]
 m_id=subfindID[mor_mask]
 m_ms=ms[mor_mask] 
+m_re=Re[mor_mask]
+
 tri_id=subfindID[tri_mask]
 tri_ms=ms[tri_mask]
+tri_re=Re[tri_mask]
+tri_bf=bf[tri_mask]
+tri_df=df[tri_mask]
+tri_dim = tri_ms*(1-2.*tri_bf)
 
 d_id = subfindID[df_mask]
 d_ms=ms[df_mask]
+d_re=Re[df_mask]
 
-km_file = '../../data/illustris_1/snap99_p2_kms.txt'
-np.savetxt(km_file,k_ms)
-mor_file = '../../data/illustris_1/snap99_p2_mms.txt'
-np.savetxt(mor_file,m_ms)
-dm_file = '../../data/illustris_1/snap99_p2_dms.txt'
-np.savetxt(dm_file,d_ms)
-
+mor_file = '../../data/illustris_1/snap99_p2_mor.txt'
+np.savetxt(mor_file,np.c_[m_ms,m_re])
+k_file = '../../data/illustris_1/snap99_p2_k.txt'
+np.savetxt(k_file,np.c_[d_ms,d_re])
+tri_file = '../../data/illustris_1/snap99_p2_tri.txt'
+np.savetxt(tri_file,np.c_[tri_id,tri_ms,tri_re,tri_dim,tri_df])
 
 u_id=np.union1d(k_id,m_id)
 in_id=np.intersect1d(k_id,m_id)
@@ -151,8 +178,13 @@ dou_id=in_id[~np.in1d(in_id,tri_id)]
 only_k=k_id[~np.in1d(k_id,in_id)]
 only_m=m_id[~np.in1d(m_id,in_id)]
 
-e_id=subfindID[~np.in1d(subfindID,u_id)]
-#e_ms=ms[~np.in1d(subfindID,u_id)]
+e_mask = ~np.in1d(subfindID,u_id)
+e_id=subfindID[e_mask]
+e_ms=ms[e_mask]
+e_re = Re[e_mask]
+
+e_file = '../../data/illustris_1/snap99_p2_e.txt'
+np.savetxt(e_file,np.c_[e_ms,e_re])
 
 #print e_id.shape,tri_id.shape,dou_id.shape,only_k.shape,only_m.shape
 
@@ -173,11 +205,15 @@ mor=table3[:,10]
 
 ##--- central & DM mass cut
 mask=np.in1d(subfindID,cenID)
-subfindID,bf,ser,mor,df,Re=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask],Re[mask]
+subfindID,bf,ser,mor,df,Re,ms=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask],Re[mask],ms[mask]
+Rea,msa = Re,ms
+
+all_list = '../../data/illustris_1/snap99_p3_all.txt'
+np.savetxt(all_list,np.c_[msa,Rea],newline='\n')
 
 ## Re flag
-mask=Re>0.3
-subfindID,bf,ser,mor,df=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask]
+#mask=Re>0.0
+#subfindID,bf,ser,mor,df=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask]
 
 ## set up subgroup
 
@@ -190,18 +226,25 @@ k_id=subfindID[bf_mask]
 k_ms=ms[bf_mask]
 m_id=subfindID[mor_mask]
 m_ms=ms[mor_mask] 
+m_re=Re[mor_mask]
+
 tri_id=subfindID[tri_mask]
 tri_ms=ms[tri_mask]
+tri_re=Re[tri_mask]
+tri_bf=bf[tri_mask]
+tri_df=df[tri_mask]
+tri_dim = tri_ms*(1-2.*tri_bf)
 
 d_id = subfindID[df_mask]
 d_ms=ms[df_mask]
+d_re=Re[df_mask]
 
-km_file = '../../data/illustris_1/snap99_p3_kms.txt'
-np.savetxt(km_file,k_ms)
-mor_file = '../../data/illustris_1/snap99_p3_mms.txt'
-np.savetxt(mor_file,m_ms)
-dm_file = '../../data/illustris_1/snap99_p3_dms.txt'
-np.savetxt(dm_file,d_ms)
+mor_file = '../../data/illustris_1/snap99_p3_mor.txt'
+np.savetxt(mor_file,np.c_[m_ms,m_re])
+k_file = '../../data/illustris_1/snap99_p3_k.txt'
+np.savetxt(k_file,np.c_[d_ms,d_re])
+tri_file = '../../data/illustris_1/snap99_p3_tri.txt'
+np.savetxt(tri_file,np.c_[tri_id,tri_ms,tri_re,tri_dim,tri_df])
 
 u_id=np.union1d(k_id,m_id)
 in_id=np.intersect1d(k_id,m_id)
@@ -210,12 +253,17 @@ dou_id=in_id[~np.in1d(in_id,tri_id)]
 only_k=k_id[~np.in1d(k_id,in_id)]
 only_m=m_id[~np.in1d(m_id,in_id)]
 
-e_id=subfindID[~np.in1d(subfindID,u_id)]
-#e_ms=ms[~np.in1d(subfindID,u_id)]
+e_mask = ~np.in1d(subfindID,u_id)
+e_id=subfindID[e_mask]
+e_ms=ms[e_mask]
+e_re = Re[e_mask]
+
+e_file = '../../data/illustris_1/snap99_p3_e.txt'
+np.savetxt(e_file,np.c_[e_ms,e_re])
 
 #print e_id.shape,tri_id.shape,dou_id.shape,only_k.shape,only_m.shape
 
-# projection2 mark
+# projection3 mark
 e_idz,tri_idz,dou_idz,only_mz,only_kz=e_id+0.3,tri_id+0.3,dou_id+0.3,only_m+0.3,only_k+0.3
 
 
