@@ -22,8 +22,8 @@ boxsize = 30
 img_size=256
 len_cen = np.array([img_size/2-1,img_size/2-1])
 
-list_tab = ['217576_p1']
-size = np.array([5.43E-04])
+#list_tab = ['217576_p1']
+#size = np.array([5.43E-04])
 #size = np.array([5.49E-04,4.71E-04,4.97E-04,4.72E-04]) # in deg
 n_src = np.empty(len(list_tab))
 n_src.fill(100)

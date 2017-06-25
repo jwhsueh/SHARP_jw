@@ -17,17 +17,22 @@ rfold,phi1 = tab[:,0],tab[:,3]
 rfold_2,phi1_2 = tab2[:,0],tab2[:,3]
 rfold_3,phi1_3 = tab3[:,0],tab3[:,3]
 
-ax1.scatter(phi0_3,np.abs(rcusp_3),color='k',marker='o',label='e = 0.38')
-ax1.scatter(phi0_2,np.abs(rcusp_2),color='r',marker='o')
-ax1.scatter(phi0,np.abs(rcusp),color='b',marker='o')
+ax1.scatter(phi0_3,np.abs(rcusp_3),color='k',marker='+')
+ax1.scatter(phi0_2,np.abs(rcusp_2),color='r',marker='.')
+ax1.scatter(phi0,np.abs(rcusp),marker='o',edgecolor='b',facecolor='none')
 ax1.set_ylim(0,0.7)
 ax1.set_xlim(40,140)
+ax1.set_xlabel('$\Delta \phi$',fontsize=14)
 
-ax11.scatter(phi1_3,np.abs(rfold_3),color='k',marker='o',label='e = 0.38')
-ax11.scatter(phi1_2,np.abs(rfold_2),color='r',marker='o')
-ax11.scatter(phi1,np.abs(rfold),color='b',marker='o')
+
+ax11.scatter(phi1_3,np.abs(rfold_3),color='k',marker='+',label='$r < 0.35 r_{caus}$')
+ax11.scatter(phi1_2,np.abs(rfold_2),color='r',marker='o',label='$r < 0.25 r_{caus}$')
+ax11.scatter(phi1,np.abs(rfold),marker='o',edgecolor='b',facecolor='none',label='$r < 0.15 r_{caus}$')
 ax11.set_ylim(0,0.7)
 ax11.set_xlim(0,60)
+ax11.set_xlabel('$\phi_1$',fontsize=14)
+ax11.legend(scatterpoints=1,frameon=False,fontsize=12)
+
 #plt.legend(loc=2,scatterpoints=1)
 #ax1.get_legend()
 
@@ -43,17 +48,19 @@ rfold,phi1 = tab[:,0],tab[:,3]
 rfold_2,phi1_2 = tab2[:,0],tab2[:,3]
 rfold_3,phi1_3 = tab3[:,0],tab3[:,3]
 
-ax2.scatter(phi0_3,np.abs(rcusp_3),color='k',marker='o',label='e = 0.38')
+ax2.scatter(phi0_3,np.abs(rcusp_3),color='k',marker='+')
 ax2.scatter(phi0_2,np.abs(rcusp_2),color='r',marker='o')
-ax2.scatter(phi0,np.abs(rcusp),color='b',marker='o')
+ax2.scatter(phi0,np.abs(rcusp),marker='o',edgecolor='b',facecolor='none')
 ax2.set_ylim(0,0.7)
 ax2.set_xlim(40,140)
+ax2.set_xlabel('$\Delta \phi$',fontsize=14)
 
-ax22.scatter(phi1_3,np.abs(rfold_3),color='k',marker='o',label='e = 0.28')
+ax22.scatter(phi1_3,np.abs(rfold_3),color='k',marker='+')
 ax22.scatter(phi1_2,np.abs(rfold_2),color='r',marker='o')
-ax22.scatter(phi1,np.abs(rfold),color='b',marker='o')
+ax22.scatter(phi1,np.abs(rfold),marker='o',edgecolor='b',facecolor='none')
 ax22.set_ylim(0,0.7)
 ax22.set_xlim(0,60)
+ax22.set_xlabel('$\phi_1$',fontsize=14)
 #plt.legend(loc=2,scatterpoints=1)
 '''
 tab = np.loadtxt('../../models/snap99_179899/179899_d3_area15_rcusp.txt')
@@ -83,16 +90,19 @@ ax3.set_xlim(0,60)
 '''
 #fig.subplots_adjust(wspace=0)
 #plt.setp([a.get_xticklabels() for a in fig.axes[:-1]],visible=False)
-fig.text(0.06,0.25,'|Rcusp|',va='center',rotation='vertical')
-fig.text(0.06,0.75,'|Rfold|',va='center',rotation='vertical')
-fig.text(0.5,0.03,'delta phi',ha='center')
-fig.text(0.5,0.48,'phi 1',ha='center')
+fig.text(0.06,0.25,'$|R_{cusp}|$',va='center',rotation='vertical',fontsize=14)
+fig.text(0.06,0.75,'$|R_{fold}|$',va='center',rotation='vertical',fontsize=14)
+#fig.text(0.5,0.03,'$\Delta \phi$',ha='center')
+#fig.text(0.5,0.48,'$\phi_1$',ha='center')
 
-fig.text(0.16,0.85,'SIE',ha='left')
-fig.text(0.16,0.82,'e=0.38',ha='left')
-fig.text(0.58,0.85,'SIE+ExpDisc',ha='left')
-fig.text(0.58,0.82,'e=0.76',ha='left')
-fig.text(0.58,0.79,'Disc Mass=15%',ha='left')
+
+fig.text(0.16,0.85,'SIE',ha='left',fontsize=12,fontproperties='serif')
+fig.text(0.16,0.42,'SIE',ha='left',fontsize=12,fontproperties='serif')
+#fig.text(0.16,0.82,'e=0.38',ha='left')
+fig.text(0.58,0.85,'SIE+ExpDisc',ha='left',fontsize=12,fontproperties='serif')
+fig.text(0.58,0.42,'SIE+ExpDisc',ha='left',fontsize=12,fontproperties='serif')
+#fig.text(0.58,0.82,'e=0.76',ha='left')
+#fig.text(0.58,0.79,'Disc Mass=15%',ha='left')
 #fig.text(0.72,0.85,'e=0.18',ha='center')
 
 '''

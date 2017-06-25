@@ -2,33 +2,30 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 path='/Volumes/sting_1/data/'
+sie_path='/Users/jwhsueh/Documents/SHARP_jw/data/sub_gravlens/snap99_elp/'
+sn_path = '/Volumes/sting_1/data/shoot_noise/'
 
-list_file = path+'snap99_elp2_Rcusp.txt'
-#list_file_sub = path+'snap99_elp2_sub_Rcusp.txt'
-list_file_sub = path+'snap99_tri2_Rcusp.txt'  # disc
-list_file_in = path+'snap99_edg_size.txt'
-size_tab = np.loadtxt(list_file_in)
+list_file_sub = path+'snap99_sn_Rcusp.txt'
+#list_file_sub = path+'snap99_elp2_Rcusp.txt'
+#list_file_sub = path+'snap99_elp2_Rcusp.txt'  # disc
+#list_file_in = path+'snap99_edg_size.txt'
+#size_tab = np.loadtxt(list_file_in)
 
-file_list = np.genfromtxt(list_file,dtype='str')
 file_list_sub = np.genfromtxt(list_file_sub,dtype='str')
-theta = np.loadtxt(list_file_in)[:,2]
-
-Rfold,Rcusp,phi0,phi1 = np.empty(1),np.empty(1),np.empty(1),np.empty(1)
-for file_one in file_list:
-	#print file_one
-	table = np.loadtxt(path+'Rcusp_f/'+file_one+'_64_Rcusp_ga.txt')
-	#mask = np.loadtxt(path+'cm_test/snap99_'+file_one+'_hfmask.txt').astype(bool)
-	#mask = mask[:(table[:,0]).size]
-	#Rfold,Rcusp,phi0,phi1 = np.append(Rfold,table[:,0][mask]),np.append(Rcusp,table[:,1][mask]),np.append(phi0,table[:,2][mask]),np.append(phi1,table[:,3][mask])
-	Rfold,Rcusp,phi0,phi1 = np.append(Rfold,table[:,0]),np.append(Rcusp,table[:,1]),np.append(phi0,table[:,2]),np.append(phi1,table[:,3])
-
+#theta = np.loadtxt(list_file_in)[:,2]
+#file_list_sub = ['227953sie_p1']
 
 Rfold_s,Rcusp_s,phi0_s,phi1_s  = np.empty(1),np.empty(1),np.empty(1),np.empty(1)
 
 
 for file_one in file_list_sub:
-	#print file_one
-	table = np.loadtxt(path+'Rcusp_f/'+file_one+'_64_Rcusp_ga.txt')
+	
+	#table = np.loadtxt(path+'Rcusp_f/'+file_one+'_64_Rcusp_ga.txt')
+	#table = np.loadtxt(sie_path+file_one+'_rcusp_cs.txt') # sie
+	table = np.loadtxt(sn_path+file_one+'_64_Rcusp_ga.txt')
+	#table = np.loadtxt(sie_path+file_one+'_rcusp.txt') # sie sn
+	
+
 	#mask = size_tab[:,3]>0.25
 	#mask = mask[:(table[:,0]).size]
 	#Rfold_s,Rcusp_s,phi0_s,phi1_s = np.append(Rfold_s,table[:,0][mask]),np.append(Rcusp_s,table[:,1][mask]),np.append(phi0_s,table[:,2][mask]),np.append(phi1_s,table[:,3][mask])
@@ -46,11 +43,6 @@ for i in range(file_list_sub.size):
 		Rfold_s,Rcusp_s,phi0_s,phi1_s = np.append(Rfold_s,table[:,0]),np.append(Rcusp_s,table[:,1]),np.append(phi0_s,table[:,2]),np.append(phi1_s,table[:,3])
 '''
 
-mask = np.abs(Rfold)<0.9
-Rfold,Rcusp,phi0,phi1=Rfold[mask],Rcusp[mask],phi0[mask],phi1[mask]
-mask = np.abs(Rcusp)<0.9
-Rfold,Rcusp,phi0,phi1=Rfold[mask],Rcusp[mask],phi0[mask],phi1[mask]
-
 mask = np.abs(Rfold_s)<0.7
 Rfold_s,Rcusp_s,phi0_s,phi1_s=Rfold_s[mask],Rcusp_s[mask],phi0_s[mask],phi1_s[mask]
 mask = np.abs(Rcusp_s)<0.7
@@ -62,10 +54,10 @@ Rfold_s,Rcusp_s,phi0_s,phi1_s=Rfold_s[mask],Rcusp_s[mask],phi0_s[mask],phi1_s[ma
 #Rfold=Rfold[Rfold<0.5]
 #Rfold_s=Rfold_s[Rfold_s<0.5]
 
-print Rfold.size, Rfold_s.size,phi0.size,phi1_s.size
+print Rfold_s.size,phi1_s.size
 #### 
 
-## ---- probability contour
+###---- probability contour
 '''
 ## cusp
 edge = np.linspace(30,120,10)
@@ -91,7 +83,7 @@ for j in range(edge.size-1):
 	prob_table[:,j] = Rcusp_b[-idx]
 	prob_sig[:,j] = Rcusp_b[-idx]/sig
 	print Rcusp_b[-idx]
-
+'''
 ## fold
 '''
 edge2 = np.linspace(0,50,11)
@@ -124,26 +116,41 @@ for j in range(edge2.size-1):
 	#prob_sig[:,j] = Rfold_b[-idx]-Rfold_b[-idx_p]
 	print Rfold_b[-idx]
 	#print Rfold_b[-idx]-Rfold_b[-idx_p]
+'''
 
+mask2 = phi0_s<75
+Rcusp_s[mask2] = Rcusp_s[mask2]/2
 
 ####
 ## plot data points
-plt.scatter(phi1_s,np.abs(Rfold_s),marker='x',color='r',alpha=0.3)
+#plt.scatter(phi1_s,np.abs(Rfold_s),marker='x',color='r',alpha=0.3)
 #plt.scatter(phi0_s,np.abs(Rcusp_s),marker='x',color='r',alpha=0.3)
 
+plt.scatter(phi1_s,np.abs(Rfold_s),marker='x',color='r')
+#plt.scatter(phi0_s,np.abs(Rcusp_s),marker='x',color='r')
+#plt.scatter(phi0_s,np.abs(Rcusp_s),marker='x',color='b')
+
 ####
-'''
+## save probability curve
+#np.savetxt('../../data/glamer/snap99_sie_cusp_bin.txt',np.c_[edge[0:-1]+5])
+#np.savetxt('../../data/glamer/snap99_fa_cusp_pd.txt',prob_table)
+
+#np.savetxt('../../data/glamer/snap99_sie_fold_bin.txt',np.c_[edge2[0:-1]+2.5])
+#np.savetxt('../../data/glamer/snap99_sie_fold_pd.txt',prob_table)
+
+####
+
 # cusp
-plt.plot(edge[0:-1]+5,prob_table[4,0:],color='k',linestyle='-.',label='1%')
-plt.plot(edge[0:-1]+5,prob_table[3,:],color='g',label='5%')
-plt.plot(edge[0:-1]+5,prob_table[2,:],color='r',label='10%')
-plt.plot(edge[0:-1]+5,prob_table[1,:],color='b',label='20%')
-plt.plot(edge[0:-1]+5,prob_table[0,:],color='k',label='50%')
-plt.fill_between(edge[0:-1]+5,prob_table[4,0:]-prob_sig[4,0:],prob_table[4,0:]+prob_sig[4,0:],color='k',alpha=0.1)
-plt.fill_between(edge[0:-1]+5,prob_table[2,:]-prob_sig[2,:],prob_table[2,:]+prob_sig[2,:],color='r',alpha=0.1)
-plt.fill_between(edge[0:-1]+5,prob_table[3,:]-prob_sig[3,:],prob_table[3,:]+prob_sig[3,:],color='g',alpha=0.3)
-plt.fill_between(edge[0:-1]+5,prob_table[0,:]-prob_sig[0,:],prob_table[0,:]+prob_sig[0,:],color='k',alpha=0.3)
-plt.fill_between(edge[0:-1]+5,prob_table[1,:]-prob_sig[1,:],prob_table[1,:]+prob_sig[1,:],color='b',alpha=0.3)
+#plt.plot(edge[0:-1]+5,prob_table[4,0:],color='k',linestyle='-.',label='1%')
+#plt.plot(edge[0:-1]+5,prob_table[3,:],color='g',label='5%')
+#plt.plot(edge[0:-1]+5,prob_table[2,:],color='r',label='10%')
+#plt.plot(edge[0:-1]+5,prob_table[1,:],color='b',label='20%')
+#plt.plot(edge[0:-1]+5,prob_table[0,:],color='k',label='50%')
+#plt.fill_between(edge[0:-1]+5,prob_table[4,0:]-prob_sig[4,0:],prob_table[4,0:]+prob_sig[4,0:],color='k',alpha=0.1)
+#plt.fill_between(edge[0:-1]+5,prob_table[2,:]-prob_sig[2,:],prob_table[2,:]+prob_sig[2,:],color='r',alpha=0.1)
+#plt.fill_between(edge[0:-1]+5,prob_table[3,:]-prob_sig[3,:],prob_table[3,:]+prob_sig[3,:],color='g',alpha=0.3)
+#plt.fill_between(edge[0:-1]+5,prob_table[0,:]-prob_sig[0,:],prob_table[0,:]+prob_sig[0,:],color='k',alpha=0.3)
+#plt.fill_between(edge[0:-1]+5,prob_table[1,:]-prob_sig[1,:],prob_table[1,:]+prob_sig[1,:],color='b',alpha=0.3)
 
 '''
 # fold
@@ -157,61 +164,75 @@ plt.fill_between(edge2[0:-1]+2.5,prob_table[2,:]-prob_sig[2,:],prob_table[2,:]+p
 plt.fill_between(edge2[0:-1]+2.5,prob_table[3,:]-prob_sig[3,:],prob_table[3,:]+prob_sig[3,:],color='g',alpha=0.3)
 plt.fill_between(edge2[0:-1]+2.5,prob_table[0,:]-prob_sig[0,:],prob_table[0,:]+prob_sig[0,:],color='k',alpha=0.3)
 plt.fill_between(edge2[0:-1]+2.5,prob_table[1,:]-prob_sig[1,:],prob_table[1,:]+prob_sig[1,:],color='b',alpha=0.3)
-
-
+'''
+'''
 ## flux ratio data point
 tab = np.loadtxt('../../data/flux_ratio.txt')
 tab[:,1],tab[:,3] = np.abs(tab[:,1]),np.abs(tab[:,3])
-'''
+
 #cusp
-plt.scatter(tab[:,0],tab[:,1],color='k',marker='^',s=100)
+plt.scatter(tab[:,0],tab[:,1],color='k',marker='^',s=120)
 plt.text(tab[1,0]-4,tab[1,1]-0.05,'MG0414',color='k',fontsize=14)
-plt.text(tab[2,0]+1,tab[2,1]-0.01,'B1422',color='k',fontsize=14)
+plt.text(tab[2,0]+1,tab[2,1],'B1422',color='k',fontsize=14)
 plt.text(tab[3,0]-4,tab[3,1]+0.02,'B1608',color='k',fontsize=14)
-plt.plot(43,tab[4,1],marker='o',mec='k',mfc='none',ms=6,mew=1.3)
+plt.plot(43,tab[4,1],marker='o',mec='k',mfc='none',ms=8,mew=2.3)
 plt.text(42,tab[4,1]-0.04,'B2045',color='k',fontsize=14)
 plt.errorbar(42.5,tab[4,1]+0.002,xerr=2.5,xuplims=True,color='k',elinewidth=2,capsize=4)
+
+plt.plot(106.5,tab[0,1],marker='o',mec='k',mfc='none',ms=8,mew=2.3)
+plt.errorbar(107.1,tab[0,1]+0.001,xerr=2.5,xlolims=True,color='k',elinewidth=2,capsize=4)
+plt.text(101,tab[0,1]+0.02,'B0128',color='k',fontsize=14)
+'''
 '''
 #fold
-plt.scatter(tab[:,2],tab[:,3],color='k',marker='^',s=100)
+plt.scatter(tab[:,2],tab[:,3],color='k',marker='^',s=120)
 plt.text(tab[0,2]-2,tab[0,3]+0.02,'B0128',color='k',fontsize=14)
 plt.text(tab[1,2]+0.5,tab[1,3],'MG0414',color='k',fontsize=14)
+plt.text(tab[2,2]-2,tab[2,3]+0.02,'B1422',color='k',fontsize=14)
 plt.text(tab[4,2]-2,tab[4,3]+0.03,'B2045',color='k',fontsize=14)
 
-tab = np.loadtxt('../../data/flux_ratio_disk.txt')
-tab[:,1],tab[:,3] = np.abs(tab[:,1]),np.abs(tab[:,3])
+plt.plot(38.5,tab[3,1],marker='o',mec='k',mfc='none',ms=8,mew=2.3)
+plt.errorbar(39,tab[3,1]+0.001,xerr=1,xlolims=True,color='k',elinewidth=2,capsize=4)
+plt.text(35,tab[3,1]+0.02,'B1608',color='k',fontsize=14)
 '''
+#tab = np.loadtxt('../../data/flux_ratio_disk.txt')
+#tab[:,1],tab[:,3] = np.abs(tab[:,1]),np.abs(tab[:,3])
+
 #cusp
-plt.scatter(tab[:,0],tab[:,1],color='b',marker='d',s=100)
-plt.text(tab[0,0]+1,tab[0,1]-0.01,'B0712',color='b',fontsize=14)
-plt.text(tab[1,0]-9.5,tab[1,1]-0.01,'B1555',color='b',fontsize=14)
+#plt.scatter(tab[:,0],tab[:,1],color='b',marker='d',s=120)
+#plt.text(tab[0,0]+1,tab[0,1]-0.01,'B0712',color='b',fontsize=14)
+#plt.text(tab[1,0]-10,tab[1,1]-0.01,'B1555',color='b',fontsize=14)
 '''
 #fold
-plt.scatter(tab[:,2],np.abs(tab[:,3]),color='b',marker='d',s=100)
+plt.scatter(tab[:,2],np.abs(tab[:,3]),color='b',marker='d',s=120)
 plt.text(tab[0,2]-5,tab[0,3]-0.01,'B0712',color='b',fontsize=14)
 plt.text(tab[1,2]+0.5,tab[1,3]+0.01,'B1555',color='b',fontsize=14)
+'''
 
 ##
 
-#plt.text(42,0.85,'Elliptical lens',fontsize=14)
-plt.text(6,0.85,'Disc lens',fontsize=14)
+plt.title('SIE particle halo (NN=64)')
+#plt.title('SIE analytical halo')
+#plt.text(42,0.85,'SIE particle halo',fontsize=14)
+#plt.text(6,0.85,'Elliptical lens',fontsize=14)
 #plt.text(42,0.8,'$P$ $(>|R_{cusp}|)$',fontsize=14)
-plt.text(6,0.8,'$P$ $(>|R_{fold}|)$',fontsize=14)
+#plt.text(6,0.8,'$P$ $(>|R_{fold}|)$',fontsize=14)
 
 #plt.title('edge-on disks')
 #plt.title('elliptical gauss fit')
-#plt.ylabel('|$R_{cusp}$|')
-plt.ylabel('|$R_{fold}$|')
+#plt.ylabel('|$R_{cusp}$|',fontsize=18)
+plt.ylabel('|$R_{fold}$|',fontsize=18)
 #plt.ylabel('number counts')
-#plt.xlabel('$\Delta \phi$')
-plt.xlabel('$\phi_1$')
+#plt.xlabel('$\Delta \phi$',fontsize=18)
+plt.xlabel('$\phi_1$',fontsize=18)
 #plt.xlabel('theta1/theta_E')
 #plt.legend(loc=1)
 #plt.xlim(40,110)
 plt.xlim(5,40)
-plt.ylim(0,0.9)
+#plt.ylim(0,0.9)
+plt.ylim(0,0.5)
 #plt.gca().set_aspect(70/0.9)
-plt.gca().set_aspect(35/0.9)
+#plt.gca().set_aspect(35/0.9)
 #plt.show()
-#plt.savefig('../../data/glamer/glamer_tri_fold_pd.png',bbox_inches='tight')
+plt.savefig('../../data/glamer/siepar_64_fold.png',bbox_inches='tight')
 

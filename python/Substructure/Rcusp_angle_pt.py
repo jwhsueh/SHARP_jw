@@ -9,8 +9,8 @@ from astropy.table import Table
 from astropy.wcs import WCS
 
 ### change here ###
-subID=297720
-proj=1
+subID=215763
+proj=3
 NN='64'
 #NN='128'
 ## sub flag =1
@@ -21,7 +21,7 @@ subflag=0
 # or here 
 #real_size =5.21E-06# rad
 #real_size = np.degrees(real_size)
-real_size =2.99E-04# in deg
+real_size =0.00045048962# in deg
 # degree
 real_size = real_size*3600*1000 #mas
 

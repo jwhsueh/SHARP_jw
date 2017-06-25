@@ -1,5 +1,5 @@
-set omitcore=1.0e-6
-data B1422_obs_2.dat
+set omitcore= 1.0e-6
+data B1422_obs.dat
 set chimode= 1
 set checkparity = 0
 set gridflag= 0
@@ -10,9 +10,7 @@ set zsrc=3.62
 
 
 startup 1 1
-
-alpha 7.510728e-01 7.531694e-01 -6.653686e-01 0.31 5.581020e+01 0.164 52.6 0.0 0.0 1.000000e+00
-
+alpha 6.281497e-01 9.502470e-01 -8.020463e-01 7.294728e-01 5.374583e+01 5.844261e-04 -2.740046e+01 0.0 0.0 1.000000e+00
 
 1 1 1 1 1 1 1 0 0 0
 

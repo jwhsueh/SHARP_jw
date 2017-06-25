@@ -1,0 +1,22 @@
+set gridflag = 0
+
+# this block writes a kappa map for a particular choice of model;
+# this would be omitted when you work with a kappa map generated from
+# images of galaxies
+
+setlens 1 1
+  alpha 1 0 0 0.3 -90 0 0 0.2 0 0.8
+  0 0 0 0 0 0 0 0 0 0
+makekapmap test-kap.fits 3 test-kap.rng -5.0 5.0 1001 -5.0 5.0 1001
+
+# this command reads the kappa map, uses FFTs to solve for the lensing
+# properties (potential and its first and second derivatives), and writes
+# the results in a binary file that will later be used with loadkapmap;
+# here the "trim" value tells the code to trim the kappa map at an
+# isodensity contour corresponding to kappa = 0.08, which can be useful
+# to avoid edge effects; you will need to experiment with this for your
+# data
+
+kap2lens test-kap.fits 3 test-kap.rng test.lens trim 0.08
+
+quit

@@ -8,7 +8,7 @@ import pandas as pd
 basePath = '../../data/illustris_1'
 #redshift = 1.0
 
-ssNumber = '120'
+ssNumber = '099'
 print ssNumber
 
 
@@ -77,7 +77,7 @@ catalog3x = basePath+'/Tot_Lens'+str(ssNumber)+'_x.dat'
 catalog3y = basePath+'/Tot_Lens'+str(ssNumber)+'_y.dat'
 catalog3z = basePath+'/Tot_Lens'+str(ssNumber)+'_z.dat'
 
-Lens_f = ['subfindID','subflag','mass','2dmass_R_E','R_E','DMfrac_R_E']
+Lens_f = ['subfindID','subflag','mass','R_E','DMfrac_R_E']
 #Lens_fy = ['subfindID','mass','2dmass_R_Ey','R_Ey','DMfrac_R_Ey']
 #Lens_fz = ['subfindID','mass','2dmass_R_Ez','R_Ez','DMfrac_R_Ez']
 
@@ -85,9 +85,9 @@ Lens_x = pd.read_csv(catalog3x,sep = '\s+',names = Lens_f,comment = '#')
 Lens_y = pd.read_csv(catalog3y,sep = '\s+',names = Lens_f,comment = '#')
 Lens_z = pd.read_csv(catalog3z,sep = '\s+',names = Lens_f,comment = '#')
 
-Lens_x = pd.DataFrame(Lens_x,columns = ['subfindID','2dmass_R_E','R_E','DMfrac_R_E'])
-Lens_y = pd.DataFrame(Lens_y,columns = ['subfindID','2dmass_R_E','R_E','DMfrac_R_E'])
-Lens_z = pd.DataFrame(Lens_z,columns = ['subfindID','2dmass_R_E','R_E','DMfrac_R_E'])
+Lens_x = pd.DataFrame(Lens_x,columns = ['subfindID','R_E','mass'])
+Lens_y = pd.DataFrame(Lens_y,columns = ['subfindID','R_E','mass'])
+Lens_z = pd.DataFrame(Lens_z,columns = ['subfindID','R_E','mass'])
 
 #Lens_cata = pd.merge(Lens_x,Lens_y,how='inner',on = 'subfindID')
 #Lens_cata = pd.merge(Lens_cata,Lens_z,how='inner',on = 'subfindID')
@@ -126,22 +126,26 @@ Phot_z.relaxation.loc[Phot_z.groupID.isin(not_relax.groupID)] = 1
 
 #print Phot_x.relaxation
 
-'''
-## ----- FULL gas catalog (Dandan) ----- ##
 
-catalog3x = basePath+'/Dandan_Gas'+str(ssNumber)+'_x.dat'
-catalog3y = basePath+'/Dandan_Gas'+str(ssNumber)+'_y.dat'
-catalog3z = basePath+'/Dandan_Gas'+str(ssNumber)+'_z.dat'
+## ----- FULL Johnson magnitude catalog (Dandan) ----- ##
 
-Gas_fx = ['subfindID','fgas','fcgs']
-Gas_fy = ['subfindID','fgas','fcgs']
-Gas_fz = ['subfindID','fgas','fcgs']
+catalog3x = basePath+'/Tot_mag'+str(ssNumber)+'_x.dat'
+catalog3y = basePath+'/Tot_mag'+str(ssNumber)+'_y.dat'
+catalog3z = basePath+'/Tot_mag'+str(ssNumber)+'_z.dat'
 
-Gas_x = pd.read_csv(catalog3x,sep = '\s+',names = Gas_fx,comment = '#')
-Gas_y = pd.read_csv(catalog3y,sep = '\s+',names = Gas_fy,comment = '#')
-Gas_z = pd.read_csv(catalog3z,sep = '\s+',names = Gas_fz,comment = '#')
+Mag_fx = ['subfindID','subflag','Reff_JohnVrf', 'MagV_ep5']
+Mag_fy = ['subfindID','subflag','Reff_JohnVrf', 'MagV_ep5']
+Mag_fz = ['subfindID','subflag','Reff_JohnVrf', 'MagV_ep5']
 
-'''
+Mag_x = pd.read_csv(catalog3x,sep = '\s+',names = Mag_fx,comment = '#')
+Mag_y = pd.read_csv(catalog3y,sep = '\s+',names = Mag_fy,comment = '#')
+Mag_z = pd.read_csv(catalog3z,sep = '\s+',names = Mag_fz,comment = '#')
+
+Mag_x = pd.DataFrame(Mag_x,columns = ['subfindID','Reff_JohnVrf', 'MagV_ep5'])
+Mag_y = pd.DataFrame(Mag_y,columns = ['subfindID','Reff_JohnVrf', 'MagV_ep5'])
+Mag_z = pd.DataFrame(Mag_z,columns = ['subfindID','Reff_JohnVrf', 'MagV_ep5'])
+
+
 
 ## -------- put together to larger cataloga (x,y,z) ------- ##
 
@@ -150,17 +154,18 @@ standard_x = pd.merge(kinematics,Lens_x,how = 'inner',on = 'subfindID')
 #standard_x = pd.merge(standard_x,inc_x,how = 'inner',on = 'subfindID')
 standard_x = pd.merge(standard_x,Phot_x,how = 'inner',on = 'subfindID')
 #print standard_x
-#standard_x = pd.merge(standard_x,Gas_x,how = 'inner',on = 'subfindID')
+standard_x = pd.merge(standard_x,Mag_x,how = 'inner',on = 'subfindID')
+#print standard_x
 
 standard_y = pd.merge(kinematics,Lens_y,how = 'inner',on = 'subfindID')
 #standard_y = pd.merge(standard_y,inc_y,how = 'inner',on = 'subfindID')
 standard_y = pd.merge(standard_y,Phot_y,how = 'inner',on = 'subfindID')
-#standard_y = pd.merge(standard_y,Gas_y,how = 'inner',on = 'subfindID')
+standard_y = pd.merge(standard_y,Mag_y,how = 'inner',on = 'subfindID')
 
 standard_z = pd.merge(kinematics,Lens_z,how = 'inner',on = 'subfindID')
 #standard_z = pd.merge(standard_z,inc_z,how = 'inner',on = 'subfindID')
 standard_z = pd.merge(standard_z,Phot_z,how = 'inner',on = 'subfindID')
-#standard_z = pd.merge(standard_z,Gas_z,how = 'inner',on = 'subfindID')
+standard_z = pd.merge(standard_z,Mag_z,how = 'inner',on = 'subfindID')
 
 
 #standard = pd.merge(standard,Lens_cata,how = 'inner',on = 'subfindID')

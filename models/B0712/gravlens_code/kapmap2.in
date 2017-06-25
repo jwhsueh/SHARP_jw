@@ -1,0 +1,26 @@
+set gridflag = 0
+
+# this block loads the .lens file created previously and uses it as the
+# mass model
+
+loadkapmap test.lens
+
+setlens 1 1
+  kapmap 1 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0
+
+# as a test, we will compute the lensing properties along the x and y axes
+plotdef1 test1x.dat 0.1 6.0 60 0.0 0.0 1
+plotdef1 test1y.dat 0.0 0.0 1 0.1 6.0 60
+
+# this block defines the model we started with, for testing purposes
+
+setlens 1 1
+  alpha 1 0 0 0.3 -90 0 0 0.2 0 0.8
+  0 0 0 0 0 0 0 0 0 0
+
+# again compute the lensing properties along the x and y axes for comparison
+plotdef1 test2x.dat 0.1 6.0 60 0.0 0.0 1
+plotdef1 test2y.dat 0.0 0.0 1 0.1 6.0 60
+
+quit

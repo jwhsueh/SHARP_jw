@@ -2,13 +2,15 @@ import numpy as np
 
 path='/Volumes/sting_1/data/'
 
-list_file = path+'snap99_fa_Rcusp.txt'
+list_file = path+'snap99_elp2_Rcusp.txt'
+sie_path='/Users/jwhsueh/Documents/SHARP_jw/data/sub_gravlens/snap99_elp/'
 
 file_list = np.genfromtxt(list_file,dtype='str')
 
 Rfold,Rcusp,phi0,phi1 = np.empty(1),np.empty(1),np.empty(1),np.empty(1)
 for file_one in file_list:
-	table = np.loadtxt(path+'Rcusp_f/'+file_one+'_64_Rcusp_ga.txt')
+	#table = np.loadtxt(path+'Rcusp_f/'+file_one+'_64_Rcusp_ga.txt')
+	table = np.loadtxt(sie_path+file_one+'_rcusp.txt') # sie
 	Rfold,Rcusp,phi0,phi1 = np.append(Rfold,table[:,0]),np.append(Rcusp,table[:,1]),np.append(phi0,table[:,2]),np.append(phi1,table[:,3])
 
 mask = np.abs(Rfold)<0.7
@@ -24,11 +26,13 @@ Rf_e,Rc_e,p0_e,p1_e,Rfe_e,Rce_e = tab_e[:,3],tab_e[:,1],tab_e[:,0],tab_e[:,2],ta
 tab_d = np.loadtxt('../../data/flux_ratio_disk.txt')
 Rf_d,Rc_d,p0_d,p1_d,Rfe_d,Rce_d = tab_d[:,3],tab_d[:,1],tab_d[:,0],tab_d[:,2],tab_d[:,4],tab_d[:,5]
 
-p0,p1,Rfe,Rce=p0_e,p1_e,Rfe_e,Rce_e
-Rf,Rc=np.abs(Rf_e),np.abs(Rc_e)
+## change here
 
-#p0,p1,Rfe,Rce=p0_d,p1_d,Rfe_d,Rce_d
-#Rf,Rc=np.abs(Rf_d),np.abs(Rc_d)
+#p0,p1,Rfe,Rce=p0_e,p1_e,Rfe_e,Rce_e
+#Rf,Rc=np.abs(Rf_e),np.abs(Rc_e)
+
+p0,p1,Rfe,Rce=p0_d,p1_d,Rfe_d,Rce_d
+Rf,Rc=np.abs(Rf_d),np.abs(Rc_d)
 
 ## ---- probability contour
 

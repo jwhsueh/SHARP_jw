@@ -40,7 +40,7 @@ end_startup
 ## can be ignored unless you do opts
 start_setopt
 0 1 0 0 0 0 0 
-1 1 1 1 1 1 0
+#1 1 1 1 1 1 0
 #1 0 0 0 0 1 0 
 0 1 1 
 end_setopt
@@ -48,13 +48,16 @@ end_setopt
 ## execute commands
 start_command
 
-readobs_point obs_point_2.dat
+critdens 0.34 3.62
+mpc2arcsec 0.34 1
+
+#readobs_point obs_point_2.dat
 #parprior prior_b0712_match.dat
 
-optimize
+#optimize
 #randomize
 #varyone 2 2 -1.12 -1.13 20 
-findimg
+#findimg
 #writeimage
 #writecrit 1.339
 

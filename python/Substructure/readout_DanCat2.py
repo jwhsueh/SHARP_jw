@@ -1,7 +1,7 @@
 import numpy as np
 import groupcat
 
-ssNumber = '120'
+ssNumber = '099'
 print ssNumber
 
 catPath = '/Volumes/narsil_1/jwhsueh/illustris_1/snapshot_catalog/LensingCataSnap'+str(ssNumber)+'/'
@@ -16,12 +16,12 @@ Proj = ['NatProj_1/','NatProj_2/','NatProj_3/']
 
 #GroupFirstSub = groupcat.loadHalos(basePath,ssNumber,fields = ['GroupFirstSub'])
 
-TotList = ['TotCata_Lens.list','TotCata_Phot.list','TotCata_Gas.list']
-NameList = ['Tot_Lens','Tot_Phot','Tot_Gas']
-list_idx = 1
+TotList = ['TotCata_Lens.list','TotCata_Phot.list','TotCata_Johnson.list']
+NameList = ['Tot_Lens','Tot_Phot','Tot_mag']
+list_idx = 2 ## here
 print NameList[list_idx]
 proj_name = ['x','y','z']
-p_index = 0 # Proj index
+p_index = 2 # Proj index
 print p_index
 
 cataName = basePath+NameList[list_idx]+ssNumber+'_'+proj_name[p_index]+'.dat'
@@ -30,8 +30,8 @@ CataList = open(catPath+Proj[p_index]+TotList[list_idx],'r')
 CataList = CataList.read().splitlines()
 
 ## Lens
-field = [['SubfindID','central galaxy = 0','mass [M_sun/h]','R_ein', 'DMfrac w/i R_ein'],['SubfindID','central galaxy = 0','stellar mass','half-stellar mass radius (arcsec)','Sersic index','surface brightness at Reff_Exp (mag/arcsec^2)','1:Early(deV);0:Late type(Exp)']]
-f_idx = [[1,5,7,11],[1,8,10,16,22,24]]
+field = [['SubfindID','central galaxy = 0','mass [M_sun/h]','R_ein', 'DMfrac w/i R_ein'],['SubfindID','central galaxy = 0','stellar mass','half-stellar mass radius (arcsec)','Sersic index','surface brightness at Reff_Exp (mag/arcsec^2)','1:Early(deV);0:Late type(Exp)'],['SubfindID','central galaxy = 0','Reff_JohnVrf','MagV_ep5']]
+f_idx = [[1,5,7,11],[1,8,10,16,22,24],[1,13,20]]
 
 ## Phot
 #field = ['SubfindID','central galaxy = 0','stellar mass','half-stellar mass radius (arcsec)','Sersic index','surface brightness ar Reff_Exp (mag/arcsec^2)','1:Early(deV);0:Late type(Exp)']

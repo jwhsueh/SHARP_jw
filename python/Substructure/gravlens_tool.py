@@ -53,9 +53,9 @@ def create_opt(macro_mod,micro_mod,path,output):
 
 def run_opt(path,optfile):
 
-	os.system('./lensmodel '+path+optfile)
+	outline = commands.getstatusoutput('./lensmodel '+path+optfile)
 
-	return
+	return outline[1]
 
 def create_bestSub(path):
 
@@ -131,7 +131,7 @@ def create_findimg(micro_mod,path,output):
 
 def gravlens_SIE(model):
 
-	lenspara = [model.b,model.xc,model.yc,model.q,model.PA,model.gamma1,model.gamma2]
+	lenspara = [model.b,model.xc,model.yc,model.e,model.PA,model.gamma1,model.gamma2]
 	lenspara = str(lenspara)[1:-1].replace(',','')
 	Aline = 'alpha '+lenspara+' 0.0 0.0 1.0\n'
 

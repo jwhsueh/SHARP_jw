@@ -20,8 +20,8 @@ import plot_lensmod as pltlm
 def model_plot(sx, sy, cx, cy):
     plt.scatter(sx,sy,marker='o',s= 50,edgecolor='k',facecolors='r',label='Source')
     #plt.scatter(cx,cy,'^',ms=10,label='lenses',mfc='k')
-    plt.scatter(cx[0],cy[0],marker='^',edgecolor='k',s= 100,facecolors='k',label = 'SIE center')
-    plt.scatter(cx[1],cy[1],marker='v',edgecolor='k',s= 100,facecolors='r',label = 'Disc center')
+    plt.scatter(cx[0],cy[0],marker='^',edgecolor='none',s= 100,facecolors='k',label = 'SIE centre')
+    plt.scatter(cx[1],cy[1],marker='v',edgecolor='k',s= 100,facecolors='r',label = 'Disc centre')
 
 #---------------------------------------------------------------------------
 
@@ -152,32 +152,33 @@ def gravlens_b0712(ax=None, showylab=True):
     ymod = [-6.630242e-01 ,2.504895e-04,-1.557516e-01 ,4.585341e-01]
 
     """ Set lens mass centroids """
-    cx = [ 7.937542e-01, 8.485733e-01] # x position
-    cy = [ 1.462434e-01, 1.697811e-01] # y position
+    cx = [ 0.801, 0.806] # x position
+    cy = [ 1.47e-01, 1.51e-01] # y position
 
     """ Set the source positions """
-    sx,sy= -1.971670e-01, -1.512136e-01
+    sx,sy= 0.6924,0.0104
 
     """ Set the observed disc mid plane """
 
-    x_sec = [-0.0608,-0.2724]
-    y_sec = [0.3806,-0.8194]
+    #x_sec = [-0.0608,-0.2724]
+    #y_sec = [0.3806,-0.8194]
 
     """ Do the plotting """
     pltlm.plot_critcaust(critfile,'crit',ax=ax)
     pltlm.plot_critcaust(critfile,'caust',sls=':',ax=ax)
     model_plot(sx,sy,cx,cy)
     img_pos(obsfile,xmod,ymod)
-    disc_plane(x_sec,y_sec)
+    #disc_plane(x_sec,y_sec)
 
-    plt.xlabel(r'$\Delta  \alpha $ (arcsec)')
+    plt.xlabel(r'$\Delta  \alpha $ (arcsec)',fontsize=14)
     if showylab:
-        plt.ylabel('$\Delta \delta$ (arcsec)')
+        plt.ylabel('$\Delta \delta$ (arcsec)',fontsize=14)
 
-    #plt.xlim(0.3724,-0.8276)
-    #plt.ylim(-0.8194,0.3806)
-    plt.legend(loc=4,scatterpoints=1)
-    #plt.axes().set_aspect('equal')
+    plt.xlim(2.1,-0.6)
+    plt.ylim(-1.1,1.6)
+    plt.legend(loc=1,scatterpoints=1)
+    plt.axes().set_aspect('equal')
+    plt.savefig('b0712_lens.png',bbox_inches='tight',dpi=200)
 
 #---------------------------------------------------------------------------
 

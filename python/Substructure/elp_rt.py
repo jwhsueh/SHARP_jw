@@ -5,7 +5,7 @@ import RcuspTool as rt
 
 model_path = '/Users/jwhsueh/Documents/SHARP_jw/data/sub_gravlens/snap99_elp/'
 
-sublist='285514_p1'
+sublist='179899sie_p1'
 n_src=100
 
 ## read-in best model

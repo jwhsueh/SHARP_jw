@@ -48,18 +48,24 @@ subfindID=table[:,0]
 df=table[:,1]
 bf=table[:,2]
 Re=table[:,3]
+m200=table[:,4] # Msun/h
 #subflag=table[:,5]
 ms=table[:,6]
 ser=table[:,8]
 mor=table[:,10]
+Rv=table[:,13]
+vmag=table[:,14]
+
+#bri=vmag/0.25/np.pi/Rv**2
+bri=vmag
 
 ##--- central & DM mass cut
 mask=np.in1d(subfindID,cenID)
-subfindID,bf,ser,mor,df,Re,ms=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask],Re[mask],ms[mask]
-Rea,msa = Re,ms
+subfindID,bf,ser,mor,df,Re,ms,m200,bri=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask],Re[mask],ms[mask],m200[mask],bri[mask]
+Rea,msa,m200a = Re,ms,m200
 
 all_list = '../../data/illustris_1/snap99_p1_all.txt'
-np.savetxt(all_list,np.c_[msa,Rea],newline='\n')
+np.savetxt(all_list,np.c_[msa,Rea,m200a],newline='\n')
 
 ## Re flag
 #mask=Re>0.3
@@ -84,6 +90,8 @@ tri_re=Re[tri_mask]
 tri_bf=bf[tri_mask]
 tri_df=df[tri_mask]
 tri_dim = tri_ms*(1-2.*tri_bf)
+tri_m200 = m200[tri_mask]
+tri_bri =bri[tri_mask]
 
 d_id = subfindID[df_mask]
 d_ms=ms[df_mask]
@@ -94,7 +102,7 @@ np.savetxt(mor_file,np.c_[m_ms,m_re])
 k_file = '../../data/illustris_1/snap99_p1_k.txt'
 np.savetxt(k_file,np.c_[d_ms,d_re])
 tri_file = '../../data/illustris_1/snap99_p1_tri.txt'
-np.savetxt(tri_file,np.c_[tri_id,tri_ms,tri_re,tri_dim,tri_df])
+np.savetxt(tri_file,np.c_[tri_id,tri_ms,tri_re,tri_dim,tri_df,tri_m200,tri_bri])
 
 u_id=np.union1d(k_id,m_id)
 in_id=np.intersect1d(k_id,m_id)
@@ -107,9 +115,11 @@ e_mask = ~np.in1d(subfindID,u_id)
 e_id=subfindID[e_mask]
 e_ms=ms[e_mask]
 e_re = Re[e_mask]
+e_m200=m200[e_mask]
+e_bri=bri[e_mask]
 
 e_file = '../../data/illustris_1/snap99_p1_e.txt'
-np.savetxt(e_file,np.c_[e_ms,e_re])
+np.savetxt(e_file,np.c_[e_ms,e_re,e_m200,e_bri])
 
 #print e_id.shape,tri_id.shape,dou_id.shape,only_k.shape,only_m.shape
 
@@ -123,21 +133,27 @@ subfindID=table2[:,0]
 df=table2[:,1]
 bf=table2[:,2]
 Re=table2[:,3]
+m200=table2[:,4] # Msun/h
 #subflag=table[:,5]
-ms=table[:,6]
+ms=table2[:,6]
 ser=table2[:,8]
 mor=table2[:,10]
+Rv=table2[:,13]
+vmag=table2[:,14]
+
+#bri=vmag/0.25/np.pi/Rv**2
+bri=vmag
 
 ##--- central & DM mass cut
 mask=np.in1d(subfindID,cenID)
-subfindID,bf,ser,mor,df,Re,ms=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask],Re[mask],ms[mask]
-Rea,msa = Re,ms
+subfindID,bf,ser,mor,df,Re,ms,m200,bri=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask],Re[mask],ms[mask],m200[mask],bri[mask]
+Rea,msa,m200a = Re,ms,m200
 
 all_list = '../../data/illustris_1/snap99_p2_all.txt'
-np.savetxt(all_list,np.c_[msa,Rea],newline='\n')
+np.savetxt(all_list,np.c_[msa,Rea,m200a],newline='\n')
 
 ## Re flag
-#mask=Re>0.0
+#mask=Re>0.3
 #subfindID,bf,ser,mor,df=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask]
 
 ## set up subgroup
@@ -159,6 +175,8 @@ tri_re=Re[tri_mask]
 tri_bf=bf[tri_mask]
 tri_df=df[tri_mask]
 tri_dim = tri_ms*(1-2.*tri_bf)
+tri_m200 = m200[tri_mask]
+tri_bri=bri[tri_mask]
 
 d_id = subfindID[df_mask]
 d_ms=ms[df_mask]
@@ -169,7 +187,7 @@ np.savetxt(mor_file,np.c_[m_ms,m_re])
 k_file = '../../data/illustris_1/snap99_p2_k.txt'
 np.savetxt(k_file,np.c_[d_ms,d_re])
 tri_file = '../../data/illustris_1/snap99_p2_tri.txt'
-np.savetxt(tri_file,np.c_[tri_id,tri_ms,tri_re,tri_dim,tri_df])
+np.savetxt(tri_file,np.c_[tri_id,tri_ms,tri_re,tri_dim,tri_df,tri_m200,tri_bri])
 
 u_id=np.union1d(k_id,m_id)
 in_id=np.intersect1d(k_id,m_id)
@@ -182,9 +200,11 @@ e_mask = ~np.in1d(subfindID,u_id)
 e_id=subfindID[e_mask]
 e_ms=ms[e_mask]
 e_re = Re[e_mask]
+e_m200=m200[e_mask]
+e_bri=bri[e_mask]
 
 e_file = '../../data/illustris_1/snap99_p2_e.txt'
-np.savetxt(e_file,np.c_[e_ms,e_re])
+np.savetxt(e_file,np.c_[e_ms,e_re,e_m200,e_bri])
 
 #print e_id.shape,tri_id.shape,dou_id.shape,only_k.shape,only_m.shape
 
@@ -198,21 +218,27 @@ subfindID=table3[:,0]
 df=table3[:,1]
 bf=table3[:,2]
 Re=table3[:,3]
+m200=table3[:,4] # Msun/h
 #subflag=table[:,5]
-ms=table[:,6]
+ms=table3[:,6]
 ser=table3[:,8]
 mor=table3[:,10]
+Rv=table3[:,13]
+vmag=table3[:,14]
+
+#bri=vmag/0.25/np.pi/Rv**2
+bri=vmag
 
 ##--- central & DM mass cut
 mask=np.in1d(subfindID,cenID)
-subfindID,bf,ser,mor,df,Re,ms=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask],Re[mask],ms[mask]
-Rea,msa = Re,ms
+subfindID,bf,ser,mor,df,Re,ms,m200,bri=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask],Re[mask],ms[mask],m200[mask],bri[mask]
+Rea,msa,m200a = Re,ms,m200
 
 all_list = '../../data/illustris_1/snap99_p3_all.txt'
-np.savetxt(all_list,np.c_[msa,Rea],newline='\n')
+np.savetxt(all_list,np.c_[msa,Rea,m200a],newline='\n')
 
 ## Re flag
-#mask=Re>0.0
+#mask=Re>0.3
 #subfindID,bf,ser,mor,df=subfindID[mask],bf[mask],ser[mask],mor[mask],df[mask]
 
 ## set up subgroup
@@ -234,6 +260,8 @@ tri_re=Re[tri_mask]
 tri_bf=bf[tri_mask]
 tri_df=df[tri_mask]
 tri_dim = tri_ms*(1-2.*tri_bf)
+tri_m200 = m200[tri_mask]
+tri_bri=bri[tri_mask]
 
 d_id = subfindID[df_mask]
 d_ms=ms[df_mask]
@@ -244,7 +272,7 @@ np.savetxt(mor_file,np.c_[m_ms,m_re])
 k_file = '../../data/illustris_1/snap99_p3_k.txt'
 np.savetxt(k_file,np.c_[d_ms,d_re])
 tri_file = '../../data/illustris_1/snap99_p3_tri.txt'
-np.savetxt(tri_file,np.c_[tri_id,tri_ms,tri_re,tri_dim,tri_df])
+np.savetxt(tri_file,np.c_[tri_id,tri_ms,tri_re,tri_dim,tri_df,tri_m200,tri_bri])
 
 u_id=np.union1d(k_id,m_id)
 in_id=np.intersect1d(k_id,m_id)
@@ -257,10 +285,11 @@ e_mask = ~np.in1d(subfindID,u_id)
 e_id=subfindID[e_mask]
 e_ms=ms[e_mask]
 e_re = Re[e_mask]
+e_m200=m200[e_mask]
+e_bri=bri[e_mask]
 
 e_file = '../../data/illustris_1/snap99_p3_e.txt'
-np.savetxt(e_file,np.c_[e_ms,e_re])
-
+np.savetxt(e_file,np.c_[e_ms,e_re,e_m200,e_bri])
 #print e_id.shape,tri_id.shape,dou_id.shape,only_k.shape,only_m.shape
 
 # projection3 mark
