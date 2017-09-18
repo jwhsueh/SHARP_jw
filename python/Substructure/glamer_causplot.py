@@ -1,12 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-caus=np.loadtxt('/Volumes/sting_1/snap99_140304/caustic_140304_p1.txt')
-caus2=np.loadtxt('/Volumes/sting_1/snap99_275833/caustic_275833_p1sub.txt')
-#crit=np.loadtxt('/Users/jwhsueh/Documents/glamer/examples/ParticleExample/build/critical_proj3_281185sub_64.txt')
-#crit2=np.loadtxt('/Users/jwhsueh/Documents/glamer/examples/ParticleExample/build/critical_proj3_281185_64.txt')
-src_pt=np.loadtxt('/Volumes/sting_1/snap99_140304/140304_p1_src.dat')
-src2_pt=np.loadtxt('/Volumes/sting_1/snap99_275833/275833_p1sub_src.dat')
+caus=np.loadtxt('/Volumes/sting_1/subs/caustic_sie_0.txt')
+#caus=np.loadtxt('/Users/jwhsueh/Documents/SHARP_jw/data/sub_gravlens/B1422_0.crit')
+caus = np.degrees(caus)*3600
+caus[:,0] = caus[:,0]
+caus[:,1] = caus[:,1]
+
+sx=3.906056671923252566e-01 
+sy=-4.160411050175467640e-01
 
 #mask2=crit2[:,2]==0
 #mask=crit[:,2]==0
@@ -18,10 +20,10 @@ src2_pt=np.loadtxt('/Volumes/sting_1/snap99_275833/275833_p1sub_src.dat')
 
 
 plt.figure(1)
-#plt.subplot(211)
+#plt.subplot(211)7.453065220167933713e-01 7.676655103095577637e-01
 #plt.scatter(caus[:,0],caus[:,1],color='r',marker='.',s=1)
-#plt.scatter(src_pt[:100,0],src_pt[:100,1],marker='.',s=1)
-plt.scatter(src_pt[10,0],src_pt[10,1],marker='*',s=50,color='b')
+plt.scatter((sx-7.676655103095577637e-01), (sy+6.754106455630485284e-01))
+#plt.scatter(src_pt[10,0],src_pt[10,1],marker='*',s=50,color='b')
 #plt.scatter(src2_pt[:,0],src_pt[:,1],marker='.',s=1)
 plt.plot(caus[:,0],caus[:,1],color='r',label='no sub')
 #plt.plot(caus2[:,0],caus2[:,1],color='k',label='w/ sub')
@@ -36,7 +38,7 @@ plt.plot(caus[:,0],caus[:,1],color='r',label='no sub')
 #plt.plot(crit[:,0][mask],crit[:,1][mask],color='k',label='w sub')
 #plt.plot(crit[:,0],crit[:,1],color='k',label='no sub')
 
-plt.axis('equal')
+#plt.axis('equal')
 #plt.ylim(-6.0*1e-6,-5.0*1e-6)
 #plt.xlim(-4.0*1e-6,-2.0*1e-6)
 
@@ -51,7 +53,9 @@ plt.ylim(-6.0*1e-6,-5.0*1e-6)
 plt.xlim(-4.0*1e-6,-2.0*1e-6)
 plt.title("NN=64 w/o sub")
 '''
-plt.legend()
+plt.xlim(1.0,-1.0)
+#plt.ylim(-2.0,1.0)
+plt.gca().set_aspect('equal')
 plt.show()
 
 #plt.savefig('../../data/glamer/displace2_caustic.png')

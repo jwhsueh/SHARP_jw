@@ -1,6 +1,6 @@
 import numpy as np
 
-def rcusp_tool(img_x,img_y,img_f):
+def rcusp_tool(img_x,img_y,img_f,len_cen=np.array([0.0,0.0])):
 
 	## get rid of the fourth img
 
@@ -63,4 +63,4 @@ def rcusp_tool(img_x,img_y,img_f):
 	rfold=(np.sum(dou_f)-2.*mid_f)/np.sum(dou_f)
 	rcusp=(np.sum(img_f)-2.*mid_f)/np.sum(img_f)
 
-	return np.array([rfold,rcusp,phi0,phi1])
+	return np.array([rfold[0],rcusp[0],phi0,phi1])

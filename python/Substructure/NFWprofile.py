@@ -2,11 +2,12 @@
 import numpy as np
 import DistanceTool as distance
 import scipy.integrate 
+from astropy.cosmology import WMAP9
 
 """This function compute scaling radius of a NFW halo from velocity dispersion"""
 """ Output is in arcsec """
 
-def scaleR(cosmopara,lenspara,M_200,c_200):
+def scaleR_sig(cosmopara,lenspara,M_200,c_200):
 
 ## parameters
 	q,b = lenspara.q, lenspara.b
@@ -77,15 +78,37 @@ def M200(cosmopara,lenspara,sig):
 
 	return M_200
 
-def c200(h,zl,M_200):
+
+""" Use Duffy+ 2008 concertration-mass relation"""
+def c200(z,M_200):
 
 	#M_200_sun = M_200/2e30 # M_sun
 
-	c_200 = 5.71*(M_200/2e12*h)**(-0.084)*(1+zl)**(-0.47) # no unit
+	c_200 = 9.23*(M_200/2e12)**(-0.090)*(1+z)**(-0.69) # no unit
 
 	return c_200
 
+def r200(z,M_200): ## unit: arcsec
 
+	critical_density = WMAP9.critical_density(z).si.value # unit: kg/m^3
+	m2arcs = np.degrees(1.0/WMAP9.angular_diameter_distance(z).si.value)*3600.
+	critical_density  = critical_density*WMAP9.H0/100./m2arcs**3/2e30 # unit: Msun/arcsec^3/h
+
+	r200_cube = 200*critical_density/M_200/(4./3.*np.pi)
+	r200 = r200_cube**(1./3.)
+
+	return r200
+
+def rs(z,M_200):
+	c200_list = c200(z,M_200)
+	r200_list = r200(z,M_200)
+
+	return r200_list/c200_list
+
+def rho_s(M_200,r200,c200):
+	rho_list =M_200/(4.0*np.pi*r200**3)/(np.log(1+c200)-c200/(1+c200))
+
+	return rho_list
 
 """ NFW P(r)*4 pi r^2, PDF """
 

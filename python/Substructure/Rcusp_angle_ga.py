@@ -8,8 +8,8 @@ from astropy.table import Table
 listpath='/Volumes/sting_1/data'
 outpath='/Volumes/sting_1/data/Rcusp_f'
 
-list_file = listpath+'/snap99_fa_Rcusp.txt'
-size_file = listpath+'/snap99_fa_size.txt'
+list_file = listpath+'/snap99_edg_Rcusp.txt'
+size_file = listpath+'/snap99_edg_size.txt'
 
 list_tab = np.genfromtxt(list_file,dtype='str')
 size_tab = np.loadtxt(size_file)

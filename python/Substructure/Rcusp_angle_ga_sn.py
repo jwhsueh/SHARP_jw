@@ -6,35 +6,34 @@ from astropy.modeling import models, fitting
 from astropy.table import Table
 
 listpath='/Volumes/sting_1/data/'
-outpath='/Volumes/sting_1/data/shoot_noise'
+outpath='/Volumes/sting_1/snap99_222'
 
-list_file = listpath+'/snap99_edg_Rcusp.txt'
-size_file = listpath+'/snap99_edg_size.txt'
+list_file = listpath+'/snap99_sn3_Rcusp.txt'
+size_file = listpath+'/snap99_sn3_size.txt'
 
 list_tab = np.genfromtxt(list_file,dtype='str')
 size_tab = np.loadtxt(size_file)
 size,n_src = size_tab[:,0],size_tab[:,1].astype(int)
 
-NN='128'
-#NN='64'
 mer_beam = 50 # mas
 boxsize = 30
-img_size=128
+img_size=256
 len_cen = np.array([img_size/2-1,img_size/2-1])
 
-list_tab = ['227142sie_p1']
-size = np.array([0.00017564*2])
+#list_tab = ['227142sie_p1']
+#size = np.array([0.00017564*2])
 #size = np.array([5.49E-04,4.71E-04,4.97E-04,4.72E-04]) # in deg
-n_src = np.empty(len(list_tab))
-n_src.fill(200)
-n_src = n_src.astype(int)
+#n_src = np.empty(len(list_tab))
+#n_src.fill(200)
+#n_src = n_src.astype(int)
 
 for i in range(len(list_tab)):
 	obj_name = list_tab[i]
+	#list_str = obj_name.split('ana')
 	list_str = obj_name.split('_p')
-	subID, proj = list_str[0],list_str[1]
+	subID = list_str[0]
 
-	filepath='/Volumes/sting_1/data/shoot_noise/'+str(subID)
+	filepath='/Volumes/sting_1/snap99_222'
 	#filepath='/Volumes/sting_1/snap99_179899'
 
 	real_size = size[i] # degree
@@ -43,10 +42,10 @@ for i in range(len(list_tab)):
 	print 'beam = '+str(beam)
 
 	# read-in drop file
-	drop_file = filepath+'/'+obj_name+'_'+NN+'_drop.txt'
+	drop_file = filepath+'/'+subID+'_drop.txt'
 	drop_list = np.loadtxt(drop_file)
 
-	output_name = '/'+obj_name+'_'+NN+'_Rcusp_ga.txt' # no sub
+	output_name = '/'+obj_name+'_Rcusp_ga.txt' # no sub
 	rcusp_file=open(outpath+output_name,'w')
 	rcusp_file.write('# n_src = '+str(n_src[i])+'\n')
 	rcusp_file.write('# Rfold\tRcusp\tphi0\tphi1\n')
@@ -56,11 +55,13 @@ for i in range(len(list_tab)):
 	for j in range(n_src[i]):
 		if (~np.in1d(j,drop_list)): # if the src is not dropped
 
-			print '##### \n'+ obj_name+' src '+str(j)+' '+NN+'\n#####'
+			print '##### \n'+ obj_name+' src '+str(j)+'\n#####'
 
 			# read-in img center
-			img_file = filepath+'/image_'+obj_name+'_'+NN+'src_'+str(j)+'_s.txt'
-			fits_file='/image_'+obj_name+'_'+NN+'src_'+str(j)+'.fits'
+			#img_file = filepath+'/image_'+obj_name+'src_'+str(j)+'_s.txt'
+			#fits_file='/image_'+obj_name+'src_'+str(j)+'.fits'
+			img_file = filepath+'/image_'+obj_name+'_64src_'+str(j)+'_s.txt'
+			fits_file='/image_'+obj_name+'_64src_'+str(j)+'.fits'
 			img_info = np.loadtxt(img_file,skiprows=1)
 			img_x,img_y = img_info[:,0],img_info[:,1]
 			img_fk,img_f = np.empty(img_x.size),np.empty(img_x.size)
@@ -189,13 +190,13 @@ for i in range(len(list_tab)):
 			plt.imshow(image)
 			plt.scatter(img_x,img_y,marker='o',s=100,edgecolor='k',facecolor='none')
 			#plt.show()
-			plt.savefig(filepath+'/image_'+obj_name+'_'+NN+'src_'+str(j)+'_ga.png')
+			plt.savefig(filepath+'/image_'+obj_name+'src_'+str(j)+'_ga.png')
 			plt.clf()
 
 			# closest triplet txt
 			tri_table = Table([img_x.astype(int),img_y.astype(int),img_f,img_fk],names=['x','y','tot_f','ga_peak'])
 			print tri_table
-			tri_table.write(filepath+'/image_'+obj_name+'_'+NN+'src_'+str(j)+'_ga.txt',format='ascii')
+			tri_table.write(filepath+'/image_'+obj_name+'src_'+str(j)+'_ga.txt',format='ascii')
 
 	rcusp_file.close()
 	print '#####'

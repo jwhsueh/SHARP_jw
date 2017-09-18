@@ -9,19 +9,15 @@ from astropy.table import Table
 from astropy.wcs import WCS
 
 ### change here ###
-subID=227142
-proj=1
-#NN='64'
-NN='128'
-## sub flag =1
-subflag=0
-
+subID=227340
+objname = str(subID)+'sie'
+#objname = str(subID)
 #cflag = 0
 
 # or here 
 #real_size =5.21E-06# rad
 #real_size = np.degrees(real_size)
-real_size =  0.00017564*2# in deg
+real_size = 3.15E-04# in deg
 # degree
 real_size = real_size*3600*1000 #mas
 
@@ -38,22 +34,17 @@ beam = mer_beam/(real_size/img_size)
 print beam
 
 
-
-if (subflag==0):
-	output_name = '/'+str(subID)+'_p'+str(proj)+'_'+NN+'_Rcusp_s.txt' # no sub
-	cmask = 50 # for source mask
-else:
-	output_name = '/'+str(subID)+'_p'+str(proj)+'sub_'+NN+'_Rcusp.txt' # w/ sub
-	cmask = 50
+output_name = '/'+objname+'_Rcusp_s.txt' # no sub
+cmask = 30 # for source mask
 
 
 #if (cflag==1):
 #	output_name = '/'+str(subID)+'_p'+str(proj)+'_'+NN+'_Rcusp_c.txt' # no sub
 #	cmask = 50 # for source mask
 
-imagepath='/Volumes/sting_1/data/shoot_noise/'+str(subID)+'sie'
-filepath='/Volumes/sting_1/data/shoot_noise/'+str(subID)+'sie'
-outpath='/Volumes/sting_1/data/shoot_noise/'+str(subID)+'sie'
+imagepath='/Volumes/sting_1/snap99_222/'
+filepath='/Volumes/sting_1/snap99_222/'
+outpath='/Volumes/sting_1/snap99_222/'
 #magpath='/Volumes/sting_1/data/invmag'
 
 #mag_filename = '/particles'+str(subID)+'_p'+str(proj)+'_'+NN+'.invmag.fits'
@@ -68,21 +59,19 @@ rcusp_file=open(outpath+output_name,'w')
 
 
 drop=0
-drop_file='/'+str(subID)+'_p'+str(proj)+'_'+NN+'_drop.txt'
+#drop_file='/'+str(subID)+'_drop.txt'
+drop_file='/'+objname+'_drop.txt'
 drop_log=open(filepath+drop_file,'w')
 #drop_log=open(filepath+drop_file,'a+')
 
 for i in range(n_src):
 	print "# "+str(i)+" source:"
 
-	
-	if (subflag==0):
-		filename='/image_'+str(subID)+'sie_p'+str(proj)+'_'+NN+'src_'+str(i)+'.fits' # no sub
-		img_outname= '/image_'+str(subID)+'sie_p'+str(proj)+'_'+NN+'src_'+str(i)+'_s' # no sub
+	#filename='/image_'+str(subID)+'anasiesrc_'+str(i)+'.fits' # no sub
+	#img_outname= '/image_'+str(subID)+'anasiesrc_'+str(i)+'_s' # no sub
+	filename='/image_'+objname+'_p1_64src_'+str(i)+'.fits' # no sub
+	img_outname= '/image_'+objname+'_p1_64src_'+str(i)+'_s' # no sub
 
-	else:
-		filename='/image_'+str(subID)+'_p'+str(proj)+'sub_'+NN+'src_'+str(i)+'.fits' # w/ sub
-		img_outname= '/image_'+str(subID)+'_p'+str(proj)+'sub_'+NN+'src_'+str(i) # w/ sub
 	
 
 	#if (cflag==1):

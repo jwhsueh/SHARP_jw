@@ -10,7 +10,7 @@ from astropy.wcs import WCS
 
 ### change here ###
 subID=215763
-proj=3
+proj=1
 NN='64'
 #NN='128'
 ## sub flag =1
@@ -28,7 +28,7 @@ real_size = real_size*3600*1000 #mas
 print real_size
 
 
-n_src=100 # number of sources
+n_src=200 # number of sources
 img_size=256
 len_cen = np.array([img_size/2-0.5,img_size/2-0.5])
 pix_size = real_size/img_size/1000 # arcsecond

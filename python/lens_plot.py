@@ -4,7 +4,8 @@ import matplotlib.patches as mpat
 import sys
 import plot_lensmod as pltlm
 
-""" Check the command line for an optional output file name """
+"""
+##Check the command line for an optional output file name
 print ''
 if len(sys.argv)>1:
 	outfile = sys.argv[1]
@@ -15,19 +16,18 @@ else:
 	print 'No output file requested.'
 	print ''
 
-"""key in system name, # of lens component, output format"""
+##key in system name, # of lens component, output format
+"""
 
 # system name
-lens_name=raw_input('Lens system:')
+lens_name='B1422'
 
 # number of component
-n_com=raw_input('# of lens component:')
-n_com=int(n_com)
-
+n_com=1
 # Critical curve plot (default) or Image plot (only has obs+model image position)
 
-plot_type=raw_input('0=Image+Critical Curve, 1=Image only:')
-plot_type=int(plot_type)
+#plot_type=raw_input('0=Image+Critical Curve, 1=Image only:')
+plot_type=0
 
 
 
@@ -37,9 +37,15 @@ plot_type=int(plot_type)
 """Critical curve input file"""
 """Also put that under /data/lens_info dir"""
 
-if plot_type==0:
-    file_name=raw_input('file name of _crit.dat file:')
-    name='../models/lens_info/'+file_name+'_crit.dat'
+#if plot_type==0:
+#    file_name=raw_input('file name of _crit.dat file:')
+#    name='../models/lens_info/'+file_name+'_crit.dat'
+file_name = 'B1422_sub'
+name='../models/lens_info/'+file_name+'.crit'
+
+file_name2 = 'B1422'
+name2='../models/lens_info/'+file_name2+'.crit'
+
 
 
 
@@ -110,7 +116,8 @@ def read_lens_gravlens(lens_name):
 
 ## source & component positions
 def model_plot():
-    plt.plot(sx,sy,'o',ms=10,mec='k',mfc='r',label='source')
+    sx,sy = 3.903767935042384285e-01, -4.153982858431314873e-01
+    plt.plot(sx,sy,'o',ms=1,mec='k',mfc='r',label='source')
     plt.plot(cx,cy,'^',ms=10,label='lenses',mfc='k')
 
 ##----
@@ -123,8 +130,8 @@ def img_pos(lens_name):
     x0,y0 = np.loadtxt(obsfile,unpack=True,usecols=(0,1))
     x,y = np.loadtxt(modfile,unpack=True,usecols=(0,1))
 
-    plt.plot(x0,y0,'b+',ms=10,label='observed')
-    plt.plot(x,y,'o',ms=10,mec='r',mfc='none',label='predicted')
+    plt.plot(x0,y0,'r+',ms=10,label='lensed image')
+    #plt.plot(x,y,'o',ms=10,mec='r',mfc='none',label='predicted')
     
     plt.xlabel(r'$\Delta  \alpha $ (arcsec)')
     plt.ylabel('$\Delta \delta$ (arcsec)')
@@ -148,9 +155,10 @@ cx,cy,sx,sy = read_lens_gravlens(lens_name)
 
 if plot_type==0:
     pltlm.plot_critcaust(name,'crit')
-    pltlm.plot_critcaust(name,'caust',sls=':')
+#    pltlm.plot_critcaust(name2,'crit')
+#    pltlm.plot_critcaust(name,'caust',sls=':')
 
-model_plot()
+#model_plot()
 #x0,y0=x,y
 #print x,y
 img_pos(lens_name)
@@ -161,14 +169,15 @@ img_pos(lens_name)
 #plt.xlim(2.0,-0.5)
 #plt.ylim(-1.0,1.5)
 
-plt.xlim(0,2.0)
-plt.ylim(0,2.0)
+plt.xlim(0.7,-0.4)
+plt.ylim(-0.4,0.7)
+plt.legend(loc=2,numpoints=1)
+plt.axes().set_aspect('equal')
+plt.show()
+#plt.savefig('B1422_sub.png',bbox_inches='tight')
 
-
-plt.legend(loc=1,scatterpoints=1)
-
-if outfile:
-	plt.savefig(outfile,bbox_inches='tight')
-else:
-	plt.show()
+#if outfile:
+#	plt.savefig(outfile,bbox_inches='tight')
+#else:
+#	plt.show()
 

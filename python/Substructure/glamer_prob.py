@@ -2,21 +2,31 @@ import numpy as np
 
 path='/Volumes/sting_1/data/'
 
-list_file = path+'snap99_elp2_Rcusp.txt'
-sie_path='/Users/jwhsueh/Documents/SHARP_jw/data/sub_gravlens/snap99_elp/'
+list_file = path+'snap99_sn2_Rcusp.txt'
+list_file2 = path+'snap99_sn3_Rcusp.txt'
+sie_path='/Volumes/sting_1/snap99_111/'
+sie_path2='/Volumes/sting_1/snap99_222/'
 
 file_list = np.genfromtxt(list_file,dtype='str')
+file_list2 = np.genfromtxt(list_file2,dtype='str')
 
 Rfold,Rcusp,phi0,phi1 = np.empty(1),np.empty(1),np.empty(1),np.empty(1)
 for file_one in file_list:
 	#table = np.loadtxt(path+'Rcusp_f/'+file_one+'_64_Rcusp_ga.txt')
-	table = np.loadtxt(sie_path+file_one+'_rcusp.txt') # sie
+	table = np.loadtxt(sie_path+file_one+'_Rcusp_ga.txt') # sie
 	Rfold,Rcusp,phi0,phi1 = np.append(Rfold,table[:,0]),np.append(Rcusp,table[:,1]),np.append(phi0,table[:,2]),np.append(phi1,table[:,3])
 
-mask = np.abs(Rfold)<0.7
+for file_one in file_list2:
+	#table = np.loadtxt(path+'Rcusp_f/'+file_one+'_64_Rcusp_ga.txt')
+	table = np.loadtxt(sie_path2+file_one+'_Rcusp_ga.txt') # sie
+	Rfold,Rcusp,phi0,phi1 = np.append(Rfold,table[:,0]),np.append(Rcusp,table[:,1]),np.append(phi0,table[:,2]),np.append(phi1,table[:,3])
+
+mask = np.abs(Rfold)<0.5
 Rfold,Rcusp,phi0,phi1=Rfold[mask],Rcusp[mask],phi0[mask],phi1[mask]
-mask = np.abs(Rcusp)<0.7
+mask = np.abs(Rcusp)<0.5
 Rfold,Rcusp,phi0,phi1=Rfold[mask],Rcusp[mask],phi0[mask],phi1[mask]
+
+Rfold[phi1<27] = Rfold[phi1<27]/2
 
 ## ---- real lens data
 # elp

@@ -4,7 +4,7 @@ import numpy as np
 
 # read in cosmological parameters, redshifts (start & end)
 ''' in Mpc '''
-def angular_distance(cospara, z):
+def angular_distance(cospara, zi = 0.0, zf):
 
 	h = cospara.h
 
@@ -14,7 +14,7 @@ def angular_distance(cospara, z):
 
 
 	# comoving distance 
-	Dc = scipy.integrate.quad(rEz,0,z)
+	Dc = scipy.integrate.quad(rEz,zi,zf)
 	Dc = 3000.0/h*Dc[0]
 
 	DA = Dc/(1.0+z)
@@ -47,7 +47,7 @@ def Ez(cospara, z):
 
 """ Critical Density Sigma_c in [h M_sun/Mpc^2] """
 
-def critical_density(cospara, lenspara):
+def critical_density(cospara,zi,zf):
 
 	c = 3e8 # m/s
 	G = 6.67e-11 # m^3/kg/s^2
@@ -57,12 +57,12 @@ def critical_density(cospara, lenspara):
 	c = c/3.08e22  # Mpc/s
 	G = G/(3.08e22)**3  # Mpc^3/kg/s^2
 
-	zl,zs = lenspara.zl, lenspara.zs
+	zl,zs = zi,zf
 	h = cospara.h
 
-	Ds = angular_distance(cospara,zs)
-	Dl = angular_distance(cospara,zl)
-	Dls = Ds - Dl
+	Ds = angular_distance(cospara,0,zs)
+	Dl = angular_distance(cospara,0,zl)
+	Dls = angular_distance(cospara,zs,zl)
 
 	Sigma_c = c**2/(4.0*np.pi*G)*Ds/(Dl*Dls) # kg/Mpc^2
 	Sigma_c = Sigma_c/2e30*h**2 # h M_sun/Mpc^2
