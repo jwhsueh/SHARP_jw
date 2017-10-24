@@ -5,6 +5,9 @@ __pycache__/
 # data dir
 data
 *fits
+*.dat
+*.png
+*.DS
 
 # C extensions
 *.so

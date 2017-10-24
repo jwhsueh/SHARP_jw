@@ -40,7 +40,7 @@ SFT = subhalo_st['GFM_StellarFormationTime'] # in scale factor
 st_x,st_y,st_z = st_x-CM_x,st_y-CM_y,st_z-CM_z	# ckpc/h
 st_x,st_y,st_z = st_x*a,st_y*a,st_z*a # kpc/h
 
-#mask = SFT>0.61
+#mask = SFT>0.60
 mask = SFT>0.5
 
 st_x,st_y,st_z = st_x[mask],st_y[mask],st_z[mask]
@@ -56,13 +56,14 @@ data = hdu[0].data
 crit_y,crit_x = np.where(data==2)
 crit_x,crit_y = crit_x-512,crit_y-512
 pix_size = 0.00206 # arcsec
-pix_size = pix_size*6.730/cosmopara.h*1.2 # kpc/h
-plt.scatter(crit_x*pix_size,crit_y*pix_size,color='r',s=1)
-plt.xlim(-20,20)
-plt.ylim(-20,20)
-plt.xlabel('kpc/h')
-plt.ylabel('kpc/h')
-plt.title('subfind '+subfindID+' proj_3')
+pix_size = pix_size*6.730/cosmopara.h#*1.2 # kpc/h
+plt.scatter(crit_x*pix_size,crit_y*pix_size,color='r',marker='.',s=1)
+plt.xlim(-12,12)
+plt.ylim(-12,12)
+plt.xlabel('kpc/h',fontsize=14)
+#plt.ylabel('kpc/h',fontsize=14)
+plt.text(-11,10.5,'subhaloID:'+subfindID,fontsize=16)
+#plt.title('subfind '+subfindID+' proj_3')
 plt.gca().set_aspect('equal')
 #plt.show()
-plt.savefig(subfindID+'_ell.png')
+plt.savefig('/Users/jwhsueh/Documents/SHARP_jw/data/illustris_1/mock_img/'+subfindID+'_ell.png',bbox_inches='tight')

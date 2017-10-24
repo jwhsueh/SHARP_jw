@@ -17,7 +17,7 @@ sig2 = np.array([0.0001,0.0001,0.001,0.001,0.1,0.0001,0.1,0.0001,0.0001])
 
 ## draw macro model parameters
 
-N = 1000
+N = 110000
 
 # generate covariance matrix from MCMC chain
 table = np.loadtxt('../../data/sub_gravlens/B1422_flatchain_0.txt')
@@ -38,4 +38,4 @@ for i in range(N):
 
 print para_table[:,-1]
 
-np.savetxt('../../data/sub_gravlens/B1422_eta.txt',para_table)
+np.savetxt('/Volumes/sting_1/subs/B1422_eta.txt',para_table)

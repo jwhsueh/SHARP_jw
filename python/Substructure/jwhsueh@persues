@@ -6,7 +6,7 @@ import NFWprofile as NFW
 
 ### ---- calculate the total mass within z-range
 
-zl = 0.34
+zl = 0.36
 zs=3.62
 Re_arc = 0.75 # arcsec
 Re = np.radians(Re_arc/3600.)*cosmology.Planck13.comoving_distance(zl)*cosmology.Planck13.h #Mpc
@@ -162,7 +162,6 @@ for j in range(n_real):
 		mask = (z_halo == zslide[i])
 		n_draw[i] = len(z_halo[mask])
 
-	n_draw = n_draw.astype(int)
 	#print n_draw
 	# then draw mass & x,y position (arcsec)
 	mass = np.linspace(6,9,200)
@@ -210,8 +209,8 @@ for j in range(n_real):
 	print len(z_halo),len(m_halo),len(x_list),len(r200_list)
 
 
-	#real_i = path+real_folder+'los'+str(j+n_start)+'.txt'
-	#np.savetxt(real_i,np.c_[z_halo,m_halo,x_list,y_list,r200_list,c200_list])
+	real_i = path+real_folder+'los'+str(j+n_start)+'.txt'
+	np.savetxt(real_i,np.c_[z_halo,m_halo,x_list,y_list,r200_list,c200_list])
 
 
 

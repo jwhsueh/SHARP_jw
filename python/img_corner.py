@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 #t = np.loadtxt(path+'B1422_eta.txt')
 #w = np.loadtxt(path+'mcmc_chi2_1.txt')[:50000]
 
-t = np.loadtxt('/Volumes/sting_1/subs/B1422_0100_chain.txt')
-chi2 = np.loadtxt('/Volumes/sting_1/subs/B1422_0100_chi2.txt')
+t = np.loadtxt('/Volumes/sting_1/subs/result/B1422_sub01_per_chain.txt')
+chi2 = np.loadtxt('/Volumes/sting_1/subs/result/B1422_sub01_per_chi2.txt')
 w = np.exp(-1.0*chi2/2.0)
 w = w/np.sum(w)
 #t = np.loadtxt('/Volumes/sting_1/subs/glamer_out/copy.txt')
@@ -76,7 +76,7 @@ figure = corner.corner(data,
 #                         show_titles=True, title_args={"fontsize": 12})
                          
 #figure.savefig("../data/sub_gravlens/B1422_sam_corner.png")
-figure.savefig("/Volumes/sting_1/subs/B1422_pylens.png")
+figure.savefig("/Volumes/sting_1/subs/B1422_pylens_sub01_per.png")
 
 
 
