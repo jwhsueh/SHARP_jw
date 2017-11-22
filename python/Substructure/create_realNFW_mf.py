@@ -4,10 +4,10 @@ import numpy as np
 import NFWprofile as NFW
 import sys
 
-lens = 'B1422'
+lens = 'MG0414'
 ## critical density for lens
-sig_c = 3.4e+10 #[M_Sun h^-1 arcsec^-2]
-zl = 0.34
+sig_c = 3.4e+10 #[M_Sun h^-1 arcsec^-2] here!!!
+zl = 0.96
 
 f_sub = float(sys.argv[1])
 fold_name = sys.argv[2]
@@ -15,13 +15,13 @@ n_real = int(sys.argv[3])
 n_start = int(sys.argv[4])
 
 #path = './'+lens+'/'
-path = '/Volumes/sting_1/subs/'
-real_folder = 'real_'+fold_name+'/'
+path = '/Volumes/sting_1/subs/'+lens
+real_folder = '/real_'+fold_name+'/'
 
 ## realization area
-re = 0.75 # arcsec
+re = 1.11 # arcsec
 #r = re*2
-f_low,f_hi = 0.8,2.0
+f_low,f_hi = 0.8,1.5
 area = np.pi*(f_hi*re-f_low*re)**2
 
 ## total mass for substructures

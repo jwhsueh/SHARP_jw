@@ -5,7 +5,7 @@ from astropy import units as u
 '''
 This code calculate the half-mode mass of WDM
 '''
-wdm_m = 3.3 # keV
+wdm_m = 5. # keV
 Owdm = cosmo.Om0
 h=cosmo.h
 mu=1.12

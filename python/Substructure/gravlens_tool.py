@@ -118,10 +118,49 @@ def create_findimg(macro_mod,micro_mod,path,output):
 
 	return 
 
+def create_findimg_macro(macro_mod,z,src,path,output):
+
+	findimg_file = open(path+output,'w')
+	#print "create findimg file"
+
+	zl,zs = z[0],z[1]
+
+	## write zl, zs
+	findimg_file.write('set zlens='+str(zl)+'\n')
+	findimg_file.write('set zsrc='+str(zs)+'\n')
+
+	n_lens = macro_mod.shape[0]
+
+	findimg_file.write('startup '+str(n_lens)+' 1\n')
+
+	## --- set up lens
+	# macro model
+	for i in range(n_lens):
+		macro_line = gravlens_SIE(macro_mod[i,:])
+		findimg_file.write(macro_line)
+
+	## --write a bunch of zeros--
+
+	zeros = '0 0 0 0 0 0 0 0 0 0\n'
+	for i in range(n_lens):
+		findimg_file.write(zeros)
+
+	findimg_file.write('\n')
+
+	## write findimg command
+	# get srcs position
+
+	findimg_file.write('findimg '+str(src[0])+' '+str(src[1])+'\n')
+
+	findimg_file.close()
+
+	return 
+
 
 def gravlens_SIE(model):
 
-	lenspara = [model.b,model.xc,model.yc,model.e,model.PA,model.gamma1,model.gamma2]
+	lenspara = [model[0],model[1],model[2],model[3],model[4],model[5],model[6]] 
+	# model.b,model.xc,model.yc,model.e,model.PA,model.gamma1,model.gamma2
 	lenspara = str(lenspara).replace(',','')
 	Aline = 'alpha '+lenspara[1:-1]+' 0.0 0.0 1.0\n'
 
@@ -143,14 +182,14 @@ def gravlens_nfw(ks,x,y,rs):
 
 	return Aline
 
-def run_findimg(path,findimg_file,case_idx):
+def run_findimg(path,lens,findimg_file):
 	findimg_out = commands.getstatusoutput('./lensmodel '+path+findimg_file)
 
 	findimg_out=findimg_out[1].split('\n')
 
 	#print findimg_out
 
-	result = open(path+'findimg'+str(case_idx)+'.out','w')
+	result = open(path+lens+'_findimg.out','w')
 
 	## checking img #
 	#print findimg_out
@@ -180,8 +219,8 @@ def run_findimg(path,findimg_file,case_idx):
 
 	return flag
 
-def get_imgresult(path,case_idx):
-	table = np.loadtxt(path+'findimg'+str(case_idx)+'.out')
+def get_imgresult(path,lens):
+	table = np.loadtxt(path+lens+'_findimg.out')
 
 	x,y,f = table[:,0],table[:,1],table[:,2]
 

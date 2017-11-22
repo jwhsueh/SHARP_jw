@@ -14,7 +14,7 @@ class cosmopara:
 snapshotPath = '/Volumes/narsil_1/jwhsueh/illustris_1'
 snapNum = '099'
 ssNum = 99
-GalaxyID = 154402
+GalaxyID = 139175
 subfindID = str(GalaxyID)
 
 
@@ -41,10 +41,11 @@ st_x,st_y,st_z = st_x-CM_x,st_y-CM_y,st_z-CM_z	# ckpc/h
 st_x,st_y,st_z = st_x*a,st_y*a,st_z*a # kpc/h
 
 #mask = SFT>0.60
-mask = SFT>0.5
+mask = SFT>0.6
 
 st_x,st_y,st_z = st_x[mask],st_y[mask],st_z[mask]
 
+#plt.scatter(st_z,-st_y,marker='.',s=1)
 plt.scatter(st_x,st_y,marker='.',s=1)
 #plt.show()
 
@@ -65,5 +66,5 @@ plt.xlabel('kpc/h',fontsize=14)
 plt.text(-11,10.5,'subhaloID:'+subfindID,fontsize=16)
 #plt.title('subfind '+subfindID+' proj_3')
 plt.gca().set_aspect('equal')
-#plt.show()
-plt.savefig('/Users/jwhsueh/Documents/SHARP_jw/data/illustris_1/mock_img/'+subfindID+'_ell.png',bbox_inches='tight')
+plt.show()
+#plt.savefig('/Users/jwhsueh/Documents/SHARP_jw/data/illustris_1/mock_img/'+subfindID+'_ell.png',bbox_inches='tight')

@@ -4,19 +4,19 @@ set chimode= 1
 set checkparity = 0
 set gridflag= 0
 
-set zlens=0.536
+set zlens=0.34
 set zsrc=3.62
 
 
 
 startup 1 1
-alpha 6.281497e-01 9.502470e-01 -8.020463e-01 7.294728e-01 5.374583e+01 5.844261e-04 -2.740046e+01 0.0 0.0 1.000000e+00
-
+alpha 7.466419e-01 7.645039e-01 -6.730659e-01 3.782159e-01 5.556257e+01 1.473030e-01 5.249074e+01 0.0 0.0 1.000000e+00
 1 1 1 1 1 1 1 0 0 0
 
 #pmatch B1555_match_gravlens.dat
 #plimit B1555_limit_gravlens.dat
 
+optimize
 optimize
 #reopt best 1 6 
 #varyone 1 2 0.15 0.19 200 pre1

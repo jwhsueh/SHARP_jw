@@ -159,8 +159,8 @@ kappa0_good,kappa1_good,kappa2_good = kappa0_good[kappa0_good>0],kappa1_good[kap
 print np.array(kappa1_good)
 print np.array(kappa1_bad)
 
-plt.hist(kappa2_bad,color='r',label='chi2 ~ smooth')
-plt.hist(kappa2_good,label='chi2 < 10',alpha=0.5)
+plt.hist(kappa0_bad,color='r',label='chi2 ~ smooth')
+plt.hist(kappa0_good,label='chi2 < 10',alpha=0.5)
 
 #fig = plt.figure()
 #ax = fig.add_subplot(111, projection='3d')
@@ -170,11 +170,11 @@ plt.legend(loc=2)
 #plt.xlim(7.5,9.2)
 plt.xlabel('surface mass density (log(Msun)/arcsec^2)')
 plt.ylabel('number counts')
-plt.title('image C, LOS')
+plt.title('image A, LOS')
 #ax.set_xlabel('image B')
 #ax.set_ylabel('image A')
 #ax.set_zlabel('image C')
 
-#plt.show()
+plt.show()
 
-plt.savefig('los00_imgC.png')
+#plt.savefig('los00_imgC.png')
