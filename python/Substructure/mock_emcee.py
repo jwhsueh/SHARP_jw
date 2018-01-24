@@ -5,7 +5,7 @@ import emcee
 import sys
 
 #case_idx = int(sys.argv[1])
-lens = 'MG0414'
+lens = 'mock1'
 
 path = '../../data/sub_gravlens/'
 #path = '../data/sub_gravlens/'
@@ -15,26 +15,31 @@ imgfile = lens+'_findimg.input' #findimg
 #table = np.loadtxt('../data/sub_gravlens/B1422_realization1/real0.txt')
 #x_list,y_list,bsub_list,rt_list = table[:,1],table[:,2],table[:,3],table[:,4]
 
-zl_g = 0.96 
-zs_g = 2.64
+zl_g = 0.6 
+zs_g = 3.12
 zg = np.array([zl_g,zs_g])
 
 ## model parameter
-macro_mod = np.array([[1.118581e+00, -5.571237e-01, -1.349607e+00, 3.976823e-01, -7.274792e+01,3.629423e-02, 7.004755e+01],
-    [5.880343e-02, -1.980000e-01, 1.800000e-01, 0.0, 0.0, 0.0, 0.0]])
+#macro_mod = np.array([[1.118581e+00, -5.571237e-01, -1.349607e+00, 3.976823e-01, -7.274792e+01,3.629423e-02, 7.004755e+01],
+    #[5.880343e-02, -1.980000e-01, 1.800000e-01, 0.0, 0.0, 0.0, 0.0]])
+
+macro_mod = np.array([[2.102835e-01, 2.168236e-01, -1.117806e-01, 3.400000e-01, 2.364581e+01, 3.221078e-02, -7.909689e+01],
+    [1e-11, 2.0,2.0, 0.0, 0.0, 0.0, 0.0]])
 
 #print macro_mod[0,:]
 
-src = np.array([-3.430543e-01, -1.183558e+00])
+src = np.array([2.230373e-01, -1.390138e-01])
 
 
-obs_x = np.array([-1.3608,0.0,0.5876,0.7208])
-obs_y = np.array([-1.6348,0.0,-1.9341,-1.5298 ])
-obs_f = np.array([0.1446,0.3890,1.0,0.9027 ])
+obs_x = np.array([1.502610e-01,3.772762e-01,4.297462e-01,9.272826e-02])
+obs_y = np.array([5.468550e-02  ,-2.803320e-01,-1.980902e-01,-3.208640e-01])
+obs_f = np.array([0.09,1.3170,1.0000,0.3050])
+idx_f = 2
 
-err_x = np.array([0.0003,0.0003,0.0003,0.0003])
-err_y = np.array([0.0003,0.0003,0.0003,0.0003])
-err_f = obs_f*0.2
+
+err_x = np.array([0.003,0.003,0.003,0.003])
+err_y = np.array([0.003,0.003,0.003,0.003])
+err_f = obs_f*0.05
 
 burn_flag = 0
 
@@ -49,6 +54,7 @@ def do_findimg(paras):
 
         step_mod_g = np.array([np.abs(paras[0]),paras[1],paras[2],paras[3],paras[4],paras[5],paras[6]])
         step_mod = np.array([step_mod_g,macro_mod[1,:]]) ## edit here when there're luminous satellite
+        #step_mod = step_mod_g
 
         step_src = np.array([paras[7],paras[8]])
 
@@ -57,9 +63,10 @@ def do_findimg(paras):
 
         if qflag==True:
             mod_x,mod_y,mod_f = gt.get_imgresult(path,lens)
-            mod_x,mod_y,mod_f = findimg_sort(mod_x,mod_y,mod_f)
+            #print mod_x
+            #mod_x,mod_y,mod_f = findimg_sort(mod_x,mod_y,mod_f)
             mod_f = np.abs(mod_f)
-            mod_f = mod_f/mod_f[2]
+            mod_f = mod_f/mod_f[idx_f]
             #print mod_f,obs_f
                 
             chi2=0
@@ -132,9 +139,10 @@ nstep=1000  #number of MCMC steps
 
 ## set up for start points
 
+#mean=[macro_mod[0,0], macro_mod[0,1],macro_mod[0,2],macro_mod[0,3],macro_mod[0,4],macro_mod[0,5],macro_mod[0,6],src[0],src[1]]
 mean=[macro_mod[0,0], macro_mod[0,1],macro_mod[0,2],macro_mod[0,3],macro_mod[0,4],macro_mod[0,5],macro_mod[0,6],src[0],src[1]]
 #sig=[0.01,0.01,0.01,0.01,1,0.01,0.01,0.01,0.01,1,0.01,0.01,0.01]
-sig=[0.001,0.001,0.01,0.01,1,0.001,1,0.001,0.001]
+sig=np.array([0.001,0.001,0.01,0.01,1,0.001,1,0.001,0.001])
 #sig=np.zeros(13)
 
 w_factor=1.0 # range of random start point

@@ -20,10 +20,10 @@ else:
 """
 
 # system name
-lens_name='B1422'
+lens_name='B2045'
 
 # number of component
-n_com=1
+n_com=2
 # Critical curve plot (default) or Image plot (only has obs+model image position)
 
 #plot_type=raw_input('0=Image+Critical Curve, 1=Image only:')
@@ -40,7 +40,7 @@ plot_type=0
 #if plot_type==0:
 #    file_name=raw_input('file name of _crit.dat file:')
 #    name='../models/lens_info/'+file_name+'_crit.dat'
-file_name = 'B1422_sub'
+file_name = 'B2045_try3'
 name='../models/lens_info/'+file_name+'.crit'
 
 file_name2 = 'B1422'
@@ -116,9 +116,9 @@ def read_lens_gravlens(lens_name):
 
 ## source & component positions
 def model_plot():
-    sx,sy = 3.903767935042384285e-01, -4.153982858431314873e-01
-    plt.plot(sx,sy,'o',ms=1,mec='k',mfc='r',label='source')
-    plt.plot(cx,cy,'^',ms=10,label='lenses',mfc='k')
+    sx,sy = 6.650388e-01, -5.616931e-01
+    plt.plot(sx,sy,'o',ms=10,mec='k',mfc='r',label='source')
+    plt.plot(cx,cy,'x',ms=10,label='lenses',c='g')
 
 ##----
 
@@ -131,14 +131,18 @@ def img_pos(lens_name):
     x,y = np.loadtxt(modfile,unpack=True,usecols=(0,1))
 
     plt.plot(x0,y0,'r+',ms=10,label='lensed image')
-    #plt.plot(x,y,'o',ms=10,mec='r',mfc='none',label='predicted')
+    plt.plot(x,y,'o',ms=10,mec='r',mfc='none',label='predicted')
     
     plt.xlabel(r'$\Delta  \alpha $ (arcsec)')
     plt.ylabel('$\Delta \delta$ (arcsec)')
     #plt.xlabel('arcsec')
     #plt.ylabel('arcsec')
 
-
+## ------ for B2045
+def img_plane():
+    t = np.loadtxt('../models/B2045/valid_pos_2sigma_B.dat')
+    xi,yi = t[:,0],t[:,1]
+    plt.scatter(xi,yi,c='g',s=1,alpha=0.02)
 
 
 ##---- call functions from here ----##
@@ -146,7 +150,7 @@ def img_pos(lens_name):
 #sx,sy,cx,cy=read_lens(name_opt)
 #x,y=read_findimg(name_findimg)
 
-plt.figure(figsize=(5.7,5.7))
+#plt.figure(figsize=(5.7,5.7))
 
 """Lens model info (now is only for gravlens)"""
 """put 'best.dat' that under /data/lens_info dir"""
@@ -156,12 +160,14 @@ cx,cy,sx,sy = read_lens_gravlens(lens_name)
 if plot_type==0:
     pltlm.plot_critcaust(name,'crit')
 #    pltlm.plot_critcaust(name2,'crit')
-#    pltlm.plot_critcaust(name,'caust',sls=':')
+    pltlm.plot_critcaust(name,'caust',sls=':')
 
 #model_plot()
 #x0,y0=x,y
 #print x,y
 img_pos(lens_name)
+model_plot()
+#img_plane()
 
 #plt.xlim(0.4,-0.8)
 #plt.ylim(-0.8,0.4)
@@ -169,12 +175,12 @@ img_pos(lens_name)
 #plt.xlim(2.0,-0.5)
 #plt.ylim(-1.0,1.5)
 
-plt.xlim(0.7,-0.4)
-plt.ylim(-0.4,0.7)
-plt.legend(loc=2,numpoints=1)
+plt.xlim(2.5,-0.5)
+plt.ylim(-2.0,0.5)
+plt.legend(loc=4,numpoints=1)
 plt.axes().set_aspect('equal')
-plt.show()
-#plt.savefig('B1422_sub.png',bbox_inches='tight')
+#plt.show()
+plt.savefig('B2045_try3.png',bbox_inches='tight')
 
 #if outfile:
 #	plt.savefig(outfile,bbox_inches='tight')

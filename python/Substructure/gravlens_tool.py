@@ -77,7 +77,7 @@ def create_bestSub(path):
 
 	return
 
-def create_findimg(macro_mod,micro_mod,path,output):
+def create_findimg_micro(macro_mod,micro_mod,path,output):
 	findimg_file = open(path+output,'w')
 
 	## write zl, zs
@@ -90,7 +90,9 @@ def create_findimg(macro_mod,micro_mod,path,output):
 
 	## --- set up lens
 	# macro model
-	macro_line = gravlens_SIE(macro_mod)
+	## here
+	model_line = np.array([macro_mod.b,macro_mod.xc,macro_mod.yc,macro_mod.e,macro_mod.PA,macro_mod.gamma1,macro_mod.gamma2])
+	macro_line = gravlens_SIE(model_line)
 	findimg_file.write(macro_line)
 
 	## micro model
@@ -118,7 +120,7 @@ def create_findimg(macro_mod,micro_mod,path,output):
 
 	return 
 
-def create_findimg_macro(macro_mod,z,src,path,output):
+def create_findimg_macro(macro_mod,profile,z,src,path,output):
 
 	findimg_file = open(path+output,'w')
 	#print "create findimg file"
@@ -135,9 +137,14 @@ def create_findimg_macro(macro_mod,z,src,path,output):
 
 	## --- set up lens
 	# macro model
-	for i in range(n_lens):
-		macro_line = gravlens_SIE(macro_mod[i,:])
-		findimg_file.write(macro_line)
+	#print macro_mod
+	for i in range(n_lens): ## here
+		if profile[i] == 'sie':
+			macro_line = gravlens_SIE(macro_mod[i])
+			findimg_file.write(macro_line)
+		if profile[i] == 'nfw':
+			macro_line = gravlens_nfw(macro_mod[i])
+			findimg_file.write(macro_line)
 
 	## --write a bunch of zeros--
 
@@ -174,7 +181,9 @@ def gravlens_pjaffe(b,x,y,rt):
 
 	return Aline
 
-def gravlens_nfw(ks,x,y,rs):
+def gravlens_nfw(model):
+
+	ks,x,y,rs = model[0],model[1],model[2],model[3]
 
 	lenspara = [ks,x,y,0.0,0.0,0.0,0.0,rs,0.0,0.0]
 	lenspara = str(lenspara).replace(',','')
@@ -219,8 +228,8 @@ def run_findimg(path,lens,findimg_file):
 
 	return flag
 
-def get_imgresult(path,lens):
-	table = np.loadtxt(path+lens+'_findimg.out')
+def get_imgresult(path,filename):
+	table = np.loadtxt(path+filename+'_findimg.out')
 
 	x,y,f = table[:,0],table[:,1],table[:,2]
 

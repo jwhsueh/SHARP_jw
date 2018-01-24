@@ -4,10 +4,10 @@ import numpy as np
 import NFWprofile as NFW
 import sys
 
-lens = 'MG0414'
+lens = 'mock1'
 ## critical density for lens
-sig_c = 3.4e+10 #[M_Sun h^-1 arcsec^-2] here!!!
-zl = 0.96
+sig_c = 5.75E+10 #[M_Sun h^-1 arcsec^-2] here!!!
+zl = 3.12
 
 f_sub = float(sys.argv[1])
 fold_name = sys.argv[2]
@@ -19,9 +19,9 @@ path = '/Volumes/sting_1/subs/'+lens
 real_folder = '/real_'+fold_name+'/'
 
 ## realization area
-re = 1.11 # arcsec
+re = 0.22 # arcsec
 #r = re*2
-f_low,f_hi = 0.8,1.5
+f_low,f_hi = 0.8,2.0
 area = np.pi*(f_hi*re-f_low*re)**2
 
 ## total mass for substructures
@@ -45,8 +45,10 @@ real_n = open(path+real_folder+'real_nsub.txt','w')
 ## probability of substurcture mass
 prob = massf(m_sub,m_c)
 prob = prob/np.sum(prob)
-
-for j in range(n_real):
+j=0
+#for j in range(n_real):
+while(True):
+	j=j+1
 	## draw mass
 	## draw from probability
 	n_inv = 1
@@ -59,8 +61,12 @@ for j in range(n_real):
 
 	#n = 0
 	#m_sum = 0
+	flag = 0
 	while True:
 		inv_list = np.random.choice(m_sub,n_inv,p=prob)
+		if inv_list>1e8:
+			flag=flag+1
+			print 'flag'
 		#inv_rlist = np.random.choice(r_sub,n_inv,p=prob_r)
 		m_list = np.append(m_list,inv_list)
 		#r_list = np.append(r_list,inv_rlist)
@@ -69,11 +75,11 @@ for j in range(n_real):
 		if np.sum(m_list)>Mtot:
 			break
 
-	print len(m_list)
+	#print len(m_list)
 	real_n.write(str(len(m_list))+'\n')
 
 	f_dif = (np.sum(m_list) - Mtot)/(sig_c*area)*2.0
-	print f_dif
+	#print f_dif
 	f_sub_j = np.sum(m_list)/(sig_c*area)*2.0
 	real_f.write(str(f_sub_j)+'\n')
 	#f_sub[j] = f_sub_j
@@ -81,6 +87,9 @@ for j in range(n_real):
 
 	## draw spatial distribution
 	## ----- 2D distribution is uniform
+
+	## here
+	#m_list = np.append(m_list,1e8)
 
 	x_list,y_list = np.empty(0),np.empty(0)
 	i=0
@@ -106,9 +115,15 @@ for j in range(n_real):
 	rs_list = r200_list/c200_list
 
 	#rhos_list = NFW.rho_s(m_list,r200_list,c200_list)
-	#ks_list = rhos_list*rs_list/sig_c
+	ks_list = m_list/(4*np.pi*rs_list**2*sig_c*(np.log(1+c200_list)-c200_list/(1+c200_list)))
 
 
-	real_i = path+real_folder+'real'+str(j+n_start)+'.txt'
-	np.savetxt(real_i,np.c_[m_list,x_list,y_list,r200_list,c200_list])
+	#real_i = path+real_folder+'real'+str(j+n_start)+'.txt'
+	#np.savetxt(real_i,np.c_[ks_list,x_list,y_list,rs_list,m_list])
+	if flag>0:
+		real_i = path+real_folder+'real0.txt'
+		np.savetxt(real_i,np.c_[ks_list,x_list,y_list,rs_list,m_list])
+		break
+	else:
+		print 'non'
 

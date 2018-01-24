@@ -6,7 +6,7 @@ from astropy.modeling import models, fitting
 from astropy.table import Table
 
 listpath='/Volumes/sting_1/data/'
-outpath='/Volumes/sting_1/snap99_222'
+outpath='/Volumes/sting_1/snap99_result/snap99_222'
 
 list_file = listpath+'/snap99_sn3_Rcusp.txt'
 size_file = listpath+'/snap99_sn3_size.txt'
@@ -33,7 +33,7 @@ for i in range(len(list_tab)):
 	list_str = obj_name.split('_p')
 	subID = list_str[0]
 
-	filepath='/Volumes/sting_1/snap99_222'
+	filepath='/Volumes/sting_1/snap99_result/snap99_222'
 	#filepath='/Volumes/sting_1/snap99_179899'
 
 	real_size = size[i] # degree

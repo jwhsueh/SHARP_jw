@@ -2,7 +2,7 @@
 import numpy as np
 import DistanceTool as distance
 import scipy.integrate 
-from astropy.cosmology import WMAP9
+from astropy.cosmology import Planck13
 
 """This function compute scaling radius of a NFW halo from velocity dispersion"""
 """ Output is in arcsec """
@@ -90,9 +90,9 @@ def c200(z,M_200):
 
 def r200(z,M_200): ## unit: arcsec
 
-	critical_density = WMAP9.critical_density(z).si.value # unit: kg/m^3
-	m2arcs = np.degrees(1.0/WMAP9.angular_diameter_distance(z).si.value)*3600.
-	critical_density  = critical_density*WMAP9.H0/100./m2arcs**3/2e30 # unit: Msun/arcsec^3/h
+	critical_density = Planck13.critical_density(z).si.value # unit: kg/m^3
+	m2arcs = np.degrees(1.0/Planck13.angular_diameter_distance(z).si.value)*3600.
+	critical_density  = critical_density*Planck13.H0/100./m2arcs**3/2e30 # unit: Msun/arcsec^3/h
 
 	r200_cube = 200*critical_density/M_200/(4./3.*np.pi)
 	r200 = r200_cube**(1./3.)

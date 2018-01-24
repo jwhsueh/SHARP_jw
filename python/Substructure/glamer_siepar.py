@@ -1,6 +1,6 @@
 import numpy as np
 
-filename = '/Volumes/sting_1/snap99_111/particle_227340_sie.dat'
+filename = '/Volumes/sting_1/snap99_result/snap99_222/particle_414_sie.dat'
 table = np.loadtxt(filename)
 #print len(table[:,0])
 mass = np.empty(len(table[:,0]))

@@ -3,18 +3,24 @@ import corner
 import matplotlib.pyplot as plt
 #import matplotlib.patches as mpat
 
+fsub='0500'
+
 #path = '../data/sub_gravlens/'
 #t = np.loadtxt(path+'B1422_flatchain_0.txt')
 #t = np.loadtxt(path+'B1422_eta.txt')
 #w = np.loadtxt(path+'mcmc_chi2_1.txt')[:50000]
 
-t = np.loadtxt('/Volumes/sting_1/subs/result/B1422_sub01_per_chain.txt')
-chi2 = np.loadtxt('/Volumes/sting_1/subs/result/B1422_sub01_per_chi2.txt')
-w = np.exp(-1.0*chi2/2.0)
-w = w/np.sum(w)
+#t = np.loadtxt('/Volumes/sting_1/subs/MG0414/result_new/MG0414_0100_1out.txt')
+t = np.loadtxt('/Volumes/sting_1/subs/B1422/result_new2/B1422_'+fsub+'_out_com.txt')
+#chi2 = np.loadtxt('/Volumes/sting_1/subs/result/B1422_sub01_per_chi2.txt')
+#w = np.exp(-1.0*chi2/2.0)
+#w = w/np.sum(w)
 #t = np.loadtxt('/Volumes/sting_1/subs/glamer_out/copy.txt')
 
-print t.shape, w.shape
+f_idx = 8+2
+
+
+print t.shape
 
 '''
 table = open(path+'B1422_realization1/smooth_result.txt','r')
@@ -53,16 +59,25 @@ rad=fa/fd
 '''
 #data=t[:,:-1]
 data=t
+data[:,8:12]=np.abs(data[:,8:12])
+#f = data[:,f_idx]
+data[:,8]=data[:,8]/data[:,f_idx]
+data[:,9]=data[:,9]/data[:,f_idx]
+#data[:,10]=data[:,10]/data[:,f_idx]
+data[:,11]=data[:,11]/data[:,f_idx]
 
+data = np.delete(data,f_idx,1)
+data=data[:,:11]
+print data[0,:]
 ## triangle plot
 
 #ndim, nsamples = 10, len(chi2)
 
 figure = corner.corner(data,
    #labels=[r"$b$", r"$xc$",r"$yc$", r"$e$",r"$PA$",r"gamma1",r"$gamma2$", r"$sx$",r"$sy$"],
-   labels=[r"$xa$", r"$ya$",r"$fb/fa$",r"xc",r"$yc$", r"$fc/fa$",r"$xd$", r"$yd$",r"$fd/fa$"],#weights=w,
-   range=[(0.25,0.5),(0.0,0.5),(0.8,1.5),(-0.5,-0.2),(-1.0,-0.5),(0.4,1.0),(0.8,1.05),(-0.9,-0.7),(-0.06,-0.02)],
-   truths = [0.38925,0.31998,1.062,-0.33388,-0.74771,0.551,0.95065,-0.80215,-0.024],
+   #labels=[r"$xa$", r"$ya$",r"$fb/fa$",r"xc",r"$yc$", r"$fc/fa$",r"$xd$", r"$yd$",r"$fd/fa$"],#weights=w,
+   range=[(0.9499,0.951),(-0.01,0.01),(0.38,0.39),(-0.35,-0.33),(-0.805,-0.80),(-0.01,0.01),(0.31,0.325),(-0.75,-0.74),(0.02,0.05),(1.0,1.23),(0.5,0.7)],
+   truths = [0.95065,0.0,0.38925,-0.33388,-0.80215,0.0,0.31998,-0.74771,0.024,1.062,0.551],
    #quantiles=[0.16, 0.5, 0.84],
    show_titles=True, verbose=True)
    #truths = [7.466419e-01, 7.645039e-01, -6.730659e-01, 3.782159e-01 ,5.556257e+01 ,1.473030e-01, 5.249074e+01,3.902599e-01, -4.156310e-01])
@@ -76,7 +91,7 @@ figure = corner.corner(data,
 #                         show_titles=True, title_args={"fontsize": 12})
                          
 #figure.savefig("../data/sub_gravlens/B1422_sam_corner.png")
-figure.savefig("/Volumes/sting_1/subs/B1422_pylens_sub01_per.png")
+figure.savefig("/Volumes/sting_1/subs/B1422/result_new2/B1422_"+fsub+"_com_out.png")
 
 
 

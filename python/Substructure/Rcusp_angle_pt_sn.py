@@ -9,7 +9,7 @@ from astropy.table import Table
 from astropy.wcs import WCS
 
 ### change here ###
-subID=227340
+subID=128
 objname = str(subID)+'sie'
 #objname = str(subID)
 #cflag = 0
@@ -17,9 +17,11 @@ objname = str(subID)+'sie'
 # or here 
 #real_size =5.21E-06# rad
 #real_size = np.degrees(real_size)
-real_size = 3.15E-04# in deg
+#real_size = 3.15E-04# in deg
 # degree
-real_size = real_size*3600*1000 #mas
+#real_size = real_size*3600*1000 #mas
+
+real_size = 1.11912*2*1000 #mas
 
 print real_size
 
@@ -42,9 +44,9 @@ cmask = 30 # for source mask
 #	output_name = '/'+str(subID)+'_p'+str(proj)+'_'+NN+'_Rcusp_c.txt' # no sub
 #	cmask = 50 # for source mask
 
-imagepath='/Volumes/sting_1/snap99_222/'
-filepath='/Volumes/sting_1/snap99_222/'
-outpath='/Volumes/sting_1/snap99_222/'
+imagepath='/Volumes/sting_1/snap99_result/snap99_222/'
+filepath='/Volumes/sting_1/snap99_result/snap99_222/'
+outpath='/Volumes/sting_1/snap99_result/snap99_222/'
 #magpath='/Volumes/sting_1/data/invmag'
 
 #mag_filename = '/particles'+str(subID)+'_p'+str(proj)+'_'+NN+'.invmag.fits'
