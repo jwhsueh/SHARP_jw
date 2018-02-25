@@ -50,7 +50,74 @@ def create_opt(macro_mod,micro_mod,path,output):
 
 	opt_file.close()
 
-	return
+
+
+def create_sieopt(macro_mod,path,datafile,filename):
+
+	opt_file = open(path+filename,'w')
+
+	opt_file.write('set omitcore=1.0e-6\n')
+	opt_file.write('data '+path+datafile+'\n')
+	opt_file.write('set checkparity = 0\nset gridflag= 0\nstartup 1 1\n')
+
+	## macro model
+	macro_line = gravlens_SIE(macro_mod)
+	opt_file.write(macro_line)
+
+	## --end of gravlens startup--
+
+	## write opt SIE flags
+
+	opt_file.write('\n')
+	opt_file.write('1 1 1 1 1 1 1 0 0 0\n')
+
+	## write opt command
+
+	opt_file.write('set chimode= 0\noptimize \nset chimode= 1\noptimize \noptimize \n')
+
+	opt_file.close()
+
+def gravlens_opt(path,opt_filename):
+
+## run opt 
+		
+	opt_out = commands.getstatusoutput('./lensmodel '+path+opt_filename)
+	opt_out = opt_out[1].split('\n')
+	#print opt_out
+	print opt_out[-5]
+
+	## read best.dat
+	# img
+	bestfile = open('best.dat','r')
+	best_line = []
+	for line in bestfile.readlines():
+		best_line.append(line)
+	##
+
+	lens_model = best_line[1]
+	lens_para = lens_model.split()
+	lens_para = np.array(lens_para[1:8]).astype(float)
+	print lens_para
+	#shear = float(lens_para[6])
+	#len_x,len_y = float(lens_para[2]),float(lens_para[3])
+	#len_cen = np.array([len_x,len_y])
+	#print 'shear= '+str(shear)
+
+	# chi2
+
+	chi2 = best_line[4].split()
+	chi2 =float(chi2[2])
+
+	print 'chi-square='+str(chi2)
+
+	# src
+	src = best_line[7].split()
+	src = np.array([float(src[1]),float(src[2])])
+	print src
+
+	return best_line,lens_para,src,chi2
+
+	
 
 def run_opt(path,optfile):
 
@@ -134,6 +201,7 @@ def create_findimg_macro(macro_mod,profile,z,src,path,output):
 	n_lens = macro_mod.shape[0]
 
 	findimg_file.write('startup '+str(n_lens)+' 1\n')
+	#print 'here'
 
 	## --- set up lens
 	# macro model
@@ -163,6 +231,98 @@ def create_findimg_macro(macro_mod,profile,z,src,path,output):
 
 	return 
 
+def create_caustic(macro_model,lens_z,infile,outfile,path):
+
+	gravlens_file = open(path+infile,'w')
+
+	zl,zs = lens_z[0],lens_z[1]
+
+	## write zl, zs
+	gravlens_file.write('set zlens='+str(zl)+'\n')
+	gravlens_file.write('set zsrc='+str(zs)+'\n')
+
+	gravlens_file.write('startup 1 1\n')
+	#print 'here'
+
+	## --- set up lens
+	# macro model
+
+	macro_line = gravlens_SIE(macro_model)
+	gravlens_file.write(macro_line)
+
+	zeros = '0 0 0 0 0 0 0 0 0 0\n'
+	gravlens_file.write(zeros)
+
+	gravlens_file.write('\n')
+
+	## --- plot caustic
+	gravlens_file.write('plotcrit '+path+outfile)
+
+#def run_gravlens_file(filename,path):
+	
+def quad_src(n_src,lens_cen,path,filename):
+
+	tab = np.loadtxt(path+filename)
+	ux,uy = np.append(tab[:,2],tab[:,6]),np.append(tab[:,3],tab[:,7])
+
+	# dist to lens center
+	u_dist = np.sqrt((ux-lens_cen[0])**2+(uy-lens_cen[1])**2)
+	u_mid = np.average(u_dist)
+
+	# 1st & 3rd quad
+	u_sm = u_dist[u_dist<=u_mid]
+	u_la = u_dist[u_dist>u_mid]
+	u1,u3 = np.average(u_sm),np.average(u_la)
+
+	# grouping -> tangential caustic
+	mask = np.abs(u_dist-u1) <= np.abs(u_dist-u3)
+	ux,uy,ur = ux[mask],uy[mask],u_dist[mask]
+
+	x0,x1,y0,y1 = np.min(ux),np.max(ux),np.min(uy),np.max(uy)
+	r_min = np.min(u_dist)
+
+	sx0,sy0 = 0.0,0.0
+	src_x,src_y = [],[] # collect src pos
+	i = 0
+	while i<n_src:
+		## randomly sample
+		xi = np.random.random_sample()*(x1-x0)+x0
+		yi = np.random.random_sample()*(y1-y0)+y0
+
+		# distance to caustic
+		ri = np.sqrt((xi-ux)**2+(yi-uy)**2)
+		rci = np.sqrt((xi-lens_cen[0])**2+(yi-lens_cen[1])**2) # dist to center
+		r_dist = np.min(ri) # shortest dist to caustic
+		idx = np.argmin(ri)
+		rc = ur[idx] # dist to center of that caus pt
+
+		if np.logical_and(r_dist<0.25*r_min,r_dist>0.01*r_min):
+			if (rci<rc):
+				if np.logical_and(xi!=sx0,yi!=sy0):
+					src_x.append(xi)
+					src_y.append(yi)
+
+					sx0,sy0=xi,yi
+					i = i+1
+
+	return np.array(src_x),np.array(src_y)
+
+def create_mockdat(img_x,img_y,img_f,err_x,path,filename):
+	datfile = open(path+filename,'w')
+
+	datfile.write('1\n')
+	datfile.write('0 0 100000\n')
+	datfile.write('0.3 100000\n')
+	datfile.write('99 100000\n')
+	datfile.write('0.2 100000\n\n')
+	datfile.write('1\n4\n')
+
+	datfile.write(str(img_x[0])+'\t'+str(img_y[0])+'\t'+str(img_f[0])+'\t'+str(err_x)+' 1000  0.0 0.0 \n')
+	datfile.write(str(img_x[1])+'\t'+str(img_y[1])+'\t'+str(img_f[1])+'\t'+str(err_x)+' 1000  0.0 0.0 \n')
+	datfile.write(str(img_x[2])+'\t'+str(img_y[2])+'\t'+str(img_f[2])+'\t'+str(err_x)+' 1000  0.0 0.0 \n')
+	datfile.write(str(img_x[3])+'\t'+str(img_y[3])+'\t'+str(img_f[3])+'\t'+str(err_x)+' 1000  0.0 0.0 \n')
+
+	datfile.close()
 
 def gravlens_SIE(model):
 

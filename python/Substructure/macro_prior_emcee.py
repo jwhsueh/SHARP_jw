@@ -5,7 +5,7 @@ import emcee
 import sys
 
 #case_idx = int(sys.argv[1])
-lens = 'mock1'
+lens = 'mock2'
 
 path = '../../data/sub_gravlens/'
 #path = '../data/sub_gravlens/'
@@ -23,17 +23,17 @@ zg = np.array([zl_g,zs_g])
 #macro_mod = np.array([[1.118581e+00, -5.571237e-01, -1.349607e+00, 3.976823e-01, -7.274792e+01,3.629423e-02, 7.004755e+01],
     #[5.880343e-02, -1.980000e-01, 1.800000e-01, 0.0, 0.0, 0.0, 0.0]])
 
-macro_mod = np.array([[2.102835e-01, 2.168236e-01, -1.117806e-01, 3.400000e-01, 2.364581e+01, 3.221078e-02, -7.909689e+01],
+macro_mod = np.array([[7.537347e-01, 7.457579e-01, -6.602210e-01, 3.239710e-01, 5.596422e+01 ,1.616563e-01, 5.258606e+01],
     [1e-11, 2.0,2.0, 0.0, 0.0, 0.0, 0.0]])
 
 #print macro_mod[0,:]
 
-src = np.array([2.230373e-01, -1.390138e-01])
+src = np.array([3.887401e-01, -4.143577e-01])
 
 
-obs_x = np.array([1.502610e-01,3.772762e-01,4.297462e-01,9.272826e-02])
-obs_y = np.array([5.468550e-02  ,-2.803320e-01,-1.980902e-01,-3.208640e-01])
-obs_f = np.array([0.09,1.3170,1.0000,0.3050])
+obs_x = np.array([9.507944e-01,  1.493761e-03,   3.892554e-01, -3.340559e-01])
+obs_y = np.array([-8.022173e-01 , 1.813538e-03,  3.199820e-01 ,-7.484454e-01])
+obs_f = np.array([0.03412,1.198,1.04549,0.556])
 idx_f = 2
 
 
@@ -58,7 +58,7 @@ def do_findimg(paras):
 
         step_src = np.array([paras[7],paras[8]])
 
-        gt.create_findimg_macro(step_mod,zg,step_src,path,imgfile)
+        gt.create_findimg_macro(step_mod,['sie','sie'],zg,step_src,path,imgfile)
         qflag = gt.run_findimg(path,lens,imgfile) # flag tells you if it's quad
 
         if qflag==True:
