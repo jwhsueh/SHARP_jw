@@ -3,18 +3,18 @@ import gravlens_tool as gt
 
 
 nint=0
-N=100 - nint # number of mocks
-path = '/Volumes/sting_1/subs/mock_test/'
+N=1 # number of mocks
+path = '/Volumes/narsil_1/jwhsueh/pylens_mc/mock_test/'
 path1 = path+'gravlens_file/'
 
-m1_model =  np.loadtxt(path+'m1_table.txt')
-m1_obs = np.genfromtxt(path+'m1_raytrace.txt',dtype=float)
+m1_model =  np.loadtxt(path+'m1_table4.txt')
+m1_obs = np.genfromtxt(path+'m1_raytrace5.txt',dtype=float)
 
 ## m2 files
-m2_model = open(path+'m2_table.txt','w')
-m2_src = open(path+'m2_src.txt','w')
+m2_model = open(path+'m2_table5.txt','w')
+m2_src = open(path+'m2_src5.txt','w')
 
-drop = np.loadtxt(path+'m2_dropout.txt')
+drop = np.loadtxt(path+'m2_dropout4.txt')
 drop_model = np.zeros(7)
 drop_src = np.zeros(2)
 
@@ -30,10 +30,11 @@ for i in range(N):
 
 	else:
 		## drop out file
-		mock_drop = open(path+'m2_dropout.txt','a')
+		mock_drop = open(path+'m2_dropout4.txt','a')
 
-		macro_model = m1_model[midx,:]
-		mock_obs = m1_obs[midx,:]
+		macro_model = m1_model[i,:]
+		#mock_obs = m1_obs[i,:]
+		mock_obs = m1_obs
 
 		img_x,img_y,img_f = mock_obs[:4],mock_obs[4:8],mock_obs[8:12]
 		img_f = np.abs(img_f)

@@ -1,0 +1,27 @@
+set omitcore= 1.0e-6
+data RXJ0911_obs_2.dat
+set chimode= 1
+set checkparity = 0
+set gridflag= 0
+
+set zlens=0.77
+set zsrc=2.8
+
+startup 1 1
+alpha 1.086 -6.981880e-01 4.996686e-01 1.570820e-01 6.652005e+01 3.032598e-01 -9.785005e+00 0.0 0.0 1.000000e+00   
+#alpha 2.250000e-01 -1.452000e+00 1.177 0.0 0.0 0.0 0.0 0.0 0.0 1.000000e+00
+1 1 1 1 1 1 1 0 0 0
+#1 1 1 0 0 0 0 0 0 0
+
+#pmatch B1555_match_gravlens.dat
+#plimit B1555_limit_gravlens.dat
+
+optimize
+optimize
+optimize
+#reopt best 1 6 
+#varyone 1 2 0.15 0.19 200 pre1
+#varytwo 1 1 0.8 1.2 100 2 1 0.4 0.6 100 pre1
+
+
+quit

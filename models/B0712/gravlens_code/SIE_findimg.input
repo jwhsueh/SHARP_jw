@@ -1,0 +1,32 @@
+#data B1555_K03.dat
+
+## for findimg
+#maingrid 1 -2.5 2.5 25 -2.5 2.5 25
+
+## for critical curves
+gridmode 1
+set ngrid1=25
+set ngrid2=25
+set maxlev=3
+
+
+#startup 2 1
+startup 1 1
+
+# from AO+radio
+#alpha 6.100272e-01 8.421124e-01 1.680588e-01 3.029716e-01 -6.335936e+01 9.438206e-02 -2.306686e+01 0.0 0.0 1.000000e+00
+#expdiskA 3.032587e-01 8.010700e-01 1.292100e-01 7.600000e-01 -6.200000e+01 0.0 0.0 3.357343e-01 0.0 0.0
+
+alpha 0.668122 0.0 0.0 0.380566 0.0 0.0 0.0 0.0 0.0 1.000000e+00
+
+
+#0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0
+
+
+# from lensmodeller
+#findimg 7.107843e-01 -4.697794e-03
+findimg 6.953240e-01  1.520697e-02
+
+#plotcrit ../../lens_info/B0712_LO_crit.dat
+plotkappa ../../../data/mock0_kappa.fits 3 -1.5 1.5 3000 -1.5 1.5 3000

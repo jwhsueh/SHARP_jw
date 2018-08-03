@@ -1,0 +1,28 @@
+#data B1555_K03.dat
+
+## for findimg
+#maingrid 1 -2.5 2.5 25 -2.5 2.5 25
+
+## for critical curves
+gridmode 1
+set ngrid1=25
+set ngrid2=25
+set maxlev=3
+
+set zlens=0.3098
+set zsrc=1.72
+
+startup 1 1
+
+alpha 8.545664e-01 0.0 0.0 3.273710e-01 4.556292e+01 1.453536e-01 -4.742740e+01 0.0 0.0 1.000000e+00
+
+0 0 0 0 0 0 0 0 0 0
+#0 0 0 0 0 0 0 0 0 0
+#0 0 0 0 0 0 0 0 0 0
+
+
+#findimg 3.868320e-01 -4.131759e-01
+
+#findimg -3.507265e-01 -1.179662e+00
+#plotcrit B1555_expdisk_try5.crit
+plotkappa ../../../data/Q2237_kappa.fits 3 -1.7 1.7 3400 -1.7 1.7 3400

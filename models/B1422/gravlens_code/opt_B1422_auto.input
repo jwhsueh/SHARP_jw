@@ -1,0 +1,28 @@
+set omitcore= 1.0e-6
+data B1422_obs.dat
+set chimode= 1
+set checkparity = 0
+#set gridflag= 0
+
+set zlens=0.34
+set zsrc=3.62
+
+
+
+startup 1 1
+alpha 7.466419e-01 7.645039e-01 -6.730659e-01 3.782159e-01 5.556257e+01 1.473030e-01 5.249074e+01 0.0 0.0 1.000000e+00
+1 1 1 1 1 1 1 0 0 0
+
+#autogrid 1 5
+
+#pmatch B1555_match_gravlens.dat
+#plimit B1555_limit_gravlens.dat
+
+optimize
+optimize
+#reopt best 1 6 
+#varyone 1 2 0.15 0.19 200 pre1
+#varytwo 1 1 0.8 1.2 100 2 1 0.4 0.6 100 pre1
+
+
+quit

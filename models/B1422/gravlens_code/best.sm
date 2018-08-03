@@ -14,7 +14,7 @@ plotimg 03 # plotimg [automatic limits?] [plot grid?] [use colors?]
 	 define limitflag $1
 	 define gridflag  $2
 	 define colorflag $3
-	 if ($limitflag==1) {limits -1.243881 3.165372 -3.006673 1.402580}
+	 if ($limitflag==1) {limits -1.440125 2.969128 -2.877691 1.531562}
 	 box \n xlabel arcsec \n ylabel arcsec
 	 relocate $($fx1+0.5*($fx2-$fx1)) $($fy1+1.02*($fy2-$fy1))
 	 putlabel 8 image plane
@@ -25,7 +25,7 @@ plotimg 03 # plotimg [automatic limits?] [plot grid?] [use colors?]
 	 relocate 0.389250 0.319980 \n ptype 3 3 \n dot
 	 relocate 0.389250 0.319980 \n ptype 4 3 \n dot
 	 relocate 0.000000 0.000000 \n ptype 3 3 \n dot
-	 relocate 0.000000 0.000000 \n ptype 4 3 \n dot
+	 relocate -0.000000 0.000000 \n ptype 4 3 \n dot
 	 relocate -0.333880 -0.747710 \n ptype 3 3 \n dot
 	 relocate -0.333880 -0.747710 \n ptype 4 3 \n dot
 	 relocate 0.950650 -0.802150 \n ptype 3 3 \n dot
@@ -40,7 +40,7 @@ plotsrc 03 # plotsrc [automatic limits?] [plot grid?] [use colors?]
 	 define limitflag $1
 	 define gridflag  $2
 	 define colorflag $3
-	 if ($limitflag==1) {limits -1.243881 3.165372 -3.006673 1.402580}
+	 if ($limitflag==1) {limits -1.440125 2.969128 -2.877691 1.531562}
 	 box \n xlabel arcsec \n ylabel arcsec
 	 relocate $($fx1+0.5*($fx2-$fx1)) $($fy1+1.02*($fy2-$fy1))
 	 putlabel 8 source plane
@@ -48,7 +48,7 @@ plotsrc 03 # plotsrc [automatic limits?] [plot grid?] [use colors?]
 	 myctype red \n srcplotone crit.dat
 	 expand $($expand*1.5)
 	 myctype blue
-	 relocate 0.000000 0.000000 \n ptype 4 3 \n dot
+	 relocate 0.390260 -0.415631 \n ptype 4 3 \n dot
 	 expand $($expand/1.5)
 	 myctype black
 

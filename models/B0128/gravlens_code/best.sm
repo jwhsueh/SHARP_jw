@@ -23,13 +23,13 @@ plotimg 03 # plotimg [automatic limits?] [plot grid?] [use colors?]
 	 expand $($expand*1.5)
 	 myctype blue
 	 relocate 0.000000 0.000000 \n ptype 3 3 \n dot
-	 relocate -0.000000 -0.000000 \n ptype 4 3 \n dot
+	 relocate 0.000000 0.000000 \n ptype 4 3 \n dot
 	 relocate 0.098000 0.094000 \n ptype 3 3 \n dot
-	 relocate 0.098645 0.095332 \n ptype 4 3 \n dot
+	 relocate 0.098160 0.094635 \n ptype 4 3 \n dot
 	 relocate 0.520000 -0.172000 \n ptype 3 3 \n dot
-	 relocate 0.520612 -0.172908 \n ptype 4 3 \n dot
+	 relocate 0.520224 -0.171766 \n ptype 4 3 \n dot
 	 relocate 0.108000 -0.250000 \n ptype 3 3 \n dot
-	 relocate 0.110421 -0.249906 \n ptype 4 3 \n dot
+	 relocate 0.107915 -0.249909 \n ptype 4 3 \n dot
 	 expand $($expand/1.5)
 	 myctype black
 
@@ -48,7 +48,7 @@ plotsrc 03 # plotsrc [automatic limits?] [plot grid?] [use colors?]
 	 myctype red \n srcplotone crit.dat
 	 expand $($expand*1.5)
 	 myctype blue
-	 relocate 0.255887 -0.099535 \n ptype 4 3 \n dot
+	 relocate 0.255146 -0.100061 \n ptype 4 3 \n dot
 	 expand $($expand/1.5)
 	 myctype black
 

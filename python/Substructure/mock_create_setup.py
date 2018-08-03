@@ -2,9 +2,9 @@ import numpy as np
 import gravlens_tool as gt
 import commands
 
-N=90 # number of mocks
-nint=10
-path = '/Volumes/sting_1/subs/mock_test/'
+N=2 # number of mocks
+nint=0
+path = '/Volumes/narsil_1/jwhsueh/pylens_mc/mock_test/'
 
 ## macro model variable setup
 ## gaussaian
@@ -21,14 +21,14 @@ m1_table[:,5] = gamma
 m1_table[:,6] = th_gamma
 m1_table[:,9] = 1.0
 
-np.savetxt(path+'m1_table2.txt',m1_table,fmt='%f')
+np.savetxt(path+'m1_table4.txt',m1_table,fmt='%f')
 
 ## mock lens redshift
 
 zl = np.random.rand(N)*0.3+0.3
 zs = np.random.rand(N)+1.0
 
-np.savetxt(path+'m1_redshift2.txt',np.c_[zl,zs],fmt='%f')
+np.savetxt(path+'m1_redshift4.txt',np.c_[zl,zs],fmt='%f')
 
 ## ----- create gravlens files to create caustics ----- ##
 path1 = path+'gravlens_file/'
@@ -50,6 +50,6 @@ for i in range(N):
 	src_array[i,0] = sx[0]
 	src_array[i,1] = sy[0]
 
-np.savetxt(path+'m1_src2.txt',src_array,fmt='%f')
+np.savetxt(path+'m1_src4.txt',src_array,fmt='%f')
 
 	

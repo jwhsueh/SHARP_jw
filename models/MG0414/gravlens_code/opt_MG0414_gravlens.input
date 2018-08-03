@@ -1,5 +1,5 @@
 set omitcore=1.0e-6
-data MG0414_obs2.dat
+data MG0414_obs.dat
 set chimode= 1
 set checkparity = 0
 set gridflag= 0
